@@ -536,6 +536,18 @@
                             href="{{ route('affiliate.earnings') }}">
                             Earnings Report
                         </a>
+                        <a class="{{ $route == 'affiliate.products' ? 'active' : '' }}"
+                            href="{{ route('affiliate.products') }}">
+                            All Affiliate Products
+                        </a>
+                        <a class="{{ $route == 'admin.affiliate.products' ? 'active' : '' }}"
+                            href="{{ route('admin.affiliate.products') }}">
+                            Admin Affiliate Products
+                        </a>
+                        <a class="{{ $route == 'vendor.affiliate.products' ? 'active' : '' }}"
+                            href="{{ route('vendor.affiliate.products') }}">
+                            Vendor Affiliate Products
+                        </a>
                     </div>
                 </li>
             @endif

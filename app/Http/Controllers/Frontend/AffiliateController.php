@@ -62,7 +62,7 @@ class AffiliateController extends Controller
        $affiliateId = $request->affiliateid;
         $isValid = false;
         
-        $responseGk = Http::get('https://ghorkonnya.com/api/check-affiliateId', [
+        $responseGk = Http::withoutVerifying()->get('https://ghorkonnya.com/api/check-affiliateId', [
             'affiliateId' => $affiliateId
         ]);
         
@@ -74,7 +74,7 @@ class AffiliateController extends Controller
         }
         
         if (!$isValid) {
-            $responseUp = Http::get('https://uparjok.com/api/check-affiliateId', [
+            $responseUp = Http::withoutVerifying()->get('https://uparjok.com/api/check-affiliateId', [
                 'affiliateId' => $affiliateId
             ]);
         
@@ -151,7 +151,7 @@ class AffiliateController extends Controller
            $isValid = false;
 
 
-            $responseGk = Http::get('https://ghorkonnya.com/api/check-affiliateId', [
+            $responseGk = Http::withoutVerifying()->get('https://ghorkonnya.com/api/check-affiliateId', [
                 'affiliateId' => $affiliateId
             ]);
 
@@ -163,7 +163,7 @@ class AffiliateController extends Controller
             }
 
             if (!$isValid) {
-                $responseUp = Http::get('https://uparjok.com/api/check-affiliateId', [
+                $responseUp = Http::withoutVerifying()->get('https://uparjok.com/api/check-affiliateId', [
                     'affiliateId' => $affiliateId
                 ]);
 
