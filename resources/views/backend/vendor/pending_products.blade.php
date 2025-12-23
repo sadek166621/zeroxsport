@@ -12,7 +12,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="table-responsive-sm">
-                    <table id="example" class="table table-bordered table-striped" width="100%">
+                    <table id="example" class="table table-bordered table-striped" id="example" width="100%">
                         <thead>
                             <tr>
                                 <th scope="col">Sl</th>

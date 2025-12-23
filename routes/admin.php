@@ -100,6 +100,8 @@ Route::prefix($prefix)->middleware('admin')->group(function () {
 	Route::get('/withdraw-requests', [WithdrawRequestController::class, 'index'])->name('withdraw-requests.index');
 	Route::get('/lowstock/products', [ProductController::class, 'lowstock'])->name('lowstocks.products');
 	Route::get('/pending/orders', [OrderController::class, 'pendingOrders'])->name('pending.orders');
+	Route::get('vendor/order-details/{id}', [OrderController::class, 'vendorOrdershow'])->name('vendor.order.details');
+	Route::get('vendor/invoice-download/{order_id}', [OrderController::class, 'vendorinvoiceDownload'])->name('vendor.invoice.download');
 
 	// Admin Brand All Routes
 	Route::prefix('supplier')->group(function () {

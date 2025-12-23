@@ -12,4 +12,19 @@ class VendorOrder extends Model
     protected $table = 'vendor_orders';
 
     protected $guarded = [];
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+  public function orderDetails()
+{
+    return $this->hasMany(OrderDetail::class);
+}
 }

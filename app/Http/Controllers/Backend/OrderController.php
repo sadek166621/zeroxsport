@@ -15,6 +15,7 @@ use App\Models\Shipping;
 use App\Models\Upazilla;
 use App\Models\Affiliate;
 use App\Models\OrderDetail;
+use App\Models\VendorOrder;
 use App\Models\ProductStock;
 use Illuminate\Http\Request;
 use App\Models\AccountLedger;
@@ -236,6 +237,13 @@ class OrderController extends Controller
         $shippings = Shipping::where('status', 1)->get();
 
         return view('backend.sales.all_orders.show', compact('order', 'shippings'));
+    }
+    public function vendorOrdershow($id)
+    {
+        //        return AccountLedger::latest()->first();
+        $order = VendorOrder::findOrFail($id);
+    
+        return view('backend.vendor.orders.details', compact('order'));
     }
 
     /**
@@ -539,16 +547,25 @@ class OrderController extends Controller
     /* ============= End invoice_download Method ============== */
 
 
+       public function vendorinvoiceDownload($id)
+    {
+        $order = Order::findOrFail($id);
+        //dd(app('url')->asset('upload/abc.png'));
+        $pdf = PDF::loadView('backend.invoices.invoice', compact('order'))->setPaper('a4');
+        return $pdf->download('invoice.pdf');
+    }
+
   public function pendingOrders()
 {
     $user = Auth::guard('admin')->user();
 
-    if ($user->role == '2') {
-        $vendor = Vendor::where('user_id', $user->id)->first();
+  if ($user->role == '2') {
+        $vendor = Vendor::where('user_id', $user->id)->firstOrFail();
 
-        $orders = OrderDetail::where('delivery_status', 'pending')
-            ->where('vendor_id', $vendor->id) // 
-            ->orderBy('id', 'desc')
+        $orders = VendorOrder::with('order') // relation load করে performance ভালো হবে
+            ->where('vendor_id', $vendor->id)
+            ->where('delivery_status', 'pending') // অথবা 0 যদি integer হয়
+            ->latest()
             ->paginate(15);
 
         return view('backend.sales.all_orders.pending_orders', compact('orders'));
