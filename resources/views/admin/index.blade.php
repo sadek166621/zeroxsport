@@ -462,16 +462,16 @@
                                                     </td>
 
                                                     <!--  <td class="text-end">
-                                                                                       <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                                                                       <div class="dropdown">
-                                                                                           <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                                                           <div class="dropdown-menu">
-                                                                                               <a class="dropdown-item" href="#">View detail</a>
-                                                                                               <a class="dropdown-item" href="#">Edit info</a>
-                                                                                               <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                                                           <a href="#" class="btn btn-md rounded font-sm">Detail</a>
+                                                                                           <div class="dropdown">
+                                                                                               <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                                                               <div class="dropdown-menu">
+                                                                                                   <a class="dropdown-item" href="#">View detail</a>
+                                                                                                   <a class="dropdown-item" href="#">Edit info</a>
+                                                                                                   <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                                                               </div>
                                                                                            </div>
-                                                                                       </div>
-                                                                                   </td> -->
+                                                                                       </td> -->
                                                 </tr>
                                             @endforeach
                                         @else
@@ -596,9 +596,14 @@
                                                         {{ $statusTexts[$vendorOrder->delivery_status] ?? 'N/A' }}
                                                     </span>
                                                 </td>
-                                                <td>
-                                                    <a href="#" class="btn btn-sm btn-primary">
-                                                        <i class="fa fa-eye"></i> View
+                                                <td class="text-center">
+                                                    <a href="{{ route('vendor.order.details', $vendorOrder->id) }}"
+                                                        class="btn btn-sm btn-primary" title="View Details">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+                                                    <a href="{{ route('vendor.invoice.download', $vendorOrder->id) }}"
+                                                        class="btn btn-sm btn-info" title="Download Invoice">
+                                                        <i class="fa-solid fa-download"></i>
                                                     </a>
                                                 </td>
                                             </tr>

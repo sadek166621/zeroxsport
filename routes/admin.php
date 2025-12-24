@@ -17,25 +17,26 @@ use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\VendorController;
+use App\Http\Controllers\Backend\PenaltyController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\AccountsController;
 use App\Http\Controllers\Backend\CampaingController;
 use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\ShippingController;
 //use App\Http\Controllers\Backend\TagController;
+use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\AffiliateController;
 use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\Backend\CommissionController;
 use App\Http\Controllers\Backend\SubscriberController;
+use App\Http\Controllers\Vendor\VendorOrderController;
 use App\Http\Controllers\Frontend\UserMessageController;
 use App\Http\Controllers\Backend\PaymentMethodController;
 use App\Http\Controllers\Backend\VendorPaymentController;
 use App\Http\Controllers\Frontend\ReturnRequestController;
 use App\Http\Controllers\Backend\WithdrawRequestController;
 use App\Http\Controllers\Backend\VendorTransactionController;
-use App\Http\Controllers\Backend\PenaltyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,18 @@ Route::prefix('vendor')->middleware('vendor')->group(function () {
 	Route::resource('/withdraw-requests', WithdrawRequestController::class);
 	Route::post('/withdraw-requests/update/{id}', [WithdrawRequestController::class, 'update'])->name('withdraw-requests.update');
 	Route::get('/withdraw-requests/remove/{id}', [WithdrawRequestController::class, 'delete'])->name('withdraw-requests.delete');
+
+
+	 // Orders Routes
+    Route::get('/orders/all', [VendorOrderController::class, 'index'])->name('vendor.orders.index');
+    Route::get('/orders/pending', [VendorOrderController::class, 'pendingOrder'])->name('vendor.orders.pending');
+    Route::get('/orders/completed', [VendorOrderController::class, 'completedOrder'])->name('vendor.orders.completed');
+    Route::get('/orders/canceled', [VendorOrderController::class, 'cancelledOrder'])->name('vendor.orders.canceled');
+    Route::get('/sales-report', [VendorOrderController::class, 'salesReport'])->name('vendor.sales.report');
+
+
+
+
 });
 /*==========================End Only Vendor Accessible Route  ==========================*/
 
@@ -182,6 +195,8 @@ Route::prefix($prefix)->middleware('admin')->group(function () {
 	Route::get('/reports/conversion-rate', [ReportController::class, 'conversionRate'])->name('report.conversion');
 	Route::get('/reports/most-viewed-products', [ReportController::class, 'mostViewedProducts'])->name('report.most.viewed');
 
+		Route::post('/vendor_orders_update/{id}', [OrderController::class, 'vendorOrdersUpdate'])->name('vendor.orders.update');
+		//Route::get('/vendor/invoice/{id}', [OrderController::class, 'vendorInvoice'])->name('vendor.invoice.download');
 
 
 	/*================  Ajax Category Store ==================*/
@@ -399,6 +414,7 @@ Route::patch('product/{id}/affiliate-commission', [ProductController::class, 'up
 		Route::get('/vendor_orders/{id}/show', [OrderController::class, 'vendorOrderShow'])->name('admin.all_orders.show');
 		Route::get('/orders_delete/{id}', [OrderController::class, 'destroy'])->name('delete.orders');
 		Route::post('/orders_update/{id}', [OrderController::class, 'update'])->name('admin.orders.update');
+
 		Route::get('/invoice/{id}', [OrderController::class, 'invoice_download'])->name('invoice.download');
 	});
 

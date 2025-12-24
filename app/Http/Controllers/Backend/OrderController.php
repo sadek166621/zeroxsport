@@ -292,6 +292,25 @@ class OrderController extends Controller
         Session::flash('success', 'Admin Orders Information Updated Successfully');
         return redirect()->back();
     }
+    public function vendorOrdersUpdate(Request $request, $id)
+    {
+       // dd($request->all());
+        //        return $request;
+        $this->validate($request, [
+            'delivery_status' => 'required',
+        ]);
+        $order = VendorOrder::findOrFail($id);
+
+      
+        VendorOrder::where('id', $id)->update([
+           'delivery_status'   => $request->delivery_status,
+        ]);
+
+        $order->save();
+
+        Session::flash('success', 'Admin Orders Information Updated Successfully');
+        return redirect()->back();
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -549,10 +568,11 @@ class OrderController extends Controller
 
        public function vendorinvoiceDownload($id)
     {
-        $order = Order::findOrFail($id);
+        $order = VendorOrder::findOrFail($id);
+    
         //dd(app('url')->asset('upload/abc.png'));
-        $pdf = PDF::loadView('backend.invoices.invoice', compact('order'))->setPaper('a4');
-        return $pdf->download('invoice.pdf');
+        $pdf = PDF::loadView('backend.vendor.orders.invoices', compact('order'))->setPaper('a4');
+        return $pdf->download('vendor_invoice.pdf');
     }
 
   public function pendingOrders()

@@ -16,6 +16,8 @@ class CommissionController extends Controller
         return view('backend.commission.index', compact('commissions'));
     }
 
+    
+
     public function commissionCreate()
     {
         $categories = Category::where('parent_id', 0)->latest()->get();
@@ -86,5 +88,11 @@ class CommissionController extends Controller
         $commission->delete();
 
         return redirect()->back()->with('success', 'Commission deleted successfully!');
+    }
+
+    public function adminCommission()
+    {
+        $commissions = CommissionStructure::latest()->get();
+        return view('backend.commission.admin_commission', compact('commissions'));
     }
 }

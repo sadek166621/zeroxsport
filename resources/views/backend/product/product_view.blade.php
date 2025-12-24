@@ -144,7 +144,10 @@
                                                     class="product-status badge rounded-pill alert-danger">Disable</span></a>
                                         @endif
                                     </td>
-                                    <td>
+
+                                   <td>
+                                    @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
+                                        {{-- শুধু role 1 হলে clickable link থাকবে --}}
                                         @if ($item->is_affiliate == 1)
                                             <a href="{{ route('product.in_active_affiliate', ['id' => $item->id]) }}">
                                                 <span class="badge rounded-pill alert-success">Active</span>
@@ -154,8 +157,16 @@
                                                 <span class="badge rounded-pill alert-danger">Disable</span>
                                             </a>
                                         @endif
-                                    </td>
-                                    <td>
+                                    @else
+                                        {{-- অন্য role হলে শুধু status দেখাবে --}}
+                                        @if ($item->is_affiliate == 1)
+                                            <span class="badge rounded-pill alert-success">Active</span>
+                                        @else
+                                            <span class="badge rounded-pill alert-danger">Disable</span>
+                                        @endif
+                                    @endif
+                                </td>
+                                                                    <td>
                                         @if ($item->vendor_id == null)
                                             <span class="badge rounded-pill alert-success">No</span>
                                         @else

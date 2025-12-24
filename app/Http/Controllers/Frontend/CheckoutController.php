@@ -314,6 +314,7 @@ foreach ($carts as $cart) {
         foreach ($vendorData as $vendor_id => $data) {
             $vendorOrder = VendorOrder::create([
                 'order_id'         => $data['order_id'],
+                'invoice_no'       => $invoice_no,
                 'vendor_id'        => $vendor_id ?? null,
                 'affiliate_id'     => $affiliateId,
                 'subtotal'         => $data['subtotal'],

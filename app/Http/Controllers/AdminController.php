@@ -136,10 +136,10 @@ if (Auth::guard('admin')->user()->role == 2) {
         $totalDeliveredOrdersCount = 0;
     } else {
         // Pending Orders Count
-        $pendingOrdersCount = $vendorOrders->where('delivery_status', 'pending')->count();
+        $pendingOrdersCount = $vendorOrders->where('delivery_status', 0)->count();
 
         // Cancelled Orders Count
-        $cancelledOrdersCount = $vendorOrders->where('delivery_status', 'cancelled')->count();
+        $cancelledOrdersCount = $vendorOrders->where('delivery_status', 1)->count();
 
         // Today Orders Count & Sales
         $todayVendorOrders = $vendorOrders->filter(function ($vo) {
@@ -162,7 +162,7 @@ if (Auth::guard('admin')->user()->role == 2) {
         'todayOrdersCount',
         'todaySalesAmount',
         'totalDeliveredOrdersCount'
-        // অন্যান্য global variables যদি দরকার হয়
+        
     ));
 }
 
