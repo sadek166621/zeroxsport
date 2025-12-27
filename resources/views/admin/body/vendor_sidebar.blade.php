@@ -48,7 +48,7 @@
                 </div>
             </li>
 
-            <li class="menu-item has-submenu {{ $prefix == 'admin/supplier' ? 'active' : '' }}">
+            {{-- <li class="menu-item has-submenu {{ $prefix == 'admin/supplier' ? 'active' : '' }}">
                 <a class="menu-link" href="#">
                     <i class="fas fa-truck fontawesome_icon_custom"></i>
                     <span class="text">Suppliers</span>
@@ -59,7 +59,7 @@
                     <a class="{{ $route == 'supplier.create' ? 'active' : '' }}"
                         href="{{ route('supplier.create') }}">Supplier Add</a>
                 </div>
-            </li>
+            </li> --}}
             <li class="menu-item has-submenu 
                     {{ in_array($route, ['sales.report','orders.pending','orders.completed','orders.canceled']) ? 'active' : '' }}">
                     

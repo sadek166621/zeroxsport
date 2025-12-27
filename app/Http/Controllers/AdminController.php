@@ -113,58 +113,58 @@ class AdminController extends Controller
 
         //dd($userCount->total_users);
 
-if (Auth::guard('admin')->user()->role == 2) {
-    $vendor = Vendor::where('user_id', Auth::guard('admin')->user()->id)->first();
+        if (Auth::guard('admin')->user()->role == 2) {
+            $vendor = Vendor::where('user_id', Auth::guard('admin')->user()->id)->first();
 
-    // Vendor-এর সব প্রোডাক্ট
-    $products = Product::where('vendor_id', $vendor->id)->get();
+            // Vendor-এর সব প্রোডাক্ট
+            $products = Product::where('vendor_id', $vendor->id)->get();
 
-    // Low stock products
-    $lowStockProducts = Product::where('vendor_id', $vendor->id)
-        ->where('stock_qty', '<=', 5)
-        ->get();
+            // Low stock products
+            $lowStockProducts = Product::where('vendor_id', $vendor->id)
+                ->where('stock_qty', '<=', 5)
+                ->get();
 
-    // Vendor-এর সব VendorOrder (এটাই main source এখন)
-    $vendorOrders = VendorOrder::where('vendor_id', $vendor->id)->get();
+            // Vendor-এর সব VendorOrder (এটাই main source এখন)
+            $vendorOrders = VendorOrder::where('vendor_id', $vendor->id)->get();
 
-    if ($vendorOrders->isEmpty()) {
-        // কোনো order নেই
-        $pendingOrdersCount = 0;
-        $cancelledOrdersCount = 0;
-        $todayOrdersCount = 0;
-        $todaySalesAmount = 0;
-        $totalDeliveredOrdersCount = 0;
-    } else {
-        // Pending Orders Count
-        $pendingOrdersCount = $vendorOrders->where('delivery_status', 0)->count();
+            if ($vendorOrders->isEmpty()) {
+                // কোনো order নেই
+                $pendingOrdersCount = 0;
+                $cancelledOrdersCount = 0;
+                $todayOrdersCount = 0;
+                $todaySalesAmount = 0;
+                $totalDeliveredOrdersCount = 0;
+            } else {
+                // Pending Orders Count
+                $pendingOrdersCount = $vendorOrders->where('delivery_status', 0)->count();
 
-        // Cancelled Orders Count
-        $cancelledOrdersCount = $vendorOrders->where('delivery_status', 1)->count();
+                // Cancelled Orders Count
+                $cancelledOrdersCount = $vendorOrders->where('delivery_status', 5)->count();
 
-        // Today Orders Count & Sales
-        $todayVendorOrders = $vendorOrders->filter(function ($vo) {
-            return Carbon::parse($vo->created_at)->isToday();
-        });
+                // Today Orders Count & Sales
+                $todayVendorOrders = $vendorOrders->filter(function ($vo) {
+                    return Carbon::parse($vo->created_at)->isToday();
+                });
 
-        $todayOrdersCount = $todayVendorOrders->count();
-        $todaySalesAmount = $todayVendorOrders->sum('subtotal');
+                $todayOrdersCount = $todayVendorOrders->count();
+                $todaySalesAmount = $todayVendorOrders->sum('subtotal');
 
-        // Total Delivered Orders Count (যদি চাও)
-        $totalDeliveredOrdersCount = $vendorOrders->where('delivery_status', 'delivered')->count();
-    }
+                // Total Delivered Orders Count (যদি চাও)
+                $totalDeliveredOrdersCount = $vendorOrders->where('delivery_status', 4)->count();
+            }
 
-    return view('admin.index', compact(
-        'vendorOrders',
-        'products',
-        'lowStockProducts',
-        'pendingOrdersCount',
-        'cancelledOrdersCount',
-        'todayOrdersCount',
-        'todaySalesAmount',
-        'totalDeliveredOrdersCount'
-        
-    ));
-}
+            return view('admin.index', compact(
+                'vendorOrders',
+                'products',
+                'lowStockProducts',
+                'pendingOrdersCount',
+                'cancelledOrdersCount',
+                'todayOrdersCount',
+                'todaySalesAmount',
+                'totalDeliveredOrdersCount'
+
+            ));
+        }
 
         return view('admin.index', compact('userCount', 'productCount', 'categoryCount', 'brandCount', 'vendorCount', 'orderCount', 'lowStockCount', 'StaffCount', 'orders', 'adminLowStockProducts'));
     } // end method

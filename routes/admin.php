@@ -65,16 +65,15 @@ Route::prefix('vendor')->middleware('vendor')->group(function () {
 	Route::get('/withdraw-requests/remove/{id}', [WithdrawRequestController::class, 'delete'])->name('withdraw-requests.delete');
 
 
-	 // Orders Routes
-    Route::get('/orders/all', [VendorOrderController::class, 'index'])->name('vendor.orders.index');
-    Route::get('/orders/pending', [VendorOrderController::class, 'pendingOrder'])->name('vendor.orders.pending');
-    Route::get('/orders/completed', [VendorOrderController::class, 'completedOrder'])->name('vendor.orders.completed');
-    Route::get('/orders/canceled', [VendorOrderController::class, 'cancelledOrder'])->name('vendor.orders.canceled');
-    Route::get('/sales-report', [VendorOrderController::class, 'salesReport'])->name('vendor.sales.report');
+	// Orders Routes
+	Route::get('/orders/all', [VendorOrderController::class, 'index'])->name('vendor.orders.index');
+	Route::get('/orders/pending', [VendorOrderController::class, 'pendingOrder'])->name('vendor.orders.pending');
+	Route::get('/orders/completed', [VendorOrderController::class, 'completedOrder'])->name('vendor.orders.completed');
+	Route::get('/orders/canceled', [VendorOrderController::class, 'cancelledOrder'])->name('vendor.orders.canceled');
+	Route::get('/sales-report', [VendorOrderController::class, 'salesReport'])->name('vendor.sales.report');
 
-
-
-
+	Route::get('/order-details/{id}', [VendorOrderController::class, 'vendorOrdershow'])->name('vendor.order.details');
+	Route::get('/invoice-download/{order_id}', [VendorOrderController::class, 'vendorinvoiceDownload'])->name('vendor.invoice.download');
 });
 /*==========================End Only Vendor Accessible Route  ==========================*/
 
@@ -113,8 +112,7 @@ Route::prefix($prefix)->middleware('admin')->group(function () {
 	Route::get('/withdraw-requests', [WithdrawRequestController::class, 'index'])->name('withdraw-requests.index');
 	Route::get('/lowstock/products', [ProductController::class, 'lowstock'])->name('lowstocks.products');
 	Route::get('/pending/orders', [OrderController::class, 'pendingOrders'])->name('pending.orders');
-	Route::get('vendor/order-details/{id}', [OrderController::class, 'vendorOrdershow'])->name('vendor.order.details');
-	Route::get('vendor/invoice-download/{order_id}', [OrderController::class, 'vendorinvoiceDownload'])->name('vendor.invoice.download');
+
 
 	// Admin Brand All Routes
 	Route::prefix('supplier')->group(function () {
@@ -195,8 +193,8 @@ Route::prefix($prefix)->middleware('admin')->group(function () {
 	Route::get('/reports/conversion-rate', [ReportController::class, 'conversionRate'])->name('report.conversion');
 	Route::get('/reports/most-viewed-products', [ReportController::class, 'mostViewedProducts'])->name('report.most.viewed');
 
-		Route::post('/vendor_orders_update/{id}', [OrderController::class, 'vendorOrdersUpdate'])->name('vendor.orders.update');
-		//Route::get('/vendor/invoice/{id}', [OrderController::class, 'vendorInvoice'])->name('vendor.invoice.download');
+	Route::post('/vendor_orders_update/{id}', [OrderController::class, 'vendorOrdersUpdate'])->name('vendor.orders.update');
+	//Route::get('/vendor/invoice/{id}', [OrderController::class, 'vendorInvoice'])->name('vendor.invoice.download');
 
 
 	/*================  Ajax Category Store ==================*/
@@ -318,8 +316,8 @@ Route::middleware('adminAccess')->group(function () {
 	Route::get('affiliate/product', [AffiliateController::class, 'AllaffiliateProduct'])->name('affiliate.products');
 	Route::get('vendor/affiliate/product', [AffiliateController::class, 'vendorAffiliateProduct'])->name('vendor.affiliate.products');
 	Route::get('admin/affiliate/product', [AffiliateController::class, 'adminAffiliateProduct'])->name('admin.affiliate.products');
-Route::patch('product/{id}/affiliate-commission', [ProductController::class, 'updateAffiliateCommission'])
-     ->name('product.affiliate.commission.update');
+	Route::patch('product/{id}/affiliate-commission', [ProductController::class, 'updateAffiliateCommission'])
+		->name('product.affiliate.commission.update');
 
 	Route::get('affiliate/earning', [AffiliateController::class, 'earning'])->name('affiliate.earnings');
 
@@ -329,7 +327,7 @@ Route::patch('product/{id}/affiliate-commission', [ProductController::class, 'up
 
 	Route::get('/vendor/affiliate/product_on', [AffiliateController::class, 'allProductOn'])->name('product.affiliate.on');
 	Route::get('/vendor/affiliate/product_off', [AffiliateController::class, 'allProductOff'])->name('product.affiliate.off');
-	
+
 
 	//Admin Campaign All Route
 	Route::resource('/campaing', CampaingController::class);
@@ -411,7 +409,7 @@ Route::patch('product/{id}/affiliate-commission', [ProductController::class, 'up
 		Route::get('/all_orders', [OrderController::class, 'index'])->name('all_orders.index');
 		Route::get('/wholesell', [OrderController::class, 'allWholesellOrders'])->name('wholesell.orders');
 		Route::get('/all_orders/{id}/show', [OrderController::class, 'show'])->name('all_orders.show');
-		Route::get('/vendor_orders/{id}/show', [OrderController::class, 'vendorOrderShow'])->name('admin.all_orders.show');
+
 		Route::get('/orders_delete/{id}', [OrderController::class, 'destroy'])->name('delete.orders');
 		Route::post('/orders_update/{id}', [OrderController::class, 'update'])->name('admin.orders.update');
 
