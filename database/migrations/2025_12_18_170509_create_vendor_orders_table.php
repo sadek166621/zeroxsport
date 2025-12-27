@@ -17,6 +17,7 @@ class CreateVendorOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->string('invoice_no')->nullable();
             $table->unsignedBigInteger('affiliate_id')->nullable();
 
             $table->decimal('subtotal', 20, 2)->default(0);

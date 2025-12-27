@@ -41,22 +41,37 @@
                                     <span class="badge bg-danger">Unpaid</span>
                                 @endif
                             </td>
-                            <td>
-                                @php
-                                    $statusColors = [
-                                        'pending' => 'warning',
-                                        'processing' => 'info',
-                                        'picked' => 'primary',
-                                        'shipped' => 'secondary',
-                                        'delivered' => 'success',
-                                        'cancelled' => 'danger',
-                                        'returned' => 'dark',
-                                    ];
-                                @endphp
-                                <span class="badge bg-{{ $statusColors[$order->delivery_status] ?? 'secondary' }}">
-                                    {{ ucfirst($order->delivery_status ?? 'N/A') }}
-                                </span>
-                            </td>
+                                <td>
+                                    @php
+                                        $statusColors = [
+                                            '0' => 'warning',   // Pending
+                                            '1' => 'info',      // Confirmed
+                                            '2' => 'primary',   // Processing
+                                            '3' => 'secondary', // Shipped
+                                            '4' => 'success',   // Delivered
+                                            '5' => 'danger',    // Canceled
+                                            '6' => 'dark',      // Returned
+                                            '7' => 'secondary', // Refunded
+                                            '8' => 'danger',    // Failed
+                                        ];
+
+                                        $statusTexts = [
+                                            '0' => 'Pending',
+                                            '1' => 'Confirmed',
+                                            '2' => 'Processing',
+                                            '3' => 'Shipped',
+                                            '4' => 'Delivered',
+                                            '5' => 'Canceled',
+                                            '6' => 'Returned',
+                                            '7' => 'Refunded',
+                                            '8' => 'Failed',
+                                        ];
+                                    @endphp
+
+                                    <span class="badge bg-{{ $statusColors[$order->delivery_status] ?? 'secondary' }}">
+                                        {{ $statusTexts[$order->delivery_status] ?? 'N/A' }}
+                                    </span>
+                                </td>
                             <td>৳{{ number_format($order->grand_total, 2) }}</td>
                             <td>{{ $order->created_at->format('d M Y') }}</td>
                             <td>

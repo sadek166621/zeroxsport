@@ -41,6 +41,7 @@ use App\Http\Controllers\Frontend\WholesellerController;
 */
 
 /*================== Frontend All Route ==============*/
+// routes/web.php
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/home2', [FrontendController::class, 'index2'])->name('home2');

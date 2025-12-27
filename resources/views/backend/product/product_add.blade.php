@@ -550,13 +550,13 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="form-check-input me-2 cursor" name="status"
                                             id="status" checked value="1">
                                         <label class="form-check-label cursor" for="status">Status</label>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <!-- Checkbox End -->
                         </div>

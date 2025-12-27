@@ -488,8 +488,8 @@
                         console.log(data);
 
                         // vendor count অনুযায়ী shipping charge হিসাব
-                        let vendorCount = data.vendor_count ?? 1;
-                        let finalShippingCharge = data.shipping.shipping_charge * vendorCount;
+                        let vendorCount = Math.max(data.vendor_count || 0, 1);
+                          let finalShippingCharge = data.shipping.shipping_charge * vendorCount;
 
                         $('#ship_amount').text(finalShippingCharge);
                         $('.ship_amount').val(finalShippingCharge);

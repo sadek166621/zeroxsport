@@ -9,13 +9,15 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Vendor;
+use App\Models\Product;
 use App\Models\District;
 use App\Models\Division;
+use App\Models\Upazilla;
 use App\Models\OrderDetail;
+use App\Models\VendorOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Upazilla;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -100,7 +102,7 @@ class AdminController extends Controller
                 ->first();
         }
 
-            $adminLowStockProducts = DB::table('products as s')
+        $adminLowStockProducts = DB::table('products as s')
             ->where('s.stock_qty', '<=', 5)
             ->whereNull('s.vendor_id')
             ->get();
@@ -113,68 +115,55 @@ class AdminController extends Controller
 
         if (Auth::guard('admin')->user()->role == 2) {
             $vendor = Vendor::where('user_id', Auth::guard('admin')->user()->id)->first();
-            
-            $products = DB::table('products')->where('vendor_id', $vendor->id)->get();
-            $solProducts = OrderDetail::where('vendor_id', $vendor->id)
-                ->where('delivery_status', 'delivered')
-                ->select('product_id')
-                ->selectRaw('SUM(price*qty) as amount, SUM(qty) as qty')
-                ->groupBy('product_id')
-                ->get();
-            $pendingQty = OrderDetail::where('vendor_id', $vendor->id)
-                ->where('delivery_status', 'pending')
-                ->sum('qty');
-            $cancelQty = OrderDetail::where('vendor_id', $vendor->id)
-                ->where('delivery_status', 'cancelled')
-                ->sum('qty');
 
+            // Vendor-এর সব প্রোডাক্ট
+            $products = Product::where('vendor_id', $vendor->id)->get();
 
-            $todaySoldProducts = OrderDetail::where('vendor_id', $vendor->id)
-                ->whereDate('created_at', Carbon::today())
-                ->select('product_id')
-                ->selectRaw('SUM(price * qty) as amount')
-                ->selectRaw('SUM(qty) as qty')
-                ->groupBy('product_id')
-                ->with('product') // যদি relation থাকে
+            // Low stock products
+            $lowStockProducts = Product::where('vendor_id', $vendor->id)
+                ->where('stock_qty', '<=', 5)
                 ->get();
 
-            //  dd($todaySoldProducts);
-            // dd($orderedProducts->count());
-            $salesCount = DB::table('orders')
-                ->join('order_details', 'orders.id', '=', 'order_details.order_id')
-                ->where('order_details.vendor_id', $vendor->id)
-                ->whereDate('orders.created_at', Carbon::today())
-                ->select(DB::raw('SUM(orders.grand_total) as today_sales'))
-                ->get();
+            // Vendor-এর সব VendorOrder (এটাই main source এখন)
+            $vendorOrders = VendorOrder::where('vendor_id', $vendor->id)->get();
 
-            $lowStockProducts = DB::table('products as s')
-            ->where('s.vendor_id', $vendor->id)
-            ->where('s.stock_qty', '<=', 5)
-            ->get();
+            if ($vendorOrders->isEmpty()) {
+                // কোনো order নেই
+                $pendingOrdersCount = 0;
+                $cancelledOrdersCount = 0;
+                $todayOrdersCount = 0;
+                $todaySalesAmount = 0;
+                $totalDeliveredOrdersCount = 0;
+            } else {
+                // Pending Orders Count
+                $pendingOrdersCount = $vendorOrders->where('delivery_status', 0)->count();
 
-         
-               
+                // Cancelled Orders Count
+                $cancelledOrdersCount = $vendorOrders->where('delivery_status', 5)->count();
 
+                // Today Orders Count & Sales
+                $todayVendorOrders = $vendorOrders->filter(function ($vo) {
+                    return Carbon::parse($vo->created_at)->isToday();
+                });
 
+                $todayOrdersCount = $todayVendorOrders->count();
+                $todaySalesAmount = $todayVendorOrders->sum('subtotal');
 
+                // Total Delivered Orders Count (যদি চাও)
+                $totalDeliveredOrdersCount = $vendorOrders->where('delivery_status', 4)->count();
+            }
 
+            return view('admin.index', compact(
+                'vendorOrders',
+                'products',
+                'lowStockProducts',
+                'pendingOrdersCount',
+                'cancelledOrdersCount',
+                'todayOrdersCount',
+                'todaySalesAmount',
+                'totalDeliveredOrdersCount'
 
-
-            // $refunds = DB::table('refund_requests')
-            // ->join('order_details', 'refund_requests.order_detail_id', '=', 'order_details.id')
-            // ->where('order_details.vendor_id', $vendor->id)
-            // ->whereDate('refund_requests.created_at', Carbon::today())
-            // ->select(DB::raw('SUM(refund_requests.amount) as today_refund'))
-            // ->first();
-            $refunds = DB::table('orders')
-                ->join('order_details', 'orders.id', '=', 'order_details.order_id')
-                ->where('order_details.vendor_id', $vendor->id)
-                ->whereDate('orders.created_at', Carbon::today())
-                ->select(DB::raw('SUM(orders.grand_total) as today_sales'))
-                ->first();
-
-
-            return view('admin.index', compact('products', 'userCount', 'productCount', 'categoryCount', 'brandCount', 'vendorCount', 'orderCount', 'lowStockCount', 'StaffCount', 'orders', 'salesCount', 'refunds', 'solProducts', 'todaySoldProducts', 'pendingQty', 'cancelQty', 'lowStockProducts'));
+            ));
         }
 
         return view('admin.index', compact('userCount', 'productCount', 'categoryCount', 'brandCount', 'vendorCount', 'orderCount', 'lowStockCount', 'StaffCount', 'orders', 'adminLowStockProducts'));
@@ -363,7 +352,7 @@ class AdminController extends Controller
         $user->division = $request->division;   // division_id
         $user->district = $request->district;   // district_id
         $user->upazilla = $request->upazilla;   // upazilla_id
- 
+
 
         $user->map_location = $request->map_location;
 
@@ -396,7 +385,7 @@ class AdminController extends Controller
         $vendor->routing_number = $request->routing_number;
         $vendor->bank_account = $request->bank_account;
         $vendor->alternative_payment = $request->alternative_payment;
-         $vendor->shipping_zone = $request->shipping_zone;
+        $vendor->shipping_zone = $request->shipping_zone;
 
         // Bank document upload
         if ($request->file('bank_document')) {

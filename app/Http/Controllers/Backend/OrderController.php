@@ -15,6 +15,7 @@ use App\Models\Shipping;
 use App\Models\Upazilla;
 use App\Models\Affiliate;
 use App\Models\OrderDetail;
+use App\Models\VendorOrder;
 use App\Models\ProductStock;
 use Illuminate\Http\Request;
 use App\Models\AccountLedger;
@@ -237,6 +238,13 @@ class OrderController extends Controller
 
         return view('backend.sales.all_orders.show', compact('order', 'shippings'));
     }
+    public function vendorOrdershow($id)
+    {
+        //        return AccountLedger::latest()->first();
+        $order = VendorOrder::findOrFail($id);
+    
+        return view('backend.vendor.orders.details', compact('order'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -277,6 +285,25 @@ class OrderController extends Controller
             'shipping_charge'   => $request->shipping_charge,
             'discount'          => $request->discount,
             'grand_total'       => $total_ammount,
+        ]);
+
+        $order->save();
+
+        Session::flash('success', 'Admin Orders Information Updated Successfully');
+        return redirect()->back();
+    }
+    public function vendorOrdersUpdate(Request $request, $id)
+    {
+       // dd($request->all());
+        //        return $request;
+        $this->validate($request, [
+            'delivery_status' => 'required',
+        ]);
+        $order = VendorOrder::findOrFail($id);
+
+      
+        VendorOrder::where('id', $id)->update([
+           'delivery_status'   => $request->delivery_status,
         ]);
 
         $order->save();
@@ -539,16 +566,26 @@ class OrderController extends Controller
     /* ============= End invoice_download Method ============== */
 
 
+       public function vendorinvoiceDownload($id)
+    {
+        $order = VendorOrder::findOrFail($id);
+    
+        //dd(app('url')->asset('upload/abc.png'));
+        $pdf = PDF::loadView('backend.vendor.orders.invoices', compact('order'))->setPaper('a4');
+        return $pdf->download('vendor_invoice.pdf');
+    }
+
   public function pendingOrders()
 {
     $user = Auth::guard('admin')->user();
 
-    if ($user->role == '2') {
-        $vendor = Vendor::where('user_id', $user->id)->first();
+  if ($user->role == '2') {
+        $vendor = Vendor::where('user_id', $user->id)->firstOrFail();
 
-        $orders = OrderDetail::where('delivery_status', 'pending')
-            ->where('vendor_id', $vendor->id) // 
-            ->orderBy('id', 'desc')
+        $orders = VendorOrder::with('order') // relation load করে performance ভালো হবে
+            ->where('vendor_id', $vendor->id)
+            ->where('delivery_status', 'pending') // অথবা 0 যদি integer হয়
+            ->latest()
             ->paginate(15);
 
         return view('backend.sales.all_orders.pending_orders', compact('orders'));

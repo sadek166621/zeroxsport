@@ -44,11 +44,11 @@
                         href="{{ route('product.all') }}">Products</a>
                     {{--                        <a class="{{ ($prefix == 'admin/category') ? 'active':'' }}" href="{{ route('category.index') }}">Categories</a> --}}
                     {{--                        <a class="{{ ($route == 'attribute.index') ? 'active':'' }}" href="{{ route('attribute.index') }}">Attributes</a> --}}
-                    {{--                        <a class="{{ ($prefix == 'admin/brand') ? 'active':'' }}" href="{{ route('brand.all') }}">Brands</a> --}}
+                    {{-- <a class="{{ ($prefix == 'admin/brand') ? 'active':'' }}" href="{{ route('brand.all') }}">Brands</a> --}}
                 </div>
             </li>
 
-            <li class="menu-item has-submenu {{ $prefix == 'admin/supplier' ? 'active' : '' }}">
+            {{-- <li class="menu-item has-submenu {{ $prefix == 'admin/supplier' ? 'active' : '' }}">
                 <a class="menu-link" href="#">
                     <i class="fas fa-truck fontawesome_icon_custom"></i>
                     <span class="text">Suppliers</span>
@@ -59,49 +59,62 @@
                     <a class="{{ $route == 'supplier.create' ? 'active' : '' }}"
                         href="{{ route('supplier.create') }}">Supplier Add</a>
                 </div>
-            </li>
+            </li> --}}
+            <li class="menu-item has-submenu 
+                    {{ in_array($route, ['sales.report','orders.pending','orders.completed','orders.canceled']) ? 'active' : '' }}">
+                    
+                    <a class="menu-link" href="#">
+                        <i class="fas fa-bag-shopping fontawesome_icon_custom"></i>
+                        <span class="text">Orders</span>
+                    </a>
+
+                    <div class="submenu">
+                       
+                        <a class="{{ $route == 'vendor.orders.index' ? 'active' : '' }}" href="{{ route('vendor.orders.index') }}">
+                            All Orders
+                        </a>
+                        <a class="{{ $route == 'vendor.orders.pending' ? 'active' : '' }}" href="{{ route('vendor.orders.pending') }}">
+                            Pending Orders
+                        </a>
+                        <a class="{{ $route == 'vendor.orders.completed' ? 'active' : '' }}" href="{{ route('vendor.orders.completed') }}">
+                            Completed Orders
+                        </a>
+                        <a class="{{ $route == 'vendor.orders.canceled' ? 'active' : '' }}" href="{{ route('vendor.orders.canceled') }}">
+                            Canceled Orders
+                        </a>
+                    </div>
+                </li>
+
             <li
                 class="menu-item has-submenu
-                {{ $route == 'sales.report' ? 'active' : '' }}
-            ">
+                        {{ in_array($route, [
+                            'sales.report',
+                            'report.category.sales',
+                            'report.traffic',
+                            'report.conversion',
+                            'report.most.viewed',
+                        ])
+                            ? 'active'
+                            : '' }}
+                    ">
                 <a class="menu-link" href="#">
-                    <i class="fas fa-bag-shopping fontawesome_icon_custom"></i>
-                    <span class="text">Orders</span>
+                    <i class="fas fa-chart-line fontawesome_icon_custom"></i>
+                    <span class="text">Report Analytics</span>
                 </a>
 
                 <div class="submenu">
-                    <a class="{{ $route == 'sales.report' ? 'active' : '' }}" href="{{ route('sales.report') }}">Sales
-                        Report</a>
-                </div>
-            </li>
+                    <a class="{{ $route == 'sales.report' ? 'active' : '' }}" href="{{ route('sales.report') }}">
+                        Sales Report
+                    </a>
 
-            <li
-    class="menu-item has-submenu
-    {{ in_array($route, [
-        'sales.report',
-        'report.category.sales',
-        'report.traffic',
-        'report.conversion',
-        'report.most.viewed'
-    ]) ? 'active' : '' }}
-">
-    <a class="menu-link" href="#">
-        <i class="fas fa-chart-line fontawesome_icon_custom"></i>
-        <span class="text">Report Analytics</span>
-    </a>
+                    <a class="{{ $route == 'report.category.sales' ? 'active' : '' }}"
+                        href="{{ route('report.category.sales') }}">
+                        Category-wise Sales
+                    </a>
+                    <a class="{{ $route == 'stock_report.index' ? 'active' : '' }}"
+                        href="{{ route('stock_report.index') }}">Product Stock</a>
 
-    <div class="submenu">
-        <a class="{{ $route == 'sales.report' ? 'active' : '' }}"
-           href="{{ route('sales.report') }}">
-            Sales Report
-        </a>
-
-        <a class="{{ $route == 'report.category.sales' ? 'active' : '' }}"
-           href="{{ route('report.category.sales') }}">
-            Category-wise Sales
-        </a>
-
-        {{-- <a class="{{ $route == 'report.traffic' ? 'active' : '' }}"
+                    {{-- <a class="{{ $route == 'report.traffic' ? 'active' : '' }}"
            href="{{ route('report.traffic') }}">
             Traffic Analytics
         </a>
@@ -111,12 +124,12 @@
             Conversion Rate
         </a> --}}
 
-        <a class="{{ $route == 'report.most.viewed' ? 'active' : '' }}"
-           href="{{ route('report.most.viewed') }}">
-            Most Viewed Products
-        </a>
-    </div>
-</li>
+                    <a class="{{ $route == 'report.most.viewed' ? 'active' : '' }}"
+                        href="{{ route('report.most.viewed') }}">
+                        Most Viewed Products
+                    </a>
+                </div>
+            </li>
 
 
 
@@ -136,10 +149,10 @@
             </li>
 
 
-            <li
+            {{-- <li
                 class="menu-item has-submenu
                 {{ $route == 'stock_report.index' ? 'active' : '' }}
-{{--                {{ ($route == 'sales.report')? 'active':'' }} --}}
+
             ">
                 <a class="menu-link" href="#">
                     <i class="fas fa-file-text fontawesome_icon_custom"></i>
@@ -149,9 +162,9 @@
                 <div class="submenu">
                     <a class="{{ $route == 'stock_report.index' ? 'active' : '' }}"
                         href="{{ route('stock_report.index') }}">Product Stock</a>
-                    {{--                    <a class="{{ ($route == 'sales.report') ? 'active':'' }}" href="{{ route('sales.report') }}">Sales Report</a> --}}
+                    {{--                    <a class="{{ ($route == 'sales.report') ? 'active':'' }}" href="{{ route('sales.report') }}">Sales Report</a> 
                 </div>
-            </li>
+            </li> --}}
 
             <li
                 class="menu-item has-submenu
@@ -198,7 +211,7 @@
                     </a>
                 </div>
             </li>
-            
+
             <li class="menu-item {{ $route == 'admin.profile' ? 'active' : '' }}">
                 <a class="menu-link" href="{{ route('admin.profile') }}">
                     <i class="fa-solid fa-user fontawesome_icon_custom"></i>
@@ -210,12 +223,6 @@
         <hr />
         <br />
         <br />
-        {{--        <div class="sidebar-widgets"> --}}
-        {{--           <div class="copyright text-center m-25"> --}}
-        {{--              <p> --}}
-        {{--                 <strong class="d-block">Admin Dashboard</strong> © <script>document.write(new Date().getFullYear())</script> All Rights Reserved --}}
-        {{--              </p> --}}
-        {{--           </div> --}}
-        {{--        </div> --}}
+
     </nav>
 </aside>

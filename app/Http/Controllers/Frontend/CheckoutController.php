@@ -186,9 +186,10 @@ class CheckoutController extends Controller
         ]);
 
         $carts = Cart::content();
+
         if ($carts->isEmpty()) {
             return redirect()->route('home')->with([
-                'message' => 'Your cart is empty.',
+                'message'    => 'Your cart is empty.',
                 'alert-type' => 'error'
             ]);
         }
@@ -196,47 +197,53 @@ class CheckoutController extends Controller
         $user = User::firstOrCreate(
             ['phone' => $request->phone],
             [
-                'name' => $request->name,
+                'name'     => $request->name,
                 'username' => $request->name,
-                'email' => $request->email,
-                'address' => $request->address,
+                'email'    => $request->email,
+                'address'  => $request->address,
                 'password' => Hash::make($request->phone),
-                'role' => 3,
-                'status' => 1
+                'role'     => 3,
+                'status'   => 1
             ]
         );
 
         Auth::login($user);
 
         $payment_status = in_array($request->payment_option, ['cod', 'wallet']) ? 0 : 1;
-        $lastOrder = Order::latest('id')->first();
+
+        $lastOrder  = Order::latest('id')->first();
         $invoice_no = $lastOrder ? str_pad($lastOrder->id + 1, 7, '0', STR_PAD_LEFT) : '0000001';
-        $affiliateId = session('affiliate_ref') ? Affiliate::where('referral_code', session('affiliate_ref'))->value('id') : null;
+
+        $affiliateId = session('affiliate_ref')
+            ? Affiliate::where('referral_code', session('affiliate_ref'))->value('id')
+            : null;
 
         $order = Order::create([
-            'user_id' => Auth::id(),
-            'affiliate_id' => $affiliateId,
-            'name' => $request->name,
-            'sub_total' => 0,
-            'grand_total' => 0,
-            'shipping_charge' => $request->shipping_charge,
-            'shipping_name' => $request->shipping_name,
-            'shipping_type' => $request->shipping_type,
-            'payment_method' => $request->payment_option,
-            'payment_status' => $payment_status,
-            'invoice_no' => $invoice_no,
-            'delivery_status' => 0,
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'division_id' => $request->division_id,
-            'district_id' => $request->district_id,
-            'upazilla_id' => $request->upazilla_id,
-            'address' => $request->address,
-            'comment' => $request->comment,
-            'coupon' => Session::get('amount') ?: 0,
-            'type' => 1,
+            'user_id'           => Auth::id(),
+            'affiliate_id'      => $affiliateId,
+            'name'              => $request->name,
+            'sub_total'         => 0,
+            'grand_total'       => 0,
+            'affiliate_commission' => 0,
+            'shipping_charge'   => $request->shipping_charge,
+            'shipping_name'     => $request->shipping_name,
+            'shipping_type'     => $request->shipping_type,
+            'payment_method'    => $request->payment_option,
+            'payment_status'    => $payment_status,
+            'invoice_no'        => $invoice_no,
+            'delivery_status'   => 0,
+            'phone'             => $request->phone,
+            'email'             => $request->email,
+            'division_id'       => $request->division_id,
+            'district_id'       => $request->district_id,
+            'upazilla_id'       => $request->upazilla_id,
+            'address'           => $request->address,
+            'comment'           => $request->comment,
+            'coupon'            => Session::get('amount') ?: 0,
+            'type'              => 1,
         ]);
 
+        // Calculate unique vendors & shipping cost per vendor
         $uniqueVendorIds = collect();
         foreach ($carts as $cart) {
             $product = Product::find($cart->id);
@@ -244,60 +251,88 @@ class CheckoutController extends Controller
                 $uniqueVendorIds->push($product->vendor_id);
             }
         }
-        $uniqueVendorIds = $uniqueVendorIds->unique();
-        $vendorCount = $uniqueVendorIds->count();
+        $uniqueVendorIds   = $uniqueVendorIds->unique();
+        $vendorCount       = $uniqueVendorIds->count();
         $shippingPerVendor = $vendorCount ? ($request->shipping_charge / $vendorCount) : 0;
 
-        $vendorData = [];
-        $orderSubTotal = 0;
-        $orderGrandTotal = 0;
+// Variables for totals
+$vendorData             = [];
+$orderSubTotal          = 0;
+$orderGrandTotal        = 0;
+$totalAffiliateCommission = 0;
 
-        foreach ($carts as $cart) {
-            $product = Product::find($cart->id);
-            $vendor_id = $product->vendor_id ?? null;
+// Process cart items
+foreach ($carts as $cart) {
+    $product = Product::find($cart->id);
+    if (!$product) {
+        continue;
+    }
 
-            $sub = $cart->qty * $cart->price;
-            $tax = $cart->tax ?? 0;
-            $grand = $sub + $tax;
+    $vendor_id = $product->vendor_id; // null হলে null থাকবে
 
-            if (!isset($vendorData[$vendor_id])) {
-                $vendorData[$vendor_id] = [
-                    'order_id' => $order->id,
-                    'vendor_id' => $vendor_id,
-                    'subtotal' => 0,
-                    'grand_total' => 0,
-                    'shipping_cost' => $shippingPerVendor,
-                ];
-            }
+    $sub   = $cart->qty * $cart->price;
+    $tax   = $cart->tax ?? 0;
+    $grand = $sub + $tax;
 
-            $vendorData[$vendor_id]['subtotal'] += $sub;
-            $vendorData[$vendor_id]['grand_total'] += $grand;
+    $orderSubTotal   += $sub;
+    $orderGrandTotal += $grand;
 
-            $orderSubTotal += $sub;
-            $orderGrandTotal += $grand;
+    // শুধু যদি actual vendor থাকে তাহলে VendorOrder data collect করো
+    if ($vendor_id) {  // ← এখানে চেক যোগ করো (null হলে skip)
+        if (!isset($vendorData[$vendor_id])) {
+            $vendorData[$vendor_id] = [
+                'order_id'      => $order->id,
+                'vendor_id'     => $vendor_id,
+                'subtotal'      => 0,
+                'grand_total'   => 0,
+                'shipping_cost' => $shippingPerVendor,
+            ];
         }
 
+        $vendorData[$vendor_id]['subtotal']    += $sub;
+        $vendorData[$vendor_id]['grand_total'] += $grand;
+    }
+
+    // Affiliate commission (আগের fix অনুযায়ী)
+    if ($affiliateId && $product->is_affiliate == 1) {
+        $commissionData = $product->product_affiliate_commission;
+        $amount         = $commissionData['amount'] ?? 0;
+        $type           = $commissionData['type'] ?? null;
+
+        if ($amount > 0 && $type) {
+            $earning = $type === 'percentage'
+                ? ($sub * $amount) / 100
+                : $amount * $cart->qty;
+
+            $totalAffiliateCommission += $earning;
+        }
+    }
+}
+
+        // Create VendorOrder records
         $vendorOrderIds = [];
         foreach ($vendorData as $vendor_id => $data) {
             $vendorOrder = VendorOrder::create([
-                'order_id' => $data['order_id'],
-                'vendor_id' => $vendor_id,
-                'affiliate_id' => $affiliateId,
-                'subtotal' => $data['subtotal'],
-                'shipping_cost' => $data['shipping_cost'],
-                'discount' => 0,
-                'coupon_discount' => 0,
-                'grand_total' => $data['grand_total'] + $data['shipping_cost'],
-                'commission' => 0,
-                'payment_status' => $payment_status,
-                'delivery_status' => 0,
+                'order_id'         => $data['order_id'],
+                'invoice_no'       => $invoice_no,
+                'vendor_id'        => $vendor_id ?? null,
+                'affiliate_id'     => $affiliateId,
+                'subtotal'         => $data['subtotal'],
+                'shipping_cost'    => $data['shipping_cost'],
+                'discount'         => 0,
+                'coupon_discount'  => 0,
+                'grand_total'      => $data['grand_total'] + $data['shipping_cost'],
+                'commission'       => 0,
+                'payment_status'   => $payment_status,
+                'delivery_status'  => 0,
             ]);
 
             $vendorOrderIds[$vendor_id] = $vendorOrder->id;
         }
 
+        // Create OrderDetail records & update stock
         foreach ($carts as $cart) {
-            $product = Product::find($cart->id);
+            $product   = Product::find($cart->id);
             $vendor_id = $product->vendor_id ?? null;
 
             $variation = null;
@@ -305,37 +340,33 @@ class CheckoutController extends Controller
                 $tmp = [];
                 for ($i = 0; $i < count($cart->options->attribute_names ?? []); $i++) {
                     $tmp[] = [
-                        'attribute_name' => $cart->options->attribute_names[$i],
+                        'attribute_name'  => $cart->options->attribute_names[$i],
                         'attribute_value' => $cart->options->attribute_values[$i],
                     ];
                 }
                 $variation = json_encode($tmp);
             }
 
-            $sub = $cart->qty * $cart->price;
-            $grand = $sub + ($cart->tax ?? 0);
-
             OrderDetail::create([
-                'order_id' => $order->id,
-                'vendor_order_id' => $vendorOrderIds[$vendor_id],
-                'product_id' => $cart->id,
-                'vendor_id' => $vendor_id,
-                'product_name' => $cart->name,
-                'invoice_no' => $order->invoice_no,
-                'is_varient' => $cart->options->is_varient ?? 0,
-                'variation' => $variation,
-                'qty' => $cart->qty,
-                'price' => $cart->price,
-                'tax' => $cart->tax ?? 0,
-                // 'sub_total' => $sub,
-                // 'grand_total' => $grand,
-                'payment_status' => $payment_status,
-                'delivery_status' => 0,
-                'shipping_type' => $cart->options->shipping_type ?? null,
-                'pickup_point_id' => $cart->options->pickup_point_id ?? null,
+                'order_id'              => $order->id,
+                'vendor_order_id'       => $vendorOrderIds[$vendor_id] ?? null,
+                'product_id'            => $cart->id,
+                'vendor_id'             => $vendor_id ?? null,
+                'product_name'          => $cart->name,
+                'invoice_no'            => $order->invoice_no,
+                'is_varient'            => $cart->options->is_varient ?? 0,
+                'variation'             => $variation,
+                'qty'                   => $cart->qty,
+                'price'                 => $cart->price,
+                'tax'                   => $cart->tax ?? 0,
+                'payment_status'        => $payment_status,
+                'delivery_status'       => 0,
+                'shipping_type'         => $cart->options->shipping_type ?? null,
+                'pickup_point_id'       => $cart->options->pickup_point_id ?? null,
                 'product_referral_code' => $cart->options->product_referral_code ?? null,
             ]);
 
+            // Update stock
             if (!empty($cart->options->is_varient)) {
                 $stock = ProductStock::where('product_id', $product->id)
                     ->where('varient', $cart->options->varient)
@@ -350,16 +381,21 @@ class CheckoutController extends Controller
             }
         }
 
+        // Final order totals update
         $order->update([
-            'sub_total' => $orderSubTotal,
-            'grand_total' => $orderGrandTotal + $request->shipping_charge - (Session::get('amount') ?: 0),
+            'sub_total'            => $orderSubTotal,
+            'grand_total'          => $orderGrandTotal + $request->shipping_charge - (Session::get('amount') ?: 0),
+            'affiliate_commission' => round($totalAffiliateCommission, 2),
         ]);
 
-        Cart::destroy();
-        Session::forget(['couponCode', 'discountType', 'amount', 'affiliate_ref']);
+       // dd($request->sub_total, $totalAffiliateCommission,);
+
+        // Clear cart & session data
+        // Cart::destroy();
+        // Session::forget(['couponCode', 'discountType', 'amount', 'affiliate_ref']);
 
         return redirect()->route('checkout.success', $order->invoice_no)->with([
-            'message' => 'Order placed successfully',
+            'message'    => 'Order placed successfully',
             'alert-type' => 'success'
         ]);
     }

@@ -154,7 +154,7 @@ class AffiliateController extends Controller
             $responseGk = Http::withoutVerifying()->get('https://ghorkonnya.com/api/check-affiliateId', [
                 'affiliateId' => $affiliateId
             ]);
-
+ 
             if ($responseGk->successful()) {
                 $data = $responseGk->json();
                 if (isset($data['user']) && $data['user']['status'] == 2) {
@@ -204,8 +204,9 @@ class AffiliateController extends Controller
         $totalReferrals = Order::where('affiliate_id', $affiliate->id)->where('payment_status', 1)->count();
         $totalCommissions = $affiliate->total_earning;
         $pendingReferrals = Order::where('affiliate_id', $affiliate->id)->where('payment_status', 0)->count();
+        $totalEarnings = Order::where('affiliate_id', $affiliate->id)->where('payment_status', 1)->where('delivery_status', 4)->sum('affiliate_commission');
 
-        return view('FrontEnd.affiliate.dashboard', compact('totalReferrals', 'totalCommissions', 'pendingReferrals', 'products', 'affiliate'));
+        return view('FrontEnd.affiliate.dashboard', compact('totalReferrals', 'totalCommissions', 'pendingReferrals','totalEarnings', 'products', 'affiliate'));
     }
 
     public function profile()
