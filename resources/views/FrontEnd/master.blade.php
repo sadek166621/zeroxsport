@@ -188,8 +188,8 @@
     </div>
     @include('FrontEnd.include.script')
 
-    
-    
+
+
 
     @stack('js')
 </body>

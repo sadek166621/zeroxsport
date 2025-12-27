@@ -1,11 +1,10 @@
-
 <style>
     .footer {
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        box-shadow: 0 -5px 20px rgba(0,0,0,0.03);
+        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.03);
         position: relative;
     }
-    
+
     .footer::before {
         content: '';
         position: absolute;
@@ -15,18 +14,19 @@
         height: 3px;
         background: linear-gradient(90deg, #01B45E 0%, #02da72 100%);
     }
-    
-    .footer p, .footer a {
+
+    .footer p,
+    .footer a {
         font-size: 14px !important;
         transition: all 0.4s ease;
         color: #555;
         text-decoration: none;
     }
-    
+
     .footer a:hover {
         color: #01B45E !important;
     }
-    
+
     .footer h4 {
         color: #222;
         font-weight: 600;
@@ -35,7 +35,7 @@
         margin-bottom: 25px;
         font-size: 18px;
     }
-    
+
     .footer h4:after {
         content: '';
         position: absolute;
@@ -46,7 +46,7 @@
         background: #01B45E;
         border-radius: 2px;
     }
-    
+
     .contact-info i {
         width: 35px;
         height: 35px;
@@ -59,24 +59,24 @@
         margin-right: 10px;
         transition: all 0.3s ease;
     }
-    
+
     .contact-info p:hover i {
         background: #01B45E;
         color: white;
     }
-    
+
     .social-links {
         display: flex;
         flex-direction: column;
         gap: 12px;
     }
-    
+
     .social-links a {
         display: inline-flex;
         align-items: center;
         color: #555;
     }
-    
+
     .social-links a i {
         width: 32px;
         height: 32px;
@@ -89,41 +89,41 @@
         transition: all 0.3s ease;
         color: #01B45E;
     }
-    
+
     .social-links a:hover i {
         background: #01B45E;
         color: white;
     }
-    
+
     .payment-section img {
         height: 30px;
         transition: all 0.3s ease;
         filter: grayscale(100%);
         opacity: 0.7;
     }
-    
+
     .payment-section img:hover {
         filter: grayscale(0%);
         opacity: 1;
     }
-    
+
     .copyright {
-        border-top: 1px solid rgba(0,0,0,0.05);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
         padding-top: 25px;
         margin-top: 40px;
     }
-    
+
     .footer-menu {
         display: flex;
         justify-content: flex-end;
         gap: 20px;
     }
-    
+
     .footer-menu a {
         color: #666;
         position: relative;
     }
-    
+
     .footer-menu a:after {
         content: '';
         position: absolute;
@@ -134,7 +134,7 @@
         background: #01B45E;
         transition: all 0.3s ease;
     }
-    
+
     .footer-menu a:hover:after {
         width: 100%;
     }
@@ -150,6 +150,9 @@
         height: auto;
         margin-bottom: 25px;
         transition: all 0.3s ease;
+        background-color: #004134;
+        padding: 8px;
+        border-radius: 8px;
     }
 
 
@@ -158,13 +161,13 @@
             justify-content: center;
             margin-top: 20px;
         }
-        
+
         .payment-section {
             justify-content: center !important;
             margin-top: 20px;
         }
 
-        .copyright{
+        .copyright {
             margin-top: 0;
             padding: 0;
             margin-bottom: 80px;
@@ -203,9 +206,9 @@
                 <div class="quick-links">
                     <a href="@if(Auth::user() && Auth::user()->role == 3) {{route('dashboard')}} @else {{route('login')}} @endif">
                         @if(session()->get('language') == 'bangla')
-                            @if(Auth::user() && Auth::user()->role == 3) ইওর একাউন্ট @else লগইন @endif
+                        @if(Auth::user() && Auth::user()->role == 3) ইওর একাউন্ট @else লগইন @endif
                         @else
-                            @if(Auth::user() && Auth::user()->role == 3) Your Account @else Login @endif
+                        @if(Auth::user() && Auth::user()->role == 3) Your Account @else Login @endif
                         @endif
                     </a>
                     <a href="{{route('seller.apply')}}">
@@ -277,13 +280,13 @@
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start">
                     <p class="mb-md-0">
-                        {{-- &copy; {{date('Y')}} <a href="{{route('home')}}" class="text-primary">{{get_setting('business_name')->value}}</a>. 
+                        {{-- &copy; {{date('Y')}} <a href="{{route('home')}}" class="text-primary">{{get_setting('business_name')->value}}</a>.
                         @if(session()->get('language') == 'bangla') সর্বস্বত্ব সংরক্ষিত @else All Rights Reserved @endif --}}
-                        © Dhaka Central BD || All Rights Reserved || Designed & Developed By 
+                        © Dhaka Central BD || All Rights Reserved || Designed & Developed By
                         <a href="https://ibrahimtechbd.com/" class="text-primary"> Ibrahim Tech BD </a>
                     </p>
                 </div>
-            
+
             </div>
         </div>
     </div>
