@@ -1,6 +1,39 @@
 @extends('FrontEnd.master')
 
 @section('content')
+<style>
+    .navbar {
+        display: none !important;
+    }
+
+    .affiliate-header {
+        background: white;
+        border-radius: 1.25rem;
+        box-shadow: 0 10px 24px rgba(57, 63, 129, 0.08);
+        padding: 1.5rem 2rem;
+    }
+</style>
+<section class="affiliate-header">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <a href="{{ route('affiliate') }}">
+                <img src="{{ asset(get_setting('site_logo')->value) }}" class="logo header-logo" alt="Logo"
+                    style="width: 110px; height: auto;" />
+            </a>
+            <!-- <div class="d-flex align-items-center gap-2">
+                <a href="{{ route('affiliate') }}"
+                    class="btn btn-outline-warning d-sm-none d-inline-block px-3 py-1"
+                    style="font-size: 16px;">Affiliate Account</a>
+                <a href="{{ route('login.affiliate') }}"
+                    class="btn btn-outline-warning d-none d-sm-inline-block px-4 py-2"
+                    style="font-size: 18px;">Affiliate Login</a>
+                <a href="#"
+                    class="btn btn-warning d-none d-sm-inline-block px-4 py-2"
+                    style="font-size: 18px;">Register</a>
+            </div> -->
+        </div>
+    </div>
+</section>
 <section class="py-4" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); min-height: 100vh;">
     <div class="container">
         <div class="row justify-content-center align-items-center" style="min-height: 80vh;">

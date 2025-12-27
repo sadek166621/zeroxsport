@@ -868,5 +868,162 @@ $upload = function ($file, $folder) {
 
 
 
+    public function home_new()
+    {
+
+        // Fetch categories for sidebar
+        $categories = Category::orderBy('name_en', 'ASC')
+            ->where('status', '=', 1)
+            ->where('parent_id', 0)
+            ->limit(15)
+            ->get();
+
+        // Fetch featured categories for top categories section
+        $featured_category = Category::orderBy('name_en', 'DESC')
+            ->where('is_featured', '=', 1)
+            ->where('status', '=', 1)
+            ->limit(15)
+            ->get();
+
+        // Fetch brands for popular brands section
+        $brands = Brand::where('status', 1)->get();
+
+        // Fetch featured products for featured products section
+        $product_featured = Product::where('status', 1)
+            ->where('is_featured', 1)
+            ->latest()
+            ->limit(9)
+            ->get();
+
+        // Fetch campaign for flash sale section
+        $campaign = Campaing::where('status', 1)
+            ->where('is_featured', 1)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Fetch recently added products for latest products section
+        $product_recently_adds = Product::where('status', 1)
+            ->latest()
+            ->limit(8)
+            ->get();
+
+        return view('Frontend_New.home.index', compact('categories', 'featured_category', 'brands', 'product_featured', 'campaign', 'product_recently_adds'));
+    }
+
+    public function productCategories()
+    {
+        // Fetch all categories with status active
+        $categories = Category::where('status', 1)
+            ->orderBy('name_en', 'ASC')
+            ->get();
+
+        // Fetch featured categories
+        $featured_categories = Category::where('status', 1)
+            ->where('is_featured', 1)
+            ->orderBy('name_en', 'ASC')
+            ->get();
+
+        return view('Frontend_New.product.category', compact('categories', 'featured_categories'));
+    }
+
+    public function shop(Request $request)
+    {
+        $query = Product::where('status', 1);
+
+        // Filter by category
+        if ($request->has('category') && $request->category) {
+            $query->where('category_id', $request->category);
+        }
+
+        // Filter by price range
+        if ($request->has('min_price') && $request->min_price) {
+            $query->where('regular_price', '>=', $request->min_price);
+        }
+        if ($request->has('max_price') && $request->max_price) {
+            $query->where('regular_price', '<=', $request->max_price);
+        }
+
+        // Sort by
+        $sort_by = $request->get('sort_by', 'latest');
+        switch ($sort_by) {
+            case 'price-low':
+                $query->orderBy('regular_price', 'asc');
+                break;
+            case 'price-high':
+                $query->orderBy('regular_price', 'desc');
+                break;
+            case 'popular':
+                $query->orderBy('id', 'desc');
+                break;
+            case 'latest':
+            default:
+                $query->latest();
+                break;
+        }
+
+        $products = $query->paginate(12);
+        $categories = Category::orderBy('name_en', 'ASC')->where('status', 1)->get();
+
+        return view('Frontend_New.product.shop', compact('products', 'categories', 'sort_by'));
+    }
+
+    public function productDetailsNew($slug)
+    {
+        $product = Product::where('slug', $slug)->first();
+        
+        if ($product) {
+            if ($product->id) {
+                $multiImg = MultiImg::where('product_id', $product->id)->limit(3)->get();
+            }
+
+            /* ================= Product Color Eng ================== */
+            $color_en = $product->product_color_en;
+            $product_color_en = explode(',', $color_en);
+
+            /* ================= Product Size Eng =================== */
+            $size_en = $product->product_size_en;
+            $product_size_en = explode(',', $size_en);
+
+            /* ================= Related Product =============== */
+            $cat_id = $product->category_id;
+
+            $reviews = Review::where('product_id', $product->id)
+                ->where('status', 1)
+                ->where('verified_purchase', 1)
+                ->get();
+
+            $total_ratings = $reviews->count();
+            $average_rating = $total_ratings > 0 ? $reviews->avg('rating') : 0;
+
+            $ratingCounts = $reviews->groupBy(function ($review) {
+                return (int) $review->rating;
+            })->map->count();
+
+            $formattedCounts = [];
+            foreach ([5, 4, 3, 2, 1] as $star) {
+                $formattedCounts[$star] = $ratingCounts->get($star, 0);
+            }
+
+            $relatedProduct = Product::where('category_id', $cat_id)
+                ->where('id', '!=', $product->id)
+                ->orderBy('id', 'DESC')
+                ->limit(6)
+                ->get();
+
+            $categories = Category::orderBy('name_en', 'ASC')->where('status', '=', 1)->limit(5)->get();
+            $shipping_charge = Shipping::where('type', 1)->first();
+
+            if ($product->product_type == 2) {
+                $group_products = GroupProduct::where('product_id', $product->id)->get();
+            } else {
+                $group_products = [];
+            }
+
+            return view('Frontend_New.product.product_details', compact('group_products', 'shipping_charge', 'product', 'multiImg', 'categories', 'product_color_en', 'product_size_en', 'relatedProduct', 'reviews', 'total_ratings', 'average_rating', 'formattedCounts'));
+        }
+
+        return view('FrontEnd.product.productNotFound');
+    }
+
 }
 

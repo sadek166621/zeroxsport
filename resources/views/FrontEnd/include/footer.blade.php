@@ -214,6 +214,10 @@
                     <a href="{{route('wholeseller.register')}}">
                         @if(session()->get('language') == 'bangla') হোলসেলার হন @else Become a Wholeseller @endif
                     </a>
+                    <a href="{{route('page.affiliate')}}">
+                        @if(session()->get('language') == 'bangla') স্বাধীন বিক্রেতা @else Become an Affiliate @endif
+                    </a>
+
                     <a href="{{route('page.about')}}">
                         @if(session()->get('language') == 'bangla') আমাদের সম্পর্কে @else About Us @endif
                     </a>

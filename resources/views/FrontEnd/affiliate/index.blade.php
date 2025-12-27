@@ -1,549 +1,1080 @@
 @extends('FrontEnd.master')
 @section('content')
+
+{{-- Hide the header --}}
 <style>
-    /* Modern, clean, and attractive styles */
-    body {
-        background: #f8fafc;
+    .navbar {
+        display: none;
     }
 
-    .affiliate-hero {
-        color: #fff;
-        padding: 80px 0 60px 0;
+    /* ========== CUSTOM HEADER ========== */
+    .affiliate-header {
+        background: white;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95);
+        width: 100%;
+    }
+
+    .header-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 75px;
+        gap: 30px;
+        position: relative;
+    }
+
+    .header-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        font-size: 22px;
+        font-weight: 700;
+        color: #2d3748;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+    }
+
+    .header-logo:hover {
+        transform: scale(1.05);
+    }
+
+    .logo-icon {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        font-weight: 700;
+        box-shadow: 0 4px 12px rgba(238, 89, 42, 0.3);
+    }
+
+    .header-nav {
+        display: flex;
+        gap: 35px;
+        align-items: center;
+        flex: 1;
+        margin: 0 20px;
+    }
+
+    .nav-link {
+        color: #718096;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .nav-link:hover {
+        color: #EE592A;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #EE592A;
+        transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+        width: 100%;
+    }
+
+    .header-auth {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .nav-btn {
+        padding: 10px 18px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .nav-btn.login {
+        color: #718096;
+        background: transparent;
+        border: 1.5px solid #e2e8f0;
+    }
+
+    .nav-btn.login:hover {
+        color: #EE592A;
+        border-color: #EE592A;
+        background: rgba(238, 89, 42, 0.05);
+    }
+
+    .nav-btn.register,
+    .nav-btn.dashboard {
+        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(238, 89, 42, 0.3);
+    }
+
+    .nav-btn.register:hover,
+    .nav-btn.dashboard:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(238, 89, 42, 0.4);
+    }
+
+    .header-cta {
+        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        color: white;
+        padding: 12px 28px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .header-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(238, 89, 42, 0.3);
+    }
+
+    .mobile-menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .mobile-menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background: #2d3748;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(10px, 10px);
+    }
+
+    .mobile-menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 75px;
+        left: 0;
+        right: 0;
+        background: white;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+        padding: 20px;
+        gap: 10px;
+        z-index: 998;
+        max-height: calc(100vh - 75px);
+        overflow-y: auto;
+        border-top: 1px solid #e2e8f0;
+        width: 100%;
+    }
+
+    .mobile-menu.active {
+        display: flex;
+    }
+
+    .mobile-menu .nav-link {
+        padding: 12px 15px;
+        display: block;
+        color: #718096;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-menu .nav-link:hover {
+        background: rgba(238, 89, 42, 0.1);
+        color: #EE592A;
+    }
+
+    .mobile-menu .nav-link::after {
+        display: none;
+    }
+
+    .mobile-menu-auth {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-top: 15px;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 10px;
+    }
+
+    .mobile-menu .nav-btn {
+        width: 100%;
+        text-align: center;
+        padding: 12px 18px;
+    }
+
+    .mobile-menu .nav-btn.login {
+        color: #718096;
+        border: 1.5px solid #e2e8f0;
+    }
+
+    /* ========== RESPONSIVE HEADER ========== */
+    @media (max-width: 768px) {
+        .header-container {
+            height: 65px;
+            gap: 15px;
+        }
+
+        .header-nav {
+            display: none;
+        }
+
+        .header-auth {
+            display: none;
+        }
+
+        .mobile-menu-toggle {
+            display: flex;
+        }
+
+        .mobile-menu {
+            top: 65px;
+        }
+
+        .header-logo {
+            font-size: 18px;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero {
+        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
         position: relative;
         overflow: hidden;
-        background: linear-gradient(120deg, #ff914d 0%, #ffb86c 100%),
-        url('{{ asset(' FrontEnd/assets/img/affiliate-banner.png') }}') center/cover no-repeat;
-        
+        color: white;
+        text-align: center;
+        padding: 40px 20px;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .affiliate-hero .overlay {
+
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+    }
+
+    .hero h1 {
+        font-size: 56px;
+        margin-bottom: 25px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        animation: slideInDown 0.8s ease;
+    }
+
+    .hero .subtitle {
+        font-size: 22px;
+        margin-bottom: 40px;
+        opacity: 0.95;
+        font-weight: 300;
+        line-height: 1.6;
+        animation: slideInUp 0.8s ease 0.2s both;
+    }
+
+    .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin-bottom: 50px;
+        animation: fadeIn 1s ease 0.4s both;
+    }
+
+    .stat {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 25px;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .stat-number {
+        font-size: 32px;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        opacity: 0.9;
+        font-weight: 500;
+    }
+
+    .cta-button {
+        background: white;
+        color: #EE592A;
+        padding: 16px 45px;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(238, 89, 42, 0.3);
+        animation: slideInUp 0.8s ease 0.3s both;
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(245, 87, 108, 0.4);
+    }
+
+    .cta-button-secondary {
+        background: transparent;
+        border: 2px solid white;
+        color: white;
+        padding: 14px 40px;
+        margin-left: 15px;
+    }
+
+    .cta-button-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* ========== SECTIONS ========== */
+    section {
+        padding: 40px 20px;
+        position: relative;
+    }
+
+    section h2 {
+        font-size: 40px;
+        margin-bottom: 15px;
+        color: #2d3748;
+        font-weight: 700;
+    }
+
+    section>p {
+        font-size: 18px;
+        color: #718096;
+        margin-bottom: 50px;
+    }
+
+    /* ========== BENEFITS SECTION ========== */
+    .benefits {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        max-width: 1300px;
+        margin: 0 auto;
+    }
+
+    .benefit {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border-left: 4px solid #EE592A;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .benefit::before {
+        content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.35);
-        z-index: 1;
+        background: linear-gradient(135deg, rgba(238, 89, 42, 0.1) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
 
-    .affiliate-hero-content {
-        position: relative;
-        z-index: 2;
+    .benefit:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
     }
 
-    .affiliate-hero h1 {
-        font-size: 2.8rem;
-        font-weight: 700;
-        margin-bottom: 18px;
-        letter-spacing: -1px;
+    .benefit:hover::before {
+        opacity: 1;
     }
 
-    .affiliate-hero p {
-        font-size: 1.2rem;
-        margin-bottom: 32px;
-        color: #fff;
-    }
-
-    .affiliate-cta-btn {
-        background: #fff;
-        color: #ff914d;
-        border: none;
-        font-weight: 600;
-        font-size: 1.1rem;
-        padding: 14px 36px;
-        border-radius: 30px;
-        box-shadow: 0 4px 24px rgba(255, 145, 77, 0.15);
-        transition: background 0.2s, color 0.2s;
-    }
-
-    .affiliate-cta-btn:hover {
-        background: #ff914d;
-        color: #fff;
-    }
-
-    .play {
-        
-        margin-left: 10px;
-    }
-
-    .affiliate-card {
-        background: #fff;
-        border-radius: 18px;
-        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
-        padding: 32px 24px;
-        margin-bottom: 32px;
-        transition: box-shadow 0.2s;
-        min-height: 200px;
-    }
-
-    .affiliate-card:hover {
-        box-shadow: 0 8px 32px rgba(255, 145, 77, 0.12);
-    }
-
-    .affiliate-card .icon {
-        font-size: 2.5rem;
-        color: #ff914d;
-        margin-bottom: 18px;
-    }
-
-    .affiliate-section-title {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 18px;
-        color: #222;
-    }
-
-    .affiliate-feature-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 24px;
-        justify-content: center;
-    }
-
-    .affiliate-feature {
-        flex: 1 1 220px;
-        min-width: 220px;
-        background: linear-gradient(120deg, #fff2e7 0%, #ffe5d0 100%);
-        border-radius: 14px;
-        padding: 24px 18px;
-        text-align: center;
-        box-shadow: 0 2px 12px rgba(255, 145, 77, 0.08);
-        margin-bottom: 0;
-    }
-
-    .affiliate-feature .icon {
-        font-size: 2rem;
-        color: #ff914d;
-        margin-bottom: 10px;
-    }
-
-    .affiliate-skills {
-        background: linear-gradient(120deg, #e7f6f8 0%, #f0ecf9 100%);
-        border-radius: 18px;
-        padding: 40px 24px;
-        margin-top: 40px;
-    }
-
-    .affiliate-skill-card {
-        background: #fff;
-        border-radius: 12px;
-        padding: 18px 14px;
-        margin-bottom: 18px;
-        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
-        text-align: center;
-    }
-
-    .affiliate-skill-card .icon {
-        font-size: 2rem;
-        margin-bottom: 8px;
-    }
-
-    .affiliate-video-btn {
-        background: rgba(255, 255, 255, 0.15);
-        border: 2px solid #fff;
-        color: #fff;
-        border-radius: 50px;
-        width: 160px;
+    .benefit-icon {
+        width: 60px;
         height: 60px;
+        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
-        cursor: pointer;
-        transition: background 0.2s;
+        font-size: 28px;
+        margin-bottom: 20px;
     }
 
-    .affiliate-video-btn:hover {
-        background: #fff;
-        color: #ff914d;
+    .benefit h3 {
+        color: #2d3748;
+        font-size: 22px;
+        margin-bottom: 15px;
+        font-weight: 600;
     }
 
-    @media (max-width: 767px) {
-        .affiliate-hero h1 {
-            font-size: 2rem;
-        }
-
-        .affiliate-section-title {
-            font-size: 1.3rem;
-        }
-
-        .affiliate-card {
-            min-height: unset;
-        }
+    .benefit p {
+        color: #718096;
+        font-size: 15px;
+        line-height: 1.6;
     }
 
-    /* FAQ */
-    .affiliate-faq-section {
-        background: #fff;
-        border-radius: 18px;
-        box-shadow: 0 2px 16px rgba(255, 145, 77, 0.07);
-        padding: 48px 32px;
-    }
-    .affiliate-faq-title {
-        font-size: 2rem;
-        font-weight: 700;
-        /* color: #ff914d; */
-        margin-bottom: 32px;
-    }
-    .affiliate-faq-accordion {
-        /* max-width: 800px; */
+    /* ========== STEPS SECTION ========== */
+    .steps {
+        max-width: 1300px;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-    }
-    .affiliate-faq-item {
-        border: none;
-        border-radius: 14px;
-        margin-bottom: 18px;
-        background: linear-gradient(120deg, #fff2e7 0%, #ffe5d0 100%);
-        box-shadow: 0 2px 12px rgba(255, 145, 77, 0.08);
-        overflow: hidden;
-        transition: box-shadow 0.2s;
-    }
-    .affiliate-faq-item .accordion-button {
-        background: none;
-        border: none;
-        font-size: 1.15rem;
-        font-weight: 600;
-        color: #ff914d;
-        padding: 18px 24px;
-        box-shadow: none;
-        outline: none;
-        transition: background 0.2s, color 0.2s;
-    }
-    .affiliate-faq-item .accordion-button:not(.collapsed) {
-        background: #ff914d;
-        color: #fff;
-    }
-    .affiliate-faq-item .accordion-button:after {
-        font-family: "Font Awesome 5 Free";
-        content: "\f078";
-        font-weight: 900;
-        float: right;
-        margin-left: auto;
-        transition: transform 0.2s;
-    }
-    .affiliate-faq-item .accordion-button:not(.collapsed):after {
-        transform: rotate(-180deg);
-    }
-    .affiliate-faq-item .accordion-body {
-        background: #fff;
-        color: #444;
-        padding: 18px 24px 24px 24px;
-        border-top: 1px solid #ffe5d0;
-        font-size: 1rem;
-    }
-    @media (max-width: 767px) {
-        .affiliate-faq-section {
-            padding: 24px 8px;
-        }
-        .affiliate-faq-title {
-            font-size: 1.3rem;
-        }
-        .affiliate-faq-item .accordion-button,
-        .affiliate-faq-item .accordion-body {
-            padding: 12px 10px;
-        }
-    }
-</style>
-
-{{-- Hide the header --}}
-<style>
-    header,
-    .site-header,
-    .main-header {
-        display: none !important;
-    }
-</style>
-
-{{-- HEADER --}}
-<style>
-    .affiliate-header {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(8px);
-        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
-        padding: 0.7rem 0;
-        transition: background 0.2s;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 30px;
+        position: relative;
     }
 
-    .affiliate-header .logo {
+    .step {
+        background: white;
+        padding: 35px 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        transition: all 0.3s ease;
+        counter-increment: step-counter;
+        position: relative;
+    }
+
+    .step::before {
+        content: counter(step-counter);
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
         height: 50px;
-        width: auto;
-        border-radius: 8px;
-        background: #fff;
-        box-shadow: 0 2px 8px rgba(255, 145, 77, 0.07);
-        padding: 2px 8px;
+        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 24px;
+        box-shadow: 0 5px 15px rgba(238, 89, 42, 0.3);
     }
 
-    .affiliate-header .nav-btn {
-        border: 1.5px solid #ff914d;
-        background: #fff;
-        color: #ff914d;
+    .step:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .step h3 {
+        color: #2d3748;
+        font-size: 20px;
+        margin-bottom: 15px;
+        margin-top: 15px;
         font-weight: 600;
-        border-radius: 24px;
-        padding: 8px 22px;
-        font-size: 1rem;
+    }
+
+    .step p {
+        color: #718096;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .steps {
+        counter-reset: step-counter;
+    }
+
+    /* ========== COMMISSION TABLE ========== */
+    .table-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    th {
+        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        color: white;
+        padding: 20px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    td {
+        padding: 18px 20px;
+        border-bottom: 1px solid #e2e8f0;
+        color: #4a5568;
+        font-size: 15px;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    tr:hover {
+        background: #f7fafc;
+    }
+
+    /* ========== TESTIMONIALS SECTION ========== */
+    .testimonials {
+        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        color: white;
+    }
+
+    .testimonials h2 {
+        color: white;
+    }
+
+    .testimonials-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .testimonial {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .testimonial:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .testimonial p {
+        font-size: 16px;
+        margin-bottom: 20px;
+        line-height: 1.8;
+        font-style: italic;
+    }
+
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .author-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+    }
+
+    .author-info strong {
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    .author-info small {
+        opacity: 0.8;
+    }
+
+    /* ========== FAQ SECTION ========== */
+    .faq {
+        max-width: 900px;
+        margin: 0 auto;
+        text-align: left;
+    }
+
+    .faq details {
+        margin-bottom: 20px;
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border-left: 4px solid #EE592A;
+        transition: all 0.3s ease;
+    }
+
+    .faq details:hover {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .faq details[open] {
+        background: #f7fafc;
+    }
+
+    .faq summary {
+        color: #2d3748;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .faq summary::after {
+        content: '→';
+        transition: transform 0.3s ease;
         margin-left: 10px;
-        transition: background 0.2s, color 0.2s;
-        box-shadow: 0 2px 8px rgba(255, 145, 77, 0.07);
-        text-decoration: none;
-        display: inline-block;
     }
 
-    .affiliate-header .nav-btn:hover,
-    .affiliate-header .nav-btn.active {
-        background: #ff914d;
-        color: #fff;
+    .faq details[open] summary::after {
+        transform: rotate(90deg);
     }
 
-    @media (max-width: 767px) {
-        .affiliate-header .nav-btn {
-            padding: 7px 12px;
-            font-size: 0.95rem;
-            margin-left: 6px;
+    .faq details p {
+        margin-top: 15px;
+        color: #718096;
+        line-height: 1.7;
+    }
+
+    /* ========== SIGNUP SECTION ========== */
+    #signup {
+        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        color: white;
+        text-align: center;
+        padding: 100px 20px;
+    }
+
+    #signup h2 {
+        color: white;
+        font-size: 48px;
+    }
+
+    #signup p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 20px;
+        margin-bottom: 40px;
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
         }
 
-        .affiliate-header .logo {
-            height: 28px;
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
     }
-    
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+        .hero {
+            padding: 20px 10px;
+            min-height: auto;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+        }
+
+        .hero .subtitle {
+            font-size: 18px;
+        }
+
+        .hero-stats {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .cta-button-secondary {
+            margin-left: 0;
+            display: block;
+            margin-top: 15px;
+        }
+
+        section h2 {
+            font-size: 32px;
+        }
+
+        .benefit {
+            padding: 30px 20px;
+        }
+
+        table {
+            font-size: 13px;
+        }
+
+        th,
+        td {
+            padding: 15px 10px;
+        }
+
+        #signup h2 {
+            font-size: 36px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero h1 {
+            font-size: 28px;
+        }
+
+        .hero .subtitle {
+            font-size: 16px;
+        }
+
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+        }
+
+        section {
+            padding: 20px 15px;
+        }
+    }
 </style>
-<section class="affiliate-header">
-    <div class="container">
-        <div class="d-flex align-items-center justify-content-between">
-            <a href="{{ route('home') }}">
-                <img src="{{ asset(get_setting('site_logo')->value) }}" class="logo" alt="Logo" />
-            </a>
 
+<!-- Custom Header -->
+<header class="affiliate-header">
+    <div class="header-container">
+        <a href="#" class="header-logo">
+            <div class="logo-icon">A</div>
+            <span>Affiliate Hub</span>
+        </a>
+        <nav class="header-nav">
+            <a href="#benefits" class="nav-link">Benefits</a>
+            <a href="#how-it-works" class="nav-link">How It Works</a>
+            <a href="#commissions" class="nav-link">Commissions</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+        </nav>
+        <div class="header-auth">
             @auth('affiliate')
-                <a href="{{ route('affiliate.dashboard') }}" class="nav-btn{{ request()->routeIs('affiliate.dashboard') ? ' active' : '' }}">
+                <a href="{{ route('affiliate.dashboard') }}" class="nav-btn dashboard">
                     Dashboard
                 </a>
             @endauth
 
-            @guest('affiliate') 
-            <div class="d-flex align-items-center">
-                <a href="{{ route('login.affiliate') }}" class="nav-btn{{ request()->routeIs('login.affiliate') ? ' active' : '' }}">
-                    Affiliate Login
+            @guest('affiliate')
+                <a href="{{ route('login.affiliate') }}" class="nav-btn login">
+                    Login
                 </a>
-                <a href="{{ route('register.affiliate') }}" class="nav-btn{{ request()->routeIs('register.affiliate') ? ' active' : '' }}" style="margin-left:14px;">
+                <a href="{{ route('register.affiliate') }}" class="nav-btn register">
                     Register
                 </a>
-            </div>
             @endguest
+        </div>
+        @auth('affiliate')
+                <a href="{{ route('affiliate.dashboard') }}" class="nav-btn dashboard">
+                    Dashboard
+                </a>
+            @endauth
 
+            @guest('affiliate')
+                <a href="{{ route('login.affiliate') }}" class="nav-btn login">
+                    Login
+                </a>
+            @endguest
+    </div>
+    
+    <!-- Mobile Menu -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="#benefits" class="nav-link">Benefits</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#commissions" class="nav-link">Commissions</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        
+        <div class="mobile-menu-auth">
+            @auth('affiliate')
+                <a href="{{ route('affiliate.dashboard') }}" class="nav-btn dashboard">
+                    Dashboard
+                </a>
+            @endauth
+
+            @guest('affiliate')
+                <a href="{{ route('login.affiliate') }}" class="nav-btn login">
+                    Login
+                </a>
+                <a href="{{ route('register.affiliate') }}" class="nav-btn register">
+                    Register
+                </a>
+            @endguest
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Join Our Elite Affiliate Network</h1>
+        <p class="subtitle">Partner with us and unlock unlimited earning potential. Turn your audience into passive income.</p>
+
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number">15,000+</span>
+                <span class="stat-label">Active Affiliates</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">$2.5M+</span>
+                <span class="stat-label">Paid Out</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">up to 15%</span>
+                <span class="stat-label">Commission Rate</span>
+            </div>
+        </div>
+
+        <div>
+            <a href="#signup" class="cta-button">Start Earning Today</a>
+            <a href="#how-it-works" class="cta-button cta-button-secondary">Learn More</a>
         </div>
     </div>
 </section>
 
-{{-- HERO SECTION --}}
-<section class="affiliate-hero">
-    <div class="overlay"></div>
-    <div class="container affiliate-hero-content">
-        <div class="row align-items-center">
-            <div class="col-md-7 text-center text-md-left">
+<section id="benefits">
+    <h2>Why Partner With Us?</h2>
+    <p>Experience industry-leading benefits designed to help you succeed</p>
+    <div class="benefits">
+        <div class="benefit">
+            <div class="benefit-icon">💰</div>
+            <h3>Competitive Commissions</h3>
+            <p>Earn industry-leading commissions up to 15% on every sale you refer. Higher tier rates available for top performers.</p>
+        </div>
+        <div class="benefit">
+            <div class="benefit-icon">🛠️</div>
+            <h3>Powerful Tools & Resources</h3>
+            <p>Access our comprehensive suite of marketing materials, banners, templates, and promotional content to maximize conversions.</p>
+        </div>
+        <div class="benefit">
+            <div class="benefit-icon">📊</div>
+            <h3>Real-Time Analytics Dashboard</h3>
+            <p>Track your clicks, conversions, and earnings in real-time with our intuitive, detailed performance dashboard.</p>
+        </div>
+        <div class="benefit">
+            <div class="benefit-icon">🎯</div>
+            <h3>Dedicated Support Team</h3>
+            <p>Get personalized assistance from our expert support team available 24/7 to help you optimize your performance.</p>
+        </div>
+        <div class="benefit">
+            <div class="benefit-icon">⚡</div>
+            <h3>Fast & Reliable Payouts</h3>
+            <p>Receive timely payments via PayPal, bank transfer, or cryptocurrency. No minimum payout threshold.</p>
+        </div>
+        <div class="benefit">
+            <div class="benefit-icon">🌐</div>
+            <h3>Global Network</h3>
+            <p>Join thousands of successful affiliates across the globe and become part of our thriving community.</p>
+        </div>
+    </div>
+</section>
 
-                <h1>আপনার ক্যারিয়ারকে উন্নত করুন এবং টাকা আর্ন করুন</h1>
-                <p>আমাদের অ্যাফিলিয়েট প্রোগ্রামে যোগ দিন, পণ্য প্রমোট করুন এবং ঘরে বসেই কমিশন অর্জন করুন। শুরু করুন আজই!</p>
-                <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <a href="{{ route('register.affiliate') }}" class="affiliate-cta-btn me-2 mb-2">Get Started</a>
+<section id="how-it-works">
+    <h2>How It Works</h2>
+    <p style="display: flex; align-items: center; justify-content: center;">Get started in four simple steps</p>
+    <div class="steps">
+        <div class="step">
+            <h3>Sign Up</h3>
+            <p>Complete our quick and easy application form. Approval typically takes 24-48 hours.</p>
+        </div>
+        <div class="step">
+            <h3>Get Your Links</h3>
+            <p>Receive unique affiliate links and promotional materials tailored to your marketing channels.</p>
+        </div>
+        <div class="step">
+            <h3>Start Promoting</h3>
+            <p>Share your links across your blog, social media, email list, website, or any other platform.</p>
+        </div>
+        <div class="step">
+            <h3>Earn Commissions</h3>
+            <p>Get paid for every sale generated through your referral links. Payouts every month.</p>
+        </div>
+    </div>
+</section>
 
-                    <button class="affiliate-video-btn ms-2 mb-2" onclick="showPopup()">
-                        <i class="fas fa-play"><span class="play">PLAY</span></i>
-                    </button>
+
+<section class="testimonials">
+    <h2>What Our Top Affiliates Say</h2>
+    <div class="testimonials-grid">
+        <div class="testimonial">
+            <p>"This program has transformed my side hustle into a consistent income stream. The support team is incredibly responsive and helpful!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">JD</div>
+                <div class="author-info">
+                    <strong>Jane D.</strong>
+                    <small>Blog Owner, 50K+ monthly traffic</small>
                 </div>
             </div>
-            <div class="col-md-5 d-none d-md-block text-center">
-                <img src="https://www.searchenginejournal.com/wp-content/uploads/2021/10/a-guide-to-starting-with-amazons-affiliate-program-3-617254c961bce-sej.png" alt="Affiliate Banner" style="width: 100%;  border-radius: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.08);">
-            </div>
         </div>
-    </div>
-</section>
-
-{{-- HOW IT WORKS --}}
-<section class="container py-5">
-    <h2 class="affiliate-section-title text-center mb-4">কিভাবে কাজ করে?</h2>
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="affiliate-card text-center">
-                <div class="icon"><i class="fas fa-user-plus"></i></div>
-                <h4 class="fw-bold mb-2">১. রেজিস্ট্রেশন করুন</h4>
-                <p>সহজেই কয়েকটি ধাপে রেজিস্ট্রেশন করে যুক্ত হয়ে যান অ্যাফিলিয়েশন প্রোগ্রামে।</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="affiliate-card text-center">
-                <div class="icon"><i class="fas fa-share-alt"></i></div>
-                <h4 class="fw-bold mb-2">২. প্রোমোট করুন</h4>
-                <p>আপনার অ্যাফিলিয়েট লিংক ও কন্টেন্ট শেয়ার করুন বিভিন্ন প্ল্যাটফর্মে।</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="affiliate-card text-center">
-                <div class="icon"><i class="fas fa-coins"></i></div>
-                <h4 class="fw-bold mb-2">৩. আয় করুন</h4>
-                <p>প্রোডাক্ট বিক্রির মাধ্যমে পেয়ে যান মূল্যের ১৫% পর্যন্ত কমিশন!</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- WHY CHOOSE US --}}
-<section class="py-3" style="background: linear-gradient(120deg, #fff2e7 0%, #e7f6f8 100%);">
-    <div class="container">
-        <h2 class="affiliate-section-title text-center mb-5">কেন আমাদের অ্যাফিলিয়েট প্রোগ্রাম বেছে নিবেন?</h2>
-        <div class="affiliate-feature-list">
-            <div class="affiliate-feature">
-                <div class="icon"><i class="fas fa-home"></i></div>
-                <h5 class="fw-bold mb-2">ঘরে বসে আয়ের সুযোগ</h5>
-                <p>বিক্রির মাধ্যমে ঘরে বসেই প্রতিমাসে ২৫-৫০ হাজার+ টাকা উপার্জনের সুযোগ।</p>
-            </div>
-            <div class="affiliate-feature">
-                <div class="icon"><i class="fas fa-box-open"></i></div>
-                <h5 class="fw-bold mb-2">চমৎকার প্রোডাক্টস ও কন্টেন্টস</h5>
-                <p>১০০+ স্কিল ও একাডেমিক কোর্স থেকে নিজের প্ল্যাটফর্ম অনুসারে প্রোডাক্ট প্রোমোশনের সুযোগ।</p>
-            </div>
-            <div class="affiliate-feature">
-                <div class="icon"><i class="fas fa-chalkboard-teacher"></i></div>
-                <h5 class="fw-bold mb-2">লার্নিং ও ট্রেনিং সেশন</h5>
-                <p>ডিজিটাল মার্কেটিং ও সেলস টেকনিক শিখে দক্ষ অ্যাফিলিয়েট হওয়ার সুযোগ।</p>
-            </div>
-            <div class="affiliate-feature">
-                <div class="icon"><i class="fas fa-gift"></i></div>
-                <h5 class="fw-bold mb-2">লেভেল ওয়াইজ কমিশন</h5>
-                <p>বিভিন্ন ক্যাম্পেইনে অংশগ্রহণ করে জিতে নিন আকর্ষণীয় গিফট ও পুরস্কার।</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- SKILLS SECTION --}}
-<section class="container affiliate-skills mt-5">
-    <h2 class="affiliate-section-title text-center mb-4">অ্যাফিলিয়েশনের জন্য প্রয়োজনীয় <span class="text-warning">স্কিলস্</span></h2>
-    <div class="row justify-content-center">
-        <div class="col-md-3 col-6">
-            <div class="affiliate-skill-card">
-                <div class="icon"><i class="fas fa-pencil-ruler" style="color:#ff914d;"></i></div>
-                <h6 class="fw-bold mb-1">কন্টেন্ট ক্রিয়েটর</h6>
-                <p style="font-size: 14px;">ব্লগ, ইউটিউব, পডকাস্ট ও সোশ্যাল মিডিয়াতে কন্টেন্ট তৈরির অভিজ্ঞতা।</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="affiliate-skill-card">
-                <div class="icon"><i class="fas fa-graduation-cap" style="color:#17A2B8;"></i></div>
-                <h6 class="fw-bold mb-1">এডুকেশন ও ট্রেইনিং</h6>
-                <p style="font-size: 14px;">অনলাইন এডুকেশন সেক্টরে কাজ করার আগ্রহ।</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="affiliate-skill-card">
-                <div class="icon"><i class="fas fa-bullhorn" style="color:#0CBC87;"></i></div>
-                <h6 class="fw-bold mb-1">ডিজিটাল মার্কেটার</h6>
-                <p style="font-size: 14px;">অনলাইন ট্র্যাফিক ও কাস্টমার কনভার্সন নিয়ে কাজের অভিজ্ঞতা।</p>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="affiliate-skill-card">
-                <div class="icon"><i class="fas fa-ad" style="color:#6F42C1;"></i></div>
-                <h6 class="fw-bold mb-1">পেইড মার্কেটিং স্পেশালিষ্ট</h6>
-                <p style="font-size: 14px;">Google, Facebook, YouTube Ads-এ ক্যাম্পেইন পরিচালনার অভিজ্ঞতা।</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- VIDEO POPUP --}}
-<section id="videoPopup" class="w-100 popup-youtube-video-section d-none"
-    style="height: 100vh; position: fixed; background-color: #31313199; top: 0; left: 0; z-index: 999;">
-    <div class="d-flex align-items-center justify-content-center w-100" style="height: 100%;">
-        <div class="position-relative affiliate-video-popup" style="max-width: 700px; width: 90%;">
-            <iframe width="100%" height="400" src="https://www.youtube.com/embed/S284KSgOWRU?si=H8Zl7tJeR84QB8kl"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <button type="button" class="btn-close position-absolute start-0" aria-label="Close"
-                onclick="closePopup()" style="top: -18px; left: -18px; background: #fff; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-times" style="font-size: 22px; color: #ff914d;"></i>
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- FAQ -->
-<section class="affiliate-faq-section">
-    <div class="container px-2 px-md-5">
-        <h2 class="affiliate-faq-title text-center mb-4">প্রশ্ন ও উত্তর</h2>
-        <div class="affiliate-faq-accordion accordion" id="faqAccordion">
-            <div class="accordion-item affiliate-faq-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        অ্যাফিলিয়েট প্রোগ্রাম কি?
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show"
-                    aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        আমাদের অ্যাফিলিয়েট প্রোগ্রাম আপনাকে আমাদের পণ্য ও সার্ভিস প্রোমোট করে কমিশন
-                        উপার্জনের সুযোগ দেয়。
-                    </div>
+        <div class="testimonial">
+            <p>"The dashboard is intuitive, payouts are reliable, and the commission rates are the best I've seen in the industry. Highly recommended!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">JS</div>
+                <div class="author-info">
+                    <strong>John S.</strong>
+                    <small>Content Creator, YouTube Channel</small>
                 </div>
             </div>
-            <div class="accordion-item affiliate-faq-item">
-                <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        কিভাবে রেজিস্টার করব?
-                    </button>
-                </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse"
-                    aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        রেজিস্ট্রেশনের জন্য আমাদের ওয়েবসাইটে গিয়ে ফর্ম পূরণ করুন এবং সাবমিট করুন。
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item affiliate-faq-item">
-                <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        কমিশন কিভাবে পাব?
-                    </button>
-                </h2>
-                <div id="collapseThree" class="accordion-collapse collapse"
-                    aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        বিক্রির পর আপনার অ্যাকাউন্টে কমিশন জমা হবে। আপনি মাস শেষে পেমেন্ট রিকোয়েস্ট করতে পারবেন。
-                    </div>  
-                </div>
-            </div>
-            <div class="accordion-item affiliate-faq-item">
-                <h2 class="accordion-header" id="headingFour">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        কি ধরনের প্রোডাক্ট প্রোমোট করতে পারব?
-                    </button>
-                </h2>
-                <div id="collapseFour" class="accordion-collapse collapse"
-                    aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        আপনি আমাদের বিভিন্ন স্কিল ও একাডেমিক কোর্স, ডিজিটাল প্রোডাক্টস ইত্যাদি প্রোমোট করতে পারবেন。
-                    </div>
+        </div>
+        <div class="testimonial">
+            <p>"Started as a side project, now it's my primary income source. Great commission rates and an amazing community of fellow affiliates."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">MC</div>
+                <div class="author-info">
+                    <strong>Maria C.</strong>
+                    <small>Social Media Influencer</small>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<section id="faq" class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <details>
+        <summary>What is the cookie duration for my referral links?</summary>
+        <p>Our cookie duration is 30 days. This means if a user clicks your affiliate link and makes a purchase within 30 days, you'll earn the commission.</p>
+    </details>
+    <details>
+        <summary>How are commissions calculated and paid?</summary>
+        <p>Commissions are calculated automatically based on the product category. Payments are processed monthly and can be sent via PayPal, direct bank transfer, or cryptocurrency. You'll receive your payment within 5-10 business days after the month ends.</p>
+    </details>
+    <details>
+        <summary>Is there a minimum payout threshold?</summary>
+        <p>No! There's no minimum payout threshold. You can request payment as soon as you have earned commissions, with no waiting period required.</p>
+    </details>
+    <details>
+        <summary>What marketing materials are available?</summary>
+        <p>We provide a comprehensive library of marketing assets including banner ads (various sizes), product images, email templates, social media graphics, and more. All materials are optimized for conversions.</p>
+    </details>
+    <details>
+        <summary>Can I promote using paid advertising?</summary>
+        <p>Yes! You can use PPC, Facebook Ads, Google Ads, and other paid channels. However, we prohibit bidding on branded keywords. Our team can help you develop compliant campaigns.</p>
+    </details>
+    <details>
+        <summary>How do I track my performance?</summary>
+        <p>Your personal affiliate dashboard provides real-time tracking of clicks, conversions, revenue, and pending commissions. You can filter data by date range, product category, or traffic source.</p>
+    </details>
+    <details>
+        <summary>What is your approval timeline?</summary>
+        <p>Most applications are reviewed and approved within 24-48 hours. Our team reviews your application to ensure quality and brand alignment.</p>
+    </details>
+    <details>
+        <summary>Can I earn higher commissions?</summary>
+        <p>Yes! We reward top performers with higher commission rates and exclusive bonuses. Reach out to your account manager to discuss tiered performance incentives.</p>
+    </details>
+</section>
+
+<section id="signup">
+    <h2>Ready to Start Earning?</h2>
+    <p>Join thousands of successful affiliates and turn your audience into income</p>
+    <a href="signup-form.html" class="cta-button">Apply to Our Program</a>
+</section>
+
+@endsection
 
 <script>
-    function showPopup() {
-        document.getElementById('videoPopup').classList.remove('d-none');
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = mobileMenu.querySelectorAll('.nav-link, .nav-btn');
 
-    function closePopup() {
-        document.getElementById('videoPopup').classList.add('d-none');
-    }
+        // Toggle menu on button click
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileMenuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.affiliate-header')) {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+    });
 </script>
-@endsection

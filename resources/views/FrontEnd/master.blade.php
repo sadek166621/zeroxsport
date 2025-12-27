@@ -8,7 +8,10 @@
     <title>{{get_setting('business_name')->value}} | @yield('title')</title>
     <!-- Add this in your <head> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
     <link rel="shortcut icon" href="{{asset(get_setting('site_favicon')->value ?? '')}}" type="image/x-icon">
+
+
     @include('FrontEnd.include.style')
 
 
@@ -20,21 +23,17 @@
     @include('FrontEnd.include.header')
     <!-- Header Part End -->
 
-    <!-- Body Part Start -->
+
     <main>
         @yield('content')
     </main>
-    <!-- Body Part End -->
-    <!-- Quick view -->
+
 
 
     <!-- Footer Start -->
     @include('FrontEnd.include.footer')
     <!-- Footer End -->
-    <!-- Back to Top -->
-    <!-- <a href="#" style="display: inline-block;" class="btn btn-primary btn-square back-to-top display-tp"><i
-            class="fa fa-arrow-up"></i></a> -->
-    <!-- End Back to Top -->
+
     <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -188,6 +187,10 @@
         </div>
     </div>
     @include('FrontEnd.include.script')
+
+    
+    
+
     @stack('js')
 </body>
 

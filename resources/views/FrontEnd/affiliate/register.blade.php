@@ -7,6 +7,10 @@
         min-height: 100vh;
     }
 
+    .navbar {
+        display: none !important;
+    }
+
     .affiliate-header {
         background: #fff;
         border-radius: 1.25rem;
@@ -22,6 +26,7 @@
         overflow: hidden;
         transition: box-shadow 0.2s;
     }
+
     .affiliate-card:hover {
         box-shadow: 0 12px 40px rgba(57, 63, 129, 0.14);
     }
@@ -34,6 +39,7 @@
         filter: brightness(0.97);
         transition: filter 0.2s;
     }
+
     .affiliate-img:hover {
         filter: brightness(1);
     }
@@ -87,6 +93,7 @@
         border-radius: 0.75rem;
         transition: background 0.2s, color 0.2s, border-color 0.2s;
     }
+
     .btn-outline-warning:hover,
     .btn-outline-warning:focus {
         background: #ef8848;
@@ -131,6 +138,7 @@
         /* Ensure relative context for absolute positioning */
         position: relative;
     }
+
     .position-relative .btn-link {
         color: #ef8848;
         font-size: 1.1rem;
@@ -148,6 +156,7 @@
         justify-content: center;
         z-index: 10;
     }
+
     .position-relative .btn-link i {
         pointer-events: none;
         font-size: 1.2rem;
@@ -158,9 +167,11 @@
         .affiliate-img {
             min-height: 180px;
         }
+
         .card-body {
             padding: 1.5rem 1rem 1rem 1rem;
         }
+
         .affiliate-header {
             padding: 1.2rem 1rem;
         }
@@ -170,14 +181,17 @@
         .affiliate-card {
             border-radius: 1rem;
         }
+
         .affiliate-img {
             border-radius: 1rem 1rem 0 0;
             height: 120px;
             min-height: unset;
         }
+
         .card-body {
             padding: 1rem 0.5rem 0.5rem 0.5rem;
         }
+
         .affiliate-title {
             font-size: 1.3rem;
         }
