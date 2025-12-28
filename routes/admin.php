@@ -71,6 +71,7 @@ Route::prefix('vendor')->middleware('vendor')->group(function () {
 	Route::get('/orders/completed', [VendorOrderController::class, 'completedOrder'])->name('vendor.orders.completed');
 	Route::get('/orders/canceled', [VendorOrderController::class, 'cancelledOrder'])->name('vendor.orders.canceled');
 	Route::get('/sales-report', [VendorOrderController::class, 'salesReport'])->name('vendor.sales.report');
+	Route::get('/sales-report/details/{id}', [ReportController::class, 'details'])->name('vendor.sales.report.view');
 
 	Route::get('/order-details/{id}', [VendorOrderController::class, 'vendorOrdershow'])->name('vendor.order.details');
 	Route::get('/invoice-download/{order_id}', [VendorOrderController::class, 'vendorinvoiceDownload'])->name('vendor.invoice.download');
