@@ -239,7 +239,7 @@
                     <div class="d-flex justify-content-between align-items-start mb-2 mb-md-3 gap-2">
                         <div class="min-w-0 flex-grow-1">
                             <p class="text-muted mb-1 small">Total Orders</p>
-                            <h2 class="mb-0 fw-bold" style="color: #F1592A; font-size: clamp(1.25rem, 3vw, 2rem);">0</h2>
+                            <h2 class="mb-0 fw-bold" style="color: #F1592A; font-size: clamp(1.25rem, 3vw, 2rem);">{{ $totalOrders }}</h2>
                         </div>
                         <div class="rounded-3 p-2 p-md-3 flex-shrink-0" style="background-color: rgba(241, 89, 42, 0.1);">
                             <i class="fas fa-shopping-cart" style="color: #F1592A; font-size: clamp(1rem, 2vw, 1.5rem);"></i>
@@ -251,7 +251,7 @@
     </div>
 
     <!-- Main Referral Link -->
-    <div class="row mb-3 mb-md-4">
+    {{-- <div class="row mb-3 mb-md-4">
         <div class="col-12">
             <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-body p-3 p-md-4">
@@ -281,7 +281,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Affiliate Products Table -->
     <div class="row">
@@ -344,10 +344,13 @@
                                     </td>
                                     <td class="p-2 d-none d-sm-table-cell">
                                         @if($product->discount_price)
-                                        @php $data = calculateDiscount($product->id); @endphp
+                                        @php $data = calculateDiscount($product->id); 
+                                       
+                                        @endphp
+                               
                                         <div>
                                             <span class="badge badge-sm" style="background-color: #F1592A; font-size: 0.65rem;">
-                                                {{ $data['percentage'] ?? '0' }}% OFF
+                                                {{ $data['text'] ?? '0' }} OFF
                                             </span>
                                             <div class="fw-bold text-success" style="font-size: 0.75rem;">৳{{ number_format($data['discount'], 0) }}</div>
                                             <small class="text-decoration-line-through text-muted" style="font-size: 0.65rem;">

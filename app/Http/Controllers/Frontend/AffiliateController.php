@@ -199,6 +199,7 @@ class AffiliateController extends Controller
     {
         $affiliate = auth('affiliate')->user();
         $products = Product::where('status', 1)->where('is_affiliate', 1)->latest()->get();
+        $totalOrders=Order::where('affiliate_id', $affiliate->id)->count();
 
         // Example dummy data, replace with real queries
         $totalReferrals = Order::where('affiliate_id', $affiliate->id)->where('payment_status', 1)->count();
@@ -206,7 +207,7 @@ class AffiliateController extends Controller
         $pendingReferrals = Order::where('affiliate_id', $affiliate->id)->where('payment_status', 0)->count();
         $totalEarnings = Order::where('affiliate_id', $affiliate->id)->where('payment_status', 1)->where('delivery_status', 4)->sum('affiliate_commission');
 
-        return view('FrontEnd.affiliate.dashboard', compact('totalReferrals', 'totalCommissions', 'pendingReferrals','totalEarnings', 'products', 'affiliate'));
+        return view('FrontEnd.affiliate.dashboard', compact('totalReferrals', 'totalCommissions', 'pendingReferrals','totalEarnings', 'products', 'affiliate','totalOrders'));
     }
 
     public function profile()

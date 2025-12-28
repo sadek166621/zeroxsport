@@ -390,9 +390,9 @@ foreach ($carts as $cart) {
 
        // dd($request->sub_total, $totalAffiliateCommission,);
 
-        // Clear cart & session data
-        // Cart::destroy();
-        // Session::forget(['couponCode', 'discountType', 'amount', 'affiliate_ref']);
+     //   Clear cart & session data
+        Cart::destroy();
+        Session::forget(['couponCode', 'discountType', 'amount', 'affiliate_ref']);
 
         return redirect()->route('checkout.success', $order->invoice_no)->with([
             'message'    => 'Order placed successfully',
