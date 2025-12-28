@@ -11,7 +11,7 @@
                 <div class="text-start">
                     <h2 class="display-6">{{get_setting('site_name')->value ?? ''}}</h2>
                     <div class="d-flex justify-content-start mt-3">
-                        <p class="m-0"><a href="{{route('home')}}" style="color: #01B45E; text-decoration: none;">Home</a>
+                        <p class="m-0"><a href="{{route('home')}}" style="color: #026544; text-decoration: none;">Home</a>
                         </p>
                         <p class="m-0 px-2">-</p>
                         <p class="m-0">About Us</p>
@@ -58,7 +58,7 @@
             <div class="custom_container">
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
-                        <div class="bg-white rounded-3 p-4 shadow" style="border-left: 5px solid #01B45E;">
+                        <div class="bg-white rounded-3 p-4 shadow" style="border-left: 5px solid #026544;">
                             <div class="row align-items-center">
                                 <div class="col-md-8">
                                     <h4 class="mb-2">Ready to Start Shopping?</h4>
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="col-md-4 text-md-end">
                                     <a href="" class="btn btn-lg px-4"
-                                        style="background-color: #01B45E; color: white;">Shop Now</a>
+                                        style="background-color: #026544; color: white;">Shop Now</a>
                                 </div>
                             </div>
                         </div>
@@ -85,14 +85,14 @@
                     class="img-fluid rounded" style="box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
             </div>
             <div class="col-lg-6">
-                <h2 class="mb-4" style="color: #01B45E;">Your Trusted Shopping Partner</h2>
+                <h2 class="mb-4" style="color: #026544;">Your Trusted Shopping Partner</h2>
                 <p class="mb-4">Welcome to our premium ecommerce platform where quality meets convenience. We've been
                     serving our customers with the best products and exceptional shopping experience since our inception.
                 </p>
                 <div class="row g-4 mb-4">
                     <div class="col-md-6">
                         <div class="d-flex align-items-center p-3" style="background-color: #f8f9fa; border-radius: 10px;">
-                            <i class="fas fa-shield-alt fa-2x me-3" style="color: #01B45E;"></i>
+                            <i class="fas fa-shield-alt fa-2x me-3" style="color: #026544;"></i>
                             <div>
                                 <h5 class="mb-1">100% Secure</h5>
                                 <p class="mb-0 small">Safe & Secure Shopping</p>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="d-flex align-items-center p-3" style="background-color: #f8f9fa; border-radius: 10px;">
-                            <i class="fas fa-truck fa-2x me-3" style="color: #01B45E;"></i>
+                            <i class="fas fa-truck fa-2x me-3" style="color: #026544;"></i>
                             <div>
                                 <h5 class="mb-1">Fast Delivery</h5>
                                 <p class="mb-0 small">Nationwide Shipping</p>
@@ -118,7 +118,7 @@
     <div style="background-color: #f8f9fa;" class="py-5">
         <div class="custom_container">
             <div class="text-center mb-5">
-                <h2 style="color: #01B45E;">Why Choose Us</h2>
+                <h2 style="color: #026544;">Why Choose Us</h2>
                 <p>Discover the advantages of shopping with us</p>
             </div>
             <div class="row g-4">
@@ -126,7 +126,7 @@
                     <div class="card border-0 h-100"
                         style="background-color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                         <div class="card-body text-center p-4">
-                            <i class="fas fa-box-open fa-3x mb-3" style="color: #01B45E;"></i>
+                            <i class="fas fa-box-open fa-3x mb-3" style="color: #026544;"></i>
                             <h4>Quality Products</h4>
                             <p class="mb-0">Curated selection of premium products from trusted brands</p>
                         </div>
@@ -136,7 +136,7 @@
                     <div class="card border-0 h-100"
                         style="background-color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                         <div class="card-body text-center p-4">
-                            <i class="fas fa-headset fa-3x mb-3" style="color: #01B45E;"></i>
+                            <i class="fas fa-headset fa-3x mb-3" style="color: #026544;"></i>
                             <h4>24/7 Support</h4>
                             <p class="mb-0">Round-the-clock customer service excellence</p>
                         </div>
@@ -146,7 +146,7 @@
                     <div class="card border-0 h-100"
                         style="background-color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                         <div class="card-body text-center p-4">
-                            <i class="fas fa-undo fa-3x mb-3" style="color: #01B45E;"></i>
+                            <i class="fas fa-undo fa-3x mb-3" style="color: #026544;"></i>
                             <h4>Easy Returns</h4>
                             <p class="mb-0">Hassle-free return policy for your peace of mind</p>
                         </div>
@@ -156,7 +156,7 @@
                     <div class="card border-0 h-100"
                         style="background-color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                         <div class="card-body text-center p-4">
-                            <i class="fas fa-tag fa-3x mb-3" style="color: #01B45E;"></i>
+                            <i class="fas fa-tag fa-3x mb-3" style="color: #026544;"></i>
                             <h4>Best Deals</h4>
                             <p class="mb-0">Regular offers and competitive prices</p>
                         </div>
@@ -170,7 +170,7 @@
     <!-- Team Section Start -->
     <div class="custom_container py-5">
         <div class="text-center mb-5">
-            <h2 style="color: #01B45E;">Meet Our Leadership</h2>
+            <h2 style="color: #026544;">Meet Our Leadership</h2>
             <p>The minds behind your amazing shopping experience</p>
         </div>
         <div class="row g-4">
@@ -180,11 +180,11 @@
                         alt="Team Member" style="height: 300px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">John Doe</h5>
-                        <p class="card-text" style="color: #01B45E;">CEO & Founder</p>
+                        <p class="card-text" style="color: #026544;">CEO & Founder</p>
                         <div class="mt-3">
-                            <a href="#" class="text-decoration-none me-2" style="color: #01B45E;"><i
+                            <a href="#" class="text-decoration-none me-2" style="color: #026544;"><i
                                     class="fab fa-linkedin"></i></a>
-                            <a href="#" class="text-decoration-none me-2" style="color: #01B45E;"><i
+                            <a href="#" class="text-decoration-none me-2" style="color: #026544;"><i
                                     class="fab fa-twitter"></i></a>
                         </div>
                     </div>
@@ -196,11 +196,11 @@
                         alt="Team Member" style="height: 300px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">Sarah Johnson</h5>
-                        <p class="card-text" style="color: #01B45E;">Operations Director</p>
+                        <p class="card-text" style="color: #026544;">Operations Director</p>
                         <div class="mt-3">
-                            <a href="#" class="text-decoration-none me-2" style="color: #01B45E;"><i
+                            <a href="#" class="text-decoration-none me-2" style="color: #026544;"><i
                                     class="fab fa-linkedin"></i></a>
-                            <a href="#" class="text-decoration-none me-2" style="color: #01B45E;"><i
+                            <a href="#" class="text-decoration-none me-2" style="color: #026544;"><i
                                     class="fab fa-twitter"></i></a>
                         </div>
                     </div>
@@ -212,11 +212,11 @@
                         alt="Team Member" style="height: 300px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">Mike Wilson</h5>
-                        <p class="card-text" style="color: #01B45E;">Tech Lead</p>
+                        <p class="card-text" style="color: #026544;">Tech Lead</p>
                         <div class="mt-3">
-                            <a href="#" class="text-decoration-none me-2" style="color: #01B45E;"><i
+                            <a href="#" class="text-decoration-none me-2" style="color: #026544;"><i
                                     class="fab fa-linkedin"></i></a>
-                            <a href="#" class="text-decoration-none me-2" style="color: #01B45E;"><i
+                            <a href="#" class="text-decoration-none me-2" style="color: #026544;"><i
                                     class="fab fa-twitter"></i></a>
                         </div>
                     </div>
@@ -230,7 +230,7 @@
     <div style="background-color: #f8f9fa;" class="py-5">
         <div class="custom_container">
             <div class="text-center mb-5">
-                <h2 style="color: #01B45E;">Your Shopping Journey</h2>
+                <h2 style="color: #026544;">Your Shopping Journey</h2>
                 <p>Experience seamless shopping with us</p>
             </div>
             <div class="row g-4">
@@ -238,7 +238,7 @@
                     <div class="position-relative pb-4">
                         <div class="d-flex justify-content-center">
                             <div class="rounded-circle bg-white p-4" style="box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                                <i class="fas fa-search fa-3x" style="color: #01B45E;"></i>
+                                <i class="fas fa-search fa-3x" style="color: #026544;"></i>
                             </div>
                         </div>
                         <h4 class="text-center mt-4">Browse</h4>
@@ -249,7 +249,7 @@
                     <div class="position-relative pb-4">
                         <div class="d-flex justify-content-center">
                             <div class="rounded-circle bg-white p-4" style="box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                                <i class="fas fa-shopping-cart fa-3x" style="color: #01B45E;"></i>
+                                <i class="fas fa-shopping-cart fa-3x" style="color: #026544;"></i>
                             </div>
                         </div>
                         <h4 class="text-center mt-4">Select</h4>
@@ -260,7 +260,7 @@
                     <div class="position-relative pb-4">
                         <div class="d-flex justify-content-center">
                             <div class="rounded-circle bg-white p-4" style="box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                                <i class="fas fa-credit-card fa-3x" style="color: #01B45E;"></i>
+                                <i class="fas fa-credit-card fa-3x" style="color: #026544;"></i>
                             </div>
                         </div>
                         <h4 class="text-center mt-4">Checkout</h4>
@@ -269,9 +269,9 @@
                 </div>
                 <div class="col-md-3">
                     <div class="position-relative pb-4">
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center"></div>
                             <div class="rounded-circle bg-white p-4" style="box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                                <i class="fas fa-box fa-3x" style="color: #01B45E;"></i>
+                                <i class="fas fa-box fa-3x" style="color: #026544;"></i>
                             </div>
                         </div>
                         <h4 class="text-center mt-4">Deliver</h4>

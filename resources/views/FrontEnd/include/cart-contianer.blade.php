@@ -1,4 +1,4 @@
- <!-- Cart Overlay & Sidebar -->
+<!-- Cart Overlay & Sidebar -->
     <div id="cartOverlay" class="cart-overlay" aria-hidden="true"></div>
 
     <div id="cartSidebar" class="sidebar" role="dialog" aria-label="Shopping Cart" aria-hidden="true">
@@ -8,16 +8,15 @@
         </div>
 
         <div class="sidebar-body" id="cartItemsList">
-            <div style="padding:18px; text-align:center; color:#6b6b6b;">
+            <div style="padding:24px; text-align:center; color:#999;">
                 {{ session()->get('language') == 'bangla' ? 'আপনার কার্ট বর্তমানে খালি।' : 'Your cart is currently empty.' }}
             </div>
         </div>
 
         <div class="sidebar-footer">
-            <div
-                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-weight:800;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; font-weight:600; font-size:15px;">
                 <div>{{ session()->get('language') == 'bangla' ? 'সাবটোটাল:' : 'Subtotal:' }}</div>
-                <div id="cartSubtotal">৳0.00</div>
+                <div id="cartSubtotal" style="color:#026142; font-size:18px;">৳0.00</div>
             </div>
             @if (Auth::check() || !Auth::check())
                 <a href="{{ route('checkout') }}" id="checkoutButtonSidebar" class="checkout-btn btn">
@@ -33,17 +32,22 @@
     <style>
         .add_to_cart {
             background-color: #ffffff;
-            border: 2px solid #01B45E;
-            border-radius: 5px;
-            color: #01B45E !important;
+            border: 2px solid #026142;
+            border-radius: 6px;
+            color: #026142 !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
+        .add_to_cart:hover {
+            background-color: #026142;
+            color: #ffffff !important;
+        }
 
-        /* Replace the old .sidebar CSS block with overlay + improved sidebar styles */
         .cart-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.5);
             opacity: 0;
             visibility: hidden;
             transition: opacity 260ms ease, visibility 260ms;
@@ -59,17 +63,16 @@
             position: fixed;
             top: 0;
             right: -420px;
-            /* hidden by default */
-            width: 380px;
-            max-width: calc(100% - 32px);
+            width: 400px;
+            max-width: calc(100% - 20px);
             height: 100%;
             background-color: #ffffff;
-            box-shadow: -12px 0 30px rgba(0, 0, 0, 0.15);
-            transition: right 320ms cubic-bezier(.2, .9, .2, 1);
-            z-index: 1000;
+            box-shadow: -8px 0 40px rgba(2, 97, 66, 0.12);
+            transition: right 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 1001;
             display: flex;
             flex-direction: column;
-            border-radius: 8px 0 0 8px;
+            border-radius: 0;
             overflow: hidden;
         }
 
@@ -78,9 +81,9 @@
         }
 
         .sidebar-header {
-            background: #01B45E;
+            background: linear-gradient(135deg, #026142 0%, #034d34 100%);
             color: #fff;
-            padding: 14px 16px;
+            padding: 20px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -89,45 +92,86 @@
 
         .sidebar-header h2 {
             margin: 0;
-            font-size: 18px;
-            font-weight: 500;
-            color: #f2f2f2;
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.3px;
         }
 
         .sidebar .close-btn {
-            background: transparent;
+            background: rgba(255, 255, 255, 0.2);
             border: 0;
             color: #fff;
-            font-size: 20px;
+            font-size: 28px;
             cursor: pointer;
             line-height: 1;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .sidebar-body {
-            padding: 14px;
+            padding: 16px;
             overflow-y: auto;
             flex: 1;
+            background-color: #fafafa;
+        }
+
+        .sidebar-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-body::-webkit-scrollbar-thumb {
+            background: #d0d0d0;
+            border-radius: 3px;
+        }
+
+        .sidebar-body::-webkit-scrollbar-thumb:hover {
+            background: #026142;
         }
 
         .sidebar-footer {
-            padding: 14px;
-            border-top: 1px solid #f2f2f2;
-            background: #fff;
+            padding: 20px;
+            border-top: 1px solid #e8e8e8;
+            background: #ffffff;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
         }
 
         .cart-item {
             display: flex;
-            gap: 10px;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #f6f6f6;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 14px;
+            border-radius: 8px;
+            background: #ffffff;
+            margin-bottom: 10px;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            border-color: #026142;
+            box-shadow: 0 4px 12px rgba(2, 97, 66, 0.1);
         }
 
         .cart-item img {
-            width: 56px;
-            height: 56px;
+            width: 64px;
+            height: 64px;
             object-fit: cover;
             border-radius: 6px;
+            border: 1px solid #f0f0f0;
         }
 
         .cart-item .meta {
@@ -137,74 +181,124 @@
         .cart-item .title {
             font-size: 14px;
             font-weight: 600;
-            color: #333;
+            color: #222;
+            margin-bottom: 6px;
+            line-height: 1.4;
         }
 
         .cart-item .qty {
             font-size: 13px;
-            color: #666;
-            margin-top: 6px;
+            color: #888;
+            margin-top: 4px;
         }
 
         .cart-item .price {
-            font-weight: 600;
-            color: #01B45E;
-            min-width: 70px;
+            font-weight: 700;
+            color: #026142;
+            min-width: 75px;
             text-align: right;
+            font-size: 15px;
         }
 
         .checkout-btn {
             width: 100%;
-            background: #01B45E;
+            background: linear-gradient(135deg, #026142 0%, #034d34 100%);
             color: #fff;
             border: 0;
-            padding: 12px;
+            padding: 14px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            letter-spacing: 0.2px;
         }
 
         .checkout-btn:hover {
-            background: #02904b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(2, 97, 66, 0.25);
             color: #fff;
+        }
+
+        .checkout-btn:active {
+            transform: translateY(0);
         }
 
         .secondary-btn {
             width: 100%;
-            background: #ff2a7a;
-            color: #fff;
-            border: 0;
-            padding: 12px;
+            background: #f5f5f5;
+            color: #026142;
+            border: 2px solid #026142;
+            padding: 14px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            letter-spacing: 0.2px;
         }
 
         .secondary-btn:hover {
-            background: #b50448;
+            background: #026142;
             color: #fff;
+            box-shadow: 0 4px 12px rgba(2, 97, 66, 0.15);
         }
 
-        @media (max-width:480px) {
+        @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
                 right: -100%;
-                border-radius: 0;
+                max-width: 100%;
             }
 
             .sidebar.open {
                 right: 0;
             }
-            
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .sidebar-header {
+                padding: 16px;
+            }
+
+            .sidebar-header h2 {
+                font-size: 18px;
+            }
+
+            .sidebar-footer {
+                padding: 16px;
+                margin-bottom: 0;
+            }
+
+            .cart-item {
+                padding: 12px;
+                margin-bottom: 8px;
+            }
+
+            .cart-item img {
+                width: 56px;
+                height: 56px;
+            }
         }
 
         .product_card {
             background: #fff;
-            border: 2px solid #01B45E;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(1, 180, 94, 0.08);
-            transition: box-shadow 0.2s, border-color 0.2s;
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(2, 97, 66, 0.08);
+            transition: all 0.3s ease;
             padding: 0;
             position: relative;
             overflow: hidden;
@@ -213,16 +307,21 @@
             align-items: start;
         }
 
-        .product-details-title {
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #4a4a4a !important;
+        .product_card:hover {
+            border-color: #026142;
+            box-shadow: 0 8px 24px rgba(2, 97, 66, 0.15);
         }
 
-        @media (max-width:990px) {
+        .product-details-title {
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.6;
+            color: #333 !important;
+        }
+
+        @media (max-width: 990px) {
             .sidebar-footer {
-                margin-bottom: 60px;
+                margin-bottom: 0;
             }
         }
     </style>

@@ -12,7 +12,7 @@
         left: 0;
         width: 100%;
         height: 3px;
-        background: linear-gradient(90deg, #01B45E 0%, #02da72 100%);
+        background: linear-gradient(90deg, #026544 0%, #02da72 100%);
     }
 
     .footer p,
@@ -24,7 +24,7 @@
     }
 
     .footer a:hover {
-        color: #01B45E !important;
+        color: #026544 !important;
     }
 
     .footer h4 {
@@ -43,25 +43,25 @@
         bottom: 0;
         width: 40px;
         height: 3px;
-        background: #01B45E;
+        background: #026544;
         border-radius: 2px;
     }
 
     .contact-info i {
         width: 35px;
         height: 35px;
-        background: rgba(1, 180, 94, 0.1);
+        background: rgba(2, 101, 68, 0.1);
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        color: #01B45E;
+        color: #026544;
         margin-right: 10px;
         transition: all 0.3s ease;
     }
 
     .contact-info p:hover i {
-        background: #01B45E;
+        background: #026544;
         color: white;
     }
 
@@ -80,18 +80,18 @@
     .social-links a i {
         width: 32px;
         height: 32px;
-        background: rgba(1, 180, 94, 0.1);
+        background: rgba(2, 101, 68, 0.1);
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         margin-right: 12px;
         transition: all 0.3s ease;
-        color: #01B45E;
+        color: #026544;
     }
 
     .social-links a:hover i {
-        background: #01B45E;
+        background: #026544;
         color: white;
     }
 
@@ -131,7 +131,7 @@
         left: 0;
         width: 0;
         height: 2px;
-        background: #01B45E;
+        background: #026544;
         transition: all 0.3s ease;
     }
 
@@ -150,7 +150,7 @@
         height: auto;
         margin-bottom: 25px;
         transition: all 0.3s ease;
-        background-color: #004134;
+        background-color: #026544;
         padding: 8px;
         border-radius: 8px;
     }

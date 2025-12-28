@@ -11,6 +11,61 @@
 
     <link rel="shortcut icon" href="{{asset(get_setting('site_favicon')->value ?? '')}}" type="image/x-icon">
 
+    <style>
+        .quantity-controls {
+            display: inline-flex;
+            align-items: center;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            padding: 4px;
+        }
+
+        .qty-btn {
+            background: #026544;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #019950;
+        }
+
+        .qty-btn i {
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .qty-btn:disabled {
+            background: #e9ecef;
+            cursor: not-allowed;
+        }
+
+        .qty-input {
+            width: 45px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #2c3e50;
+            border: none;
+            background: transparent;
+            margin: 0 0.5rem;
+            padding: 0;
+        }
+
+        .qty-alert {
+            font-size: 12px;
+            color: #dc3545;
+            margin-left: 8px;
+        }
+    </style>
 
     @include('FrontEnd.include.style')
 
@@ -131,15 +186,19 @@
                                 </div>
                                 <div class="detail-extralink align-items-baseline d-flex" style="margin-top: 30px;">
                                     <div class="mr-10">
-                                        <span
-                                            class="">{{session()->get('language') == 'bangla' ? 'পরিমাণ' : 'Quantity'}}:</span>
+                                        <span class="">{{session()->get('language') == 'bangla' ? 'পরিমাণ' : 'Quantity'}}:</span>
                                     </div>
-                                    <div class="detail-qty border radius">
-                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                        <input type="number" name="quantity" class="qty-val form-control"
-                                            value="{{ $product->minimum_buy_qty ?? '1' }}" min="1" id="qty"
-                                            style="width: 100px">
-                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                    <div class="quantity-controls">
+                                        <button type="button" class="qty-btn qty-down" aria-label="Decrease quantity">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+
+                                        <input type="text" name="quantity" class="qty-input" value="1"
+                                            min="1" id="qty" readonly>
+
+                                        <button type="button" class="qty-btn qty-up" aria-label="Increase quantity">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="d-block mt-3" id="qty_stock_alert">
@@ -188,8 +247,62 @@
     </div>
     @include('FrontEnd.include.script')
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const qtyInput = document.getElementById('qty');
+            const qtyUp = document.querySelector('.qty-up');
+            const qtyDown = document.querySelector('.qty-down');
+            const qtyAlert = document.getElementById('qty_stock_alert');
 
+            if (!qtyInput || !qtyUp || !qtyDown) return;
 
+            const minQty = parseInt(qtyInput.getAttribute('min')) || 1;
+            const maxQty = parseInt(qtyInput.getAttribute('max')) || 100;
+            let currentQty = parseInt(qtyInput.value) || minQty;
+
+            function updateQuantity(qty) {
+                currentQty = qty;
+                qtyInput.value = qty;
+
+                qtyDown.disabled = qty <= minQty;
+                qtyUp.disabled = qty >= maxQty;
+
+                if (qty >= maxQty) {
+                    qtyAlert.textContent = '⚠️ Maximum stock limit reached.';
+                } else if (qty <= minQty) {
+                    qtyAlert.textContent = '';
+                } else {
+                    qtyAlert.textContent = '';
+                }
+            }
+
+            updateQuantity(currentQty);
+
+            qtyUp.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentQty < maxQty) {
+                    updateQuantity(currentQty + 1);
+                }
+            });
+
+            qtyDown.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (currentQty > minQty) {
+                    updateQuantity(currentQty - 1);
+                }
+            });
+
+            window.addCart = function(id) {
+                const qty = parseInt(qtyInput.value);
+                addToCartDirect(id, false, qty);
+            };
+
+            window.buyNow = function(id) {
+                const qty = parseInt(qtyInput.value);
+                buyProduct(id, qty);
+            };
+        });
+    </script>
 
     @stack('js')
 </body>

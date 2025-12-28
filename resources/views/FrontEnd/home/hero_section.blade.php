@@ -298,11 +298,11 @@
         </div>
 
         <!-- Navigation Dots -->
-        <div class="slider-nav">
+        <!-- <div class="slider-nav">
             @foreach ($sliders as $index => $slider)
             <span class="dot {{ $index === 0 ? 'active' : '' }}" onclick="currentSlide({{ $index }})"></span>
             @endforeach
-        </div>
+        </div> -->
 
         <!-- Arrow Controls -->
         <button class="slider-arrow prev" onclick="changeSlide(-1)">

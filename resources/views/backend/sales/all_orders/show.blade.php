@@ -245,13 +245,16 @@
                                                     </span>
 
                                                     @if($order->order_type == 1)
-                                                        @if($orderDetail->is_varient && count(json_decode($orderDetail->variation))>0)
-                                                            @foreach(json_decode($orderDetail->variation) as $varient)
+                                                        @php
+                                                            $variation = json_decode($orderDetail->variation);
+                                                        @endphp
+                                                        @if($orderDetail->is_varient && $variation && count($variation) > 0)
+                                                            @foreach($variation as $varient)
                                                                 <br/><span>{{ $varient->attribute_name }} : {{ $varient->attribute_value }}</span>
                                                             @endforeach
                                                         @endif
                                                     @else
-                                                        <br/><span>{{ $orderDetail->variation }}</span>
+                                                        <br/><span>{{ $orderDetail->variation ?? 'N/A' }}</span>
                                                     @endif
                                                 </div>
                                             </a>

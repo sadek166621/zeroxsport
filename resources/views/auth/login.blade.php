@@ -1,4 +1,3 @@
-
 @extends('FrontEnd.master')
 @section('content')
     @section('title')
@@ -7,7 +6,7 @@
 
     <style>
         .login-container {
-            background: linear-gradient(180deg, #f3f7fb 0%, #ffffff 60%);
+            background: linear-gradient(135deg, #f0faf8 0%, #ffffff 60%);
             padding: 40px 20px;
             min-height: 100vh;
             display: flex;
@@ -21,8 +20,8 @@
             max-width: 1200px;
             margin: 0 auto;
             background-color: white;
-            box-shadow: 0 12px 30px rgba(13, 38, 59, 0.08);
-            border-radius: 18px;
+            box-shadow: 0 12px 40px rgba(2, 97, 66, 0.08);
+            border-radius: 20px;
             overflow: hidden;
         }
 
@@ -32,19 +31,31 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(135deg, rgba(216,63,38,0.06), rgba(74,144,226,0.04));
+            background: linear-gradient(135deg, rgba(2, 97, 66, 0.08), rgba(1, 69, 42, 0.05));
             padding: 40px 20px;
             position: relative;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: rgba(2, 97, 66, 0.05);
+            border-radius: 50%;
         }
 
         .login-left .hero {
             width: 100%;
             max-width: 520px;
             height: 320px;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 30px rgba(2, 97, 66, 0.12);
             margin-bottom: 22px;
+            border: 3px solid #e0f2f0;
         }
 
         .login-left .hero img {
@@ -61,8 +72,8 @@
 
         .login-title {
             margin-bottom: 18px;
-            font-weight: 600;
-            color: #D83F26;
+            font-weight: 700;
+            color: #026142;
             font-size: 28px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -78,7 +89,7 @@
         }
 
         .signup-btn {
-            background: #D83F26;
+            background: #026142;
             color: white;
             padding: 12px 30px;
             border: none;
@@ -90,13 +101,13 @@
             text-decoration: none;
             display: inline-block;
             text-align: center;
-            box-shadow: 0 6px 18px rgba(216, 63, 38, 0.18);
+            box-shadow: 0 6px 18px rgba(2, 97, 66, 0.18);
         }
 
         .signup-btn:hover {
-            background: #c43520;
+            background: #01452a;
             transform: translateY(-3px);
-            box-shadow: 0 10px 24px rgba(216, 63, 38, 0.22);
+            box-shadow: 0 10px 24px rgba(2, 97, 66, 0.22);
             color: white;
         }
 
@@ -118,20 +129,20 @@
             border-radius: 12px;
             padding: 0 20px;
             margin-bottom: 18px;
-            border: 1px solid #e6e9ee;
+            border: 2px solid #e6e9ee;
             transition: all 0.25s ease;
             font-size: 15px;
             background: #fbfdff;
         }
 
         .form-input:focus {
-            border-color: #D83F26;
-            box-shadow: 0 6px 18px rgba(216, 63, 38, 0.06);
+            border-color: #026142;
+            box-shadow: 0 6px 18px rgba(2, 97, 66, 0.08);
             outline: none;
         }
 
         .login-btn {
-            background: linear-gradient(90deg, #D83F26 0%, #D95B3F 100%);
+            background: linear-gradient(90deg, #026142 0%, #01452a 100%);
             border: none;
             color: white;
             border-radius: 12px;
@@ -143,41 +154,63 @@
             max-width: 220px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            box-shadow: 0 8px 22px rgba(216, 63, 38, 0.16);
+            box-shadow: 0 8px 22px rgba(2, 97, 66, 0.16);
         }
 
         .login-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(216, 63, 38, 0.18);
+            box-shadow: 0 12px 30px rgba(2, 97, 66, 0.18);
         }
 
         .form-check-input:checked {
-            background-color: #D83F26;
-            border-color: #D83F26;
+            background-color: #026142;
+            border-color: #026142;
         }
 
         .form-label {
             color: #333;
             font-size: 15px;
             margin-bottom: 8px;
+            font-weight: 500;
         }
 
         .btn-primary {
-            background: #4a90e2;
+            background: #026142;
             border: none;
             padding: 12px 25px;
             border-radius: 8px;
             margin-bottom: 20px;
             transition: all 0.25s ease;
-            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.12);
+            box-shadow: 0 8px 20px rgba(2, 97, 66, 0.12);
             color: #fff;
             text-decoration: none;
         }
 
         .btn-primary:hover {
-            background: #357abd;
+            background: #01452a;
             transform: translateY(-3px);
-            box-shadow: 0 12px 28px rgba(74, 144, 226, 0.16);
+            box-shadow: 0 12px 28px rgba(2, 97, 66, 0.16);
+        }
+
+        .text-decoration-none {
+            color: #026142 !important;
+            font-weight: 500;
+        }
+
+        .text-decoration-none:hover {
+            color: #01452a !important;
+            text-decoration: underline !important;
+        }
+
+        .ms-2 {
+            color: #026142 !important;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .ms-2:hover {
+            color: #01452a !important;
+            text-decoration: underline;
         }
 
         @media (min-width: 768px) {
@@ -211,6 +244,13 @@
             .login-title {
                 font-size: 24px;
             }
+
+            .login-left::before {
+                width: 200px;
+                height: 200px;
+                top: -30px;
+                right: -30px;
+            }
         }
     </style>
 
@@ -225,14 +265,10 @@
                 <h2 class="login-title">Welcome Back!</h2>
                 <p class="login-text">Sign in to access your account and explore our services. Secure, fast and designed
                     for productivity.</p>
-              
             </div>
 
             <div class="login-right">
                 <h2 class="login-title">Login</h2>
-                {{-- <a href="{{ route('wholeseller.login') }}" class="btn btn-primary">
-                    <i class="fas fa-store me-2"></i>Go to Wholeseller Login
-                </a> --}}
                 <form class="login-form" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-4">
@@ -256,7 +292,7 @@
                                 <input class="form-check-input" type="checkbox" id="rememberMe" name="remember">
                                 <label class="form-check-label" for="rememberMe">Remember me</label>
                             </div>
-                            <a href="{{ route('password.request') }}" class="text-decoration-none" style="color: #D83F26;">Forgot password?</a>
+                            <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot password?</a>
                         </div>
                     </div>
 
@@ -266,7 +302,7 @@
                         </button>
                         <div class="text-center mt-3">
                             <span class="text-muted">Don't have an account?</span>
-                            <a href="{{ route('register') }}" class=" ms-2">Create Account</a>
+                            <a href="{{ route('register') }}" class="ms-2">Create Account</a>
                         </div>
                     </div>
                 </form>

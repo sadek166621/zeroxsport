@@ -762,7 +762,7 @@ header .header-top .right-item ul li {
     line-height: 18px;
     color: var(--green);
     font-weight: 500;
-    margin-left: auto !important;
+    /* margin-left: auto !important; */
 }
 
 .discount-percent {

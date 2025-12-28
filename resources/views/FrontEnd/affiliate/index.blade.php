@@ -842,17 +842,7 @@
                 </a>
             @endguest
         </div>
-        @auth('affiliate')
-                <a href="{{ route('affiliate.dashboard') }}" class="nav-btn dashboard">
-                    Dashboard
-                </a>
-            @endauth
-
-            @guest('affiliate')
-                <a href="{{ route('login.affiliate') }}" class="nav-btn login">
-                    Login
-                </a>
-            @endguest
+        
     </div>
     
     <!-- Mobile Menu -->

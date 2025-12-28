@@ -305,7 +305,7 @@
 
         .product-name {
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             margin-bottom: 8px;
             color: #333;
             line-height: 1.4;
@@ -345,6 +345,7 @@
 
         .price-section {
             display: flex;
+            align-items: center;
             gap: 8px;
         }
 
@@ -559,14 +560,27 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                width: 280px;
+                width: 100%;
+                max-width: 320px;
                 height: 100vh;
                 background: white;
                 border-radius: 0;
                 padding: 1.5rem;
                 box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
-                z-index: 1000;
+                z-index: 1050;
                 overflow-y: auto;
+                animation: slideInLeft 0.3s ease-out;
+            }
+
+            @keyframes slideInLeft {
+                from {
+                    transform: translateX(-100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
             }
 
             .filter-sidebar.active {
@@ -577,11 +591,20 @@
                 display: block;
                 background: none;
                 border: none;
-                font-size: 24px;
+                font-size: 28px;
                 color: #003E32;
                 cursor: pointer;
-                margin-bottom: 1rem;
+                margin-bottom: 1.5rem;
                 float: right;
+                padding: 0;
+                width: auto;
+                line-height: 1;
+                transition: all 0.3s;
+            }
+
+            .filter-close-btn:hover {
+                transform: rotate(90deg);
+                color: #059669;
             }
 
             .product-grid {
@@ -609,6 +632,26 @@
                 padding: 0.4rem 0.6rem;
                 font-size: 0.85rem;
             }
+
+            body.filter-open {
+                overflow: hidden;
+            }
+
+            .filter-sidebar::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1040;
+                display: none;
+            }
+
+            body.filter-open .filter-sidebar::before {
+                /* display: block; */
+            }
         }
 
         @media (max-width: 576px) {
@@ -626,6 +669,7 @@
             }
 
             .filter-sidebar {
+                max-width: 280px;
                 padding: 1rem;
             }
 
@@ -649,6 +693,12 @@
                 height: 32px;
                 padding: 0.3rem 0.5rem;
                 font-size: 0.8rem;
+            }
+
+            .filter-toggle-btn {
+                padding: 10px 15px;
+                font-size: 13px;
+                width: 100%;
             }
         }
     </style>
@@ -789,13 +839,7 @@
                                             <img src="{{ asset($product->product_thumbnail) }}"
                                                 alt="{{ $product->name_en }}">
                                             @if ($product->stock_qty > 0)
-                                                <span class="product-badge">
-                                                    @if (session()->get('language') == 'bangla')
-                                                        স্টকে
-                                                    @else
-                                                        SALE
-                                                    @endif
-                                                </span>
+                                                
                                             @endif
                                         </div>
                                     </a>
@@ -874,32 +918,47 @@
 
 @push('js')
     <script>
-        // Filter Sidebar Toggle
-        document.getElementById('filterToggleBtn').addEventListener('click', function() {
-            const sidebar = document.getElementById('filterSidebar');
-            sidebar.classList.toggle('active');
-            const lang = "{{ session()->get('language') }}";
-            this.textContent = sidebar.classList.contains('active') ? 
-                (lang === 'bangla' ? '✕ ফিল্টার লুকান' : '✕ Hide Filters') : 
-                (lang === 'bangla' ? '☰ ফিল্টার' : '☰ Show Filters');
-        });
-
-        document.getElementById('filterCloseBtn').addEventListener('click', function() {
-            const sidebar = document.getElementById('filterSidebar');
-            sidebar.classList.remove('active');
-            const lang = "{{ session()->get('language') }}";
-            document.getElementById('filterToggleBtn').textContent = lang === 'bangla' ? '☰ ফিল্টার' : '☰ Show Filters';
-        });
-
-        // Close sidebar when clicking outside
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('filterSidebar');
+        // Filter Sidebar Toggle - Single Implementation
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterToggleBtn = document.getElementById('filterToggleBtn');
+            const filterCloseBtn = document.getElementById('filterCloseBtn');
+            const filterSidebar = document.getElementById('filterSidebar');
             const toggleBtn = document.getElementById('filterToggleBtn');
-            if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
-                sidebar.classList.remove('active');
-                const lang = "{{ session()->get('language') }}";
-                toggleBtn.textContent = lang === 'bangla' ? '☰ ফিল্টার' : '☰ Show Filters';
-            }
+            const lang = "{{ session()->get('language') }}";
+
+            // Open Filter
+            filterToggleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                filterSidebar.classList.add('active');
+                document.body.classList.add('filter-open');
+                this.textContent = lang === 'bangla' ? '✕ ফিল্টার লুকান' : '✕ Hide Filters';
+            });
+
+            // Close Filter
+            filterCloseBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                filterSidebar.classList.remove('active');
+                document.body.classList.remove('filter-open');
+                filterToggleBtn.textContent = lang === 'bangla' ? '☰ ফিল্টার' : '☰ Show Filters';
+            });
+
+            // Close sidebar when clicking outside
+            document.addEventListener('click', function(event) {
+                if (filterSidebar.classList.contains('active') && 
+                    !filterSidebar.contains(event.target) && 
+                    !filterToggleBtn.contains(event.target)) {
+                    filterSidebar.classList.remove('active');
+                    document.body.classList.remove('filter-open');
+                    filterToggleBtn.textContent = lang === 'bangla' ? '☰ ফিল্টার' : '☰ Show Filters';
+                }
+            });
+
+            // Prevent closing when clicking inside sidebar
+            filterSidebar.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
         });
 
         function addToCart() {
@@ -1093,34 +1152,6 @@
                 }
             });
         }
-
-        // Filter Sidebar Toggle
-        document.getElementById('filterToggleBtn').addEventListener('click', function() {
-            const sidebar = document.getElementById('filterSidebar');
-            sidebar.classList.toggle('active');
-            const lang = "{{ session()->get('language') }}";
-            this.textContent = sidebar.classList.contains('active') ? 
-                (lang === 'bangla' ? '✕ ফিল্টার লুকান' : '✕ Hide Filters') : 
-                (lang === 'bangla' ? '☰ ফিল্টার' : '☰ Show Filters');
-        });
-
-        document.getElementById('filterCloseBtn').addEventListener('click', function() {
-            const sidebar = document.getElementById('filterSidebar');
-            sidebar.classList.remove('active');
-            const lang = "{{ session()->get('language') }}";
-            document.getElementById('filterToggleBtn').textContent = lang === 'bangla' ? '☰ ফিল্টার' : '☰ Show Filters';
-        });
-
-        // Close sidebar when clicking outside
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('filterSidebar');
-            const toggleBtn = document.getElementById('filterToggleBtn');
-            if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
-                sidebar.classList.remove('active');
-                const lang = "{{ session()->get('language') }}";
-                toggleBtn.textContent = lang === 'bangla' ? '☰ ফিল্টার' : '☰ Show Filters';
-            }
-        });
 
         function wholesellerAlert() {
             Swal.fire({
