@@ -22,18 +22,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #003E32;
+        background-color: white;
         padding: 4px 8px;
         border-radius: 6px;
         flex-shrink: 0;
         min-width: 50px;
-        max-width: 100px;
+        max-width: 150px;
     }
 
     .navbar-brand img {
         width: 100%;
         height: auto;
-        max-width: 90px;
+        max-width: 150px;
         object-fit: contain;
     }
 
@@ -52,6 +52,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        padding: 5px;
     }
 
     .navbar-logout {
@@ -263,7 +264,7 @@
     <div class="navbar-container">
         {{-- Left: Logo --}}
         <a class="navbar-brand" href="{{ route('affiliate.dashboard') }}" title="Dashboard">
-            <img src="{{ $logoUrl }}" alt="Logo">
+            <img src="{{ asset('FrontEnd/img/Online-Hut-BD-Main-Logo.png') }}" alt="Logo">
         </a>
 
         {{-- Center: Title --}}
