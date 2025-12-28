@@ -401,6 +401,7 @@
 
 @push('scripts')
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
@@ -412,7 +413,7 @@
         navigator.clipboard.writeText(text).then(function() {
             // Create toast notification
             const toastHtml = `
-                    <div class="toast align-items-center text-white bg-success border-0 position-fixed bottom-0 end-0 m-3" role="alert" style="z-index: 9999;">
+                    <div class="toast align-items-center text-white bg-success border-0 position-fixed top-0 end-0 m-3" role="alert" style="z-index: 9999;">
                         <div class="d-flex">
                             <div class="toast-body">
                                 <i class="fas fa-check-circle me-2"></i>Referral link copied successfully!
@@ -433,7 +434,27 @@
             setTimeout(() => $(toastElement).remove(), 3500);
         }).catch(function(err) {
             console.error("Copy failed", err);
-            alert("Failed to copy. Please try again.");
+            // Show error toast instead of alert
+            const errorToastHtml = `
+                    <div class="toast align-items-center text-white bg-danger border-0 position-fixed bottom-0 end-0 m-3" role="alert" style="z-index: 9999;">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                <i class="fas fa-exclamation-circle me-2"></i>Failed to copy. Please try again.
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                        </div>
+                    </div>
+                `;
+
+            $('body').append(errorToastHtml);
+            const errorToastElement = $('.toast').last()[0];
+            const errorToast = new bootstrap.Toast(errorToastElement, {
+                autohide: true,
+                delay: 3000
+            });
+            errorToast.show();
+
+            setTimeout(() => $(errorToastElement).remove(), 3500);
         });
     }
 

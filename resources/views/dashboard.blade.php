@@ -182,39 +182,53 @@ Dashboard | Modern Dashboard
                             </div>
 
                             <div class="recent-orders">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <h3 class="fw-semibold mb-0">Recent Orders</h3>
-                                    <a href="#orders" class="btn btn-sm btn-outline-primary">View All</a>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div>
+                                        <h3 class="fw-semibold mb-1">Recent Orders</h3>
+                                        <p class="text-muted small mb-0">Your latest 5 orders</p>
+                                    </div>
+                                    <a href="#orders" onclick="openOrdersTab()" class="btn btn-primary">
+                                        <i class="fas fa-arrow-right me-2"></i>View All Orders
+                                    </a>
                                 </div>
                                 <div class="row g-3">
                                     @foreach($orders->take(5) as $order)
                                     <div class="col-md-6 col-lg-4">
                                         <div class="card border-0 shadow-sm order-card h-100">
                                             <div class="card-body">
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <span
-                                                        class="badge rounded-pill status-badge {{ strtolower($order->delivery_status) }} me-2">
-                                                        {{ $order->delivery_status }}
-                                                    </span>
-                                                    <span
-                                                        class="ms-auto text-muted small">{{ \Carbon\Carbon::parse($order->date)->format('d M Y') }}</span>
+                                                <div class="order-card-header mb-3">
+                                                    <div class="d-flex align-items-start justify-content-between">
+                                                        <div>
+                                                            <span class="badge rounded-pill status-badge {{ strtolower($order->delivery_status) }} mb-2">
+                                                                {{ $order->delivery_status }}
+                                                            </span>
+                                                            <div class="order-id-large">Order #{{ $order->invoice_no }}</div>
+                                                        </div>
+                                                        <span class="order-date-small">{{ \Carbon\Carbon::parse($order->date)->format('d M') }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-2">
-                                                    <span class="fw-bold">Order #{{ $order->invoice_no }}</span>
+
+                                                <div class="order-card-divider mb-3"></div>
+
+                                                <div class="order-card-body mb-3">
+                                                    <div class="order-item-count mb-2">
+                                                        <i class="fas fa-box-open text-muted me-2"></i>
+                                                        <span class="text-muted small">Items in order</span>
+                                                    </div>
+                                                    <div class="order-total">
+                                                        <span class="text-muted small">Total Amount</span>
+                                                        <div class="amount-display">৳{{ number_format($order->grand_total, 2) }}</div>
+                                                    </div>
                                                 </div>
-                                                <div class="mb-2">
-                                                    <span class="text-muted">Total:</span>
-                                                    <span
-                                                        class="fw-semibold">৳{{ number_format($order->grand_total, 2) }}</span>
-                                                </div>
+
                                                 <div class="d-flex gap-2">
                                                     <a href="{{ route('order.view', $order->invoice_no) }}"
-                                                        class="btn btn-sm btn-outline-primary">
-                                                        Invoice
+                                                        class="btn btn-sm btn-outline-primary flex-grow-1">
+                                                        <i class="fas fa-file-pdf me-1"></i>Invoice
                                                     </a>
                                                     <a href="{{ route('order.details', $order->invoice_no) }}"
-                                                        class="btn btn-sm btn-outline-secondary">
-                                                        Details
+                                                        class="btn btn-sm btn-outline-secondary flex-grow-1">
+                                                        <i class="fas fa-eye me-1"></i>Details
                                                     </a>
                                                 </div>
                                             </div>
@@ -229,43 +243,87 @@ Dashboard | Modern Dashboard
                         <div class="tab-pane fade" id="orders">
                             <div class="content-header">
                                 <h2>My Orders</h2>
-                                <p>Track and manage your orders</p>
+                                <p>Track and manage all your purchases</p>
+                            </div>
+
+                            @if($orders->count() > 0)
+                            <div class="orders-filter-section mb-4">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="filter-card">
+                                            <div class="filter-icon">📦</div>
+                                            <div class="filter-info">
+                                                <div class="filter-value">{{ count($all) }}</div>
+                                                <div class="filter-label">Total Orders</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="filter-card">
+                                            <div class="filter-icon">⏳</div>
+                                            <div class="filter-info">
+                                                <div class="filter-value">{{ count($pending) }}</div>
+                                                <div class="filter-label">Pending</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="filter-card">
+                                            <div class="filter-icon">✓</div>
+                                            <div class="filter-info">
+                                                <div class="filter-value">{{ count($completed) }}</div>
+                                                <div class="filter-label">Completed</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="orders-wrapper">
                                 <div class="table-responsive">
-                                    <table class="table custom-table">
+                                    <table class="table orders-table">
                                         <thead>
                                             <tr>
                                                 <th>Order ID</th>
-                                                <th>Date</th>
+                                                <th>Order Date</th>
                                                 <th>Status</th>
-                                                <th>Total</th>
+                                                <th>Total Amount</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($orders as $order)
                                             <tr>
-                                                <td>#{{ $order->invoice_no }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($order->date)->format('d M Y') }}</td>
                                                 <td>
-                                                    <span
-                                                        class="status-badge {{ strtolower($order->delivery_status) }}">
+                                                    <span class="order-id-badge">#{{ $order->invoice_no }}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="order-date">
+                                                        {{ \Carbon\Carbon::parse($order->date)->format('d M Y') }}
+                                                    </div>
+                                                    <div class="order-time">
+                                                        {{ \Carbon\Carbon::parse($order->date)->format('h:i A') }}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="status-badge {{ strtolower($order->delivery_status) }}">
                                                         {{ $order->delivery_status }}
                                                     </span>
                                                 </td>
-                                                <td>৳{{ number_format($order->grand_total, 2) }}</td>
+                                                <td>
+                                                    <span class="order-amount">৳{{ number_format($order->grand_total, 2) }}</span>
+                                                </td>
                                                 <td>
                                                     <div class="action-buttons">
-                                                        <a href="{{ route('order.view', $order->invoice_no) }}"
-                                                            class="btn btn-sm btn-outline-primary">
-                                                            View Details
+                                                        <a href="{{ route('order.details', $order->invoice_no) }}" class="btn-action btn-view" title="View Details">
+                                                            <i class="fas fa-eye"></i> View
+                                                        </a>
+                                                        <a href="{{ route('order.view', $order->invoice_no) }}" class="btn-action btn-invoice" title="Download Invoice">
+                                                            <i class="fas fa-file-pdf"></i> Invoice
                                                         </a>
                                                         @if($order->delivery_status == 'Delivered')
-                                                        <button onclick="checkReturn({{ $order->id }})"
-                                                            class="btn btn-sm btn-outline-warning">
-                                                            Return
+                                                        <button onclick="checkReturn({{ $order->id }})" class="btn-action btn-return" title="Return Order">
+                                                            <i class="fas fa-undo"></i> Return
                                                         </button>
                                                         @endif
                                                     </div>
@@ -276,6 +334,16 @@ Dashboard | Modern Dashboard
                                     </table>
                                 </div>
                             </div>
+                            @else
+                            <div class="empty-state">
+                                <div class="empty-icon">📦</div>
+                                <h3>No Orders Yet</h3>
+                                <p>You haven't placed any orders yet. Start shopping to see your orders here.</p>
+                                <a href="{{ route('home') }}" class="btn btn-primary">
+                                    <i class="fas fa-shopping-bag"></i> Continue Shopping
+                                </a>
+                            </div>
+                            @endif
                         </div>
 
                         <!-- Profile Tab -->
@@ -287,56 +355,88 @@ Dashboard | Modern Dashboard
 
                             <div class="profile-form">
                                 <form action="{{ route('user.profile.update') }}" method="POST"
-                                    enctype="multipart/form-data">
+                                    enctype="multipart/form-data" id="profileForm">
                                     @csrf
+                                    
+                                    <!-- Profile Image Section -->
+                                    <div class="profile-image-section mb-5">
+                                        <div class="profile-image-container">
+                                            <div class="profile-image-preview">
+                                                @if(Auth::user()->profile_image && file_exists(public_path(Auth::user()->profile_image)))
+                                                <img id="imagePreview" src="{{ asset(Auth::user()->profile_image) }}" alt="Profile Preview">
+                                                @else
+                                                <div id="imagePreview" class="default-image-preview">
+                                                    <i class="fas fa-user-circle"></i>
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <div class="profile-image-overlay">
+                                                <label for="profile_image_input" class="upload-label">
+                                                    <i class="fas fa-camera"></i>
+                                                    <!-- <span>Change Photo</span> -->
+                                                </label>
+                                                <input type="file" id="profile_image_input" name="profile_image" accept="image/*" style="display: none;">
+                                            </div>
+                                        </div>
+                                        <div class="image-info">
+                                            <p class="image-hint">Recommended: 500x500px, max 2MB</p>
+                                        </div>
+                                    </div>
+
                                     <div class="row g-4">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Full Name</label>
-                                                <input type="text" class="form-control" name="name"
-                                                    value="{{ Auth::user()->name }}" required>
+                                                <div class="input-wrapper">
+                                                    <i class="fas fa-user input-icon"></i>
+                                                    <input type="text" class="form-control form-control-modern" name="name"
+                                                        value="{{ Auth::user()->name }}" required>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Username</label>
-                                                <input type="text" class="form-control" name="username"
-                                                    value="{{ Auth::user()->username }}" required>
+                                                <div class="input-wrapper">
+                                                    <i class="fas fa-at input-icon"></i>
+                                                    <input type="text" class="form-control form-control-modern" name="username"
+                                                        value="{{ Auth::user()->username }}" required>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Email</label>
-                                                <input type="email" class="form-control" name="email"
-                                                    value="{{ Auth::user()->email }}" required>
+                                                <label>Email Address</label>
+                                                <div class="input-wrapper">
+                                                    <i class="fas fa-envelope input-icon"></i>
+                                                    <input type="email" class="form-control form-control-modern" name="email"
+                                                        value="{{ Auth::user()->email }}" required>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Phone</label>
-                                                <input type="tel" class="form-control" name="phone"
-                                                    value="{{ Auth::user()->phone }}" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="form-group">
-                                                <label>Profile Image</label>
-                                                <input type="file" class="form-control" name="profile_image">
-                                                <div class="current-image mt-2">
-                                                    <img src="{{ asset(Auth::user()->profile_image) }}"
-                                                        alt="Current Profile" width="100">
+                                                <label>Phone Number</label>
+                                                <div class="input-wrapper">
+                                                    <i class="fas fa-phone input-icon"></i>
+                                                    <input type="tel" class="form-control form-control-modern" name="phone"
+                                                        value="{{ Auth::user()->phone }}" required>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="col-12">
-                                            <button type="submit" class="btn btn-primary">
-                                                Update Profile
-                                            </button>
+                                            <div class="form-actions">
+                                                <button type="submit" class="btn btn-primary btn-lg">
+                                                    <i class="fas fa-save me-2"></i>Save Changes
+                                                </button>
+                                                <button type="reset" class="btn btn-secondary btn-lg">
+                                                    <i class="fas fa-undo me-2"></i>Reset
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
@@ -394,9 +494,11 @@ Dashboard | Modern Dashboard
 
 <style>
     :root {
-        --primary: #01B45E;
-        --primary-light: #efc1ba;
-        --secondary: #64748b;
+        --primary: #026142;
+        --primary-light: #e8f5f1;
+        --primary-dark: #014d34;
+        --primary-lighter: #f0faf8;
+        --secondary: #6b7280;
         --success: #10b981;
         --success-light: #d1fae5;
         --warning: #f59e0b;
@@ -405,66 +507,141 @@ Dashboard | Modern Dashboard
         --danger-light: #fee2e2;
         --info: #3b82f6;
         --info-light: #dbeafe;
-        --light: #f8fafc;
-        --dark: #0f172a;
+        --light: #f9fafb;
+        --lighter: #f3f4f6;
+        --dark: #111827;
+        --text-muted: #6b7280;
+        --border-color: #e5e7eb;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Trebuchet MS', sans-serif;
+        color: var(--dark);
+        background: linear-gradient(135deg, #f0faf8 0%, #f9fafb 100%);
     }
 
     /* Dashboard Container */
     .dashboard-container {
-        padding: 2rem 0;
-        background: var(--light);
+        padding: 2.5rem 0;
         min-height: 100vh;
+    }
+
+    .custom_container {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
     }
 
     /* Sidebar Styles */
     .dashboard-sidebar {
         background: white;
-        border-radius: 1rem;
-        padding: 1rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border-radius: 1.5rem;
+        padding: 0;
+        box-shadow: 0 4px 20px rgba(2, 97, 66, 0.08);
         position: sticky;
-        top: 1rem;
+        top: 2rem;
+        overflow: hidden;
+        border: 1px solid rgba(2, 97, 66, 0.05);
     }
 
-    .user-profile {
-        text-align: center;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px solid #e2e8f0;
-        margin-bottom: 1.5rem;
-        /* display: flex;
-                flex-direction: column; */
+    /* User Profile Card */
+    .modern-user-profile {
+        background: linear-gradient(135deg, var(--primary) 0%, #004d34 100%);
+        color: white;
+        padding: 2.5rem 2rem !important;
+        border-radius: 0;
+        overflow: visible;
+        margin-bottom: 0;
+        position: relative;
     }
 
-    .profile-image img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 1rem;
+    .modern-user-profile::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: -50px;
+        width: 300px;
+        height: 100%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        pointer-events: none;
     }
 
-    .profile-info h4 {
-        color: var(--dark);
-        font-weight: 600;
-        margin-bottom: 0.25rem;
+    .modern-user-profile .profile-bg {
+        display: none;
     }
 
-    .profile-info p {
-        color: var(--secondary);
-        font-size: 0.875rem;
+    .modern-user-profile .row {
+        width: 100%;
+        position: relative;
+        z-index: 1;
+    }
+
+    .modern-user-profile .profile-image img,
+    .modern-user-profile .default-avatar {
+        border: 4px solid rgba(255, 255, 255, 0.25) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        transition: var(--transition);
+    }
+
+    .modern-user-profile:hover .profile-image img,
+    .modern-user-profile:hover .default-avatar {
+        transform: scale(1.05);
+        border-color: rgba(255, 255, 255, 0.4) !important;
+    }
+
+    .modern-user-profile .profile-info h4 {
+        color: white;
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.5px;
+    }
+
+    .modern-user-profile .profile-info p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin: 0.5rem 0;
+    }
+
+    .modern-user-profile .profile-info i {
+        width: 18px;
+        margin-right: 0.5rem;
+        opacity: 0.8;
     }
 
     /* Navigation Styles */
+    .dashboard-nav {
+        padding: 2rem 1.5rem;
+    }
+
     .nav-group {
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .nav-group:last-child {
+        margin-bottom: 0;
     }
 
     .nav-label {
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: var(--secondary);
-        margin-bottom: 0.75rem;
-        padding-left: 0.5rem;
+        font-size: 0.65rem;
+        font-weight: 800;
+        color: var(--text-muted);
+        margin-bottom: 1.2rem;
+        padding: 0 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .dashboard-nav ul {
@@ -473,319 +650,1004 @@ Dashboard | Modern Dashboard
         margin: 0;
     }
 
+    .dashboard-nav li {
+        margin-bottom: 0.75rem;
+    }
+
     .dashboard-nav .nav-link {
         display: flex;
         align-items: center;
-        padding: 0.75rem 1rem;
+        padding: 0.95rem 1.25rem;
         color: var(--dark);
-        border-radius: 0.5rem;
-        transition: all 0.3s ease;
+        border-radius: 0.875rem;
+        transition: var(--transition);
+        border-left: 3px solid transparent;
+        font-weight: 500;
+        font-size: 0.95rem;
+        position: relative;
+    }
+
+    .dashboard-nav .nav-link i {
+        width: 20px;
+        font-size: 1.1rem;
+        margin-right: 1rem;
+        transition: var(--transition);
+        color: var(--text-muted);
     }
 
     .dashboard-nav .nav-link:hover {
         background: var(--primary-light);
         color: var(--primary);
+        padding-left: 1.75rem;
+        border-left-color: var(--primary);
+    }
+
+    .dashboard-nav .nav-link:hover i {
+        color: var(--primary);
+        transform: translateX(2px);
     }
 
     .dashboard-nav .nav-link.active {
-        background: var(--primary);
-        color: white;
+        background: linear-gradient(135deg, var(--primary-light) 0%, rgba(2, 97, 66, 0.08) 100%);
+        color: var(--primary);
+        border-left-color: var(--primary);
+        padding-left: 1.75rem;
+        font-weight: 600;
     }
 
     .dashboard-nav .nav-link.active i {
-        color: white;
+        color: var(--primary);
     }
 
-    .dashboard-nav .nav-link i {
-        width: 1.5rem;
-        font-size: 1.25rem;
-        margin-right: 0.75rem;
+    .dashboard-nav .nav-link.active::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--primary);
+        border-radius: 0 0.875rem 0.875rem 0;
     }
 
     /* Content Area */
     .dashboard-content {
         background: white;
-        border-radius: 1rem;
-        padding: 2rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        box-shadow: 0 4px 20px rgba(2, 97, 66, 0.08);
+        border: 1px solid rgba(2, 97, 66, 0.05);
     }
 
     .content-header {
-        margin-bottom: 2rem;
+        /* margin-bottom: 3.5rem; */
+        padding-bottom: 2rem;
+        border-bottom: 2px solid var(--lighter);
     }
 
     .content-header h2 {
         color: var(--dark);
-        font-weight: 600;
+        font-weight: 800;
         margin-bottom: 0.5rem;
+        font-size: 2.2rem;
+        letter-spacing: -0.5px;
     }
 
     .content-header p {
-        color: var(--secondary);
+        color: var(--text-muted);
         margin: 0;
+        font-size: 1rem;
+        font-weight: 400;
     }
 
     /* Modern Stat Card */
     .stat-modern-card {
-        border-radius: 1rem;
-        transition: box-shadow 0.2s;
-        background: linear-gradient(135deg, #fff 80%, #f8fafc 100%);
+        border-radius: 1.25rem;
+        border: 1.5px solid var(--border-color);
+        transition: var(--transition);
+        background: white;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .stat-modern-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary) 0%, transparent 100%);
     }
 
     .stat-modern-card:hover {
-        box-shadow: 0 4px 24px rgba(219, 64, 38, 0.08);
+        box-shadow: 0 12px 32px rgba(2, 97, 66, 0.15);
+        transform: translateY(-4px);
+        border-color: var(--primary);
+    }
+
+    .stat-modern-card .card-body {
+        padding: 2rem;
     }
 
     .stat-modern-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        border-radius: 1.25rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.7rem;
-        background: #f8fafc;
+        font-size: 1.75rem;
+        flex-shrink: 0;
+        transition: var(--transition);
+    }
+
+    .stat-modern-card:hover .stat-modern-icon {
+        transform: scale(1.1);
+    }
+
+    .stat-modern-icon.bg-primary {
+        background: linear-gradient(135deg, var(--primary-light) 0%, rgba(2, 97, 66, 0.1) 100%);
+        color: var(--primary);
+    }
+
+    .stat-modern-icon.bg-warning {
+        background: linear-gradient(135deg, #fef3c7 0%, rgba(245, 158, 11, 0.1) 100%);
+        color: var(--warning);
+    }
+
+    .stat-modern-icon.bg-success {
+        background: linear-gradient(135deg, var(--success-light) 0%, rgba(16, 185, 129, 0.1) 100%);
+        color: var(--success);
+    }
+
+    .stat-modern-icon.bg-info {
+        background: linear-gradient(135deg, var(--info-light) 0%, rgba(59, 130, 246, 0.1) 100%);
+        color: var(--info);
+    }
+
+    .stat-modern-card .fs-4 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.5px;
+    }
+
+    .stat-modern-card .text-muted {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-weight: 500;
     }
 
     /* Order Card */
     .order-card {
-        border-radius: 1rem;
-        background: #fff;
-        transition: box-shadow 0.2s;
+        border-radius: 1.25rem;
+        background: white;
+        transition: var(--transition);
+        border: 1.5px solid var(--border-color);
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .order-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary) 0%, transparent 100%);
     }
 
     .order-card:hover {
-        box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+        box-shadow: 0 12px 32px rgba(2, 97, 66, 0.15);
+        transform: translateY(-4px);
+        border-color: var(--primary);
+    }
+
+    .order-card .card-body {
+        padding: 1.75rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     .order-card .badge {
-        font-size: 0.85rem;
-        padding: 0.4em 1em;
-    }
-
-    /* Stats Grid */
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .stat-card {
-        background: white;
-        border-radius: 1rem;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .stat-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 0.75rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .stat-icon i {
-        font-size: 1.5rem;
-        color: var(--primary);
-    }
-
-    .stat-info h3 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: var(--dark);
-        margin: 0;
-    }
-
-    .stat-info p {
-        color: var(--secondary);
-        margin: 0;
-        font-size: 0.875rem;
-    }
-
-    /* Table Styles */
-    .table-responsive {
-        margin: 1.5rem 0;
-    }
-
-    .custom-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-    }
-
-    .custom-table th {
-        background: var(--light);
-        padding: 1rem;
-        font-weight: 600;
-        color: var(--dark);
-        text-align: left;
-    }
-
-    .custom-table td {
-        padding: 1rem;
-        border-bottom: 1px solid #e2e8f0;
-        color: var(--secondary);
-    }
-
-    /* Status Badges */
-    .status-badge {
-        padding: 0.25rem 0.75rem;
-        border-radius: 2rem;
-        font-size: 0.875rem;
-        font-weight: 500;
-    }
-
-    .status-badge.pending {
-        background: var(--warning-light);
-        color: var(--warning);
-    }
-
-    .status-badge.processing {
-        background: var(--info-light);
-        color: var(--info);
-    }
-
-    .status-badge.completed {
-        background: var(--success-light);
-        color: var(--success);
-    }
-
-    .status-badge.cancelled {
-        background: var(--danger-light);
-        color: var(--danger);
-    }
-
-    /* Forms */
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        color: var(--dark);
-    }
-
-    .form-control {
-        border: 1px solid #e2e8f0;
+        font-size: 0.75rem;
+        padding: 0.6em 1.2em;
+        font-weight: 700;
         border-radius: 0.5rem;
-        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
-    .form-control:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    .order-card .fw-bold {
+        color: var(--dark);
+        font-size: 1.1rem;
+        font-weight: 700;
     }
 
-    /* Buttons */
-    .btn {
-        padding: 10px;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        transition: all 0.3s ease;
+    /* Recent Orders Section */
+    .recent-orders {
+        margin-top: 3.5rem;
+        padding-top: 2.5rem;
+        border-top: 2px solid var(--lighter);
     }
 
-    .btn-primary {
-        background: var(--primary);
-        color: white;
-        border: none;
+    .recent-orders h3 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--dark);
+        letter-spacing: -0.5px;
     }
 
     .btn-outline-primary {
-        border: 1px solid var(--primary);
+        border: 2px solid var(--primary);
         color: var(--primary);
         background: transparent;
+        font-weight: 600;
+        transition: var(--transition);
     }
 
     .btn-outline-primary:hover {
         background: var(--primary);
         color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(2, 97, 66, 0.25);
     }
 
-
-    .dashboard-nav .nav-link {
-        display: flex;
-        align-items: center;
-        padding: 0.75rem 1rem;
-        color: var(--dark);
-        border-radius: 0.5rem;
-        transition: all 0.3s ease;
-    }
-
-    .dashboard-nav .nav-link:hover {
-        background: var(--primary-light);
-        color: var(--primary);
-    }
-
-    .dashboard-nav .nav-link.active {
-        background: var(--primary);
-        color: white;
-    }
-
-    .dashboard-nav .nav-link.active i {
-        color: white;
-    }
-
-    /* Updated Profile Styles */
-    .modern-user-profile {
-        background: #fff;
-        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05) !important;
+    /* Table Styles */
+    .table-responsive {
+        border-radius: 1.25rem;
         overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0;
+    }
+
+    .custom-table thead tr {
+        background: linear-gradient(135deg, var(--lighter) 0%, #f0faf8 100%);
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .custom-table th {
+        padding: 1.5rem 1.25rem;
+        font-weight: 700;
+        color: var(--dark);
+        text-align: left;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .custom-table td {
+        padding: 1.25rem;
+        border-bottom: 1px solid var(--border-color);
+        color: var(--text-muted);
+        font-size: 0.95rem;
+    }
+
+    .custom-table tbody tr {
+        transition: var(--transition);
+    }
+
+    .custom-table tbody tr:hover {
+        background: var(--lighter);
+    }
+
+    /* Status Badges */
+    .status-badge {
+        display: inline-block;
+        padding: 0.6rem 1.1rem;
+        border-radius: 0.6rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+
+    .status-badge.pending {
+        background: linear-gradient(135deg, #fef3c7 0%, rgba(245, 158, 11, 0.1) 100%);
+        color: #b45309;
+    }
+
+    .status-badge.processing {
+        background: linear-gradient(135deg, var(--info-light) 0%, rgba(59, 130, 246, 0.1) 100%);
+        color: #1e40af;
+    }
+
+    .status-badge.delivered {
+        background: linear-gradient(135deg, var(--success-light) 0%, rgba(16, 185, 129, 0.1) 100%);
+        color: #065f46;
+    }
+
+    .status-badge.cancelled {
+        background: linear-gradient(135deg, var(--danger-light) 0%, rgba(239, 68, 68, 0.1) 100%);
+        color: #7f1d1d;
+    }
+
+    /* Forms */
+    .form-group {
         margin-bottom: 2rem;
     }
 
-    .modern-user-profile .profile-info h4 {
-        color: #2d3748;
-        font-size: 1.25rem;
-        line-height: 1.2;
+    .form-group label {
+        display: block;
+        margin-bottom: 0.875rem;
+        font-weight: 600;
+        color: var(--dark);
+        font-size: 0.95rem;
+        letter-spacing: -0.3px;
     }
 
-    .modern-user-profile .profile-info p {
-        font-size: 0.875rem;
-        line-height: 1.5;
+    .form-control {
+        border: 1.5px solid var(--border-color);
+        border-radius: 0.875rem;
+        padding: 0.95rem 1.25rem;
+        font-size: 0.95rem;
+        transition: var(--transition);
+        background: white;
+        font-weight: 400;
     }
 
-    .modern-user-profile .default-avatar {
-        transition: all 0.3s ease;
+    .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(2, 97, 66, 0.1);
+        outline: none;
     }
 
-    .modern-user-profile .default-avatar:hover {
-        background: #e9ecef !important;
+    .form-control::placeholder {
+        color: var(--text-muted);
     }
 
-    .modern-user-profile .btn-outline-primary {
-        box-shadow: 0 2px 4px rgba(1, 180, 94, 0.1);
-        transition: all 0.3s ease;
+    /* Buttons */
+    .btn {
+        padding: 0.95rem 2rem;
+        border-radius: 0.875rem;
+        font-weight: 600;
+        transition: var(--transition);
+        border: none;
+        cursor: pointer;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        letter-spacing: 0.3px;
     }
 
-    .modern-user-profile .btn-outline-primary:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(1, 180, 94, 0.2);
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(2, 97, 66, 0.2);
     }
 
-    @media (max-width: 576px) {
-        .modern-user-profile {
-            text-align: center;
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(2, 97, 66, 0.3);
+    }
+
+    .btn-sm {
+        padding: 0.7rem 1.4rem;
+        font-size: 0.85rem;
+    }
+
+    .btn-outline-secondary {
+        border: 2px solid var(--border-color);
+        color: var(--text-muted);
+        background: white;
+        font-weight: 600;
+    }
+
+    .btn-outline-secondary:hover {
+        background: var(--lighter);
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .btn-outline-warning {
+        border: 2px solid var(--warning);
+        color: var(--warning);
+        background: transparent;
+        font-weight: 600;
+    }
+
+    .btn-outline-warning:hover {
+        background: var(--warning-light);
+        border-color: var(--warning);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: auto;
+    }
+
+    /* Profile Form */
+    .profile-form,
+    .password-form {
+        max-width: 800px;
+    }
+
+    .current-image {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .current-image img {
+        border-radius: 0.875rem;
+        border: 3px solid var(--primary-light);
+        box-shadow: 0 4px 12px rgba(2, 97, 66, 0.1);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .dashboard-sidebar {
+            margin-bottom: 2.5rem;
+            position: relative;
+            top: auto;
         }
 
-        .modern-user-profile .profile-image {
-            margin: 0 auto 1rem;
+        .dashboard-content {
+            padding: 2.5rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 1.5rem 0;
+        }
+
+        .custom_container {
+            padding: 0 1rem;
+        }
+
+        .dashboard-content {
+            padding: 1.75rem;
+            border-radius: 1.25rem;
+        }
+
+        .content-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .content-header h2 {
+            font-size: 1.75rem;
+        }
+
+        .modern-user-profile {
+            padding: 1.75rem !important;
+        }
+
+        .modern-user-profile .row {
+            flex-direction: column;
+            text-align: center;
         }
 
         .modern-user-profile .col-auto {
             width: 100%;
-            margin-top: 1rem;
         }
 
-        .modern-user-profile .btn-outline-primary {
+        .dashboard-nav {
+            padding: 1.25rem;
+        }
+
+        .stat-modern-card .card-body {
+            padding: 1.5rem;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .action-buttons .btn {
             width: 100%;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.85rem 1.5rem;
+        }
+
+        .recent-orders {
+            margin-top: 2.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .custom_container {
+            padding: 0 0.75rem;
+        }
+
+        .content-header h2 {
+            font-size: 1.4rem;
+        }
+
+        .stat-modern-card {
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-content {
+            padding: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .row.g-3 {
+            gap: 1rem !important;
+        }
+
+        .row.g-4 {
+            gap: 1.25rem !important;
+        }
+
+        .stat-modern-card .fs-4 {
+            font-size: 1.5rem;
+        }
+
+        .modern-user-profile .profile-info h4 {
+            font-size: 1.15rem;
+        }
+    }
+
+    /* My Orders Section */
+    .orders-filter-section {
+        display: grid;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .filter-card {
+        background: linear-gradient(135deg, #f0faf8 0%, #ffffff 100%);
+        border: 2px solid #e0e0e0;
+        border-radius: 1.25rem;
+        padding: 1.75rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .filter-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary) 0%, transparent 100%);
+    }
+
+    .filter-card:hover {
+        border-color: var(--primary);
+        box-shadow: 0 8px 20px rgba(2, 97, 66, 0.1);
+        transform: translateY(-4px);
+    }
+
+    .filter-icon {
+        font-size: 2.5rem;
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, var(--primary-light) 0%, rgba(2, 97, 66, 0.1) 100%);
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .filter-info {
+        flex: 1;
+    }
+
+    .filter-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--primary);
+        line-height: 1;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.5px;
+    }
+
+    .filter-label {
+        color: var(--text-muted);
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .orders-wrapper {
+        background: white;
+        border-radius: 1.25rem;
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(2, 97, 66, 0.08);
+    }
+
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0;
+    }
+
+    .orders-table thead {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        border-bottom: 2px solid var(--primary);
+    }
+
+    .orders-table thead th {
+        padding: 1.75rem 1.5rem;
+        font-weight: 700;
+        color: #004d34;
+        text-align: left;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+    }
+
+    .orders-table tbody tr {
+        border-bottom: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .orders-table tbody tr:hover {
+        background-color: var(--accent-color);
+    }
+
+    .orders-table tbody td {
+        padding: 1.5rem;
+        color: var(--text-dark);
+        font-size: 0.95rem;
+        vertical-align: middle;
+    }
+
+    .order-id-badge {
+        background: linear-gradient(135deg, var(--primary-light) 0%, rgba(2, 97, 66, 0.1) 100%);
+        color: var(--primary);
+        padding: 0.7rem 1.2rem;
+        border-radius: 0.6rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        display: inline-block;
+    }
+
+    .order-date {
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.3rem;
+    }
+
+    .order-time {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    .order-amount {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--primary);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-action {
+        padding: 0.65rem 1.1rem;
+        border-radius: 0.6rem;
+        border: 2px solid transparent;
+        font-weight: 600;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        cursor: pointer;
+    }
+
+    .btn-view {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    .btn-view:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(2, 97, 66, 0.25);
+    }
+
+    .btn-invoice {
+        background: transparent;
+        color: var(--primary);
+        border-color: var(--primary);
+    }
+
+    .btn-invoice:hover {
+        background: var(--primary-light);
+        color: var(--primary);
+        border-color: var(--primary);
+    }
+
+    .btn-return {
+        background: transparent;
+        color: var(--warning);
+        border-color: var(--warning);
+    }
+
+    .btn-return:hover {
+        background: var(--warning-light);
+        color: var(--warning);
+        border-color: var(--warning);
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, var(--accent-color) 0%, #ffffff 100%);
+        border-radius: 1.25rem;
+        border: 2px dashed var(--border-color);
+    }
+
+    .empty-icon {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .empty-state h3 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.3px;
+    }
+
+    .empty-state p {
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        font-size: 1rem;
+    }
+
+    /* Profile Form Styles */
+    .profile-form {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+        box-shadow: 0 4px 20px rgba(2, 97, 66, 0.08);
+        border: 1px solid rgba(2, 97, 66, 0.05);
+    }
+
+    .profile-image-section {
+        background: linear-gradient(135deg, var(--primary-light) 0%, rgba(2, 97, 66, 0.05) 100%);
+        border-radius: 1.5rem;
+        padding: 2rem 1rem;
+        border: 2px solid rgba(2, 97, 66, 0.1);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .profile-image-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(2, 97, 66, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .profile-image-section::after {
+        content: '';
+        position: absolute;
+        bottom: -20%;
+        left: -5%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(2, 97, 66, 0.05) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .profile-image-container {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 2rem;
+        display: inline-block;
+        z-index: 1;
+    }
+
+    .profile-image-preview {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+        background: white;
+        border: 5px solid white;
+        box-shadow: 0 12px 40px rgba(2, 97, 66, 0.25), inset 0 0 0 2px var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        position: relative;
+    }
+
+    .profile-image-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+
+    .default-image-preview {
+        font-size: 5rem;
+        color: var(--primary);
+        background: linear-gradient(135deg, var(--primary-light) 0%, rgba(2, 97, 66, 0.1) 100%);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-image-container:hover .profile-image-preview {
+        transform: scale(1.08);
+        box-shadow: 0 16px 50px rgba(2, 97, 66, 0.35), inset 0 0 0 2px var(--primary);
+    }
+
+    .profile-image-overlay {
+        position: absolute;
+        bottom: -8px;
+        right: -8px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(2, 97, 66, 0.35);
+        transition: var(--transition);
+        border: 4px solid white;
+        z-index: 10;
+    }
+
+    .profile-image-overlay:hover {
+        transform: scale(1.15) rotate(10deg);
+        box-shadow: 0 10px 30px rgba(2, 97, 66, 0.45);
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    }
+
+    .upload-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 0.75rem;
+        text-align: center;
+        gap: 0.25rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .upload-label i {
+        font-size: 1.4rem;
+        transition: var(--transition);
+    }
+
+    .profile-image-overlay:hover .upload-label i {
+        transform: scale(1.2);
+    }
+
+    .image-info {
+        margin-top: 1.5rem;
+        z-index: 1;
+        position: relative;
+    }
+
+    .image-hint {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin: 0;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+    }
+
+    /* Responsive Design for Profile Image Section */
+    @media (max-width: 768px) {
+        .profile-image-section {
+            padding: 3rem 1.5rem;
+        }
+
+        .profile-image-container {
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 1.75rem;
+        }
+
+        .default-image-preview {
+            font-size: 4rem;
+        }
+
+        .profile-image-overlay {
+            width: 55px;
+            height: 55px;
+            bottom: -10px;
+            right: -10px;
+        }
+
+        .upload-label i {
+            font-size: 1.2rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .profile-image-section {
+            padding: 2.5rem 1rem;
+        }
+
+        .profile-image-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .profile-image-preview {
+            border-width: 4px;
+            box-shadow: 0 8px 28px rgba(2, 97, 66, 0.2), inset 0 0 0 2px var(--primary);
+        }
+
+        .default-image-preview {
+            font-size: 3.5rem;
+        }
+
+        .profile-image-overlay {
+            width: 50px;
+            height: 50px;
+            bottom: -8px;
+            right: -8px;
+            border-width: 3px;
+        }
+
+        .upload-label i {
+            font-size: 1rem;
+        }
+
+        .upload-label span {
+            display: none;
+        }
+
+        .image-hint {
+            font-size: 0.8rem;
         }
     }
 </style>

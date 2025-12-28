@@ -304,6 +304,9 @@
                 <a href="{{ route('affiliate.profile.edit') }}" class="edit-btn">
                     <i class="bi bi-pencil-fill"></i>Edit Profile
                 </a>
+                <a href="{{ route('affiliate.profile.edit') }}" class="edit-btn">
+                    <i class="bi bi-pencil-fill"></i>Change Password
+                </a>
             </div>
         </div>
     </div>
