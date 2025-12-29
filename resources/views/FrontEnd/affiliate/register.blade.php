@@ -232,17 +232,18 @@
                         </div>
                         <div class="col-md-7 d-flex align-items-center">
                             <div class="card-body">
-                      @if(session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
+                               @if(session('error'))
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+                                
+                                @if(session('message'))
+                                    <div class="alert alert-success">
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
 
-                    @if(session('message'))
-                        <div class="alert alert-success">
-                            {{ session('message') }}
-                        </div>
-                    @endif
                                 <h3 class="affiliate-title text-center text-md-start">
                                     Create your affiliate account
                                 </h3>

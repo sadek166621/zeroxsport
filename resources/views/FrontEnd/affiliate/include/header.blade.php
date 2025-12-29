@@ -1,6 +1,6 @@
 <style>
     .affiliate-navbar {
-        background: linear-gradient(135deg, #F1592A 0%, #d84620 100%);
+        background: #036243 !important;
         box-shadow: 0 2px 12px rgba(241, 89, 42, 0.15);
         padding: 10px 0 !important;
         position: sticky;
@@ -57,7 +57,7 @@
 
     .navbar-logout {
         background: white;
-        color: #F1592A;
+        color: #036243;
         border: none;
         padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 20px);
         border-radius: 6px;
@@ -75,7 +75,7 @@
     .navbar-logout:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        color: #F1592A;
+        color: #036243;
     }
 
     .navbar-logout:active {

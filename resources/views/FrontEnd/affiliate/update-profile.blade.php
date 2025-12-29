@@ -2,6 +2,18 @@
 @section('title', 'Update Profile')
 
 @section('content')
+<style>
+    .btn-upload{
+        color:#026143;
+        border: 1.5px solid #026143;
+    }
+    .password-title{
+        color:#026143;
+    }
+    .btn-primary-modern{
+            background: #026143;
+    }
+</style>
     <div class="col-lg-9">
         <div class="form-card">
 

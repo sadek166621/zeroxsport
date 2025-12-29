@@ -3,11 +3,11 @@
 @section('content')
 <style>
     .gradient-card {
-        background: linear-gradient(135deg, #F1592A 0%, #d63f1a 100%);
+        background: #026143 !important;
     }
 
     .earnings-card {
-        background: linear-gradient(135deg, #F1592A 0%, #ff7a52 100%);
+        background: linear-gradient(135deg, #026143 0%, #ff7a52 100%);
     }
 
     .stats-card {
@@ -36,8 +36,8 @@
     }
 
     .referral-code-box {
-        background: linear-gradient(135deg, #F1592A15 0%, #F1592A25 100%);
-        border-left: 4px solid #F1592A;
+        background: linear-gradient(135deg, #02614315 0%, #02614325 100%);
+        border-left: 4px solid #026143;
     }
 
     /* Responsive adjustments */
@@ -206,7 +206,7 @@
                         <div class="min-w-0 flex-grow-1">
                             <p class="text-muted mb-1 small">Total Earnings</p>
                             <h2 class="mb-0 fw-bold text-success d-flex" style="font-size: clamp(1.25rem, 3vw, 2rem);">
-                                ৳<span class="text-truncate d-inline-block" style="max-width: 100%;">{{ number_format(auth('affiliate')->user()->total_earning ?? 0, 2) }}</span>
+                                ৳<span class="text-truncate d-inline-block" style="max-width: 100%;">{{ number_format($totalEarnings) }}</span>
                             </h2>
                         </div>
                         <div class="bg-success bg-opacity-10 rounded-3 p-2 p-md-3 flex-shrink-0">
@@ -223,10 +223,10 @@
                     <div class="d-flex justify-content-between align-items-start mb-2 mb-md-3 gap-2">
                         <div class="min-w-0 flex-grow-1">
                             <p class="text-muted mb-1 small">Total Products</p>
-                            <h2 class="mb-0 fw-bold" style="color: #F1592A; font-size: clamp(1.25rem, 3vw, 2rem);">{{ count($products) }}</h2>
+                            <h2 class="mb-0 fw-bold" style="color: #026143; font-size: clamp(1.25rem, 3vw, 2rem);">{{ count($products) }}</h2>
                         </div>
                         <div class="rounded-3 p-2 p-md-3 flex-shrink-0" style="background-color: rgba(241, 89, 42, 0.1);">
-                            <i class="fas fa-box" style="color: #F1592A; font-size: clamp(1rem, 2vw, 1.5rem);"></i>
+                            <i class="fas fa-box" style="color: #026143; font-size: clamp(1rem, 2vw, 1.5rem);"></i>
                         </div>
                     </div>
                 </div>
@@ -239,10 +239,10 @@
                     <div class="d-flex justify-content-between align-items-start mb-2 mb-md-3 gap-2">
                         <div class="min-w-0 flex-grow-1">
                             <p class="text-muted mb-1 small">Total Orders</p>
-                            <h2 class="mb-0 fw-bold" style="color: #F1592A; font-size: clamp(1.25rem, 3vw, 2rem);">{{ $totalOrders }}</h2>
+                            <h2 class="mb-0 fw-bold" style="color: #026143; font-size: clamp(1.25rem, 3vw, 2rem);">{{ $totalOrders }}</h2>
                         </div>
                         <div class="rounded-3 p-2 p-md-3 flex-shrink-0" style="background-color: rgba(241, 89, 42, 0.1);">
-                            <i class="fas fa-shopping-cart" style="color: #F1592A; font-size: clamp(1rem, 2vw, 1.5rem);"></i>
+                            <i class="fas fa-shopping-cart" style="color: #026143; font-size: clamp(1rem, 2vw, 1.5rem);"></i>
                         </div>
                     </div>
                 </div>
@@ -257,7 +257,7 @@
                 <div class="card-body p-3 p-md-4">
                     <div class="d-flex align-items-center mb-3 gap-2 gap-md-3">
                         <div class="rounded-3 p-2 flex-shrink-0" style="background-color: rgba(241, 89, 42, 0.1);">
-                            <i class="fas fa-share" style="color: #F1592A; font-size: 1.25rem;"></i>
+                            <i class="fas fa-share" style="color: #026143; font-size: 1.25rem;"></i>
                         </div>
                         <div class="min-w-0 flex-grow-1">
                             <h5 class="mb-0 fw-bold" style="font-size: clamp(0.875rem, 2vw, 1.25rem);">Your Main Referral Link</h5>
@@ -272,7 +272,7 @@
                                 readonly
                                 style="font-size: 0.875rem;"
                                 value="{{ url('/') }}?ref={{ auth('affiliate')->user()->referral_code }}">
-                            <button class="btn copy-btn px-2 px-sm-4" style="background-color: #F1592A; color: white; border-color: #F1592A; white-space: nowrap;"
+                            <button class="btn copy-btn px-2 px-sm-4" style="background-color: #026143; color: white; border-color: #026143; white-space: nowrap;"
                                 onclick="copyToClipboard(document.getElementById('referralLinkInput').value)">
                                 <i class="fas fa-copy me-1 d-none d-sm-inline"></i><span class="d-sm-none">Copy</span><span class="d-none d-sm-inline">Copy Link</span>
                             </button>
@@ -291,7 +291,7 @@
                     <div class="d-flex justify-content-between align-items-start gap-2">
                         <div class="min-w-0 flex-grow-1">
                             <h5 class="mb-1 fw-bold" style="font-size: clamp(0.875rem, 2vw, 1.25rem);">
-                                <i class="fas fa-th me-2" style="color: #F1592A;"></i><span class="d-sm-inline">My Affiliate Products</span>
+                                <i class="fas fa-th me-2" style="color: #026143;"></i><span class="d-sm-inline">My Affiliate Products</span>
                             </h5>
                             <small class="text-muted d-none d-sm-inline">Manage and share your product referral links</small>
                         </div>
@@ -349,7 +349,7 @@
                                         @endphp
                                
                                         <div>
-                                            <span class="badge badge-sm" style="background-color: #F1592A; font-size: 0.65rem;">
+                                            <span class="badge badge-sm" style="background-color: #026143; font-size: 0.65rem;">
                                                 {{ $data['text'] ?? '0' }} OFF
                                             </span>
                                             <div class="fw-bold text-success" style="font-size: 0.75rem;">৳{{ number_format($data['discount'], 0) }}</div>
@@ -373,7 +373,7 @@
                                             onclick="copyToClipboard('{{ $referralLink }}')"
                                             data-bs-toggle="tooltip"
                                             title="Copy"
-                                            style="background-color: #F1592A; color: white; border-color: #F1592A; padding: 0.25rem 0.5rem;">
+                                            style="background-color: #026143; color: white; border-color: #026143; padding: 0.25rem 0.5rem;">
                                             <i class="fas fa-copy"></i>
                                         </button>
                                     </td>

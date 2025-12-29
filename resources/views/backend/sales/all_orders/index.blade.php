@@ -33,12 +33,7 @@
                                     <label class="col-form-label"><span>All Orders :</span></label>
                                 </div>
                                 <div class="col-md-2 mt-2">
-                                    {{--                            <div class="custom_select"> --}}
-                                    {{--                               <select class=" select-active select-nice form-select d-inline-block mb-lg-0 mr-5 mw-200" name="vendor_id" id="vendor_id"> --}}
-                                    {{--                                    <option value="" selected="">Vendor</option> --}}
-                                    {{--                                    <option value="0">AA</option> --}}
-                                    {{--                                </select> --}}
-                                    {{--                            </div> --}}
+
                                 </div>
                                 <div class="col-md-2 mt-2">
                                     <div class="custom_select">
@@ -109,9 +104,9 @@
                                                 <td>
                                                     {{ $order->grand_total }}
                                                     {{--                                        <?php--}}
-                                                    {{--                                            $discount_total = $order->grand_total-$order->discount;--}}
-                                                    {{--                                            $total_ammount = $discount_total+$order->shipping_charge;--}}
-                                                    {{--                                        ?> ?> --}}
+                                                                                                        {{--                                            $discount_total = $order->grand_total-$order->discount;--}}
+                                                                                                        {{--                                            $total_ammount = $discount_total+$order->shipping_charge;--}}
+                                                                                                        {{--                                        ?> ?> ?> --}}
                                                     {{--                                        {{ $total_ammount }} --}}
                                                 </td>
                                                 <td>
@@ -150,17 +145,7 @@
                                                     </a>
                                                 </td>
 
-                                                <!--  <td class="text-end">
-                                            <a href="#" class="btn btn-md rounded font-sm">Detail</a>
-                                            <div class="dropdown">
-                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">View detail</a>
-                                                    <a class="dropdown-item" href="#">Edit info</a>
-                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
-                                                </div>
-                                            </div>
-                                        </td> -->
+
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -180,46 +165,7 @@
                 </div>
                 <!-- card end// -->
             </div>
-            <!-- <div class="col-md-3">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="mb-3">Filter by</h5>
-                        <form>
-                            <div class="mb-4">
-                                <label for="order_id" class="form-label">Order ID</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="order_id" />
-                            </div>
-                            <div class="mb-4">
-                                <label for="order_customer" class="form-label">Customer</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="order_customer" />
-                            </div>
-                            <div class="mb-4">
-                                <label class="form-label">Order Status</label>
-                                <select class="form-select">
-                                    <option>Published</option>
-                                    <option>Draft</option>
-                                </select>
-                            </div>
-                            <div class="mb-4">
-                                <label for="order_total" class="form-label">Total</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="order_total" />
-                            </div>
-                            <div class="mb-4">
-                                <label for="order_created_date" class="form-label">Date Added</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="order_created_date" />
-                            </div>
-                            <div class="mb-4">
-                                <label for="order_modified_date" class="form-label">Date Modified</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="order_modified_date" />
-                            </div>
-                            <div class="mb-4">
-                                <label for="order_customer_1" class="form-label">Customer</label>
-                                <input type="text" placeholder="Type here" class="form-control" id="order_customer_1" />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> -->
+
         </div>
     </section>
 
@@ -239,11 +185,8 @@
                         'MM/DD/YYYY'));
                 });
 
-                // $('input[name="date"]').on('cancel.daterangepicker', function(ev, picker) {
-                //     $(this).val('');
-                // });
 
-                
+
                 var start = moment().subtract(29, 'days');
                 var end = moment();
 

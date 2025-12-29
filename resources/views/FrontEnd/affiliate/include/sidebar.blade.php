@@ -1,13 +1,14 @@
 {{-- resources/views/FrontEnd/Affiliate/include/sidebar.blade.php --}}
 <style>
+    /* ========== MOBILE HEADER ========== */
     .mobile-header {
-        background: linear-gradient(135deg, #F1592A 0%, #d84620 100%);
+        background: linear-gradient(135deg, #026243 0%, #014d36 100%);
         border-radius: 12px;
         padding: 16px 20px !important;
         color: white;
         margin-bottom: 20px !important;
         display: none;
-        box-shadow: 0 4px 15px rgba(241, 89, 42, 0.2);
+        box-shadow: 0 4px 15px rgba(2, 98, 67, 0.2);
     }
 
     .mobile-header h5 {
@@ -21,14 +22,14 @@
         background: white;
         border: none;
         border-radius: 8px;
-        width: 42px;
+        width: 100px ! important;
         height: 42px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         transition: all 0.3s ease;
-        color: #F1592A;
+        color: #026243;
         padding: 0;
         flex-shrink: 0;
         font-size: 1.3rem;
@@ -37,13 +38,15 @@
 
     .mobile-toggle:hover {
         transform: scale(1.08);
-        box-shadow: 0 4px 12px rgba(241, 89, 42, 0.2);
+        box-shadow: 0 4px 12px rgba(2, 98, 67, 0.2);
+        background-color: #003E33;
     }
 
     .mobile-toggle:active {
         transform: scale(0.92);
     }
 
+    /* ========== SIDEBAR ========== */
     .sidebar {
         border-radius: 12px;
     }
@@ -54,6 +57,7 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
         border: 1px solid #f5f5f5 !important;
         overflow: hidden;
+        position: relative;
     }
 
     .sidebar .card::before {
@@ -63,7 +67,7 @@
         left: 0;
         right: 0;
         height: 4px;
-        background: linear-gradient(90deg, #F1592A 0%, #d84620 100%);
+        background: linear-gradient(90deg, #026243 0%, #014d36 100%);
     }
 
     .nav {
@@ -104,14 +108,14 @@
         transform: translateY(-50%);
         width: 0;
         height: 20px;
-        background: #F1592A;
+        background: #026243;
         border-radius: 0 4px 4px 0;
         transition: width 0.3s ease;
     }
 
     .sidebar-item:hover {
-        background: #f8f9fa;
-        color: #F1592A;
+        background: #f0f5f3;
+        color: #026243;
         transform: translateX(4px);
     }
 
@@ -126,17 +130,18 @@
     }
 
     .sidebar-item.active {
-        background: linear-gradient(135deg, rgba(241, 89, 42, 0.15) 0%, rgba(241, 89, 42, 0.08) 100%);
-        color: #F1592A;
+        background: linear-gradient(135deg, rgba(2, 98, 67, 0.15) 0%, rgba(2, 98, 67, 0.08) 100%);
+        color: #026243;
         font-weight: 600;
     }
 
     .sidebar-item.active::before {
         width: 4px;
+        background: #026243;
     }
 
     .sidebar-item.active i {
-        color: #F1592A;
+        color: #026243;
         transform: scale(1.1);
     }
 
@@ -148,19 +153,19 @@
         margin-right: 8px;
         padding-top: 14px !important;
         border-top: 1px solid #f0f0f0;
-        color: #d84620;
+        color: #014d36;
     }
 
     .logout-item:hover {
-        background: #f8d7da;
-        color: #c41e3a;
+        background: #e0f0ec;
+        color: #014d36;
     }
 
     .logout-item:hover i {
         transform: translateX(2px);
     }
 
-    /* Desktop View */
+    /* ========== DESKTOP VIEW ========== */
     @media (min-width: 992px) {
         .mobile-header {
             display: none !important;
@@ -172,11 +177,11 @@
         }
 
         .sidebar .card {
-            box-shadow: 0 2px 12px rgba(241, 89, 42, 0.1) !important;
+            box-shadow: 0 2px 12px rgba(2, 98, 67, 0.1) !important;
         }
     }
 
-    /* Tablet & Mobile View */
+    /* ========== TABLET & MOBILE VIEW ========== */
     @media (max-width: 991px) {
         .mobile-header {
             display: flex !important;
@@ -236,7 +241,7 @@
         }
 
         .sidebar-item.active {
-            border-left: 3px solid #F1592A;
+            border-left: 3px solid #026243;
             padding-left: 11px !important;
         }
 
@@ -252,11 +257,12 @@
     }
 </style>
 
+
 {{-- Mobile Toggle Button --}}
 <div class="mobile-header d-lg-none d-flex justify-content-between align-items-center">
-    <h5><i class="bi bi-list me-2"></i>Menu</h5>
+    <!--<h5><i class="bi bi-list me-2"></i>Menu</h5>-->
     <button class="mobile-toggle" type="button" id="sidebarToggle" aria-expanded="false" aria-controls="affiliateSidebar">
-        <i class="bi bi-list"></i>
+      Menu  <i class="bi bi-list"></i>
     </button>
 </div>
 

@@ -12,7 +12,7 @@
     }
 
     .profile-header {
-        background: linear-gradient(135deg, #F1592A 0%, #d84620 100%);
+        background: #026143;
         border-radius: 16px;
         padding: 40px 30px;
         color: white;
@@ -72,7 +72,7 @@
 
     .edit-btn {
         background: white;
-        color: #F1592A;
+        color: #026143;
         border: none;
         padding: 10px 24px;
         border-radius: 8px;
@@ -87,7 +87,7 @@
     .edit-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        color: #F1592A;
+        color: #026143;
     }
 
     .stats-section {
@@ -102,7 +102,7 @@
         border-radius: 12px;
         padding: 25px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        border-top: 4px solid #F1592A;
+        border-top: 4px solid #026143;
         transition: all 0.3s ease;
     }
 
@@ -123,7 +123,7 @@
     .stat-value {
         font-size: 1.8rem;
         font-weight: 700;
-        color: #F1592A;
+        color: #026143;
     }
 
     .info-section {
@@ -146,7 +146,7 @@
     }
 
     .info-section-title i {
-        color: #F1592A;
+        color: #026143;
     }
 
     .info-grid {
@@ -159,7 +159,7 @@
         padding: 20px;
         background: #f8f9fa;
         border-radius: 10px;
-        border-left: 4px solid #F1592A;
+        border-left: 4px solid #026143;
         transition: all 0.3s ease;
     }
 
@@ -182,7 +182,7 @@
     }
 
     .info-label i {
-        color: #F1592A;
+        color: #026143;
     }
 
     .info-value {
@@ -304,9 +304,9 @@
                 <a href="{{ route('affiliate.profile.edit') }}" class="edit-btn">
                     <i class="bi bi-pencil-fill"></i>Edit Profile
                 </a>
-                <a href="{{ route('affiliate.profile.edit') }}" class="edit-btn">
-                    <i class="bi bi-pencil-fill"></i>Change Password
-                </a>
+                <!--<a href="{{ route('affiliate.profile.edit') }}" class="edit-btn">-->
+                <!--    <i class="bi bi-pencil-fill"></i>Change Password-->
+                <!--</a>-->
             </div>
         </div>
     </div>

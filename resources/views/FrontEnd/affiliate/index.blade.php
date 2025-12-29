@@ -32,15 +32,7 @@
     }
 
     .header-logo {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        font-size: 22px;
-        font-weight: 700;
-        color: #2d3748;
-        flex-shrink: 0;
-        transition: all 0.3s ease;
+        width:150px;
     }
 
     .header-logo:hover {
@@ -50,7 +42,7 @@
     .logo-icon {
         width: 45px;
         height: 45px;
-        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        background: #036243;
         border-radius: 10px;
         display: flex;
         align-items: center;
@@ -79,7 +71,7 @@
     }
 
     .nav-link:hover {
-        color: #EE592A;
+        color: #036243;
     }
 
     .nav-link::after {
@@ -89,7 +81,7 @@
         left: 0;
         width: 0;
         height: 2px;
-        background: #EE592A;
+        background: #036243;
         transition: width 0.3s ease;
     }
 
@@ -123,14 +115,14 @@
     }
 
     .nav-btn.login:hover {
-        color: #EE592A;
-        border-color: #EE592A;
+        color: #036243;
+        border-color: #036243;
         background: rgba(238, 89, 42, 0.05);
     }
 
     .nav-btn.register,
     .nav-btn.dashboard {
-        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        background: #036243;
         color: white;
         box-shadow: 0 4px 15px rgba(238, 89, 42, 0.3);
     }
@@ -142,7 +134,7 @@
     }
 
     .header-cta {
-        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        background: #036243;
         color: white;
         padding: 12px 28px;
         border-radius: 8px;
@@ -159,95 +151,6 @@
         box-shadow: 0 8px 20px rgba(238, 89, 42, 0.3);
     }
 
-    .mobile-menu-toggle {
-        display: none;
-        flex-direction: column;
-        gap: 5px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        flex-shrink: 0;
-    }
-
-    .mobile-menu-toggle span {
-        width: 25px;
-        height: 3px;
-        background: #2d3748;
-        border-radius: 2px;
-        transition: all 0.3s ease;
-    }
-
-    .mobile-menu-toggle.active span:nth-child(1) {
-        transform: rotate(45deg) translate(10px, 10px);
-    }
-
-    .mobile-menu-toggle.active span:nth-child(2) {
-        opacity: 0;
-    }
-
-    .mobile-menu-toggle.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(7px, -7px);
-    }
-
-    .mobile-menu {
-        display: none;
-        position: fixed;
-        top: 75px;
-        left: 0;
-        right: 0;
-        background: white;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-        flex-direction: column;
-        padding: 20px;
-        gap: 10px;
-        z-index: 998;
-        max-height: calc(100vh - 75px);
-        overflow-y: auto;
-        border-top: 1px solid #e2e8f0;
-        width: 100%;
-    }
-
-    .mobile-menu.active {
-        display: flex;
-    }
-
-    .mobile-menu .nav-link {
-        padding: 12px 15px;
-        display: block;
-        color: #718096;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-    }
-
-    .mobile-menu .nav-link:hover {
-        background: rgba(238, 89, 42, 0.1);
-        color: #EE592A;
-    }
-
-    .mobile-menu .nav-link::after {
-        display: none;
-    }
-
-    .mobile-menu-auth {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding-top: 15px;
-        border-top: 1px solid #e2e8f0;
-        margin-top: 10px;
-    }
-
-    .mobile-menu .nav-btn {
-        width: 100%;
-        text-align: center;
-        padding: 12px 18px;
-    }
-
-    .mobile-menu .nav-btn.login {
-        color: #718096;
-        border: 1.5px solid #e2e8f0;
-    }
-
     /* ========== RESPONSIVE HEADER ========== */
     @media (max-width: 768px) {
         .header-container {
@@ -259,21 +162,8 @@
             display: none;
         }
 
-        .header-auth {
-            display: none;
-        }
-
-        .mobile-menu-toggle {
-            display: flex;
-        }
-
-        .mobile-menu {
-            top: 65px;
-        }
-
         .header-logo {
-            font-size: 18px;
-            gap: 8px;
+            width:100px;
         }
 
         .logo-icon {
@@ -281,11 +171,23 @@
             height: 40px;
             font-size: 20px;
         }
+
+        /* Hide Register button on mobile */
+        .nav-btn.register {
+            display: none;
+        }
+        
+        .nav-btn.login {
+        background: #036243; /* green background */
+        color: white;         /* make text white for contrast */
+        border: none;         /* remove border if needed */
+    }
+
     }
 
     /* ========== HERO SECTION ========== */
     .hero {
-        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        background: #036243;
         position: relative;
         overflow: hidden;
         color: white;
@@ -296,8 +198,6 @@
         align-items: center;
         justify-content: center;
     }
-
-
 
     .hero-content {
         position: relative;
@@ -353,7 +253,7 @@
 
     .cta-button {
         background: white;
-        color: #EE592A;
+        color: #036243;
         padding: 16px 45px;
         text-decoration: none;
         border-radius: 8px;
@@ -417,7 +317,7 @@
         border-radius: 12px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
         transition: all 0.3s ease;
-        border-left: 4px solid #EE592A;
+        border-left: 4px solid #036243;
         position: relative;
         overflow: hidden;
     }
@@ -446,7 +346,7 @@
     .benefit-icon {
         width: 60px;
         height: 60px;
-        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        background: #036243;
         border-radius: 10px;
         display: flex;
         align-items: center;
@@ -476,6 +376,7 @@
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 30px;
         position: relative;
+        counter-reset: step-counter;
     }
 
     .step {
@@ -497,7 +398,7 @@
         transform: translateX(-50%);
         width: 50px;
         height: 50px;
-        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        background: #036243;
         color: white;
         border-radius: 50%;
         display: flex;
@@ -527,10 +428,6 @@
         line-height: 1.6;
     }
 
-    .steps {
-        counter-reset: step-counter;
-    }
-
     /* ========== COMMISSION TABLE ========== */
     .table-wrapper {
         max-width: 1000px;
@@ -549,7 +446,7 @@
     }
 
     th {
-        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        background: #036243;
         color: white;
         padding: 20px;
         text-align: left;
@@ -576,7 +473,7 @@
 
     /* ========== TESTIMONIALS SECTION ========== */
     .testimonials {
-        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        background: #036243;
         color: white;
     }
 
@@ -652,7 +549,7 @@
         border-radius: 8px;
         padding: 20px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        border-left: 4px solid #EE592A;
+        border-left: 4px solid #036243;
         transition: all 0.3s ease;
     }
 
@@ -692,7 +589,7 @@
 
     /* ========== SIGNUP SECTION ========== */
     #signup {
-        background: linear-gradient(135deg, #EE592A 0%, #D64422 100%);
+        background: #036243;
         color: white;
         text-align: center;
         padding: 100px 20px;
@@ -816,9 +713,8 @@
 <!-- Custom Header -->
 <header class="affiliate-header">
     <div class="header-container">
-        <a href="#" class="header-logo">
-            <div class="logo-icon">A</div>
-            <span>Affiliate Hub</span>
+        <a href="{{ route('home') }}" class="header-logo">
+            <img src="{{ asset('FrontEnd/assect/img/logo.png') }}" alt="Logo">
         </a>
         <nav class="header-nav">
             <a href="#benefits" class="nav-link">Benefits</a>
@@ -842,33 +738,7 @@
                 </a>
             @endguest
         </div>
-        
     </div>
-    
-    <!-- Mobile Menu -->
-    <nav class="mobile-menu" id="mobileMenu">
-        <a href="#benefits" class="nav-link">Benefits</a>
-        <a href="#how-it-works" class="nav-link">How It Works</a>
-        <a href="#commissions" class="nav-link">Commissions</a>
-        <a href="#faq" class="nav-link">FAQ</a>
-        
-        <div class="mobile-menu-auth">
-            @auth('affiliate')
-                <a href="{{ route('affiliate.dashboard') }}" class="nav-btn dashboard">
-                    Dashboard
-                </a>
-            @endauth
-
-            @guest('affiliate')
-                <a href="{{ route('login.affiliate') }}" class="nav-btn login">
-                    Login
-                </a>
-                <a href="{{ route('register.affiliate') }}" class="nav-btn register">
-                    Register
-                </a>
-            @endguest
-        </div>
-    </nav>
 </header>
 
 <section class="hero">
@@ -892,7 +762,7 @@
         </div>
 
         <div>
-            <a href="#signup" class="cta-button">Start Earning Today</a>
+            <a href="{{ route('register.affiliate') }}" class="cta-button">Start Earning Today</a>
             <a href="#how-it-works" class="cta-button cta-button-secondary">Learn More</a>
         </div>
     </div>
@@ -957,7 +827,6 @@
         </div>
     </div>
 </section>
-
 
 <section class="testimonials">
     <h2>What Our Top Affiliates Say</h2>
@@ -1034,37 +903,7 @@
 <section id="signup">
     <h2>Ready to Start Earning?</h2>
     <p>Join thousands of successful affiliates and turn your audience into income</p>
-    <a href="signup-form.html" class="cta-button">Apply to Our Program</a>
+    <a href="{{ route('register.affiliate') }}" class="cta-button">Apply to Our Program</a>
 </section>
 
 @endsection
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const navLinks = mobileMenu.querySelectorAll('.nav-link, .nav-btn');
-
-        // Toggle menu on button click
-        mobileMenuToggle.addEventListener('click', function() {
-            mobileMenuToggle.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-        });
-
-        // Close menu when a link is clicked
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                mobileMenuToggle.classList.remove('active');
-                mobileMenu.classList.remove('active');
-            });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.affiliate-header')) {
-                mobileMenuToggle.classList.remove('active');
-                mobileMenu.classList.remove('active');
-            }
-        });
-    });
-</script>

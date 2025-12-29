@@ -409,8 +409,10 @@ Route::middleware('adminAccess')->group(function () {
 
 
 		Route::get('/all_orders', [OrderController::class, 'index'])->name('all_orders.index');
+		Route::get('/vendor_orders', [OrderController::class, 'vendorOrders'])->name('vendor_orders.index');
 		Route::get('/wholesell', [OrderController::class, 'allWholesellOrders'])->name('wholesell.orders');
 		Route::get('/all_orders/{id}/show', [OrderController::class, 'show'])->name('all_orders.show');
+		Route::get('/vendor_orders/{id}/show', [OrderController::class, 'vendorOrdershow'])->name('admin.vendor.orders.show');
 
 		Route::get('/orders_delete/{id}', [OrderController::class, 'destroy'])->name('delete.orders');
 		Route::post('/orders_update/{id}', [OrderController::class, 'update'])->name('admin.orders.update');
@@ -425,6 +427,11 @@ Route::middleware('adminAccess')->group(function () {
 	Route::post('/orders/update_payment_status', [OrderController::class, 'update_payment_status'])->name('orders.update_payment_status');
 	// delivery status
 	Route::post('/orders/update_delivery_status', [OrderController::class, 'update_delivery_status'])->name('orders.update_delivery_status');
+
+	// payment status
+	Route::post('/orders/update_vendor_payment_status', [OrderController::class, 'updateVendorPaymentStatus'])->name('orders.update_vendor_payment_status');
+	// delivery status
+	Route::post('/orders/update_vendor_delivery_status', [OrderController::class, 'updateVendorDeliveryStatus'])->name('orders.update_vendor_delivery_status');
 
 
 

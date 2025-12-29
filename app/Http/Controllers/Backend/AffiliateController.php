@@ -12,6 +12,7 @@ class AffiliateController extends Controller
     public function index()
     {
         $affiliates = Affiliate::latest()->get();
+        
         return view('backend.affiliate.index', compact('affiliates'));
     }
 

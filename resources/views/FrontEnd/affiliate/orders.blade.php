@@ -29,21 +29,21 @@
         left: 0;
         width: 60px;
         height: 4px;
-        background: linear-gradient(90deg, #F1592A 0%, #d84620 100%);
+        background: linear-gradient(90deg, #026243 0%, #014d35 100%);
         border-radius: 2px;
     }
 
     .empty-state {
         text-align: center;
         padding: 60px 20px;
-        background: linear-gradient(135deg, rgba(241, 89, 42, 0.05) 0%, rgba(216, 70, 32, 0.05) 100%);
+        background: linear-gradient(135deg, rgba(2, 98, 67, 0.05) 0%, rgba(1, 77, 53, 0.05) 100%);
         border-radius: 12px;
-        border: 2px dashed #F1592A;
+        border: 2px dashed #026243;
     }
 
     .empty-state-icon {
         font-size: 4rem;
-        color: #F1592A;
+        color: #026243;
         margin-bottom: 20px;
     }
 
@@ -74,7 +74,7 @@
     }
 
     .orders-table thead {
-        background: linear-gradient(135deg, #F1592A 0%, #d84620 100%);
+        background: linear-gradient(135deg, #026243 0%, #014d35 100%);
         color: white;
     }
 
@@ -105,12 +105,12 @@
 
     .invoice-cell {
         font-weight: 600;
-        color: #F1592A;
+        color: #026243;
     }
 
     .amount-cell {
         font-weight: 700;
-        color: #F1592A;
+        color: #026243;
         font-size: 1.05rem;
     }
 
@@ -197,7 +197,7 @@
     }
 
     .btn-view {
-        background: linear-gradient(135deg, #F1592A 0%, #d84620 100%);
+        background: linear-gradient(135deg, #026243 0%, #014d35 100%);
         color: white;
         padding: 6px 14px;
         border: none;
@@ -213,7 +213,7 @@
 
     .btn-view:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(241, 89, 42, 0.3);
+        box-shadow: 0 4px 12px rgba(2, 98, 67, 0.3);
         color: white;
     }
 

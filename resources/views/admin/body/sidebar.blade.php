@@ -305,14 +305,19 @@
                         in_array('17', json_decode(Auth::guard('admin')->user()->staff->role->permissions)))
                     <a class="menu-link" href="#">
                         <i class="fas fa-list fontawesome_icon_custom"></i>
-                        <span class="text">Sales</span>
+                        <span class="text">Orders</span>
                     </a>
                 @endif
                 <div class="submenu">
                     @if (Auth::guard('admin')->user()->role == '1' ||
                             in_array('17', json_decode(Auth::guard('admin')->user()->staff->role->permissions)))
                         <a class="{{ $route == 'all_orders.index' ? 'active' : '' }}"
-                            href="{{ route('all_orders.index') }}">All Orders</a>
+                            href="{{ route('all_orders.index') }}">Admin Orders</a>
+                    @endif
+                    @if (Auth::guard('admin')->user()->role == '1' ||
+                            in_array('17', json_decode(Auth::guard('admin')->user()->staff->role->permissions)))
+                        <a class="{{ $route == 'vendor_orders.index' ? 'active' : '' }}"
+                            href="{{ route('vendor_orders.index') }}">Vendor Orders</a>
                     @endif
 
 

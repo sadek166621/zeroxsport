@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Order;
 use App\Models\Affiliate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +22,9 @@ class AffiliateController extends Controller
         }
 
         $user = Affiliate::where('affiliate_member_id', $affiliateId)->first();
+        $affiliate=Affiliate::where('affiliate_member_id', $affiliateId)->first();
 
+         $amount=Order::where('affiliate_id', $affiliate->id)->where('payment_status', 1)->where('delivery_status', 4)->sum('affiliate_commission');
         if (!$user) {
             return response()->json([
                 'success' => false,
@@ -32,7 +35,7 @@ class AffiliateController extends Controller
 
         return response()->json([
             'success' => true,
-            'amount' => $user->total_earning,
+            'amount' => $amount,
             'project' => 'ONLINE HUT BD',
         ]);
 

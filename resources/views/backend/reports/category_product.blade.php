@@ -17,6 +17,7 @@
                 <table id="example" class="table table-bordered table-striped" width="100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Product Name</th>
                             <th>Total Qty Sold</th>
                             <th>Total Sales Value</th>
@@ -26,6 +27,7 @@
                         @php $grandTotal = 0; @endphp
                         @foreach($orders as $order)
                             <tr>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $order->product_name }}</td>
                                 <td>{{ $order->total_qty }}</td>
                                 <td>{{ $order->total_sales }}</td>

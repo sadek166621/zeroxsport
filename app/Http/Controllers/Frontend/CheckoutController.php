@@ -218,6 +218,25 @@ class CheckoutController extends Controller
             ? Affiliate::where('referral_code', session('affiliate_ref'))->value('id')
             : null;
 
+        // Calculate unique vendors & shipping cost per vendor
+        $uniqueVendorIds = collect();
+        foreach ($carts as $cart) {
+            $product = Product::find($cart->id);
+            if ($product && $product->vendor_id) {
+                $uniqueVendorIds->push($product->vendor_id);
+            }
+        }
+        $uniqueVendorIds   = $uniqueVendorIds->unique();
+        $vendorCount       = $uniqueVendorIds->count();
+        $shippingPerVendor = $vendorCount ? ($request->shipping_charge / $vendorCount) : 0;
+        $isVendorOrder = $vendorCount > 0 ? 1 : 0;
+
+        // Variables for totals
+        $vendorData             = [];
+        $orderSubTotal          = 0;
+        $orderGrandTotal        = 0;
+        $totalAffiliateCommission = 0;
+
         $order = Order::create([
             'user_id'           => Auth::id(),
             'affiliate_id'      => $affiliateId,
@@ -241,73 +260,58 @@ class CheckoutController extends Controller
             'comment'           => $request->comment,
             'coupon'            => Session::get('amount') ?: 0,
             'type'              => 1,
+            'is_vendor_order'   => $isVendorOrder
         ]);
 
-        // Calculate unique vendors & shipping cost per vendor
-        $uniqueVendorIds = collect();
+
+
+        // Process cart items
         foreach ($carts as $cart) {
             $product = Product::find($cart->id);
-            if ($product && $product->vendor_id) {
-                $uniqueVendorIds->push($product->vendor_id);
+            if (!$product) {
+                continue;
+            }
+
+            $vendor_id = $product->vendor_id; // null হলে null থাকবে
+
+            $sub   = $cart->qty * $cart->price;
+            $tax   = $cart->tax ?? 0;
+            $grand = $sub + $tax;
+
+            $orderSubTotal   += $sub;
+            $orderGrandTotal += $grand;
+
+            // শুধু যদি actual vendor থাকে তাহলে VendorOrder data collect করো
+            if ($vendor_id) {  // ← এখানে চেক যোগ করো (null হলে skip)
+                if (!isset($vendorData[$vendor_id])) {
+                    $vendorData[$vendor_id] = [
+                        'order_id'      => $order->id,
+                        'vendor_id'     => $vendor_id,
+                        'subtotal'      => 0,
+                        'grand_total'   => 0,
+                        'shipping_cost' => $shippingPerVendor,
+                    ];
+                }
+
+                $vendorData[$vendor_id]['subtotal']    += $sub;
+                $vendorData[$vendor_id]['grand_total'] += $grand;
+            }
+
+            // Affiliate commission (আগের fix অনুযায়ী)
+            if ($affiliateId && $product->is_affiliate == 1) {
+                $commissionData = $product->product_affiliate_commission;
+                $amount         = $commissionData['amount'] ?? 0;
+                $type           = $commissionData['type'] ?? null;
+
+                if ($amount > 0 && $type) {
+                    $earning = $type === 'percentage'
+                        ? ($sub * $amount) / 100
+                        : $amount * $cart->qty;
+
+                    $totalAffiliateCommission += $earning;
+                }
             }
         }
-        $uniqueVendorIds   = $uniqueVendorIds->unique();
-        $vendorCount       = $uniqueVendorIds->count();
-        $shippingPerVendor = $vendorCount ? ($request->shipping_charge / $vendorCount) : 0;
-
-// Variables for totals
-$vendorData             = [];
-$orderSubTotal          = 0;
-$orderGrandTotal        = 0;
-$totalAffiliateCommission = 0;
-
-// Process cart items
-foreach ($carts as $cart) {
-    $product = Product::find($cart->id);
-    if (!$product) {
-        continue;
-    }
-
-    $vendor_id = $product->vendor_id; // null হলে null থাকবে
-
-    $sub   = $cart->qty * $cart->price;
-    $tax   = $cart->tax ?? 0;
-    $grand = $sub + $tax;
-
-    $orderSubTotal   += $sub;
-    $orderGrandTotal += $grand;
-
-    // শুধু যদি actual vendor থাকে তাহলে VendorOrder data collect করো
-    if ($vendor_id) {  // ← এখানে চেক যোগ করো (null হলে skip)
-        if (!isset($vendorData[$vendor_id])) {
-            $vendorData[$vendor_id] = [
-                'order_id'      => $order->id,
-                'vendor_id'     => $vendor_id,
-                'subtotal'      => 0,
-                'grand_total'   => 0,
-                'shipping_cost' => $shippingPerVendor,
-            ];
-        }
-
-        $vendorData[$vendor_id]['subtotal']    += $sub;
-        $vendorData[$vendor_id]['grand_total'] += $grand;
-    }
-
-    // Affiliate commission (আগের fix অনুযায়ী)
-    if ($affiliateId && $product->is_affiliate == 1) {
-        $commissionData = $product->product_affiliate_commission;
-        $amount         = $commissionData['amount'] ?? 0;
-        $type           = $commissionData['type'] ?? null;
-
-        if ($amount > 0 && $type) {
-            $earning = $type === 'percentage'
-                ? ($sub * $amount) / 100
-                : $amount * $cart->qty;
-
-            $totalAffiliateCommission += $earning;
-        }
-    }
-}
 
         // Create VendorOrder records
         $vendorOrderIds = [];
@@ -386,11 +390,12 @@ foreach ($carts as $cart) {
             'sub_total'            => $orderSubTotal,
             'grand_total'          => $orderGrandTotal + $request->shipping_charge - (Session::get('amount') ?: 0),
             'affiliate_commission' => round($totalAffiliateCommission, 2),
+
         ]);
 
-       // dd($request->sub_total, $totalAffiliateCommission,);
+        // dd($request->sub_total, $totalAffiliateCommission,);
 
-     //   Clear cart & session data
+        //   Clear cart & session data
         Cart::destroy();
         Session::forget(['couponCode', 'discountType', 'amount', 'affiliate_ref']);
 

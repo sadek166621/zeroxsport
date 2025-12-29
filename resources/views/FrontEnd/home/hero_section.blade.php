@@ -43,6 +43,7 @@
     /* Banner Section */
     .banner-section {
         width: 100%;
+        height: 150px;
         margin: 30px 0;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -51,7 +52,7 @@
 
     .banner-section img {
         width: 100%;
-        height: auto;
+        height: 100%;
         border-radius: 8px;
         object-fit: cover;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
