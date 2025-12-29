@@ -103,9 +103,9 @@
                 </a>
 
                 <div class="submenu">
-                    <a class="{{ $route == 'sales.report' ? 'active' : '' }}" href="{{ route('sales.report') }}">
+                    {{-- <a class="{{ $route == 'vendor.sales.report' ? 'active' : '' }}" href="{{ route('vendor.sales.report') }}">
                         Sales Report
-                    </a>
+                    </a> --}}
 
                     <a class="{{ $route == 'report.category.sales' ? 'active' : '' }}"
                         href="{{ route('report.category.sales') }}">

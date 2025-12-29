@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Vendor;
 
 use PDF;
+use App\Models\Order;
 use App\Models\Vendor;
 use App\Models\VendorOrder;
 use Illuminate\Http\Request;
@@ -232,6 +233,12 @@ class VendorOrderController extends Controller
 
     public function salesReport()
     {
-        return view('vendor.salesReport');
+        return view('backend.vendor.reports.salesReport');
+    }
+
+        public function details($id)
+    {
+        $order = VendorOrder::find($id);
+        return view('backend.vendor.reports.details', compact('order'));
     }
 }

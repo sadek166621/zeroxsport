@@ -393,6 +393,10 @@
                         <span class="text">Report</span>
                     </a>
                     <div class="submenu vendor-submenu">
+                        <a class="{{ $route == 'report.category.sales' ? 'active' : '' }}"
+                        href="{{ route('report.category.sales') }}">
+                        Category-wise Sales
+                    </a>
                         <a class="{{ $route == 'stock_report.index' ? 'active' : '' }}"
                             href="{{ route('stock_report.index') }}">Product Stock</a>
                     </div>

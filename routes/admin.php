@@ -71,7 +71,7 @@ Route::prefix('vendor')->middleware('vendor')->group(function () {
 	Route::get('/orders/completed', [VendorOrderController::class, 'completedOrder'])->name('vendor.orders.completed');
 	Route::get('/orders/canceled', [VendorOrderController::class, 'cancelledOrder'])->name('vendor.orders.canceled');
 	Route::get('/sales-report', [VendorOrderController::class, 'salesReport'])->name('vendor.sales.report');
-	Route::get('/sales-report/details/{id}', [ReportController::class, 'details'])->name('vendor.sales.report.view');
+	Route::get('/sales-report/details/{id}', [VendorOrderController::class, 'details'])->name('vendor.sales.report.view');
 
 	Route::get('/order-details/{id}', [VendorOrderController::class, 'vendorOrdershow'])->name('vendor.order.details');
 	Route::get('/invoice-download/{order_id}', [VendorOrderController::class, 'vendorinvoiceDownload'])->name('vendor.invoice.download');
@@ -190,6 +190,7 @@ Route::prefix($prefix)->middleware('admin')->group(function () {
 	Route::get('/sales-report', [ReportController::class, 'salesReport'])->name('sales.report');
 	Route::get('/sales-report/details/{id}', [ReportController::class, 'details'])->name('report.view');
 	Route::get('/reports/category-sales', [ReportController::class, 'categorySales'])->name('report.category.sales');
+	Route::get('/category/product/{id}', [ReportController::class, 'categoryProduct'])->name('report.category.products');
 	Route::get('/reports/traffic', [ReportController::class, 'trafficAnalytics'])->name('report.traffic');
 	Route::get('/reports/conversion-rate', [ReportController::class, 'conversionRate'])->name('report.conversion');
 	Route::get('/reports/most-viewed-products', [ReportController::class, 'mostViewedProducts'])->name('report.most.viewed');

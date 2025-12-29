@@ -609,7 +609,7 @@ Dashboard | Modern Dashboard
     }
 
     .modern-user-profile .profile-info p {
-        color: rgba(255, 255, 255, 0.9);
+        color: rgba(255, 255, 255, 0.9) !important;
         font-size: 0.9rem;
         line-height: 1.6;
         margin: 0.5rem 0;
@@ -766,7 +766,7 @@ Dashboard | Modern Dashboard
     }
 
     .stat-modern-card .card-body {
-        padding: 2rem;
+        padding: 1rem;
     }
 
     .stat-modern-icon {
@@ -1219,7 +1219,7 @@ Dashboard | Modern Dashboard
         background: linear-gradient(135deg, #f0faf8 0%, #ffffff 100%);
         border: 2px solid #e0e0e0;
         border-radius: 1.25rem;
-        padding: 1.75rem;
+        padding: 1rem;
         display: flex;
         align-items: center;
         gap: 1.5rem;
@@ -1316,7 +1316,7 @@ Dashboard | Modern Dashboard
     }
 
     .orders-table tbody td {
-        padding: 1.5rem;
+        padding: .5rem;
         color: var(--text-dark);
         font-size: 0.95rem;
         vertical-align: middle;
@@ -1356,7 +1356,7 @@ Dashboard | Modern Dashboard
     }
 
     .btn-action {
-        padding: 0.65rem 1.1rem;
+        padding: 0.5rem 1rem;
         border-radius: 0.6rem;
         border: 2px solid transparent;
         font-weight: 600;
@@ -1413,6 +1413,9 @@ Dashboard | Modern Dashboard
         border: 2px dashed var(--border-color);
     }
 
+    .btn.btn-primary {
+        color: white;
+    }
     .empty-icon {
         font-size: 4rem;
         margin-bottom: 1.5rem;

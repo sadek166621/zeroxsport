@@ -37,15 +37,15 @@ class UserController extends Controller
                         ->get();
 
         $pending = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status', 'pending')
+                        ->where('delivery_status', 0)
                         ->get();
 
         $processing = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status', 'processing')
+                        ->where('delivery_status', 2)
                         ->get();
 
         $shipping = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status', 'shipped')
+                        ->where('delivery_status',3)
                         ->get();
 
         $picked = Order::where('user_id', Auth::user()->id)
@@ -53,11 +53,11 @@ class UserController extends Controller
                         ->get();
 
         $completed = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status', 'delivered')
+                        ->where('delivery_status', 4)
                         ->get();
 
         $cancelled = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status', 'cancel')
+                        ->where('delivery_status',5)
                         ->get();
 
         $return_requests = ReturnRequest::where('user_id', Auth::user()->id)->latest()->get();

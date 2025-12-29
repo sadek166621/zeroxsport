@@ -437,11 +437,26 @@ use App\Models\Review;
                         <span class="info-label">Shipping</span>
                         <span class="info-value">{{ $order['shipping_name'] }}</span>
                     </div>
-                    <div class="info-row">
-                        <span class="info-label">Delivery Status</span>
-                        <span class="status-badge status-delivered">{{ ucfirst($order['delivery_status']) }}</span>
-                    </div>
-                    @if($order['comment'])
+                    @php 
+                    $statusMap = [
+    0 => 'Pending',
+    1 => 'Confirmed',
+    2 => 'Processing',
+    3 => 'Shipped',
+    4 => 'Delivered',
+    5 => 'Canceled',
+    6 => 'Returned',
+    7 => 'Refunded',
+    8 => 'Failed',
+];
+                    @endphp
+           <div class="info-row">
+                <span class="info-label">Delivery Status</span>
+                <span class="status-badge status-{{ strtolower($statusMap[$order['delivery_status']]) }}">
+                    {{ $statusMap[$order['delivery_status']] }}
+                </span>
+            </div>
+                                @if($order['comment'])
                     <div class="info-row" style="flex-direction: column; align-items: flex-start; border-bottom: none;">
                         <span class="info-label">Order Note</span>
                         <span class="info-value">{{ $order['comment'] }}</span>

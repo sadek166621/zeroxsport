@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
@@ -121,10 +122,32 @@ class ReportController extends Controller
             ->groupBy('order_details.order_id', 'orders.invoice_no')
             ->get();
 
-         
+
         //        return $orders;
         //        $orders = OrderDetail::where('vendor_id', $vendor->id)->get();
         return view('backend.reports.sales_report', compact('orders'));
+    }
+    public function categoryProduct($id)
+    {
+        $category = Category::findOrFail($id);
+
+        // OrderDetails থেকে শুধু সেই products আনো যেগুলো এই category তে আছে
+        $orders = OrderDetail::join('products', 'order_details.product_id', '=', 'products.id')
+            ->select(
+                'products.id as product_id',
+                'products.name_en as product_name',
+                \DB::raw('SUM(order_details.qty) as total_qty'),
+                \DB::raw('SUM(order_details.qty * order_details.price) as total_sales')
+            )
+            ->where('products.category_id', $id)
+            ->groupBy('products.id', 'products.name_en')
+            ->get();
+
+        // type নির্ধারণ করো (admin/vendor)
+        $vendor = Vendor::where('user_id', Auth::guard('admin')->user()->id)->first();
+        $type = $vendor ? 'vendor' : 'admin';
+
+        return view('backend.reports.category_product', compact('orders', 'category', 'type'));
     }
     public function details($id)
     {
@@ -135,20 +158,32 @@ class ReportController extends Controller
 
     public function categorySales()
     {
-        $vendor = Vendor::where('user_id', Auth::guard('admin')->user()->id)->first();
+        $user = Auth::guard('admin')->user();
+        $vendor = Vendor::where('user_id', $user->id)->first();
 
-        if (!$vendor) {
-            return view('backend.reports.category_sales', ['orders' => collect()]);
+        if ($vendor && $vendor->id !== null) {
+            // Vendor report
+            $orders = OrderDetail::join('products', 'order_details.product_id', '=', 'products.id')
+                ->select('products.category_id')
+                ->selectRaw('COUNT(order_details.product_id) as product_count, SUM(order_details.qty) as total_qty')
+                ->where('products.vendor_id', $vendor->id)
+                ->groupBy('products.category_id')
+                ->get();
+
+            $type = 'vendor';
+        } else {
+            // Admin report (vendor_id null হলে)
+            $orders = OrderDetail::join('products', 'order_details.product_id', '=', 'products.id')
+                ->select('products.category_id')
+                ->selectRaw('COUNT(order_details.product_id) as product_count, SUM(order_details.qty) as total_qty')
+                ->whereNull('products.vendor_id')
+                ->groupBy('products.category_id')
+                ->get();
+
+            $type = 'admin';
         }
 
-        $orders = OrderDetail::join('products', 'order_details.product_id', '=', 'products.id')
-            ->select('products.category_id')
-            ->selectRaw('COUNT(order_details.product_id) as product_count, SUM(order_details.qty) as total_qty')
-            ->where('products.vendor_id', $vendor->id)
-            ->groupBy('products.category_id')
-            ->get();
-
-        return view('backend.reports.category_sales', compact('orders'));
+        return view('backend.reports.category_sales', compact('orders', 'type'));
     }
 
 
