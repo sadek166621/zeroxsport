@@ -754,7 +754,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
         <i class="fas fa-th-large"></i>
         <span>{{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</span>
     </a>
-    <a href="javascript:void(0);" class="mobile-bottom-nav-item" id="cartSidebarToggleMobile">
+    <a href="{{ route('cart.show') }}" class="mobile-bottom-nav-item" id="cartSidebarToggleMobile">
         <i class="fas fa-shopping-cart"></i>
         <span>{{ $isBangla ? 'কার্ট' : 'Cart' }}</span>
     </a>

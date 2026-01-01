@@ -1,69 +1,62 @@
-@extends('layouts.frontend')
-@section('content-frontend')
+@extends('FrontEnd.master')
+
+@section('title', 'Verify OTP')
+
+@section('content')
     <main class="main pages">
-        <div class="page-header breadcrumb-wrap">
+        <section class="otp-section"
+            style="padding:100px 0; background:#f9fafb; min-height:90vh; display:flex; align-items:center;">
             <div class="container">
-                <div class="breadcrumb">
-                    <a href="{{route('home')}}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-                    <span></span> Pages <span></span> Login
-                </div>
-            </div>
-        </div>
-        <div class="page-content pt-150 pb-150">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
-                        <div class="row">
-                            <div class="col-sm-3"></div>
-                            <div class="col-sm-6">
-                                <div class="login_wrap widget-taber-content background-white">
-                                    <div class="padding_eight_all bg-white">
-                                        <div class="heading_s1">
-                                            <h1 class="mb-30">Verify Login Code</h1>
-                                        </div>
-                                        <form method="POST" action="{{ route('otp_login.verify') }}" class="row g-3 needs-validation" novalidate>
-                                            @csrf
-                                            <div class="form-group">
-                                                <input type="text" name="code" placeholder="Enter code *" value="{{ old('code') }}" autofocus/>
-                                                @error('code')
-                                                    <div class="text-danger" style="font-weight: bold;">{{ $message }}</div>
-                                                @enderror
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-heading btn-block hover-up"><i class="fa-solid fa-arrow-right-to-bracket"></i> {{ __('Verify') }}</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                <div class="otp-card"
+                    style="max-width:420px; margin:0 auto; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(31,38,135,0.15);">
+                    <div class="card-body text-center" style="padding:40px 36px;">
+                        @if (session('error'))
+                            <div class="text-danger fw-bold">
+                                {{ session('error') }}
                             </div>
-                        </div>
+                        @endif
+
+                        @if (session('success'))
+                            <div class="text-success fw-bold">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        <h2 class="otp-title" style="font-size:24px; font-weight:700; color:#222; margin-bottom:20px;">
+                            Verify
+                            OTP</h2>
+                        <p class="otp-desc" style="color:#6b7280; margin-bottom:25px;">Enter the OTP sent to your mobile
+                            number.</p>
+                        <form method="POST" action="{{ route('otp.verify.reset.password') }}">
+                            @csrf
+                            <div class="mb-3">
+                                <input type="text" name="otp" placeholder="Enter OTP *" required autofocus
+                                    class="form-control full">
+                                @error('otp')
+                                    <div class="text-danger fw-bold">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <input type="password" name="password" placeholder="New Password *" required
+                                    class="form-control full">
+                                @error('password')
+                                    <div class="text-danger fw-bold">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <input type="password" name="password_confirmation" placeholder="Confirm Password *"
+                                    required class="form-control full">
+                                @error('password_confirmation')
+                                    <div class="text-danger fw-bold">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Reset Password</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
-
-
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function () {
-      'use strict'
-
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.querySelectorAll('.needs-validation')
-
-      // Loop over them and prevent submission
-      Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-          form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
-              event.preventDefault()
-              event.stopPropagation()
-            }
-
-            form.classList.add('was-validated')
-          }, false)
-        })
-    })()
-</script>
 @endsection

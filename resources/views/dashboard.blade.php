@@ -305,12 +305,28 @@ Dashboard | Modern Dashboard
                                                         {{ \Carbon\Carbon::parse($order->date)->format('h:i A') }}
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <span class="status-badge {{ strtolower($order->delivery_status) }}">
-                                                        {{ $order->delivery_status }}
-                                                    </span>
-                                                </td>
-                                                <td>
+                         <td>
+                            @php
+                                $statusMap = [
+                                  0   => ['text' => 'Pending',   'class' => 'bg-secondary text-white'],
+                                    1           => ['text' => 'Confirmed', 'class' => 'bg-info text-white'],
+                                    2           => ['text' => 'Processing','class' => 'bg-primary text-white'],
+                                    3           => ['text' => 'Shipped',   'class' => 'bg-warning text-dark'],
+                                    4           => ['text' => 'Delivered', 'class' => 'bg-success text-white'],
+                                    5           => ['text' => 'Canceled',  'class' => 'bg-danger text-white'],
+                                    6           => ['text' => 'Returned',  'class' => 'bg-dark text-white'],
+                                    7           => ['text' => 'Refunded',  'class' => 'bg-purple text-white'], // custom color
+                                    8           => ['text' => 'Failed',    'class' => 'bg-danger text-white'],
+                                ];
+
+                                $status = $statusMap[$order->delivery_status] ?? ['text' => $order->delivery_status, 'class' => 'bg-light text-dark'];
+                            @endphp
+
+                            <span class="status-badge {{ $status['class'] }} px-3 py-1 rounded-pill">
+                                {{ $status['text'] }}
+                            </span>
+                        </td>
+                                                                                <td>
                                                     <span class="order-amount">৳{{ number_format($order->grand_total, 2) }}</span>
                                                 </td>
                                                 <td>
@@ -491,6 +507,8 @@ Dashboard | Modern Dashboard
         </div>
     </div>
 </div>
+
+@include('FrontEnd.include.cart-contianer')
 
 <style>
     :root {

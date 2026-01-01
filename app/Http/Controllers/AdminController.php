@@ -32,6 +32,14 @@ class AdminController extends Controller
 
         return view('admin.admin_login');
     } // end method
+    public function vendorLogin()
+    {
+        if (Auth::check()) {
+            abort(404);
+        }
+
+        return view('backend.vendor.vendor_login');
+    } // end method
 
     /*=================== End Index Login Methoed ===================*/
 
@@ -244,7 +252,49 @@ class AdminController extends Controller
             'alert-type' => 'error',
         ]);
     }
+    public function VendorLoginStore(Request $request)
+{
+    $request->validate([
+        'login' => 'required|string',
+        'password' => 'required',
+    ]);
 
+    $loginField = $request->login;
+    $password   = $request->password;
+
+    // Try login with email OR phone
+    if (
+        Auth::guard('admin')->attempt(['email' => $loginField, 'password' => $password]) ||
+        Auth::guard('admin')->attempt(['phone' => $loginField, 'password' => $password])
+    ) {
+        $user = Auth::guard('admin')->user();
+
+        // Admin Roles: 1 = Super Admin, 5 = Staff/Admin
+        if (in_array($user->role, [1, 5])) {
+            return redirect()->route('admin.dashboard')
+                ->with('success', 'Admin Login Successfully.');
+        }
+
+        // Vendor Role: 2 = Seller/Vendor
+        if ($user->role == 2) {
+            return redirect()->route('admin.dashboard')
+                ->with('success', 'Vendor Login Successfully.');
+        }
+
+        // Other Roles Not Allowed
+        Auth::guard('admin')->logout();
+        return back()->with([
+            'message' => 'Unauthorized role access.',
+            'alert-type' => 'error',
+        ]);
+    }
+
+    // Invalid Credentials
+    return back()->with([
+        'message' => 'Invalid Email/Phone or Password.',
+        'alert-type' => 'error',
+    ]);
+}
     /*=================== End Admin Login Methoed ===================*/
 
     /*=================== Start Logout Methoed ===================*/

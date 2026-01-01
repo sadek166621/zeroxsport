@@ -272,10 +272,10 @@
                 <form class="login-form" method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-4">
-                        <label class="form-label fw-semibold">Email Address <span class="text-danger">*</span></label>
-                        <input type="email" class="form-input" name="email" placeholder="Enter your email"
-                            value="{{ old('email') }}" required>
-                        @error('email')
+                        <label class="form-label fw-semibold">Email or Phone <span class="text-danger">*</span></label>
+                        <input type="text" class="form-input" name="login" placeholder="Enter your email"
+                            value="{{ old('login') }}" required>
+                        @error('login')
                             <div class="text-danger mt-2" style="font-size: 14px;">{{ $message }}</div>
                         @enderror
                     </div>

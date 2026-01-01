@@ -18,11 +18,12 @@
                 <div>{{ session()->get('language') == 'bangla' ? 'সাবটোটাল:' : 'Subtotal:' }}</div>
                 <div id="cartSubtotal" style="color:#026142; font-size:18px;">৳0.00</div>
             </div>
-            @if (Auth::check() || !Auth::check())
-                <a href="{{ route('checkout') }}" id="checkoutButtonSidebar" class="checkout-btn btn">
-                    {{ session()->get('language') == 'bangla' ? 'অর্ডার করতে ক্লিক করুন' : 'Proceed to Checkout' }}
-                </a>
-            @endif
+            <a href="{{ Auth::check() ? route('checkout') : route('login') }}"
+            id="checkoutButtonSidebar"
+            class="checkout-btn btn">
+                {{ session()->get('language') == 'bangla' ? 'অর্ডার করতে ক্লিক করুন' : 'Proceed to Checkout' }}
+            </a>
+
 
             <a href="{{ route('cart.show') }}" id="reserveButton" class="secondary-btn btn">
                 {{ session()->get('language') == 'bangla' ? 'কার্ডে দেখুন' : 'Go To Cart' }}

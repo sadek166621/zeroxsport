@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Http;
 
 class AffiliateController extends Controller
 {
-    public function affiliate(){
+    public function affiliate()
+    {
         return view('FrontEnd.affiliate.index');
     }
     public function pageAffiliate()
@@ -128,13 +129,14 @@ class AffiliateController extends Controller
     public function loginAffiliateSubmit(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email',
+            'login' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Check if affiliate exists
-        $affiliate = Affiliate::where('email', $request->email)->first();
-        $isValid = false;
+        // Check if affiliate exists by email or phone
+        $affiliate = Affiliate::where('email', $request->login)
+            ->orWhere('phone', $request->login)
+            ->first();
 
         if (!$affiliate) {
             $notification = [
@@ -188,12 +190,16 @@ class AffiliateController extends Controller
             ];
             return redirect()->route('login.affiliate')->with($notification);
         }
-        // Attempt login only if all checks passed
-        if (Auth::guard('affiliate')->attempt(['email' => $request->email, 'password' => $request->password])) {
+
+        
+      if (
+            Auth::guard('affiliate')->attempt(['email' => $request->login, 'password' => $request->password]) ||
+            Auth::guard('affiliate')->attempt(['phone' => $request->login, 'password' => $request->password])
+        ) {
             return redirect()->route('affiliate.dashboard');
         } else {
             $notification = [
-                'message' => 'ইমেইল অথবা পাসওয়ার্ড ভুল।',
+                'message' => 'ইমেইল/ফোন অথবা পাসওয়ার্ড ভুল।',
                 'alert-type' => 'error'
             ];
             return redirect()->route('login.affiliate')->with($notification);

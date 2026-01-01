@@ -53,8 +53,10 @@ use App\Http\Controllers\Backend\VendorTransactionController;
 
 Route::get('/admin', [AdminController::class, 'Index'])->name('login_form');
 Route::post('/admin', [AdminController::class, 'Login'])->name('admin.login');
+Route::get('/vendor/login', [AdminController::class, 'vendorLogin'])->name('vendor.login_form');
+Route::post('/vendor/login', [AdminController::class, 'VendorLoginStore'])->name('vendor.login');
 
-Route::get('/vendor/login', [AdminController::class, 'Index'])->name('vendor.login_form');
+//Route::get('/vendor/login', [AdminController::class, 'Index'])->name('vendor.login_form');
 
 
 /*========================== Only Vendor Accessible Route  ==========================*/

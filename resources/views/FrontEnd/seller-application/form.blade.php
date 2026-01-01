@@ -841,7 +841,7 @@ Become A Seller
 
                     <div class="seller-app-sidebar-footer">
                         <p>Already a seller?</p>
-                        <a href="{{ route('admin.login') }}" class="btn-signin">Sign In</a>
+                        <a href="{{ route('vendor.login_form') }}" class="btn-signin">Sign In</a>
                     </div>
                 </div>
             </aside>

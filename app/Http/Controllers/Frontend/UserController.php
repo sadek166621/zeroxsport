@@ -279,7 +279,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+    }
+
+    public function logout()
+    {
+        dd('ok');
+        Auth::guard('web')->logout();
+        return redirect()->route('home');
     }
 
     public function set_default($id){

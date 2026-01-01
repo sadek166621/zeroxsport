@@ -214,9 +214,9 @@
                     <a href="{{route('seller.apply')}}">
                         @if(session()->get('language') == 'bangla') সেলার হন @else Become a Seller @endif
                     </a>
-                    <a href="{{route('wholeseller.register')}}">
+                    {{-- <a href="{{route('wholeseller.register')}}">
                         @if(session()->get('language') == 'bangla') হোলসেলার হন @else Become a Wholeseller @endif
-                    </a>
+                    </a> --}}
                     <a href="{{route('page.affiliate')}}">
                         @if(session()->get('language') == 'bangla') স্বাধীন বিক্রেতা @else Become an Affiliate @endif
                     </a>
