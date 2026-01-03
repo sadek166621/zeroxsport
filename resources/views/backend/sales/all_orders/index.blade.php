@@ -92,7 +92,9 @@
                                             <th>Customer name</th>
                                             <th>Amount</th>
                                             <th>Delivery Status</th>
+                                            <th>Payment Method</th>
                                             <th>Payment Status</th>
+
                                             <th class="text-end">Options</th>
                                         </tr>
                                     </thead>
@@ -120,6 +122,17 @@
                                                     @endphp
                                                     {!! $status !!}
                                                 </td>
+                                                   @php
+                                                $colors = ['bg-primary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger', 'bg-secondary'];
+                                                $randomColor = $colors[array_rand($colors)];
+                                            @endphp
+
+                                            <td>
+                                                <span class="badge rounded-pill {{ $randomColor }}">
+                                                    {{ ucfirst($order->payment_method) }}
+                                                </span>
+                                            </td>
+
                                                 <td>
                                                     @if ($order->payment_status == '1')
                                                         <span class="badge rounded-pill alert-success">Paid</span>

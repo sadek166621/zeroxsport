@@ -240,7 +240,7 @@
                 <!-- Category Header -->
                 <div class="category-header">
                     <a href="{{ route('product.category', $category->slug) }}">
-                        <img src="{{ asset($category->image) }}" alt="{{ $category->name_en }}" class="category-img">
+                        {{-- <img src="{{ asset($category->image) }}" alt="{{ $category->name_en }}" class="category-img"> --}}
                         <h4>
                             @if(session()->get('language') == 'bangla')
                                 {{ $category->name_bn }}

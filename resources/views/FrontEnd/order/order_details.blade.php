@@ -413,7 +413,7 @@
                         </div>
                         <div class="info-row" style="flex-direction: column; align-items: flex-start; border-bottom: none;">
                             <span class="info-label">Delivery Address</span>
-                            <span class="info-value">{{ nl2br(e($order['address'])) }}</span>
+                            <span class="info-value">{{ e($order['address']) }}</span>
                         </div>
                     </div>
                 </div>
@@ -510,9 +510,17 @@
                             <tr>
                                 <td>
                                     <div class="product-info">
-                                        <img src="{{ asset($orderDetail->product->product_thumbnail) }}" alt="Product"
-                                            class="product-image">
-                                        <span class="product-name">{{ $orderDetail->product_name }}</span>
+                                        @if ($orderDetail->product && $orderDetail->product->product_thumbnail)
+                                            <img src="{{ asset($orderDetail->product->product_thumbnail) }}" alt="Product"
+                                                class="product-image">
+                                        @else
+                                            <img src="{{ asset('uploads/no_image.jpg') }}" alt="No Image"
+                                                class="product-image">
+                                        @endif
+
+                                        <span class="product-name">
+                                            {{ $orderDetail->product->name_en ?? $orderDetail->product_name }}
+                                        </span>
                                     </div>
                                 </td>
                                 <td>{{ $orderDetail->qty }}</td>

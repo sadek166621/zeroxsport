@@ -24,6 +24,7 @@
             color: white;
             background-color: #01b45e;
 
+
         }
     </style>
 
@@ -44,8 +45,8 @@
                             <h4 class="fw-semibold m-0" style="color:white;">Checkout Details</h4>
                         </div>
 
-                        <div class="card-body p-4">
-                            <form action="{{ route('checkout.payment') }}" method="post">
+                        <div class="card-body p-2 md-p-4">
+                            <form action="{{ route('checkout.store') }}" method="post" enctype="multipart/form-data">
                                 @csrf
 
                                 <!-- Personal Information Section -->
@@ -170,13 +171,14 @@
                                     <h5 class="fw-semibold m-0">Payment Method</h5>
                                 </div>
 
-                                <div class="card-body px-4 ">
+                                <div class="card-body px-2 md-px-4">
+
                                     <!-- Payment Options -->
-                                    <div class="row g-3">
+                                    <div class="row g-3 mb-4">
                                         <!-- Cash On Delivery -->
                                         <div class="col-6">
                                             <label
-                                                class="form-check d-flex align-items-center justify-content-center p-2 border rounded payment-option h-100"
+                                                class="form-check d-flex align-items-center justify-content-center p-2 border rounded payment-option h-100 cursor-pointer"
                                                 for="cod">
                                                 <input class="form-check-input d-none" type="radio" name="payment_option"
                                                     id="cod" value="cod" checked>
@@ -185,112 +187,178 @@
                                             </label>
                                         </div>
 
-                       
                                         <!-- bKash -->
                                         <div class="col-6">
-                                            <label class="form-check d-flex align-items-center justify-content-center p-2 border rounded payment-option h-100" for="bkash" data-bs-toggle="modal" data-bs-target="#paymentModal" data-method="bKash">
-                                                <input class="form-check-input d-none" type="radio" name="payment_option" id="bkash" value="bkash">
-                                                <img src="{{ asset('FrontEnd') }}/logo/bkash.png" alt="bKash" style="height:50px;">
+                                            <label
+                                                class="form-check d-flex align-items-center justify-content-center p-2 border rounded payment-option h-100 cursor-pointer"
+                                                for="bkash">
+                                                <input class="form-check-input d-none" type="radio"
+                                                    name="payment_option" id="bkash" value="bkash">
+                                                <img src="{{ asset('FrontEnd') }}/logo/bkash.png" alt="bKash"
+                                                    style="height:50px;">
                                             </label>
                                         </div>
 
                                         <!-- Nagad -->
                                         <div class="col-6">
-                                            <label class="form-check d-flex align-items-center justify-content-center p-2 border rounded payment-option h-100" for="nagad" data-bs-toggle="modal" data-bs-target="#paymentModal" data-method="Nagad">
-                                                <input class="form-check-input d-none" type="radio" name="payment_option" id="nagad" value="nagad">
-                                                <img src="{{ asset('FrontEnd') }}/logo/nagad.webp" alt="Nagad" style="height:50px;">
+                                            <label
+                                                class="form-check d-flex align-items-center justify-content-center p-2 border rounded payment-option h-100 cursor-pointer"
+                                                for="nagad">
+                                                <input class="form-check-input d-none" type="radio"
+                                                    name="payment_option" id="nagad" value="nagad">
+                                                <img src="{{ asset('FrontEnd') }}/logo/nagad.webp" alt="Nagad"
+                                                    style="height:50px;">
                                             </label>
                                         </div>
 
                                         <!-- Rocket -->
                                         <div class="col-6">
-                                            <label class="form-check d-flex align-items-center justify-content-center p-2 border rounded payment-option h-100" for="rocket" data-bs-toggle="modal" data-bs-target="#paymentModal" data-method="Rocket">
-                                                <input class="form-check-input d-none" type="radio" name="payment_option" id="rocket" value="rocket">
-                                                <img src="{{ asset('FrontEnd') }}/logo/rocket.png" alt="Rocket" style="height:50px;">
+                                            <label
+                                                class="form-check d-flex align-items-center justify-content-center p-2 border rounded payment-option h-100 cursor-pointer"
+                                                for="rocket">
+                                                <input class="form-check-input d-none" type="radio"
+                                                    name="payment_option" id="rocket" value="rocket">
+                                                <img src="{{ asset('FrontEnd') }}/logo/rocket.png" alt="Rocket"
+                                                    style="height:50px;">
                                             </label>
                                         </div>
-                           
                                     </div>
 
-                                    <!-- Alert Div -->
-                                    <div id="paymentAlert" class="mt-3 fw-bold text-danger"></div>
+                                    <!-- Payment Details Form - Dynamic Title & Fields -->
+                                    <div id="mobile-payment-fields" class="d-none mt-4">
+                                        <!-- Dynamic Title -->
+                                        <h5 class="fw-semibold mb-3 payment-title"
+                                            style="color: #3a3a3a; border-bottom: 1px solid #b8b8b8; padding-bottom: 8px;">
+                                            Payment Information
+                                        </h5>
 
 
+                                        <input type="hidden" name="payment_method" id="payment_method">
 
+                                        <div class="row g-3">
+                                            <!-- Payment Number -->
+                                            <div class="col-md-6">
+                                                <label for="payment_number" class="form-label fw-medium">Payment
+                                                    Number</label>
+                                                <input type="text" class="form-control form-control-lg"
+                                                    id="payment_number" name="payment_number"
+                                                    style="border-radius: 10px;" placeholder="01xxxxxxxxx">
+                                                <div class="invalid-feedback">Please enter a valid number.</div>
+                                            </div>
 
+                                            <!-- Amount -->
+                                            <div class="col-md-6">
+                                                <label for="amount" class="form-label fw-medium">Amount</label>
+                                                <input type="number" class="form-control form-control-lg" id="amount"
+                                                    name="payment_amount" style="border-radius: 10px;" placeholder="0.00"
+                                                    min="1">
+                                                <div class="invalid-feedback">Please enter amount.</div>
+                                            </div>
 
-                                    <!-- Price Breakdown -->
-                                    <div class="p-4 bg-light">
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-muted">Subtotal</span>
-                                            <span class="fw-medium">৳<span
-                                                    id="cartSubTotal">{{ $cartTotal }}</span></span>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-muted">Shipping</span>
-                                            <span class="fw-medium">৳<span id="ship_amount">0.00</span></span>
-                                        </div>
+                                            <!-- Transaction ID -->
+                                            <div class="col-md-6">
+                                                <label for="transaction_id" class="form-label fw-medium">Transaction
+                                                    ID</label>
+                                                <input type="text" class="form-control form-control-lg"
+                                                    id="transaction_id" name="transaction_id"
+                                                    style="border-radius: 10px;" placeholder="Enter TrxID">
+                                                <div class="invalid-feedback">Transaction ID is required.</div>
+                                            </div>
 
-                                        <!-- Coupon Section -->
-                                        <div class="">
-                                            <p class="">Do you have a coupon?</p>
-                                            <div class="input-group">
+                                            <!-- Screenshot Upload -->
+                                            <div class="col-md-6">
+                                                <label for="screenshot" class="form-label fw-medium">Payment
+                                                    Screenshot</label>
+                                                <input type="file" class="form-control form-control-lg"
+                                                    id="screenshot" name="payment_screenshot" accept="image/*"
+                                                    style="border-radius: 10px;">
+                                                <div class="invalid-feedback">Please upload a screenshot.</div>
 
-                                                <input type="text" class="form-control form-control-lg border-end-0"
-                                                    id="apply_coupon_input" placeholder="Enter coupon">
-                                                <button type="button" id="apply_coupon_btn" class="btn px-4"
-                                                    style="background-color: #01B45E;">
-                                                    <span class="d-none d-md-inline text-white">Apply Coupon</span>
-                                                    <span class="d-inline d-md-none">Apply</span>
-                                                </button>
+                                                <!-- Preview Image -->
+                                                <div class="mt-3 text-center">
+                                                    <img id="preview" class="img-fluid rounded shadow-sm border"
+                                                        style="max-height: 200px; display: none;"
+                                                        alt="Screenshot Preview">
+                                                </div>
                                             </div>
                                         </div>
 
-                                        <!-- Hidden inputs -->
-                                        <input type="hidden" value="" name="shipping_charge"
-                                            class="ship_amount" />
-                                        <input type="hidden" value="" name="shipping_type"
-                                            class="shipping_type" />
-                                        <input type="hidden" value="" name="shipping_name"
-                                            class="shipping_name" />
-                                        <input type="hidden" value="{{ $cartTotal }}" name="sub_total"
-                                            id="cartSubTotalShi" />
-                                        <input type="hidden" value="" name="grand_total" id="grand_total" />
+                                    </div>
+                                </div>
 
-                                        @if (Session::get('couponCode'))
-                                            <input type="hidden" name="coupon" value="{{ $cartTotal }}">
-                                        @endif
 
-                                        <!-- Coupon display area -->
-                                        <div id="couponInformation" class="mb-0"></div>
+
+
+
+                                <!-- Price Breakdown -->
+                                <div class="p-4 bg-light">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Subtotal</span>
+                                        <span class="fw-medium">৳<span
+                                                id="cartSubTotal">{{ $cartTotal }}</span></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Shipping</span>
+                                        <span class="fw-medium">৳<span id="ship_amount">0.00</span></span>
                                     </div>
 
-                                    <!-- Total -->
-                                    <div class="p-4  border-top">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <span class="fw-semibold fs-5">Total</span>
-                                            <span class="fw-semibold fs-5 text-dark">৳<span
-                                                    id="grand_total_set">{{ $cartTotal }}</span></span>
+                                    <!-- Coupon Section -->
+                                    <div class="">
+                                        <p class="">Do you have a coupon?</p>
+                                        <div class="input-group">
+
+                                            <input type="text" class="form-control form-control-lg border-end-0"
+                                                id="apply_coupon_input" placeholder="Enter coupon">
+                                            <button type="button" id="apply_coupon_btn" class="btn px-4"
+                                                style="background-color: #01B45E;">
+                                                <span class="d-none d-md-inline text-white">Apply Coupon</span>
+                                                <span class="d-inline d-md-none">Apply</span>
+                                            </button>
                                         </div>
                                     </div>
 
-                                    <!-- Submit Button -->
-                                    <button type="submit"
-                                        class="btn btn-lg w-100 py-3 mt-4 fw-bold d-flex justify-content-center align-items-center"
-                                        style="background-color: #01B45E; color: #fff;">
-                                        <i class="bi bi-bag-check-fill me-2"></i> Place Order
-                                    </button>
-                                </div>
-                            </div>
+                                    <!-- Hidden inputs -->
+                                    <input type="hidden" value="" name="shipping_charge" class="ship_amount" />
+                                    <input type="hidden" value="" name="shipping_type" class="shipping_type" />
+                                    <input type="hidden" value="" name="shipping_name" class="shipping_name" />
+                                    <input type="hidden" value="{{ $cartTotal }}" name="sub_total"
+                                        id="cartSubTotalShi" />
+                                    <input type="hidden" value="" name="grand_total" id="grand_total" />
 
+                                    @if (Session::get('couponCode'))
+                                        <input type="hidden" name="coupon" value="{{ $cartTotal }}">
+                                    @endif
+
+                                    <!-- Coupon display area -->
+                                    <div id="couponInformation" class="mb-0"></div>
+                                </div>
+
+                                <!-- Total -->
+                                <div class="p-4  border-top">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-semibold fs-5">Total</span>
+                                        <span class="fw-semibold fs-5 text-dark">৳<span
+                                                id="grand_total_set">{{ $cartTotal }}</span></span>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <button type="submit"
+                                    class="btn btn-lg w-100 py-3 mt-4 fw-bold d-flex justify-content-center align-items-center"
+                                    style="background-color: #01B45E; color: #fff;">
+                                    <i class="bi bi-bag-check-fill me-2"></i> Place Order
+                                </button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
-
-
             </div>
-            </form>
-            {{-- <div class="col-12 mt-4">
+
+
+        </div>
+        </form>
+        {{-- <div class="col-12 mt-4">
                 <!-- Coupon Card -->
                 <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
                     <div class="card-body p-0">
@@ -325,77 +393,6 @@
             </div> --}}
         </div>
 
-<!-- Payment Modal - Pure Bootstrap 5 -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <form id="paymentForm" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
-      @csrf
-      <div class="modal-content shadow-lg border-0">
-        
-        <!-- Header with gradient-like feel using bg-gradient -->
-        <div class="modal-header bg-success bg-gradient text-white">
-          <h5 class="modal-title fw-bold" id="paymentModalLabel">
-            <i class="bi bi-credit-card-2-front-fill me-2"></i>
-            Payment Information
-          </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-
-        <div class="modal-body p-4">
-          <input type="hidden" name="payment_method" id="payment_method">
-
-          <!-- Payment Number -->
-          <div class="mb-3">
-            <label for="payment_number" class="form-label fw-medium">Payment Number</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light"><i class="bi bi-phone-fill"></i></span>
-              <input type="text" class="form-control form-control-lg" id="payment_number" name="payment_number" placeholder="e.g. 01xxxxxxxxx" required>
-              <div class="invalid-feedback">Please enter a valid number.</div>
-            </div>
-          </div>
-
-          <!-- Amount -->
-          <div class="mb-3">
-            <label for="amount" class="form-label fw-medium">Amount</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light fw-bold">৳</span>
-              <input type="number" class="form-control form-control-lg" id="amount" name="amount" placeholder="0.00" min="1" required>
-              <div class="invalid-feedback">Please enter amount.</div>
-            </div>
-          </div>
-
-          <!-- Transaction ID -->
-          <div class="mb-3">
-            <label for="transaction_id" class="form-label fw-medium">Transaction ID</label>
-            <div class="input-group">
-              <span class="input-group-text bg-light"><i class="bi bi-hash"></i></span>
-              <input type="text" class="form-control form-control-lg" id="transaction_id" name="transaction_id" placeholder="Enter TrxID" required>
-              <div class="invalid-feedback">Transaction ID is required.</div>
-            </div>
-          </div>
-
-          <!-- Screenshot Upload -->
-          <div class="mb-3">
-            <label for="screenshot" class="form-label fw-medium">Payment Screenshot</label>
-            <input type="file" class="form-control form-control-lg" id="screenshot" name="screenshot" accept="image/*" required>
-            <div class="invalid-feedback">Please upload a screenshot.</div>
-            
-            <!-- Preview Image -->
-            <div class="mt-3 text-center">
-              <img id="preview" class="img-fluid rounded shadow-sm border" style="max-height: 200px; display: none;" alt="Screenshot Preview">
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer border-0 pt-0">
-          <button type="submit" class="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-sm fw-bold">
-            <i class="bi bi-send-fill me-2"></i> Submit Payment
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
 
     </section>
     {{-- side cart page trigger --}}
@@ -403,51 +400,106 @@
 @endsection
 
 @push('js')
+    <script>
+        // Bootstrap form validation
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })();
 
-<script>
-// Bootstrap form validation
-(() => {
-  'use strict'
-  const forms = document.querySelectorAll('.needs-validation')
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
-      form.classList.add('was-validated')
-    }, false)
-  })
-})();
+        // Screenshot preview
+        document.getElementById('screenshot').addEventListener('change', function(e) {
+            const preview = document.getElementById('preview');
+            const file = e.target.files[0];
 
-// Screenshot preview
-document.getElementById('screenshot').addEventListener('change', function(e) {
-  const preview = document.getElementById('preview');
-  const file = e.target.files[0];
-  
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      preview.src = e.target.result;
-      preview.style.display = 'block';
-    }
-    reader.readAsDataURL(file);
-  } else {
-    preview.style.display = 'none';
-  }
-});
-</script>
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+    </script>
 
-<script>
-    document.querySelectorAll('.payment-option').forEach(function(option) {
-    option.addEventListener('click', function() {
-        let method = this.getAttribute('data-method');
-        document.getElementById('payment_method').value = method;
-        document.getElementById('paymentModalLabel').innerText = method + " Payment Information";
-    });
-});
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentOptions = document.querySelectorAll('input[name="payment_option"]');
+            const mobilePaymentFields = document.getElementById('mobile-payment-fields');
+            const paymentTitle = document.querySelector('.payment-title');
+            const paymentMethodInput = document.getElementById('payment_method');
 
+            // Map values to display names
+            const methodNames = {
+                bkash: 'bKash',
+                nagad: 'Nagad',
+                rocket: 'Rocket'
+            };
+
+            function updatePaymentSection() {
+                const selectedValue = document.querySelector('input[name="payment_option"]:checked').value;
+
+                if (selectedValue === 'cod') {
+                    mobilePaymentFields.classList.add('d-none');
+                    paymentMethodInput.value = '';
+                } else {
+                    mobilePaymentFields.classList.remove('d-none');
+
+                    // Update title with specific method name
+                    const displayName = methodNames[selectedValue] || 'Payment';
+                    paymentTitle.textContent = `${displayName} Payment Information`;
+
+                    // Set hidden input value
+                    paymentMethodInput.value = displayName;
+                }
+            }
+
+            // Initial state
+            updatePaymentSection();
+
+            // Listen for changes
+            paymentOptions.forEach(option => {
+                option.addEventListener('change', updatePaymentSection);
+            });
+
+            // Image preview
+            document.getElementById('screenshot').addEventListener('change', function(e) {
+                const preview = document.getElementById('preview');
+                const file = e.target.files[0];
+                if (file) {
+                    preview.src = URL.createObjectURL(file);
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+            updatePaymentSection();
+
+            // Ensure the label for the currently checked option gets the "active" class on load
+            const initiallyChecked = document.querySelector('input[name="payment_option"]:checked');
+            if (initiallyChecked) {
+                const container = initiallyChecked.closest('.payment-option');
+                if (container) container.classList.add('active');
+            }
+
+            // Listen for changes
+            paymentOptions.forEach(option => {
+                option.addEventListener('change', updatePaymentSection);
+            });
+        });
+    </script>
 
 
 

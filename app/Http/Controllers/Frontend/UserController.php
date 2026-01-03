@@ -340,6 +340,7 @@ class UserController extends Controller
 
     public function ProductReview($id){
         $product = Product::find($id);
+        
         return view('FrontEnd.product.product_review', compact('product'));
     }
 

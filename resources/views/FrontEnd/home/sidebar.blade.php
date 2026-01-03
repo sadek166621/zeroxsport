@@ -233,7 +233,7 @@
         @php $parent = $category->id @endphp
         <li class="dropdown {{ $loop->first ? 'active' : '' }}">
             <a href="{{ route('product.category', $category->slug) }}">
-                <img src="{{ asset($category->icon) }}" alt="{{ $category->name_en }}">
+                {{-- <img src="{{ asset($category->icon) }}" alt="{{ $category->name_en }}"> --}}
                 <span>
                     @if (session()->get('language') == 'bangla')
                     {{ $category->name_bn }}

@@ -5,13 +5,13 @@
 @section('content')
 <di
 v class="container py-5">
-    <h2 class="mb-4">Write a Review for "{{ $product->name_en }}"</h2>
+    <h2 class="mb-4">Write a Review for "{{ $product->name_en ?? ' '}}"</h2>
 
     {{-- Product Info --}}
     <div class="card mb-4">
         <div class="card-body d-flex">
             <div class="me-3">
-                <img src="{{ asset($product->product_thumbnail ?? 'images/default-product.png') }}" alt="{{ $product->name_en }}" width="120">
+                <img src="{{ asset($product->product_thumbnail ?? 'images/default-product.png') }}" alt="{{ $product->name_en  ?? ' '}}" width="120">
             </div>
             <div>
                    @php $data = calculateDiscount($product->id); @endphp

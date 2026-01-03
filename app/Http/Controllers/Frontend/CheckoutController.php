@@ -178,6 +178,9 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
+
+        
+      //  dd($request->all());
         $request->validate([
             'name'    => 'required|max:191',
             'email'   => 'nullable|email|max:191',
@@ -209,7 +212,7 @@ class CheckoutController extends Controller
 
         Auth::login($user);
 
-        $payment_status = in_array($request->payment_option, ['cod', 'wallet']) ? 0 : 1;
+       // $payment_status = in_array($request->payment_option, ['cod', 'wallet']) ? 0 : 1;
 
         $lastOrder  = Order::latest('id')->first();
         $invoice_no = $lastOrder ? str_pad($lastOrder->id + 1, 7, '0', STR_PAD_LEFT) : '0000001';
@@ -217,6 +220,14 @@ class CheckoutController extends Controller
         $affiliateId = session('affiliate_ref')
             ? Affiliate::where('referral_code', session('affiliate_ref'))->value('id')
             : null;
+
+        $paymentScreenshotPath = null;
+         if($request->hasFile('payment_screenshot')){
+            $file = $request->file('payment_screenshot');
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('uploads/payment_screenshot/'), $filename);
+            $paymentScreenshotPath = 'uploads/payment_screenshot/'.$filename;
+        }
 
         // Calculate unique vendors & shipping cost per vendor
         $uniqueVendorIds = collect();
@@ -248,7 +259,11 @@ class CheckoutController extends Controller
             'shipping_name'     => $request->shipping_name,
             'shipping_type'     => $request->shipping_type,
             'payment_method'    => $request->payment_option,
-            'payment_status'    => $payment_status,
+            'payment_number'  => $request->payment_number,
+            'transaction_id'  => $request->transaction_id,
+            'payment_amount'    => $request->payment_amount,
+            'payment_screenshot'    => $paymentScreenshotPath,
+            'payment_status'    => 0,
             'invoice_no'        => $invoice_no,
             'delivery_status'   => 0,
             'phone'             => $request->phone,
@@ -327,7 +342,7 @@ class CheckoutController extends Controller
                 'coupon_discount'  => 0,
                 'grand_total'      => $data['grand_total'] + $data['shipping_cost'],
                 'commission'       => 0,
-                'payment_status'   => $payment_status,
+                'payment_status'   => 0,
                 'delivery_status'  => 0,
             ]);
 
@@ -363,7 +378,7 @@ class CheckoutController extends Controller
                 'qty'                   => $cart->qty,
                 'price'                 => $cart->price,
                 'tax'                   => $cart->tax ?? 0,
-                'payment_status'        => $payment_status,
+                'payment_status'        => 0,
                 'delivery_status'       => 0,
                 'shipping_type'         => $cart->options->shipping_type ?? null,
                 'pickup_point_id'       => $cart->options->pickup_point_id ?? null,
@@ -487,29 +502,29 @@ class CheckoutController extends Controller
 
         // dd('oks');
 
-        if ($request->payment_option == 'cod' || $request->payment_option == 'wallet') {
-            return redirect()->route('checkout.store');
-        } else {
-            // dd('ss');
-            Session::put('payment_method', $request->payment_option);
-            Session::put('payment_type', 'cart_payment');
-            Session::put('payment_amount', $total_amount);
-            // dd('ok');
-            if ($request->payment_option == 'nagad') {
-                $nagad = new NagadController;
-                return $nagad->getSession();
-            } else if ($request->payment_option == 'bkash') {
-                // dd('okb');
-                $bkash = new BkashController;
-                return $bkash->pay();
-            } elseif ($request->payment_option == 'sslcommerz') {
-                $sslcommerz = new PublicSslCommerzPaymentController;
-                return $sslcommerz->index($request);
-            } elseif ($payment_method == 'aamarpay') {
-                $aamarpay = new AamarpayController;
-                return $aamarpay->index();
-            }
-        }
+        // if ($request->payment_option == 'cod' || $request->payment_option == 'wallet') {
+        //     return redirect()->route('checkout.store');
+        // } else {
+        //     // dd('ss');
+        //     Session::put('payment_method', $request->payment_option);
+        //     Session::put('payment_type', 'cart_payment');
+        //     Session::put('payment_amount', $total_amount);
+        //     // dd('ok');
+        //     if ($request->payment_option == 'nagad') {
+        //         $nagad = new NagadController;
+        //         return $nagad->getSession();
+        //     } else if ($request->payment_option == 'bkash') {
+        //         // dd('okb');
+        //         $bkash = new BkashController;
+        //         return $bkash->pay();
+        //     } elseif ($request->payment_option == 'sslcommerz') {
+        //         $sslcommerz = new PublicSslCommerzPaymentController;
+        //         return $sslcommerz->index($request);
+        //     } elseif ($payment_method == 'aamarpay') {
+        //         $aamarpay = new AamarpayController;
+        //         return $aamarpay->index();
+        //     }
+        // }
 
         Session::forget('couponCode');
         Session::forget('discountType');

@@ -1,7 +1,7 @@
 @extends('admin.admin_master')
 @section('admin')
 
-      @php
+    @php
         $deliveryStatuses = [
             0 => 'Pending',
             1 => 'Confirmed',
@@ -40,7 +40,7 @@
         </div>
 
         <div class="card">
-              <header class="card-header">
+            <header class="card-header">
                 <div class="row align-items-center">
                     <div class="col-md-4 text-white">
                         <b>{{ $order->created_at }}</b><br>
@@ -87,11 +87,37 @@
                     <div class="col-md-4">
                         <h6>Order Info</h6>
                         Order: {{ $order->invoice_no }}<br>
-                        Payment: {{ $order->payment_status== 1 ? 'Paid' : 'Unpaid' }}<br>
+
+                        {{-- Payment Method --}}
+                        Payment Method:
+                        <span class="badge bg-info">
+                            {{ ucfirst($order->payment_method) }}
+                        </span><br>
+
+                        {{-- Payment Status --}}
+                        Payment: {{ $order->payment_status == 1 ? 'Paid' : 'Unpaid' }}<br>
+
+                        {{-- Delivery Status --}}
                         Status:
                         <span class="badge bg-success">
                             {{ $deliveryStatuses[$order->delivery_status] }}
-                        </span>
+                        </span><br>
+
+                        {{-- Extra Payment Details (only for bkash, nagad, rocket) --}}
+                        @if (in_array(strtolower($order->payment_method), ['bkash', 'nagad', 'rocket']))
+                            <hr>
+                            <strong>Payment Number:</strong> {{ $order->payment_number ?? 'N/A' }}<br>
+                            <strong>Amount:</strong> {{ $order->payment_amount ?? 'N/A' }} TK<br>
+                            <strong>Transaction ID:</strong> {{ $order->transaction_id ?? 'N/A' }}<br>
+
+                            @if ($order->payment_screenshot)
+                                <strong>Screenshot:</strong><br>
+                                <img src="{{ asset($order->payment_screenshot) }}" alt="Payment Screenshot"
+                                    class="img-fluid border rounded" style="max-height:150px;">
+                            @else
+                                <strong>Screenshot:</strong> Not Provided
+                            @endif
+                        @endif
                     </div>
                     <div class="col-md-4">
                         <h6>Delivery Address</h6>
