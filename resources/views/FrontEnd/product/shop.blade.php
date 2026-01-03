@@ -535,6 +535,17 @@
         .filter-close-btn {
             display: none;
         }
+        .product-rating i.fas.fa-star {
+    color: #FFD700; /* Golden color */
+}
+
+.product-rating i.fas.fa-star-half-alt {
+    color: #FFD700; /* Golden half star */
+}
+
+.product-rating i.fas.fa-star.muted {
+    color: #ddd; /* Muted gray for empty stars */
+}
 
         @media (max-width: 1024px) {
             .shop-wrapper {
@@ -577,6 +588,7 @@
                     transform: translateX(-100%);
                     opacity: 0;
                 }
+
                 to {
                     transform: translateX(0);
                     opacity: 1;
@@ -810,7 +822,8 @@
                             </div>
                         </div>
                         <button type="submit" class="filter-btn">
-                            <i class="fa fa-filter"></i> {{ session()->get('language') == 'bangla' ? 'ফিল্টার প্রয়োগ করুন' : 'Apply Filters' }}
+                            <i class="fa fa-filter"></i>
+                            {{ session()->get('language') == 'bangla' ? 'ফিল্টার প্রয়োগ করুন' : 'Apply Filters' }}
                         </button>
                     </div>
                 </form>
@@ -819,27 +832,32 @@
             <!-- Products Section -->
             <main class="products-section">
                 <!-- Products Header -->
-                @if(count($products) > 0)
-                <div class="products-header">
-                    <div class="products-count">
-                        <strong>{{ $products->total() }}</strong> {{ session()->get('language') == 'bangla' ? 'পণ্য পাওয়া গেছে' : 'Products Found' }}
+                @if (count($products) > 0)
+                    <div class="products-header">
+                        <div class="products-count">
+                            <strong>{{ $products->total() }}</strong>
+                            {{ session()->get('language') == 'bangla' ? 'পণ্য পাওয়া গেছে' : 'Products Found' }}
+                        </div>
                     </div>
-                </div>
                 @endif
 
                 <!-- Products Grid -->
-                @if(count($products) > 0)
+                @if (count($products) > 0)
                     <div class="product-grid">
                         @foreach ($products as $product)
-                            @php $data = calculateDiscount($product->id) @endphp
+                            @php $data = calculateDiscount($product->id);
+                                $summary = getProductReviewsSummary($product->id);
+                                $average_rating = $summary['average_rating'];
+                                $total_ratings = $summary['total_ratings'] ?? 0;
+                            @endphp
                             @if ($data['discount'] >= $min_price && $data['discount'] <= $max_price)
                                 <div class="product-card">
-                                    <a href="{{ route('product.details', $product->slug) }}" style="text-decoration: none; color: inherit;">
+                                    <a href="{{ route('product.details', $product->slug) }}"
+                                        style="text-decoration: none; color: inherit;">
                                         <div class="product-image">
                                             <img src="{{ asset($product->product_thumbnail) }}"
                                                 alt="{{ $product->name_en }}">
                                             @if ($product->stock_qty > 0)
-                                                
                                             @endif
                                         </div>
                                     </a>
@@ -853,16 +871,33 @@
                                             @endif
                                         </h3>
 
+                                        <div class="product-rating">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= $average_rating)
+                                                    <i class="fas fa-star"></i>
+                                                @else
+                                                    <i class="fas fa-star" style="color: #ddd;"></i>
+                                                @endif
+                                            @endfor
+                     
+                                                <span>({{ $total_ratings }})</span>
+                              
+                                        </div>
+
                                         <div class="product-footer">
                                             <div class="price-section">
                                                 <span class="product-price">৳{{ $data['discount'] }}</span>
                                                 <span class="product-old-price">৳{{ $product->regular_price }}</span>
                                             </div>
 
+
+
+
                                             <div class="action-buttons">
                                                 @if ($product->stock_qty > 0)
                                                     @if (Auth::check() && Auth::user()->role == '5')
-                                                        <button onclick="wholesellerAlert()" class="btn-add-cart" style="flex: 1;">
+                                                        <button onclick="wholesellerAlert()" class="btn-add-cart"
+                                                            style="flex: 1;">
                                                             {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add Cart' }}
                                                         </button>
                                                     @else
@@ -905,8 +940,12 @@
                 @else
                     <div class="empty-state">
                         <div class="empty-icon">📦</div>
-                        <h4 class="empty-title">{{ session()->get('language') == 'bangla' ? 'কোন পণ্য পাওয়া যায়নি' : 'No Products Found' }}</h4>
-                        <p class="empty-text">{{ session()->get('language') == 'bangla' ? 'আপনার ফিল্টার মেলে এমন কোন পণ্য খুঁজে পাওয়া যায়নি।' : 'No products matching your filters.' }}</p>
+                        <h4 class="empty-title">
+                            {{ session()->get('language') == 'bangla' ? 'কোন পণ্য পাওয়া যায়নি' : 'No Products Found' }}
+                        </h4>
+                        <p class="empty-text">
+                            {{ session()->get('language') == 'bangla' ? 'আপনার ফিল্টার মেলে এমন কোন পণ্য খুঁজে পাওয়া যায়নি।' : 'No products matching your filters.' }}
+                        </p>
                     </div>
                 @endif
             </main>
@@ -946,8 +985,8 @@
 
             // Close sidebar when clicking outside
             document.addEventListener('click', function(event) {
-                if (filterSidebar.classList.contains('active') && 
-                    !filterSidebar.contains(event.target) && 
+                if (filterSidebar.classList.contains('active') &&
+                    !filterSidebar.contains(event.target) &&
                     !filterToggleBtn.contains(event.target)) {
                     filterSidebar.classList.remove('active');
                     document.body.classList.remove('filter-open');

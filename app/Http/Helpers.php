@@ -1,25 +1,26 @@
 <?php
 
-use Gloudemans\Shoppingcart\Facades\Cart;
-use App\Models\Category;
-use App\Models\Banner;
-use App\Models\Division;
-use App\Models\User;
-use App\Models\District;
-use App\Models\Upazilla;
 use App\Models\Page;
-use App\Models\Setting;
-use App\Models\Attribute;
-use App\Models\ProductStock;
-use App\Models\Vendor;
-use Illuminate\Support\Collection;
-use App\Models\AccountLedger;
-use App\Utility\CategoryUtility;
-use App\Models\Product;
+use App\Models\User;
 use App\Models\Brand;
-use App\Models\ReturningProduct;
+use App\Models\Banner;
+use App\Models\Review;
+use App\Models\Vendor;
+use App\Models\Product;
+use App\Models\Setting;
+use App\Models\Category;
+use App\Models\District;
+use App\Models\Division;
+use App\Models\Upazilla;
+use App\Models\Attribute;
 use App\Models\OrderDetail;
-
+use App\Models\ProductStock;
+use App\Models\AccountLedger;
+use App\Models\ReturningProduct;
+use App\Utility\CategoryUtility;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 function sendSms($phone, $message)
 {
@@ -43,6 +44,28 @@ function sendSms($phone, $message)
 
     return $response;
 }
+
+if (!function_exists('getProductReviewsSummary')) {
+
+    function getProductReviewsSummary($productId)
+    {
+        // Fetch verified & active reviews
+        $reviews = Review::where('product_id', $productId)
+            ->where('status', 1)
+            ->where('verified_purchase', 1)
+            ->get();
+        $total_ratings = $reviews->count();
+        // Average rating
+        $average_rating = $total_ratings > 0 ? round($reviews->avg('rating'), 2) : 0;
+
+        return [
+            'total_ratings'   => $total_ratings,
+            'average_rating'  => $average_rating,
+           
+        ];
+    }
+}
+
 
 if (!function_exists('get_setting')) {
     function get_setting($name)

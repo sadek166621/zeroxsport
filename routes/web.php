@@ -61,6 +61,8 @@ Route::get('verify_otp_and_reset_password', [ForgetPasswordController::class, 'v
 Route::post('verify_otp_and_reset_password', [ForgetPasswordController::class, 'resetPasswordPost'])
     ->name('otp.verify.reset.password');
 
+    
+
 
 Route::middleware([UserMiddleware::class])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');

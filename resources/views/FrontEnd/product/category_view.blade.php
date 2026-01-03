@@ -46,6 +46,18 @@
         font-size: 12px;
     }
 
+    .product-rating i.fas.fa-star {
+    color: #FFD700; /* Golden color */
+}
+
+.product-rating i.fas.fa-star-half-alt {
+    color: #FFD700; /* Golden half star */
+}
+
+.product-rating i.fas.fa-star.muted {
+    color: #ddd; /* Muted gray for empty stars */
+}
+
     /* Other Styles */
     .section-header {
         text-align: center;
@@ -427,7 +439,12 @@
         @if (count($products) > 0)
         @foreach ($products as $product_trending)
         <div class="col">
-            <?php $data = calculateDiscount($product_trending->id); ?>
+            <?php $data = calculateDiscount($product_trending->id); 
+            
+                  $summary = getProductReviewsSummary($product_trending->id);
+                $average_rating = $summary['average_rating'];
+                $total_ratings = $summary['total_ratings'];
+            ?>
             <div class="product-card">
                 @if ($data['text'])
                 <div class="discount-badge">
@@ -449,6 +466,19 @@
                         {!! Str::substr($product_trending->name_en, 0, 35) !!}
                         @endif
                     </a>
+
+
+                    <div class="rating mb-2">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= round($average_rating))
+                                <i class="fas fa-star" style="color: #FFD700;"></i>
+                            @else
+                                <i class="fas fa-star" style="color: #ddd;"></i>
+                            @endif
+                        @endfor
+                        <span>({{ $total_ratings }})</span>
+                    </div>
+
 
                     <!-- Price Section -->
                     <div class="price-section">

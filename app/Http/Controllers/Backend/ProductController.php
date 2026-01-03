@@ -806,16 +806,12 @@ class ProductController extends Controller
                     ->unique();
 
                 Order::whereIn('id', $orderIds)
-                    ->whereIn('deliver_status', [
-                        'pending',
-                        'confirmed',
-                        'shipped',
-                        'picked up',
-                        'on the way'
+                    ->whereIn('delivery_status', [
+                      0,1,2,3
                     ])
                     ->update([
-                        'deliver_status' => 'cancelled',
-                        'cancel_reason'  => 'Product marked as fake by admin'
+                        'delivery_status' =>5,
+                        //'cancel_reason'  => 'Product marked as fake by admin'
                     ]);
             }
         });
@@ -1037,7 +1033,7 @@ class ProductController extends Controller
 
     public function updateAffiliateCommission(Request $request, $id)
     {
-      //  dd($request->all());
+        //  dd($request->all());
         $request->validate([
             'affiliate_commission' => 'nullable|numeric|min:0',
             'affiliate_commission_type' => 'nullable|in:1,2',

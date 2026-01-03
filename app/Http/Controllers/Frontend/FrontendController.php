@@ -200,21 +200,44 @@ class FrontendController extends Controller
 
     /* ========== Start ProductDetails Method ======== */
 
-    public function loadMoreProducts(Request $request)
-    {
-        $count = $request->input('count', 12); // Number of products to load (default is 12)
-        $offset = $request->input('offset', 0); // Offset for pagination
+public function loadMoreProducts(Request $request)
+{
+    $count  = $request->input('count', 12); // Number of products to load (default is 12)
+    $offset = $request->input('offset', 0); // Offset for pagination
 
-        $products = Product::where('status', 1)
-            ->orderBy('id', 'desc')
-            ->skip($offset)
-            ->limit($count)
-            ->get();
+    $products = Product::where('status', 1)
+        ->orderBy('id', 'desc')
+        ->skip($offset)
+        ->limit($count)
+        ->get();
 
-        $nextOffset = $offset + $count;
+    $productsData = $products->map(function ($product) {
+        $discount = calculateDiscount($product->id);
+        $summary  = getProductReviewsSummary($product->id);
 
-        return response()->json(['products' => $products, 'nextOffset' => $nextOffset]);
-    }
+        return [
+            'id'               => $product->id,
+            'slug'             => $product->slug,
+            'name_en'          => $product->name_en,
+            'name_bn'          => $product->name_bn,
+            'product_thumbnail'=> asset($product->product_thumbnail),
+            'regular_price'    => $product->regular_price,
+            'discount_price'   => $discount['discount'],
+            'discount_text'    => $discount['text'],
+            'stock_qty'        => $product->stock_qty,
+            'is_varient'       => $product->is_varient,
+            'average_rating'   => $summary['average_rating'],
+            'reviews_count'    => $summary['total_ratings'],
+        ];
+    });
+
+    $nextOffset = $offset + $count;
+
+    return response()->json([
+        'products'   => $productsData,
+        'nextOffset' => $nextOffset
+    ]);
+}
     public function productDetails($slug)
     {
 
@@ -270,6 +293,7 @@ class FrontendController extends Controller
             }
             $product->increment('views');
 
+       
             return view('FrontEnd.product.product_details', compact('group_products', 'shipping_charge', 'product', 'multiImg', 'categories', 'new_products', 'product_color_en', 'product_size_en', 'relatedProduct', 'reviews', 'total_ratings', 'average_rating', 'formattedCounts'));
         }
 

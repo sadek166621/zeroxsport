@@ -638,10 +638,13 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
             @auth
             <div class="user-account-dropdown">
                 <div class="nav-item">
-                    <span class="nav-item-top">{{ $isBangla ? 'হ্যালো' : 'Hello' }}, {{ $userName }}</span>
-                    <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span>
+                    <a href="{{ $dashboardRoute }}">
+                      <span class="btn btn-info">{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
+                    </a>
+                    {{-- <span class="nav-item-top">{{ $isBangla ? 'হ্যালো' : 'Hello' }}, {{ $userName }}</span> --}}
+                    {{-- <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span> --}}
                 </div>
-                <div class="user-account-dropdown-menu">
+                {{-- <div class="user-account-dropdown-menu">
                     <a href="{{ $dashboardRoute }}" class="dropdown-menu-item">
                         <i class="fas fa-tachometer-alt"></i>
                         <span>{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
@@ -652,7 +655,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
                         <i class="fas fa-sign-out-alt"></i>
                         <span>{{ $isBangla ? 'লগআউট' : 'Logout' }}</span>
                     </a>
-                </div>
+                </div> --}}
             </div>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
