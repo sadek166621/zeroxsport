@@ -72,53 +72,79 @@ Dashboard | Welcome
             <h3 class="fw-semibold mb-1">Recent Orders</h3>
             <p class="text-muted small mb-0">Your latest 5 orders</p>
         </div>
-        <a href="{{ route('dashboard.orders') }}" class="btn btn-primary">
+        <a href="{{ route('dashboard.orders') }}" class="btn .btn-view" style="background-color: #026142; color: white;">
             <i class="fas fa-arrow-right me-2"></i>View All Orders
         </a>
     </div>
-    <div class="row g-3">
-        @foreach($orders->take(5) as $order)
-        <div class="col-md-6 col-lg-4">
-            <div class="card border-0 shadow-sm order-card h-100">
-                <div class="card-body">
-                    <div class="order-card-header mb-3">
-                        <div class="d-flex align-items-start justify-content-between">
-                            <div>
-                                <span class="badge rounded-pill status-badge mb-2" style="background: linear-gradient(135deg, #fef3c7 0%, rgba(245, 158, 11, 0.1) 100%); color: #b45309;">
-                                    {{ $order->delivery_status }}
-                                </span>
-                                <div class="order-id-large">Order #{{ $order->invoice_no }}</div>
+
+    @if($orders && $orders->count() > 0)
+    <div class="orders-wrapper">
+        <div class="table-responsive">
+            <table class="table orders-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Total Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($orders->take(5) as $order)
+                    <tr>
+                        <td>
+                            <span class="order-id-badge">#{{ $order->invoice_no }}</span>
+                        </td>
+                        <td>
+                            <div class="order-date">{{ \Carbon\Carbon::parse($order->date)->format('d M Y') }}</div>
+                            <div class="order-time">{{ \Carbon\Carbon::parse($order->date)->format('h:i A') }}</div>
+                        </td>
+                        <td>
+                            @php
+                            $statusMap = [
+                            0 => ['text' => 'Pending', 'class' => 'bg-secondary'],
+                            1 => ['text' => 'Confirmed', 'class' => 'bg-info'],
+                            2 => ['text' => 'Processing', 'class' => 'bg-primary'],
+                            3 => ['text' => 'Shipped', 'class' => 'bg-warning'],
+                            4 => ['text' => 'Delivered', 'class' => 'bg-success'],
+                            5 => ['text' => 'Canceled', 'class' => 'bg-danger'],
+                            ];
+                            $status = $statusMap[$order->delivery_status] ?? ['text' => $order->delivery_status, 'class' => 'bg-light'];
+                            @endphp
+                            <span class="badge {{ $status['class'] }} text-white">{{ $status['text'] }}</span>
+                        </td>
+                        <td>
+                            <span class="order-amount">৳{{ number_format($order->grand_total, 2) }}</span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{{ route('order.details', $order->invoice_no) }}" class="btn-action btn-view" title="View Details">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                <a href="{{ route('order.view', $order->invoice_no) }}" class="btn-action btn-invoice" title="Download Invoice">
+                                    <i class="fas fa-file-pdf"></i> Invoice
+                                </a>
                             </div>
-                            <span class="order-date-small">{{ \Carbon\Carbon::parse($order->date)->format('d M') }}</span>
-                        </div>
-                    </div>
-
-                    <div class="order-card-divider mb-3"></div>
-
-                    <div class="order-card-body mb-3">
-                        <div class="order-item-count mb-2">
-                            <i class="fas fa-box-open text-muted me-2"></i>
-                            <span class="text-muted small">Items in order</span>
-                        </div>
-                        <div class="order-total">
-                            <span class="text-muted small">Total Amount</span>
-                            <div class="amount-display">৳{{ number_format($order->grand_total, 2) }}</div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <a href="{{ route('order.view', $order->invoice_no) }}" class="btn btn-sm btn-outline-primary flex-grow-1">
-                            <i class="fas fa-file-pdf me-1"></i>Invoice
-                        </a>
-                        <a href="{{ route('order.details', $order->invoice_no) }}" class="btn btn-sm btn-outline-secondary flex-grow-1">
-                            <i class="fas fa-eye me-1"></i>Details
-                        </a>
-                    </div>
-                </div>
-            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-        @endforeach
     </div>
+    @else
+    <div class="empty-orders-state">
+        <div class="empty-state-icon">
+            <i class="fas fa-inbox"></i>
+        </div>
+        <h5>No Orders Yet</h5>
+        <p>You haven't placed any orders. Start shopping to see your orders here.</p>
+        <a href="{{ route('home') }}" class="btn btn-primary mt-3">
+            <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
+        </a>
+    </div>
+    @endif
 </div>
 
 <style>
@@ -217,107 +243,200 @@ Dashboard | Welcome
         letter-spacing: -0.5px;
     }
 
-    .order-card {
-        border-radius: 1.25rem;
+    .orders-wrapper {
         background: white;
-        transition: var(--transition);
-        border: 1.5px solid var(--border-color);
+        border-radius: 1.25rem;
+        border: 1px solid var(--border-color);
         overflow: hidden;
-        position: relative;
-        display: flex;
-        flex-direction: column;
+        box-shadow: 0 2px 12px rgba(2, 97, 66, 0.08);
     }
 
-    .order-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: linear-gradient(90deg, var(--primary) 0%, transparent 100%);
+    .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0;
     }
 
-    .order-card:hover {
-        box-shadow: 0 12px 32px rgba(2, 97, 66, 0.15);
-        transform: translateY(-4px);
-        border-color: var(--primary);
+    .orders-table thead {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        border-bottom: 2px solid var(--primary);
     }
 
-    .order-card .card-body {
-        padding: 1.75rem;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
+    .orders-table thead th {
+        padding: 1.75rem 1.5rem;
+        font-weight: 700;
+        color: #004d34;
+        text-align: left;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
     }
 
-    .order-id-large {
+    .orders-table tbody tr {
+        border-bottom: 1px solid var(--border-color);
+        transition: var(--transition);
+    }
+
+    .orders-table tbody tr:hover {
+        background: var(--lighter);
+    }
+
+    .orders-table tbody td {
+        padding: 1.5rem;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        vertical-align: middle;
+    }
+
+    .order-id-badge {
+        background: linear-gradient(135deg, var(--primary-light) 0%, rgba(2, 97, 66, 0.1) 100%);
+        color: var(--primary);
+        padding: 0.7rem 1.2rem;
+        border-radius: 0.6rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+        display: inline-block;
+    }
+
+    .order-date {
         font-weight: 700;
         color: var(--dark);
-        font-size: 1.1rem;
+        margin-bottom: 0.3rem;
     }
 
-    .status-badge {
+    .order-time {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+
+    .order-items {
+        color: var(--dark);
+        font-weight: 600;
+    }
+
+    .order-status-badge {
         display: inline-block;
-        padding: 0.6rem 1.1rem;
+        padding: 0.5rem 1rem;
         border-radius: 0.6rem;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.4px;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
     }
 
-    .order-card-divider {
-        height: 1px;
-        background: var(--border-color);
+    .order-status-badge[data-status="pending"],
+    .order-status-badge[data-status="processing"] {
+        background: linear-gradient(135deg, #fef3c7 0%, rgba(245, 158, 11, 0.1) 100%);
+        color: #b45309;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .order-status-badge[data-status="completed"],
+    .order-status-badge[data-status="delivered"] {
+        background: linear-gradient(135deg, var(--success-light) 0%, rgba(16, 185, 129, 0.1) 100%);
+        color: #047857;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .order-status-badge[data-status="cancelled"] {
+        background: linear-gradient(135deg, #fee2e2 0%, rgba(239, 68, 68, 0.1) 100%);
+        color: #991b1b;
+        border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
     .order-amount {
         font-weight: 700;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: var(--primary);
     }
 
-    .btn-primary {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-        color: white;
-        box-shadow: 0 4px 12px rgba(2, 97, 66, 0.2);
-        border: none;
+    .action-buttons {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
     }
 
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(2, 97, 66, 0.3);
-        color: white;
-    }
-
-    .btn-outline-primary {
-        border: 2px solid var(--primary);
-        color: var(--primary);
-        background: transparent;
+    .btn-action {
+        padding: 0.5rem 1rem;
+        border-radius: 0.6rem;
+        border: 2px solid transparent;
         font-weight: 600;
+        font-size: 0.8rem;
+        transition: var(--transition);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        cursor: pointer;
     }
 
-    .btn-outline-primary:hover {
-        background: var(--primary);
+    .btn-view {
+        background: linear-gradient(135deg, var(--primary) 0%, #014d34 100%);
         color: white;
     }
 
-    .btn-outline-secondary {
-        border: 2px solid var(--border-color);
-        color: var(--text-muted);
-        background: white;
+    .btn-view:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(2, 97, 66, 0.25);
     }
 
-    .btn-outline-secondary:hover {
-        background: var(--lighter);
-        border-color: var(--primary);
+    .btn-invoice {
+        background: transparent;
         color: var(--primary);
+        border-color: var(--primary);
+    }
+
+    .btn-invoice:hover {
+        background: var(--primary-light);
+        color: var(--primary);
+    }
+
+    .empty-orders-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, var(--lighter) 0%, white 100%);
+        border: 2px dashed var(--border-color);
+        border-radius: 1.5rem;
+    }
+
+    .empty-state-icon {
+        font-size: 4rem;
+        color: var(--primary);
+        opacity: 0.3;
+        margin-bottom: 1rem;
+    }
+
+    .empty-orders-state h5 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-orders-state p {
+        color: var(--text-muted);
+        margin-bottom: 1.5rem;
     }
 
     @media (max-width: 768px) {
         .stat-modern-card .fs-4 {
             font-size: 1.5rem;
+        }
+
+        .orders-table thead th,
+        .orders-table tbody td {
+            padding: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn-action {
+            width: 100%;
+            justify-content: center;
         }
     }
 </style>

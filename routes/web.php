@@ -343,6 +343,9 @@ Route::get('/test', function () {
 // });
 
 
+Route::get('/seller/terms-condition', function () {
+    return view('FrontEnd.seller-application.terms_condition');
+})->name('seller.terms_condition');
 
 
 require __DIR__ . '/auth.php';

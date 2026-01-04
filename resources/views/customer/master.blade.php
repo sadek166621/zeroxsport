@@ -91,6 +91,20 @@
         font-size: 1rem;
         font-weight: 400;
     }
+
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 1.5rem 0;
+        }
+
+        .custom_container {
+            padding: 0 .5rem;
+    }
+
+    .dashboard-content {
+        padding: .75rem;
+
+    
 </style>
 
 <body class="bg-light">
