@@ -52,17 +52,17 @@
                             <h3>Basic Info</h3>
                         </div>
                         <div class="card-body">
-                            <div class="row ">
+                            {{-- <div class="row ">
                                 <div class="col-md-12 mb-4">
                                     <label for="product_type" class="col-form-label" style="font-weight: bold;">Product
                                         Type:</label>
                                     <select class="form-control" id="product_type" name="product_type"
                                         onchange="toggleProductFields()" required>
                                         <option value="1">Single Product</option>
-                                        {{-- <option value="2">Group Product</option> --}}
+                                    <option value="2">Group Product</option> 
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="row">
                                 <div class="col-md-6 mb-4">
@@ -292,14 +292,14 @@
                     <!-- card //-->
 
                     {{-- Wholesale product toggle (styled switch) --}}
-                    <div class="form-check form-switch d-flex align-items-center ps-0 ms-5 my-3">
+                    {{-- <div class="form-check form-switch d-flex align-items-center ps-0 ms-5 my-3">
                         <input class="form-check-input me-2" type="checkbox" id="is_wholesell" name="is_wholesell"
                             value="1" style="width: 2.5em; height: 1.4em; cursor: pointer;">
                         <label class="form-check-label fw-bold fs-5 text-dark" for="is_wholesell"
                             style="cursor: pointer;">
                             Is Wholesale Product?
                         </label>
-                    </div>
+                    </div> --}}
 
                     <div class="card">
                         <div class="card-header" style="background-color: #fff !important;">
@@ -416,7 +416,7 @@
                         </div>
                     </div>
                     <!-- card //-->
-                    @if (Auth::guard('admin')->user()->role == 2)
+                    {{-- @if (Auth::guard('admin')->user()->role == 2)
                         <div class="card">
                             <div class="card-header" style="background-color: #fff !important;">
                                 <h3 style="color: #4f5d77 !important">Points</h3>
@@ -434,7 +434,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    @endif --}}
 
                     <div class="card">
                         <div class="card-header" style="background-color: #fff !important;">
