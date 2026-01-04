@@ -211,23 +211,34 @@
 
                 if (Object.keys(response.carts).length > 0) {
                     $.each(response.carts, function(key, value) {
-                        let base_url = window.location.origin;
                         html += `
-                    <div class="cart-item mb-3 d-flex justify-content-between align-items-center">
+                    <div class="cart-item">
                         <div class="d-flex align-items-center gap-2">
-                            <img src="/${value.options.image}" width="50" height="50" alt="${value.name}">
-                            <div>
+                            <img src="/${value.options.image}" alt="${value.name}">
+                            <div class="flex-grow-1">
                                 <div class="title">${value.name}</div>
-                                <div class="qty">Qty: ${value.qty}
-                                 <button class="btn btn-sm rounded-circle ms-5" 
-                                    onclick="miniCartRemove('${value.rowId}')" 
-                                    title="Remove item">
-                                    <i class="fa fa-trash text-success"></i>
+                                <div class="price">${value.price} ৳</div>
+                            </div>
+                            <button class="remove-btn" onclick="miniCartRemove('${value.rowId}')" title="Remove item">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 mt-2" style="padding: 0 0 0 52px;">
+                            <div class="quantity-control" style="display: flex; align-items: center; background: #fff; border-radius: 30px; padding: 2px 8px; width: fit-content; border: 1px solid #e0e0e0;">
+                                ${value.qty > 1
+                                   ? `<button type="button" class="qty-btn-mini qty-btn-minus" onclick="miniCartDecrement('${value.rowId}')" style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #e9ecef; color: #026142; font-weight: bold; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-minus" style="font-size: 9px;"></i>
+                                    </button>`
+                                   : `<button type="button" class="qty-btn-mini qty-btn-minus" disabled style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #f5f5f5; color: #ccc; cursor: not-allowed; padding: 0; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-minus" style="font-size: 9px;"></i>
+                                    </button>`
+                               }
+                                <input type="text" value="${value.qty}" class="qty-input-mini" style="width: 32px; border: none; background: transparent; text-align: center; font-weight: 700; color: #2D3142; font-size: 12px; padding: 0;" disabled>
+                                <button type="button" class="qty-btn-mini qty-btn-plus" onclick="miniCartIncrement('${value.rowId}')" style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #026142; color: #fff; font-weight: bold; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-plus" style="font-size: 9px;"></i>
                                 </button>
-                                    </div>
                             </div>
                         </div>
-                        <div class="price">${value.price} ৳</div>
                     </div>`;
                     });
                 } else {
@@ -240,37 +251,80 @@
         });
     }
 
-    /* ---------------- Remove Item from Mini Cart ---------------- */
-    function miniCartRemove(rowId) {
+    /* ---------------- Mini Cart Increment ---------------- */
+    function miniCartIncrement(rowId) {
         $.ajax({
             type: 'GET',
-            url: '/minicart/product-remove/' + rowId,
+            url: '/cart-increment/' + rowId,
             dataType: 'json',
             success: function(data) {
-                miniCart(); // Refresh mini cart
+                miniCart();
 
-                // SweetAlert2 toast
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
-                    icon: data.error ? 'error' : 'success',
+                    icon: 'success',
                     showConfirmButton: false,
                     timer: 1200
                 });
 
-                Toast.fire({
-                    title: data.error ? data.error : data.success
-                });
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success
+                    });
+                } else {
+                    Toast.fire({
+                        type: 'error',
+                        title: data.error
+                    });
+                }
             }
         });
     }
 
+    /* ---------------- Mini Cart Decrement ---------------- */
+    function miniCartDecrement(rowId) {
+        $.ajax({
+            type: 'GET',
+            url: '/cart-decrement/' + rowId,
+            dataType: 'json',
+            success: function(data) {
+                miniCart();
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1200
+                });
+
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success
+                    });
+                } else {
+                    Toast.fire({
+                        type: 'error',
+                        title: data.error
+                    });
+                }
+            }
+        });
+    }
+
+    /* ---------------- Attach Quantity Listeners for Mini Cart ----------- */
+    function attachQuantityListeners() {
+        // Listeners removed - using onclick handlers in HTML instead
+    }
 
     /* ============ Function Call ========== */
     miniCart();
 </script>
 <script>
-    function search_result_hide() {
+    search_result_hide() {
         $(".searchProducts").slideUp();
     }
 
@@ -939,7 +993,6 @@
         });
     }
 </script>
-
 <script>
     $('#buy_now').on('click', function() {
         // alert('ok');

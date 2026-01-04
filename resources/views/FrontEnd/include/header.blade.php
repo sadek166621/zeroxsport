@@ -639,7 +639,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
             <div class="user-account-dropdown">
                 <div class="nav-item">
                     <a href="{{ $dashboardRoute }}">
-                      <span class="btn btn-info">{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
+                      <span class="btn btn-info" style="background-color: white; color: #003D32;">{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
                     </a>
                     {{-- <span class="nav-item-top">{{ $isBangla ? 'হ্যালো' : 'Hello' }}, {{ $userName }}</span> --}}
                     {{-- <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span> --}}
@@ -695,7 +695,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
             <div style="border-top: 1px solid rgba(255, 255, 255, 0.3); margin-top: 10px;"></div>
             @auth
             <div class="nav-mobile-item">
-                <a href="{{ $dashboardRoute }}"><i class="fas fa-user"></i> {{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</a>
+                <a href="{{ $dashboardRoute }}"><i class="fas fa-tachometer-alt"></i> {{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</a>
             </div>
             <div class="nav-mobile-item">
                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -704,7 +704,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
             </div>
             @else
             <div class="nav-mobile-item">
-                <a href="{{ route('login') }}"><i class="fas fa-user"></i> {{ $isBangla ? 'লগইন' : 'Login' }}</a>
+                <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> {{ $isBangla ? 'লগইন' : 'Login' }}</a>
             </div>
             @endauth
         </div>
