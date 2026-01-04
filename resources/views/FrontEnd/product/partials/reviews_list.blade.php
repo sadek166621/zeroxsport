@@ -46,10 +46,6 @@
             <i class="fa fa-thumbs-up"></i>
             <span>Helpful ({{ $review->helpful_count ?? 0 }})</span>
         </div>
-        <div class="review-action">
-            <i class="fa fa-comment"></i>
-            <span>Reply</span>
-        </div>
     </div>
 </div>
 @empty

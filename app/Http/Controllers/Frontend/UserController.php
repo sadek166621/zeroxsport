@@ -33,37 +33,28 @@ class UserController extends Controller
     public function index(){
         $orders = Order::where('user_id',Auth::id())->orderBy('id','DESC')->get();
 
-        $all = Order::where('user_id', Auth::user()->id)
-                        ->get();
+        $all = Order::where('user_id', Auth::user()->id)->get();
+        $pending = Order::where('user_id', Auth::user()->id)->where('delivery_status', 0)->get();
+        $completed = Order::where('user_id', Auth::user()->id)->where('delivery_status', 4)->get();
 
-        $pending = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status', 0)
-                        ->get();
+        return view('customer.pages.dashboard', compact('orders', 'all', 'pending', 'completed'));
+    }
 
-        $processing = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status', 2)
-                        ->get();
+    public function ordersPage(){
+        $orders = Order::where('user_id',Auth::id())->orderBy('id','DESC')->get();
+        $all = Order::where('user_id', Auth::user()->id)->get();
+        $pending = Order::where('user_id', Auth::user()->id)->where('delivery_status', 0)->get();
+        $completed = Order::where('user_id', Auth::user()->id)->where('delivery_status', 4)->get();
 
-        $shipping = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status',3)
-                        ->get();
+        return view('customer.pages.orders', compact('orders', 'all', 'pending', 'completed'));
+    }
 
-        $picked = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status', 'picked_up')
-                        ->get();
+    public function profilePage(){
+        return view('customer.pages.profile');
+    }
 
-        $completed = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status', 4)
-                        ->get();
-
-        $cancelled = Order::where('user_id', Auth::user()->id)
-                        ->where('delivery_status',5)
-                        ->get();
-
-        $return_requests = ReturnRequest::where('user_id', Auth::user()->id)->latest()->get();
-//        dd($return_requests);
-
-        return view('dashboard',compact('orders', 'return_requests', 'all', 'pending', 'processing', 'shipping', 'picked', 'completed', 'cancelled'));
+    public function passwordPage(){
+        return view('customer.pages.password');
     }
 
     /* ============= Order View ============= */

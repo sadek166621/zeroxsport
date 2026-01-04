@@ -150,7 +150,7 @@
         height: auto;
         margin-bottom: 25px;
         transition: all 0.3s ease;
-        /* background-color: #026544; */
+        background-color: #026544;
         padding: 8px;
         border-radius: 8px;
     }
@@ -181,7 +181,7 @@
             <!-- Company Info -->
             <div class="col">
                 <a class="d-block" href="{{route('home')}}">
-                    <img src="{{asset(get_setting('site_footer_logo')->value)}}" alt="logo" class="main-logo">
+                    <img src="{{asset(get_setting('site_logo')->value)}}" alt="logo" class="main-logo">
                 </a>
                 <p class="text-muted mb-4">{{get_setting('short_description')->value}}</p>
                 <div class="contact-info d-flex flex-column gap-3">

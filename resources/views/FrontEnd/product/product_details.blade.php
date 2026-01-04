@@ -30,7 +30,7 @@
     }
 
     .discount-position {
-        background-color: #01B45E;
+        background-color: #036343;
         color: #f8f9fa;
         border-radius: 50%;
         width: 60px;
@@ -51,7 +51,7 @@
     }
 
     .buy_now {
-        background-color: #01B45E;
+        background-color: #036343;
         border: none;
         border-radius: 5px;
         color: white !important;
@@ -59,7 +59,7 @@
 
     .product_card {
         background: #fff;
-        border: 2px solid #01B45E;
+        border: 2px solid #036343;
         border-radius: 12px;
         box-shadow: 0 2px 12px rgba(1, 180, 94, 0.08);
         transition: box-shadow 0.2s, border-color 0.2s;
@@ -101,7 +101,7 @@
     }
 
     .qty-btn {
-        background: #01B45E;
+        background: #036343;
         border: none;
         width: 28px;
         height: 28px;
@@ -232,13 +232,13 @@
     }
 
     .thumbnail-item:hover {
-        border-color: #01B45E;
+        border-color: #036343;
         transform: scale(1.05);
     }
 
     .thumbnail-item.active {
-        border-color: #01B45E;
-        box-shadow: 0 0 0 1px #01B45E;
+        border-color: #036343;
+        box-shadow: 0 0 0 1px #036343;
     }
 
     .thumbnail-item img {
@@ -248,7 +248,7 @@
     }
 
     .discount-position {
-        background-color: #01B45E;
+        background-color: #036343;
         color: #f8f9fa;
         border-radius: 50%;
         width: 60px;
@@ -271,7 +271,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb breadcrumb-custom  mb-0 d-flex align-items-center gap-2">
             <li class="breadcrumb-item">
-                <a href="{{ route('home') }}" style="color: #01B45E; text-decoration: none; transition: all 0.3s;">
+                <a href="{{ route('home') }}" style="color: #036343; text-decoration: none; transition: all 0.3s;">
                     @if (session()->get('language') == 'bangla')
                     হোম
                     @else
@@ -282,7 +282,7 @@
             <i class="fa fa-chevron-right mx-2" aria-hidden="true"></i>
             <li class="breadcrumb-item">
                 <a href="{{ route('product.category', $product->category->slug) }}"
-                    style="color: #01B45E; text-decoration: none; transition: all 0.3s;">
+                    style="color: #036343; text-decoration: none; transition: all 0.3s;">
                     @if (session()->get('language') == 'bangla')
                     {{ $product->category->name_bn ?? '' }}
                     @else
@@ -731,12 +731,6 @@
                     @endif
 
                 </div>
-
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#Reviews">
-                        Ratings & Reviews of ({{ $product->name_en }})
-                    </a>
-                </li>
                 
 
                 <style>
@@ -885,14 +879,14 @@
                     }
 
                     .filter-btn:hover {
-                        border-color: #f57224;
-                        color: #f57224;
+                        border-color: #036343;
+                        color: #036343;
                     }
 
                     .filter-btn.active {
-                        background: #f57224;
+                        background: #036343;
                         color: #fff;
-                        border-color: #f57224;
+                        border-color: #036343;
                     }
 
                     /* Review Items */
@@ -1015,7 +1009,7 @@
                     }
 
                     .review-action:hover {
-                        color: #f57224;
+                        color: #036343;
                     }
 
                     .review-action i {
@@ -1079,11 +1073,11 @@
 
                     .form-group textarea:focus {
                         outline: none;
-                        border-color: #f57224;
+                        border-color: #036343;
                     }
 
                     .submit-review-btn {
-                        background: #f57224;
+                        background: #036343;
                         color: #fff;
                         border: none;
                         padding: 12px 32px;
@@ -1116,8 +1110,8 @@
                     }
 
                     .load-more-btn:hover {
-                        border-color: #f57224;
-                        color: #f57224;
+                        border-color: #036343;
+                        color: #036343;
                     }
 
                     .verified-badge {
@@ -1156,7 +1150,7 @@
                 <!-- Reviews Section HTML -->
                 <div class="reviews-container">
                     <div class="reviews-header">
-                        <h3>Ratings & Reviews</h3>
+                        <h3>Ratings & Reviews of ({{ $product->name_en }})</h3>
                     </div>
 
                     <!-- Rating Summary -->
@@ -1330,20 +1324,7 @@
 
 @endsection
 
-<style>
-    .product-rate {
-        position: relative;
-        display: inline-block;
-        width: 80px;
-        height: 14px;
-        background: #ddd;
-    }
 
-    .product-rating {
-        height: 100%;
-        background: #faca51;
-    }
-</style>
 
 @push('js')
 <script>
