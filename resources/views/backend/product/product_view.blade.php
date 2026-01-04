@@ -184,7 +184,7 @@
                                         <form action="{{ route('vendor.product.affiliate.request', ['id' => $item->id]) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn btn-sm btn-warning rounded-pill">
+                                            <button type="submit" class="text-danger " style="border: none">
                                                 Request for Affiliate
                                             </button>
                                         </form>
