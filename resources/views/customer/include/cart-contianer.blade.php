@@ -393,3 +393,54 @@
         }
     }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const cartOverlay = document.getElementById('cartOverlay');
+    const cartSidebar = document.getElementById('cartSidebar');
+    const closeSidebarBtn = document.getElementById('closeSidebar');
+    const openCartButtons = document.querySelectorAll('.add_to_cart, [data-open-cart]');
+
+    // Open cart sidebar
+    function openCart() {
+        cartSidebar.classList.add('open');
+        cartOverlay.classList.add('open');
+        cartSidebar.setAttribute('aria-hidden', 'false');
+        cartOverlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close cart sidebar
+    function closeCart() {
+        cartSidebar.classList.remove('open');
+        cartOverlay.classList.remove('open');
+        cartSidebar.setAttribute('aria-hidden', 'true');
+        cartOverlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Open cart when clicking add to cart buttons
+    openCartButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Only open if not already navigating away
+            if (!this.href || this.href === '#') {
+                e.preventDefault();
+                openCart();
+            }
+        });
+    });
+
+    // Close cart when clicking close button
+    closeSidebarBtn.addEventListener('click', closeCart);
+
+    // Close cart when clicking overlay
+    cartOverlay.addEventListener('click', closeCart);
+
+    // Close cart with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && cartSidebar.classList.contains('open')) {
+            closeCart();
+        }
+    });
+});
+</script>

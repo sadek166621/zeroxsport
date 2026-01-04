@@ -1,4 +1,4 @@
-@extends('FrontEnd.master')
+@extends('customer.master')
 @section('title')
 Dashboard | Modern Dashboard
 @endsection

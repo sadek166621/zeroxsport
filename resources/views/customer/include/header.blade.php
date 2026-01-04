@@ -809,10 +809,32 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
     // Cart sidebar toggle
     const cartToggle = document.getElementById('cartSidebarToggle');
     const cartToggleMobile = document.getElementById('cartSidebarToggleMobile');
-    if (cartToggle) cartToggle.addEventListener('click', function() {
-        // Trigger your cart sidebar here
-    });
-    if (cartToggleMobile) cartToggleMobile.addEventListener('click', function() {
-        // Trigger your cart sidebar here
-    });
+    
+    function openCartSidebar() {
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartOverlay = document.getElementById('cartOverlay');
+        if (cartSidebar && cartOverlay) {
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('open');
+            cartSidebar.setAttribute('aria-hidden', 'false');
+            cartOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+    
+    if (cartToggle) {
+        cartToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openCartSidebar();
+        });
+    }
+    
+    if (cartToggleMobile) {
+        cartToggleMobile.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openCartSidebar();
+        });
+    }
 </script>

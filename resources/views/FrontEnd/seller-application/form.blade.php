@@ -1222,7 +1222,7 @@ Become A Seller
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
                                 <label class="form-check-label" for="terms">
-                                    I have read and agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a>
+                                    I have read and agree to the <a href="{{ route('seller.terms_condition') }}" target="_blank">Terms and Conditions</a>
                                 </label>
                                 <div class="invalid-feedback">You must agree to the terms before submitting.</div>
                             </div>
@@ -1237,39 +1237,7 @@ Become A Seller
         </div>
     </div>
 
-    <!-- Terms Modal -->
-    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title fw-bold" id="termsModalLabel">
-                        <i class="fas fa-file-contract me-2"></i> Vendor Terms & Conditions
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h6><i class="fas fa-scroll me-2"></i>ই-কমার্স ভেন্ডর শর্তাবলী</h6>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><i class="fas fa-check-circle"></i> ভেন্ডরকে অবশ্যই সঠিক ও সত্য তথ্য প্রদান করতে হবে।</li>
-                        <li class="list-group-item"><i class="fas fa-check-circle"></i> প্রতিটি পণ্যের বিবরণ, মূল্য এবং স্টক সঠিকভাবে আপডেট করতে হবে।</li>
-                        <li class="list-group-item"><i class="fas fa-check-circle"></i> গ্রাহকের অর্ডার নির্ধারিত সময়ে ডেলিভারি করতে হবে।</li>
-                        <li class="list-group-item"><i class="fas fa-check-circle"></i> ভেন্ডর কোনো ভুয়া বা নকল পণ্য বিক্রি করতে পারবেন না।</li>
-                        <li class="list-group-item"><i class="fas fa-check-circle"></i> গ্রাহকের ব্যক্তিগত তথ্য গোপন রাখতে হবে এবং তৃতীয় পক্ষের সাথে শেয়ার করা যাবে না।</li>
-                        <li class="list-group-item"><i class="fas fa-check-circle"></i> রিটার্ন ও রিফান্ড নীতিমালা মেনে চলতে হবে।</li>
-                        <li class="list-group-item"><i class="fas fa-check-circle"></i> প্ল্যাটফর্মের নিয়ম ভঙ্গ করলে ভেন্ডর অ্যাকাউন্ট স্থগিত করা হতে পারে।</li>
-                    </ul>
-                    <div class="alert alert-warning mt-4 mb-0" style="border: none; background: rgba(239, 68, 68, 0.08); color: #991b1b;">
-                        <i class="fas fa-exclamation-triangle me-2"></i> <strong>নোট:</strong> প্ল্যাটফর্ম কর্তৃপক্ষ প্রয়োজনে শর্তাবলী পরিবর্তন করতে পারে。
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                        <i class="fas fa-check me-2"></i> I Understand
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 </section>
 
 <script>
