@@ -241,4 +241,6 @@ class VendorOrderController extends Controller
         $order = VendorOrder::find($id);
         return view('backend.vendor.reports.details', compact('order'));
     }
+
+ 
 }

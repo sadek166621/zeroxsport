@@ -541,6 +541,10 @@
                             href="{{ route('affiliates.index') }}">
                             Affiliate List
                         </a>
+                        <a class="{{ $route == 'product.request.affiliates' ? 'active' : '' }}"
+                            href="{{ route('product.request.affiliates') }}">
+                            Affiliate Product Requests
+                        </a>
                         <a class="{{ $route == 'affiliate.earnings' ? 'active' : '' }}"
                             href="{{ route('affiliate.earnings') }}">
                             Earnings Report

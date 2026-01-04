@@ -77,6 +77,8 @@ Route::prefix('vendor')->middleware('vendor')->group(function () {
 
 	Route::get('/order-details/{id}', [VendorOrderController::class, 'vendorOrdershow'])->name('vendor.order.details');
 	Route::get('/invoice-download/{order_id}', [VendorOrderController::class, 'vendorinvoiceDownload'])->name('vendor.invoice.download');
+
+	Route::patch('/affilitate/product/request/{id}',[ProductController::class, 'requestForAffiliate'])->name('vendor.product.affiliate.request');
 });
 /*==========================End Only Vendor Accessible Route  ==========================*/
 
@@ -317,6 +319,11 @@ Route::middleware('adminAccess')->group(function () {
 
 	// Admin Affiliate All Routes
 	Route::resource('/affiliates', AffiliateController::class);
+	Route::get('/request/affiliate/products', [AffiliateController::class, 'requestAffiliateProducts'])->name('product.request.affiliates');
+
+	Route::patch('/approve/affiliate/product/{id}', [AffiliateController::class, 'approveAffiliateProduct'])->name('approve.affiliate.product');
+	Route::patch('/reject/affiliate/product/{id}', [AffiliateController::class, 'rejectAffiliateProduct'])->name('reject.affiliate.product');
+
 	Route::get('affiliate/product', [AffiliateController::class, 'AllaffiliateProduct'])->name('affiliate.products');
 	Route::get('vendor/affiliate/product', [AffiliateController::class, 'vendorAffiliateProduct'])->name('vendor.affiliate.products');
 	Route::get('admin/affiliate/product', [AffiliateController::class, 'adminAffiliateProduct'])->name('admin.affiliate.products');

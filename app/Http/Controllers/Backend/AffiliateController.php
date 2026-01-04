@@ -92,6 +92,12 @@ class AffiliateController extends Controller
     }
 
 
+    public function requestAffiliateProducts()
+    {
+        $products = Product::where('affiliate_request', 1)->where('is_affiliate', 0)->latest()->get();
+        return view('backend.affiliate.products.request_affiliate_products', compact('products'));
+    }
+
 
     public function active($id)
     {
@@ -137,4 +143,25 @@ class AffiliateController extends Controller
         $affiliates = Affiliate::with('orders')->get();
         return view('backend.affiliate.earning', compact('affiliates'));
     }
+
+    public function approveAffiliateProduct($id)
+    {
+        $product = Product::find($id);
+        $product->affiliate_request = 0;
+        $product->is_affiliate = 1;
+        $product->save();
+
+        return redirect()->back()->with('success', 'Affiliate product approved successfully');
+    } // end method
+
+
+    public function rejectAffiliateProduct($id)
+    {
+        $product = Product::find($id);
+        $product->affiliate_request = 0;
+        $product->is_affiliate = 0;
+        $product->save();
+
+        return redirect()->back()->with('success', 'Affiliate product rejected successfully');
+    } // end method
 }

@@ -28,6 +28,7 @@
                                 @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
                                     <th scope="col">Authenticity Status</th>
                                 @endif
+                                <th>Action</th>
 
                             </tr>
                         </thead>
@@ -100,12 +101,19 @@
                                                     ✖
                                                 </button>
 
-                                                <button name="authenticity_status" value="0" title="Pending"
-                                                    class="btn btn-sm {{ $item->authenticity_status == 0 ? 'btn-warning' : 'btn-outline-warning' }}">
-                                                    ⏳
-                                                </button>
                                             </form>
                                         </td>
+                                    @endif
+                                    <td>
+                                        <a href="{{ route('product.edit', $item->id) }}" class="btn btn-sm btn-primary">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="{{ route('product.delete', $item->id) }}"
+                                            class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
                                     @endif
 
                                 </tr>

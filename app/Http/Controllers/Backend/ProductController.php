@@ -79,6 +79,7 @@ class ProductController extends Controller
     /*=================== Start StoreProduct Methoed ===================*/
     public function StoreProduct(Request $request)
     {
+        // dd($request->all());
         //         return $request;
         $request->validate([
             'name_en'               => 'required|max:150',
@@ -228,9 +229,12 @@ class ProductController extends Controller
                 $item['attribute_id'] = $attribute;
                 $data = array();
 
-                foreach ($request[$atr] as $key => $value) {
-                    array_push($data, $value);
+                if ($request->has($atr) && is_array($request[$atr])) {
+                    foreach ($request[$atr] as $key => $value) {
+                        $data[] = $value;
+                    }
                 }
+
 
                 $item['values'] = $data;
                 array_push($attribute_values, $item);
@@ -791,30 +795,11 @@ class ProductController extends Controller
             'authenticity_status' => 'required|in:0,1,2'
         ]);
 
-        DB::transaction(function () use ($request, $product) {
+        $product->update([
+            'authenticity_status' => $request->authenticity_status,
+            'status' => $request->authenticity_status == 1 ? 1 : 0
+        ]);
 
-            $product->update([
-                'authenticity_status' => $request->authenticity_status,
-                'status' => $request->authenticity_status == 1 ? 1 : 0
-            ]);
-
-            if ($request->authenticity_status == 2) {
-
-                $orderIds = DB::table('order_details')
-                    ->where('product_id', $product->id)
-                    ->pluck('order_id')
-                    ->unique();
-
-                Order::whereIn('id', $orderIds)
-                    ->whereIn('delivery_status', [
-                      0,1,2,3
-                    ])
-                    ->update([
-                        'delivery_status' =>5,
-                        //'cancel_reason'  => 'Product marked as fake by admin'
-                    ]);
-            }
-        });
 
         return back()->with('success', 'Product authenticity updated successfully.');
     }
@@ -1050,5 +1035,15 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()->back()->with('success', 'Affiliate commission updated successfully!');
+    }
+
+       public function requestForAffiliate($id)
+    {
+        $product = Product::find($id);
+        $product->affiliate_request = 1;
+        $product->save();
+
+        Session::flash('success', 'Affiliate request sent successfully');
+        return redirect()->back();
     }
 }
