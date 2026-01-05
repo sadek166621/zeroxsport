@@ -531,16 +531,16 @@
         <div class="latest-header-left">
             <h2>
                 @if (session()->get('language') == 'bangla')
-                    সাম্প্রতিক পণ্যসমূহ
+                সাম্প্রতিক পণ্যসমূহ
                 @else
-                    Latest Products
+                Latest Products
                 @endif
             </h2>
             <p>
                 @if (session()->get('language') == 'bangla')
-                    আমাদের সংগ্রহে নতুনভাবে যুক্ত আইটেমসমূহ
+                আমাদের সংগ্রহে নতুনভাবে যুক্ত আইটেমসমূহ
                 @else
-                    Newly added items to our collection
+                Newly added items to our collection
                 @endif
             </p>
         </div>
@@ -549,94 +549,94 @@
 
     <div class="products-grid">
         @forelse ($product_trendings as $product)
-            @php
-                $data = calculateDiscount($product->id);
+        @php
+        $data = calculateDiscount($product->id);
 
-                $summary = getProductReviewsSummary($product->id);
-                $average_rating = $summary['average_rating'];
-                $total_ratings = $summary['total_ratings'] ?? 0;
-            @endphp
+        $summary = getProductReviewsSummary($product->id);
+        $average_rating = $summary['average_rating'];
+        $total_ratings = $summary['total_ratings'] ?? 0;
+        @endphp
 
-            <div class="latest-product-card" data-product-slug="{{ $product->slug }}">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset($product->product_thumbnail) }}" alt="{{ $product->name_en }}" />
-                    @if ($product->regular_price != $data['discount'] && $data['text'])
-                        <span class="product-badge">{{ $data['text'] }}</span>
+        <div class="latest-product-card" data-product-slug="{{ $product->slug }}">
+            <div class="product-image-wrapper">
+                <img src="{{ asset($product->product_thumbnail) }}" alt="{{ $product->name_en }}" />
+                @if ($product->regular_price != $data['discount'] && $data['text'])
+                <span class="product-badge">{{ $data['text'] }}</span>
+                @endif
+            </div>
+
+            <div class="product-info">
+                <h3 class="product-name">
+                    @if (session()->get('language') == 'bangla')
+                    {{ $product->name_bn }}
+                    @else
+                    {{ $product->name_en }}
                     @endif
-                </div>
-
-                <div class="product-info">
-                    <h3 class="product-name">
-                        @if (session()->get('language') == 'bangla')
-                            {{ $product->name_bn }}
+                </h3>
+                <div class="product-rating">
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($i <=$average_rating)
+                        <i class="fas fa-star"></i>
                         @else
-                            {{ $product->name_en }}
+                        <i class="fas fa-star" style="color: #ddd;"></i>
                         @endif
-                    </h3>
-                    <div class="product-rating">
-                        @for ($i = 1; $i <= 5; $i++)
-                            @if ($i <= $average_rating)
-                                <i class="fas fa-star"></i>
-                            @else
-                                <i class="fas fa-star" style="color: #ddd;"></i>
-                            @endif
                         @endfor
 
                         <span>({{ $total_ratings }})</span>
-                    </div>
+                </div>
 
-                    {{-- Price --}}
-                    <div class="latest-product-price">
-                        <span class="current-price">{{ $data['discount'] }} TK</span>
-                        @if ($product->regular_price != $data['discount'])
-                            <span class="original-price">{{ $product->regular_price }} TK</span>
-                        @endif
-                    </div>
-
-
-
-                    {{-- Cart Button Logic --}}
-                    @if ($product->stock_qty > 0)
-                        @if (Auth::check() && Auth::user()->role == '5')
-                            <button onclick="wholesellerAlert()" class="add-to-cart-btn">
-                                {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
-                            </button>
-                        @else
-                            @if ($product->is_varient == 1)
-                                <button onclick="productView({{ $product->id }})" data-bs-toggle="modal"
-                                    data-bs-target="#quickViewModal" class="add-to-cart-btn">
-                                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
-                                </button>
-                            @else
-                                <button onclick="addToCartDirect({{ $product->id }})" class="add-to-cart-btn">
-                                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
-                                </button>
-                                <input type="hidden" id="pfrom" value="direct">
-                                <input type="hidden" id="product_product_id" value="{{ $product->id }}"
-                                    min="1">
-                                <input type="hidden" id="{{ $product->id }}-product_pname"
-                                    value="{{ $product->name_en }}">
-                            @endif
-                        @endif
-                    @else
-                        <button class="out-of-stock-btn" disabled>
-                            {{ session()->get('language') == 'bangla' ? 'স্টক আউট' : 'Out of Stock' }}
-                        </button>
+                {{-- Price --}}
+                <div class="latest-product-price">
+                    <span class="current-price">{{ $data['discount'] }} TK</span>
+                    @if ($product->regular_price != $data['discount'])
+                    <span class="original-price">{{ $product->regular_price }} TK</span>
                     @endif
                 </div>
+
+
+
+                {{-- Cart Button Logic --}}
+                @if ($product->stock_qty > 0)
+                @if (Auth::check() && Auth::user()->role == '5')
+                <button onclick="wholesellerAlert()" class="add-to-cart-btn">
+                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
+                </button>
+                @else
+                @if ($product->is_varient == 1)
+                <button onclick="productView({{ $product->id }})" data-bs-toggle="modal"
+                    data-bs-target="#quickViewModal" class="add-to-cart-btn">
+                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
+                </button>
+                @else
+                <button onclick="addToCartDirect({{ $product->id }})" class="add-to-cart-btn">
+                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
+                </button>
+                <input type="hidden" id="pfrom" value="direct">
+                <input type="hidden" id="product_product_id" value="{{ $product->id }}"
+                    min="1">
+                <input type="hidden" id="{{ $product->id }}-product_pname"
+                    value="{{ $product->name_en }}">
+                @endif
+                @endif
+                @else
+                <button class="out-of-stock-btn" disabled>
+                    {{ session()->get('language') == 'bangla' ? 'স্টক আউট' : 'Out of Stock' }}
+                </button>
+                @endif
             </div>
+        </div>
 
         @empty
-            <p style="text-align: center; padding: 20px;">No latest products available</p>
+        <p style="text-align: center; padding: 20px;">No latest products available</p>
         @endforelse
     </div>
 
     <div class="load-more-container">
         <button type="button" id="load-more-btn" class="load-more-btn">
             @if (session()->get('language') == 'bangla')
-                আরো দেখুন
+            আরো দেখুন
             @else
-                View More
+            View More
             @endif
         </button>
     </div>

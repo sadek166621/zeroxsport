@@ -367,6 +367,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
         font-size: 11px;
         transition: all 0.3s ease;
         cursor: pointer;
+        position: relative;
     }
 
     .mobile-bottom-nav-item:hover {
@@ -375,6 +376,23 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
 
     .mobile-bottom-nav-item i {
         font-size: 20px;
+    }
+
+    .mobile-bottom-nav-item .cart-count {
+        position: absolute;
+        top: 5px;
+        right: 8px;
+        background-color: #ff4444;
+        color: #fff;
+        font-weight: bold;
+        font-size: 10px;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     /* Slider styles for nav-bottom */
@@ -616,11 +634,12 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
 
         <div class="nav-search">
             <select class="search-select">
-                <option>{{ $isBangla ? 'সব' : 'All' }}</option>
-                <option>{{ $isBangla ? 'বই' : 'Books' }}</option>
-                <option>{{ $isBangla ? 'ইলেকট্রনিক্স' : 'Electronics' }}</option>
-                <option>{{ $isBangla ? 'ফ্যাশন' : 'Fashion' }}</option>
-                <option>{{ $isBangla ? 'হোম' : 'Home' }}</option>
+                <option value="">{{ $isBangla ? 'সব' : 'All' }}</option>
+                @foreach ($allCategories as $category)
+                <option value="{{ $category->id }}">
+                    {{ $isBangla ? $category->name_bn : $category->name_en }}
+                </option>
+                @endforeach
             </select>
             <input type="text" class="search-input" id="search-input" name="search"
                 placeholder="{{ $isBangla ? 'অনলাইন হাট বিডি অনুসন্ধান করুন' : 'Search Online Hut BD' }}"
@@ -759,6 +778,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
     </a>
     <a href="{{ route('cart.show') }}" class="mobile-bottom-nav-item" id="cartSidebarToggleMobile">
         <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count cartQty">0</span>
         <span>{{ $isBangla ? 'কার্ট' : 'Cart' }}</span>
     </a>
     <a href="{{ route('order.tracking') }}" class="mobile-bottom-nav-item">

@@ -83,8 +83,8 @@
   }
 
   .category-card img {
-    width: 130px;
-    height: 130px;
+    width: 130px !important;
+    height: 130px !important;
     object-fit: cover;
     border-radius: 50%;
     border: 2px solid #003E32;
@@ -110,6 +110,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    bottom: 50%;
   }
 
   .owl-carousel .owl-nav button.owl-prev:hover,
@@ -160,17 +161,17 @@
 
     .owl-carousel .owl-nav button.owl-prev,
     .owl-carousel .owl-nav button.owl-next {
-      width: 35px !important;
-      height: 35px !important;
+      width: 25px !important;
+      height: 25px !important;
     }
 
     .category-card img {
-      height: 100px;
-      width: 100px;
+      height: 80px !important;
+      width: 80px !important;
     }
 
     .category-card h3 {
-      font-size: 16px;
+      font-size: 16px ;
       padding: 12px;
     }
 
@@ -195,6 +196,7 @@
 
     .category-card h3 {
       font-size: 12px;
+      white-space: nowrap;
     }
 
     .top-categories-section {
@@ -257,7 +259,7 @@
       navText: ['<span class="fas fa-chevron-left"></span>', '<span class="fas fa-chevron-right"></span>'],
       responsive: {
         0: {
-          items: 2
+          items: 3
         },
         480: {
           items: 3

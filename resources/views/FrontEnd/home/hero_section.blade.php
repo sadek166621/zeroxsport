@@ -73,7 +73,8 @@
         transform: translateX(-50%);
         z-index: 10;
         display: flex;
-        gap: 15px;#003E32
+        gap: 15px;
+        #003E32
     }
 
     .dot {
@@ -314,11 +315,14 @@
         </button>
     </section>
 
+    @if ($home_banners->isNotEmpty())
     <section class="banner-section">
         @foreach ($home_banners as $banner)
         <img src="{{ asset($banner->banner_img) }}" alt="Banner Image" />
         @endforeach
     </section>
+    @endif
+
 </section>
 
 <script>

@@ -99,12 +99,11 @@
 
         .custom_container {
             padding: 0 .5rem;
-    }
+        }
 
-    .dashboard-content {
-        padding: .75rem;
-
-    
+        .dashboard-content {
+            padding: .75rem;
+        }
 </style>
 
 <body class="bg-light">

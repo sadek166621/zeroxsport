@@ -51,6 +51,7 @@ Home
     <!-- Main Content Column -->
     <div class="content-container">
         @include('FrontEnd.home.hero_section')
+        @include('FrontEnd.home.categories_section')
         @include('FrontEnd.home.featured_product_section')
         @include('FrontEnd.home.flash_sale_section')
         @include('FrontEnd.home.latest_product_section')

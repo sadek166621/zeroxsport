@@ -155,11 +155,23 @@
         border-radius: 8px;
     }
 
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
 
     @media (max-width: 768px) {
+        .footer-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
         .footer-menu {
             justify-content: center;
             margin-top: 20px;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .payment-section {
@@ -169,17 +181,94 @@
 
         .copyright {
             margin-top: 0;
-            padding: 0;
-            margin-bottom: 80px;
+            padding: 15px 0;
+            margin-bottom: 10px;
+        }
+
+        .footer h4 {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .footer h4:after {
+            left: 15%;
+            transform: translateX(-50%);
+        }
+
+        .footer > .custom_container > .footer-grid > div {
+            text-align: center;
+        }
+
+        .contact-info {
+            align-items: start !important;
+        }
+
+        .main-logo {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .quick-links {
+            align-items: start;
+        }
+
+        .social-links {
+            flex-direction: row;
+           align-items: start;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            justify-content: center;
+        }
+
+        .social-links a i {
+            margin-right: 8px;
+        }
+
+        .footer p {
+            font-size: 13px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer-grid {
+            gap: 1.5rem;
+        }
+
+        .footer h4 {
+            font-size: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .quick-links {
+            gap: 8px;
+        }
+
+        .contact-info {
+            gap: 12px;
+        }
+
+        .social-links {
+            gap: 8px;
+        }
+
+        .footer p {
+            font-size: 12px !important;
+        }
+
+        .copyright p {
+            font-size: 11px !important;
         }
     }
 </style>
 
 <footer class="footer wow fadeIn mb-lg-0" data-wow-delay="0.1s">
     <div class="custom_container py-5">
-        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 gy-4">
+        <div class="footer-grid">
             <!-- Company Info -->
-            <div class="col">
+            <div>
                 <a class="d-block" href="{{route('home')}}">
                     <img src="{{asset(get_setting('site_footer_logo')->value)}}" alt="logo" class="main-logo">
                 </a>
@@ -201,7 +290,7 @@
             </div>
 
             <!-- Quick Links -->
-            <div class="col">
+            <div>
                 <h4>@if(session()->get('language') == 'bangla') দ্রুত লিঙ্ক @else Quick Links @endif</h4>
                 <div class="quick-links">
                     <a href="@if(Auth::user() && Auth::user()->role == 3) {{route('dashboard')}} @else {{route('login')}} @endif">
@@ -231,7 +320,7 @@
             </div>
 
             <!-- Help & Support -->
-            <div class="col">
+            <div>
                 <h4>@if(session()->get('language') == 'bangla') সহায়তা @else Help & Support @endif</h4>
                 <div class="quick-links">
                     <a href="{{route('page.faq')}}">
@@ -250,7 +339,7 @@
             </div>
 
             <!-- Connect -->
-            <div class="col">
+            <div>
                 <h4>@if(session()->get('language') == 'bangla') যোগাযোগ @else Connect With Us @endif</h4>
                 <div class="social-links">
                     <a href="{{get_setting('facebook_url')->value}}">

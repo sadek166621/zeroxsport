@@ -514,6 +514,18 @@
                             @endif
                         </h3>
 
+                        <div class="product-rating">
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($i <=$average_rating)
+                        <i class="fas fa-star"></i>
+                        @else
+                        <i class="fas fa-star" style="color: #ddd;"></i>
+                        @endif
+                        @endfor
+
+                        <span>({{ $total_ratings }})</span>
+                </div>
+
                         <div class="featured-product-price">
                             <span class="current-price">{{ $data['discount'] }} TK</span>
                             @if ($product->regular_price != $data['discount'])
