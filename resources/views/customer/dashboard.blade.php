@@ -204,7 +204,7 @@ Dashboard | Modern Dashboard
                                                             </span>
                                                             <div class="order-id-large">Order #{{ $order->invoice_no }}</div>
                                                         </div>
-                                                        <span class="order-date-small">{{ \Carbon\Carbon::parse($order->date)->format('d M') }}</span>
+                                                        <span class="order-date-small">{{ \Carbon\Carbon::parse($order->created_at)->format('d M') }}</span>
                                                     </div>
                                                 </div>
 

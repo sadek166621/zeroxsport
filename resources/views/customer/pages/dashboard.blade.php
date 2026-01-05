@@ -97,8 +97,8 @@ Dashboard | Welcome
                             <span class="order-id-badge">#{{ $order->invoice_no }}</span>
                         </td>
                         <td>
-                            <div class="order-date">{{ \Carbon\Carbon::parse($order->date)->format('d M Y') }}</div>
-                            <div class="order-time">{{ \Carbon\Carbon::parse($order->date)->format('h:i A') }}</div>
+                            <div class="order-date">{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y') }}</div>
+                            <div class="order-time">{{ \Carbon\Carbon::parse($order->created_at)->format('h:i A') }}</div>
                         </td>
                         <td>
                             @php
