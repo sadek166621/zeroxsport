@@ -219,7 +219,7 @@
                                 <div class="title">${value.name}</div>
                                 <div class="price">${value.price} ৳</div>
                             </div>
-                            <button class="remove-btn" onclick="miniCartRemove('${value.rowId}')" title="Remove item">
+                            <button class="remove-btn" onclick="miniCartRemove('${value.rowId}')" title="Remove item" type="button" style="width: 36px; height: 36px; border-radius: 8px; background: #fff3f0; border: 1px solid #ffccc7; color: #d9534f; transition: all 0.3s; display: flex; align-items: center; justify-content: center; cursor: pointer;">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </div>
@@ -288,6 +288,38 @@
         $.ajax({
             type: 'GET',
             url: '/cart-decrement/' + rowId,
+            dataType: 'json',
+            success: function(data) {
+                miniCart();
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1200
+                });
+
+                if ($.isEmptyObject(data.error)) {
+                    Toast.fire({
+                        type: 'success',
+                        title: data.success
+                    });
+                } else {
+                    Toast.fire({
+                        type: 'error',
+                        title: data.error
+                    });
+                }
+            }
+        });
+    }
+
+    /* ---------------- Mini Cart Remove ---------------- */
+    function miniCartRemove(rowId) {
+        $.ajax({
+            type: 'GET',
+            url: '/cart-remove/' + rowId,
             dataType: 'json',
             success: function(data) {
                 miniCart();

@@ -329,12 +329,16 @@
                     <a href="{{route('page.terms')}}">
                         @if(session()->get('language') == 'bangla') শর্তাবলী @else Terms & Conditions @endif
                     </a>
+                    <a href="{{route('seller.terms_condition')}}">
+                        @if(session()->get('language') == 'bangla') সেলার শর্তাবলী @else Seller Terms & Condition @endif
+                    </a>
                     <a href="{{route('page.policy')}}">
                         @if(session()->get('language') == 'bangla') গোপনীয়তা নীতি @else Privacy Policy @endif
                     </a>
                     <a href="{{route('page.help')}}">
                         @if(session()->get('language') == 'bangla') সাহায্য @else Help Center @endif
                     </a>
+                    
                 </div>
             </div>
 
