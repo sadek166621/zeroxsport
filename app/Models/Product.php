@@ -106,4 +106,9 @@ public function getProductAffiliateCommissionAttribute()
         'source' => 'none'
     ];
 }
+
+public function getAffiliateCommissionAmountAttribute()
+{
+    return $this->product_affiliate_commission['amount'];
+}
 }

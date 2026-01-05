@@ -306,6 +306,7 @@
                                     <th class="border-0 rounded-start" style="width: 60px; font-size: 0.75rem;">Image</th>
                                     <th class="border-0" style="font-size: 0.75rem;">Details</th>
                                     <th class="border-0 d-none d-sm-table-cell" style="width: 120px; font-size: 0.75rem;">Price</th>
+                                    <th class="border-0 d-none d-md-table-cell" style="width: 120px; font-size: 0.75rem;">Commission</th>
                                     <th class="border-0 d-none d-md-table-cell" style="font-size: 0.75rem;">Referral Link</th>
                                     <th class="border-0 rounded-end text-center" style="width: 60px; font-size: 0.75rem;">Action</th>
                                 </tr>
@@ -342,6 +343,7 @@
                                             </small>
                                         </div>
                                     </td>
+
                                     <td class="p-2 d-none d-sm-table-cell">
                                         @if($product->discount_price)
                                         @php $data = calculateDiscount($product->id); 
@@ -360,6 +362,10 @@
                                         @else
                                         <span class="fw-bold" style="font-size: 0.75rem;">৳{{ number_format($product->regular_price, 0) }}</span>
                                         @endif
+                                    </td>
+                                        <td>
+                                        {{ $product->product_affiliate_commission['amount'] }}
+                                        {{ $product->product_affiliate_commission['type'] == 'percentage' ? '%' : '৳' }}
                                     </td>
                                     <td class="p-2 d-none d-md-table-cell">
                                         <input type="text"

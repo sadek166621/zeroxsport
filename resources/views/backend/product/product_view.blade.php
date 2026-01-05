@@ -104,12 +104,11 @@
                                                 @csrf
                                                 @method('PATCH')
 
-                                                @if ($item->authenticity_status == 1)
+                                                @if ($item->authenticity_status == 0)
                                                     {{-- এখন Verified, তাই শুধু Fake বাটন দেখাও --}}
                                                     <button name="authenticity_status" value="2" title="Mark as Fake"
                                                         class="btn btn-sm btn-danger">✖</button>
-                                                @else
-                                                    ($item->authenticity_status == 2)
+                                                @elseif ($item->authenticity_status == 1)
                                                     {{-- এখন Fake, তাই শুধু Verified বাটন দেখাও --}}
                                                     <button name="authenticity_status" value="1"
                                                         title="Mark as Verified" class="btn btn-sm btn-success">✔</button>
@@ -122,12 +121,12 @@
                                             @php
                                                 $badge = match ($item->authenticity_status) {
                                                     1 => 'success',
-                                                    2 => 'danger',
+                                                    0 => 'danger',
                                                     default => 'warning',
                                                 };
                                             @endphp
                                             <span class="badge bg-{{ $badge }}">
-                                                {{ $item->authenticity_status == 1 ? 'Verified' : ($item->authenticity_status == 2 ? 'Fake' : 'Pending') }}
+                                                {{ $item->authenticity_status == 1 ? 'Verified' : ($item->authenticity_status == 0 ? 'Fake' : 'Pending') }}
                                             </span>
                                         </td>
                                     @endif
@@ -161,35 +160,34 @@
                                         @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
                                             {{-- শুধু role 1 হলে clickable link থাকবে --}}
                                             @if ($item->is_affiliate == 1)
-                                                <a
-                                                    href="{{ route('product.affiliate.update', ['product' => $item->id, 'status' => 0]) }}">
+                                                <a href="{{ route('product.in_active_affiliate', $item->id) }}">
                                                     <span class="badge rounded-pill alert-success">Active</span>
                                                 </a>
                                             @else
-                                                <a
-                                                    href="{{ route('product.affiliate.update', ['product' => $item->id, 'status' => 1]) }}">
+                                                <a href="{{ route('product.active.affiliate', $item->id) }}">
                                                     <span class="badge rounded-pill alert-danger">Inactive</span>
                                                 </a>
                                             @endif
-                                       @else
-                                    {{-- অন্য role হলে শুধু status দেখাবে --}}
-                                    @if ($item->is_affiliate == 1)
-                                        {{-- ইতিমধ্যেই affiliate active --}}
-                                        <span class="badge rounded-pill alert-success">Active</span>
-                                    @elseif ($item->is_affiliate == 0 && $item->affiliate_request == 1)
-                                        {{-- request already sent --}}
-                                        <span class="badge rounded-pill alert-warning">Requested</span>
-                                    @else
-                                        {{-- এখনো request করা হয়নি --}}
-                                        <form action="{{ route('vendor.product.affiliate.request', ['id' => $item->id]) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="text-danger " style="border: none">
-                                                Request for Affiliate
-                                            </button>
-                                        </form>
-                                 
-                                @endif
+                                        @else
+                                            {{-- অন্য role হলে শুধু status দেখাবে --}}
+                                            @if ($item->is_affiliate == 1)
+                                                {{-- ইতিমধ্যেই affiliate active --}}
+                                                <span class="badge rounded-pill alert-success">Active</span>
+                                            @elseif ($item->is_affiliate == 0 && $item->affiliate_request == 1)
+                                                {{-- request already sent --}}
+                                                <span class="badge rounded-pill alert-warning">Requested</span>
+                                            @else
+                                                {{-- এখনো request করা হয়নি --}}
+                                                <form
+                                                    action="{{ route('vendor.product.affiliate.request', ['id' => $item->id]) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="text-danger " style="border: none">
+                                                        Request for Affiliate
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @endif
                                     </td>
                                     <td>

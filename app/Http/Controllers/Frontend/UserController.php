@@ -235,17 +235,20 @@ class UserController extends Controller
     // User Password Change
     public function UserPasswordUpdate(Request $request)
     {
+
         $validateData = $request->validate([
             'oldpassword' => 'required',
             'newpassword' => 'required',
             'confirm_password' => 'required|same:newpassword',
         ]);
         $hashedPassword = Auth::guard('web')->user()->password;
+
         // dd($hashedPassword);
         if (Hash::check($request->oldpassword,$hashedPassword )) {
             $id = Auth::guard('web')->user()->id;
+
             $user = User::find($id);
-            $user->password = bcrypt($request->newpassword);
+            $user->password = Hash::make($request->newpassword);
             $user->save();
 
             $notification = array(
