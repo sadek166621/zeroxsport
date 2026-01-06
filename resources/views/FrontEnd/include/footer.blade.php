@@ -195,7 +195,7 @@
             transform: translateX(-50%);
         }
 
-        .footer > .custom_container > .footer-grid > div {
+        .footer>.custom_container>.footer-grid>div {
             text-align: center;
         }
 
@@ -214,7 +214,7 @@
 
         .social-links {
             flex-direction: row;
-           align-items: start;
+            align-items: start;
             flex-wrap: wrap;
         }
 
@@ -241,7 +241,7 @@
             margin-bottom: 15px;
             text-align: left;
         }
-        
+
         .quick-links {
             gap: 8px;
         }
@@ -304,7 +304,7 @@
                         @if(session()->get('language') == 'bangla') সেলার হন @else Become a Seller @endif
                     </a>
                     {{-- <a href="{{route('wholeseller.register')}}">
-                        @if(session()->get('language') == 'bangla') হোলসেলার হন @else Become a Wholeseller @endif
+                    @if(session()->get('language') == 'bangla') হোলসেলার হন @else Become a Wholeseller @endif
                     </a> --}}
                     <a href="{{route('page.affiliate')}}">
                         @if(session()->get('language') == 'bangla') স্বাধীন বিক্রেতা @else Become an Affiliate @endif
@@ -338,7 +338,7 @@
                     <a href="{{route('page.help')}}">
                         @if(session()->get('language') == 'bangla') সাহায্য @else Help Center @endif
                     </a>
-                    
+
                 </div>
             </div>
 
@@ -373,10 +373,11 @@
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start">
                     <p class="mb-md-0">
-                        {{-- &copy; {{date('Y')}} <a href="{{route('home')}}" class="text-primary">{{get_setting('business_name')->value}}</a>.
-                        @if(session()->get('language') == 'bangla') সর্বস্বত্ব সংরক্ষিত @else All Rights Reserved @endif --}}
-                        © Dhaka Central BD || All Rights Reserved || Designed & Developed By
+                        &copy; {{date('Y')}} <a href="{{route('home')}}" class="text-primary">{{get_setting('business_name')->value}}</a>.
+                        @if(session()->get('language') == 'bangla') সর্বস্বত্ব সংরক্ষিত @else All Rights Reserved @endif || Designed & Developed By
                         <a href="https://ibrahimtechbd.com/" class="text-primary"> Ibrahim Tech BD </a>
+                        <!-- © Dhaka Central BD || All Rights Reserved || Designed & Developed By
+                        <a href="https://ibrahimtechbd.com/" class="text-primary"> Ibrahim Tech BD </a> -->
                     </p>
                 </div>
 
