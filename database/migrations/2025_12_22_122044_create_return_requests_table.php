@@ -15,9 +15,11 @@ class CreateReturnRequestsTable extends Migration
     {
         Schema::create('return_requests', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('order_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->text('comment')->nullable();
-            $table->tinyInteger('status')->default(0)->comment('0=>not returned, 1=>returned');
+            $table->tinyInteger('status')->default(0)
+                ->comment('0=Pending,1=Approved,2=Rejected,3=Returned');
             $table->timestamps();
         });
     }

@@ -9,28 +9,55 @@ use Illuminate\Support\Facades\Auth;
 class ReturnRequest extends Model
 {
     use HasFactory;
-    private static $returnRequest;
+
+    protected $fillable = [
+        'user_id',
+        'order_id',
+        'comment',
+        'status',
+    ];
 
     public static function add($request)
     {
-//        dd($request);
-        self::$returnRequest = new ReturnRequest();
-        $order = Order::where('invoice_no', $request->invoice_no)->first();
-        self::$returnRequest->order_id      = $order->id;
-        self::$returnRequest->comment       = $request->comment;
-        self::$returnRequest->user_id       = Auth::user()->id;
-        self::$returnRequest->status        = 0;
+        // Prevent duplicate return request for same order
+        $exists = self::where('order_id', $request->order_id)->first();
+        if ($exists) {
+            return $exists; // or throw exception if you want
+        }
 
-        self::$returnRequest->save();
-        return self::$returnRequest;
+        return self::create([
+            'user_id' => Auth::id(),
+            'order_id' => $request->order_id,
+            'comment' => $request->comment,
+            'status' => 0, // Pending
+        ]);
     }
 
-    public function returning_product()
+    /**
+     * ==========================
+     * Relationships
+     * ==========================
+     */
+
+    /**
+     * Return request belongs to a user (customer)
+     */
+    public function user()
     {
-        return $this->hasMany(ReturningProduct::class, 'request_id');
+        return $this->belongsTo(User::class);
     }
+
     public function order()
     {
-        return $this->belongsTo(Order::class, 'order_id');
+        return $this->belongsTo(Order::class);
+    }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id', 'order_id');
+    }
+    public function returningProducts()
+    {
+        return $this->hasMany(ReturningProduct::class, 'request_id');
     }
 }

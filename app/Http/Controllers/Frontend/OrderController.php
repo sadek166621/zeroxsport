@@ -14,22 +14,17 @@ use Auth;
 
 class OrderController extends Controller
 {
-	/* ============ User Orders ============== */
+    /* ============ User Orders ============== */
     public function index()
     {
-       $orders = Order::where('user_id',Auth::id())->orderBy('id','DESC')->get();
+        $orders = Order::where('user_id', Auth::id())->orderBy('id', 'DESC')->get();
 
-       // dd($orders);
-       return view('dashboard', compact('orders'));
+        // dd($orders);
+        return view('dashboard', compact('orders'));
     } // end method
-    public function getProductById()
+    public function getProductById(Request $request)
     {
-//        $data['order_id'] = $_GET['order_id'];
-//        $data['product'] = $_GET['product_id'];
-//        return response($data);
-        $product = OrderDetail::find($_GET['product_id']);
+        $product = OrderDetail::find($request->product_id);
         return response()->json($product);
     }
 }
-
-

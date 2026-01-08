@@ -11,8 +11,8 @@
                     <form action="{{route('order.return.submit')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="" id="items" value="{{$replaceable}}">
-                        <input type="hidden" name="" id="order_id" value="{{$order->id}}">
-                        <input type="hidden" name="ordered_product_id" id="ordered_product">
+                        <input type="hidden" name="order_id" id="order_id" value="{{$order->id}}">
+                        <input type="text" name="ordered_product_id" id="ordered_product">
                         <div class="row mb-3">
                             <div class="form-group col-md-6">
                                 <label for="" class="form-control-label">Invoice No</label>

@@ -11,8 +11,9 @@ class Order extends Model
 
     protected $guarded = [];
 
-    public function user(){
-    	return $this->belongsTo(User::class,'user_id','id');
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function address()
@@ -25,31 +26,43 @@ class Order extends Model
         return $this->belongsTo(Shipping::class);
     }
 
-    public function product(){
-        return $this->belongsTo(Product::class, 'product_id','id');
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
-    public function order_details(){
+    public function returnRequest()
+    {
+        return $this->hasOne(ReturnRequest::class);
+    }
+
+    public function order_details()
+    {
         return $this->hasMany('App\Models\OrderDetail');
     }
 
-    public function order_Detail(){
+    public function order_Detail()
+    {
         return $this->belongsTo('App\Models\OrderDetail');
     }
 
-    public function division(){
-        return $this->belongsTo(Division::class,'division_id','id');
+    public function division()
+    {
+        return $this->belongsTo(Division::class, 'division_id', 'id');
     }
 
-    public function district(){
-        return $this->belongsTo(District::class,'district_id','id');
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id', 'id');
     }
 
-    public function upazilla(){
-        return $this->belongsTo(Upazilla::class,'upazilla_id','id');
+    public function upazilla()
+    {
+        return $this->belongsTo(Upazilla::class, 'upazilla_id', 'id');
     }
 
-    public function affiliate(){
+    public function affiliate()
+    {
         return $this->belongsTo(Affiliate::class);
     }
 }

@@ -13,17 +13,7 @@ class ReturningProduct extends Model
 
     public static function add($returnRequest, $request, $ordered_product_id)
     {
-//        dd(count($request->product_id));
-//        if(count($request->product_id) == 1)
-//        {
-//            self::$product = new ReturningProduct();
-//            self::$product->request_id = $returnRequest->id;
-//            self::$product->product_id = $request->product_id[$i];
-//            self::$product->qty = $request->qty[$i];
-//            self::$product->issue = $request->issue[$i];
-//            self::$product->image = self::imageUrl($request->image[$i]);
-//            self::$product->save();
-//        }
+
         for ($i=0; $i<count($request->product_id); $i++){
             $product_id = OrderDetail::find($request->product_id[$i]);
             self::$product = new ReturningProduct();

@@ -4,11 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <h3 class="content-title">Order Return Details </h3>
-{{--            <strong style="font-weight: bold" class="text-dark"> {{ count($return_requests) }} Orders Found </strong>--}}
         </div>
-{{--        <div class="col-md-2">--}}
-{{--            <a href="{{ route('supplier.create') }}" class="btn btn-primary" title="Supplier Create"><i class="material-icons md-plus"></i></a>--}}
-{{--        </div>--}}
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -34,13 +30,12 @@
                                         <strong class="fw-bold">Status</strong><br>
                                         @if(Auth::guard('admin')->user()->role == 1)
                                             <select name="return_request_status" id="" class="form-control" style="border: 1px solid darkgrey">
-                                                @if($return_request->status == 2)
-                                                    <option value="2" {{$return_request->status == 2 ? 'selected':''}}>Replaced</option>
+                                                @if($return_request->status == 3)
+                                                    <option value="3" {{$return_request->status == 3 ? 'selected':''}}>Returned</option>
                                                 @else
                                                     <option value="0" {{$return_request->status == 0 ? 'selected':''}}>Pending</option>
-                                                    <option value="1" {{$return_request->status == 1 ? 'selected':''}}>Processing</option>
-                                                    <option value="2" {{$return_request->status == 2 ? 'selected':''}}>Replaced</option>
-                                                    <option value="3" {{$return_request->status == 3 ? 'selected':''}}>Rejected</option>
+                                                    <option value="1" {{$return_request->status == 1 ? 'selected':''}}>Approved</option>
+                                                    <option value="2" {{$return_request->status == 2 ? 'selected':''}}>Rejected</option>
                                                     <option value="4" {{$return_request->status == 4 ? 'selected':''}}>Modified</option>
                                                 @endif
                                             </select>
@@ -49,10 +44,8 @@
                                                 @if($return_request->status == 0)
                                                     Pending
                                                 @elseif($return_request->status == 1)
-                                                    Processing
+                                                    Approved
                                                 @elseif($return_request->status == 2)
-                                                    Replaced
-                                                @elseif($return_request->status == 3)
                                                     Rejected
                                                 @else
                                                     Modified
@@ -137,7 +130,6 @@
                                                 @endif
                                             </td>
                                         </tr>
-
                                     @endif
                                 @endforeach
                                 </tbody>
