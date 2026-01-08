@@ -1,16 +1,21 @@
 <div class="col-lg-3">
     <div class="dashboard-sidebar">
-        <div class="user-profile modern-user-profile p-2 shadow-sm rounded-3 position-relative text-center d-flex align-items-center gap-4">
-            <div class="profile-bg rounded-3 position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, #01B45E 0%, #efc1ba 100%); opacity: 0.08; z-index: 0;"></div>
+        <div
+            class="user-profile modern-user-profile p-2 shadow-sm rounded-3 position-relative text-center d-flex align-items-center gap-4">
+            <div class="profile-bg rounded-3 position-absolute top-0 start-0 w-100 h-100"
+                style="background: linear-gradient(135deg, #01B45E 0%, #efc1ba 100%); opacity: 0.08; z-index: 0;"></div>
             <div class="row align-items-center">
                 <div class="col-auto">
                     <div class="profile-image position-relative" style="z-index:1;">
-                        @if(Auth::user()->profile_image && file_exists(public_path(Auth::user()->profile_image)))
-                        <img src="{{ asset(Auth::user()->profile_image) }}" alt="Profile" class="rounded-circle border border-3 border-white shadow" style="width: 100px; height: 100px; object-fit: cover;">
+                        @if (Auth::user()->profile_image && file_exists(public_path(Auth::user()->profile_image)))
+                            <img src="{{ asset(Auth::user()->profile_image) }}" alt="Profile"
+                                class="rounded-circle border border-3 border-white shadow"
+                                style="width: 100px; height: 100px; object-fit: cover;">
                         @else
-                        <div class="default-avatar rounded-circle border border-3 border-white shadow d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; background: #f8f9fa;">
-                            <i class="fas fa-user-circle" style="font-size: 60px; color: #01B45E;"></i>
-                        </div>
+                            <div class="default-avatar rounded-circle border border-3 border-white shadow d-flex align-items-center justify-content-center"
+                                style="width: 100px; height: 100px; background: #f8f9fa;">
+                                <i class="fas fa-user-circle" style="font-size: 60px; color: #01B45E;"></i>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -21,10 +26,10 @@
                             <p class="text-muted mb-2 small">
                                 <i class="fas fa-envelope me-1"></i> {{ Auth::user()->email }}
                             </p>
-                            @if(Auth::user()->phone)
-                            <p class="text-muted mb-2 small">
-                                <i class="fas fa-phone me-1"></i> {{ Auth::user()->phone }}
-                            </p>
+                            @if (Auth::user()->phone)
+                                <p class="text-muted mb-2 small">
+                                    <i class="fas fa-phone me-1"></i> {{ Auth::user()->phone }}
+                                </p>
                             @endif
                         </div>
                     </div>
@@ -37,15 +42,24 @@
                 <p class="nav-label">MAIN MENU</p>
                 <ul>
                     <li>
-                        <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard') }}"
+                            class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('dashboard.orders') }}" class="nav-link {{ request()->routeIs('dashboard.orders') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.orders') }}"
+                            class="nav-link {{ request()->routeIs('dashboard.orders') ? 'active' : '' }}">
                             <i class="fas fa-shopping-bag"></i>
                             <span>My Orders</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('dashboard.return.requests') }}"
+                            class="nav-link {{ request()->routeIs('dashboard.return.requests') ? 'active' : '' }}">
+                            <i class="fas fa-undo"></i>
+                            <span>Return Requests</span>
                         </a>
                     </li>
                 </ul>
@@ -55,19 +69,23 @@
                 <p class="nav-label">ACCOUNT SETTINGS</p>
                 <ul>
                     <li>
-                        <a href="{{ route('dashboard.profile') }}" class="nav-link {{ request()->routeIs('dashboard.profile') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.profile') }}"
+                            class="nav-link {{ request()->routeIs('dashboard.profile') ? 'active' : '' }}">
                             <i class="fas fa-user"></i>
                             <span>Profile Details</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('dashboard.password') }}" class="nav-link {{ request()->routeIs('dashboard.password') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard.password') }}"
+                            class="nav-link {{ request()->routeIs('dashboard.password') ? 'active' : '' }}">
                             <i class="fas fa-lock"></i>
                             <span>Change Password</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            class="nav-link">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>Logout</span>
                         </a>
@@ -116,7 +134,7 @@
         right: -50px;
         width: 300px;
         height: 100%;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
         pointer-events: none;
     }
 

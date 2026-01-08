@@ -17,6 +17,7 @@ class ReturnRequestController extends Controller
     private $returnRequest;
     public function index($invoice_no)
     {
+
         if (Auth::check() && Auth::user()->role == 3) {
             $order = Order::where('user_id', Auth::id())->where('invoice_no', $invoice_no)->first();
             $replaceable = 0;
@@ -33,7 +34,7 @@ class ReturnRequestController extends Controller
 
     public function submit(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $ordered_product_id = explode(',', $request->ordered_product_id);
         $this->returnRequest = ReturnRequest::add($request);
         ReturningProduct::add($this->returnRequest, $request, $ordered_product_id);

@@ -65,4 +65,13 @@ class Order extends Model
     {
         return $this->belongsTo(Affiliate::class);
     }
+
+    public function hasReplaceableProduct()
+    {
+        return $this->order_details
+            ->contains(
+                fn($detail) =>
+                $detail->product && $detail->product->is_replaceable == 1
+            );
+    }
 }

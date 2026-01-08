@@ -30,8 +30,9 @@ class UserController extends Controller
      */
 
     /* ============= Dashboard & user orders ============= */
-    public function index(){
-        $orders = Order::where('user_id',Auth::id())->orderBy('id','DESC')->get();
+    public function index()
+    {
+        $orders = Order::where('user_id', Auth::id())->orderBy('id', 'DESC')->get();
 
         $all = Order::where('user_id', Auth::user()->id)->get();
         $pending = Order::where('user_id', Auth::user()->id)->where('delivery_status', 0)->get();
@@ -40,25 +41,56 @@ class UserController extends Controller
         return view('customer.pages.dashboard', compact('orders', 'all', 'pending', 'completed'));
     }
 
-    public function ordersPage(){
-        $orders = Order::where('user_id',Auth::id())->orderBy('id','DESC')->get();
-        $all = Order::where('user_id', Auth::user()->id)->get();
-        $pending = Order::where('user_id', Auth::user()->id)->where('delivery_status', 0)->get();
-        $completed = Order::where('user_id', Auth::user()->id)->where('delivery_status', 4)->get();
+    public function ordersPage()
+    {
+        $orders = Order::where('user_id', Auth::id())
+            ->with('order_details.product')
+            ->orderBy('id', 'DESC')
+            ->get();
 
-        return view('customer.pages.orders', compact('orders', 'all', 'pending', 'completed'));
+        $all = $orders;
+        $pending = $orders->where('delivery_status', 0);
+        $completed = $orders->where('delivery_status', 4);
+
+        return view('customer.pages.orders', compact(
+            'orders',
+            'all',
+            'pending',
+            'completed'
+        ));
     }
 
-    public function profilePage(){
+    public function returnRequests()
+    {
+        $requests = ReturnRequest::where('user_id', Auth::id())
+            ->with('order')
+            ->latest()
+            ->get();
+        $pending = ReturnRequest::where('user_id', Auth::id())
+            ->where('status', 0)->get();
+        $approved = ReturnRequest::where('user_id', Auth::id())
+            ->where('status', 1)->get();
+        $rejected = ReturnRequest::where('user_id', Auth::id())
+            ->where('status', 3)->get();
+        $return = ReturnRequest::where('user_id', Auth::id())
+            ->where('status', 4)->get();
+
+        return view('customer.pages.return_requests', compact('requests', 'pending', 'approved', 'rejected', 'return'));
+    }
+
+    public function profilePage()
+    {
         return view('customer.pages.profile');
     }
 
-    public function passwordPage(){
+    public function passwordPage()
+    {
         return view('customer.pages.password');
     }
 
     /* ============= Order View ============= */
-    public function orderView($invoice_no){
+    public function orderView($invoice_no)
+    {
         // $order = Order::where('user_id',Auth::id())->orderBy('id','DESC')->first();
         $order = Order::where('invoice_no', $invoice_no)->first();
         // $orders = Order::with('address_id')->where('id',$id)->where('user_id',Auth::id())->first();
@@ -83,7 +115,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'division_id' => 'required',
             'district_id' => 'required',
             'upazilla_id' => 'required',
@@ -95,12 +127,12 @@ class UserController extends Controller
         $address->upazilla_id = $request->upazilla_id;
         $address->user_id = Auth::user()->id;
         $address->address = $request->address;
-        if($request->is_default == Null){
+        if ($request->is_default == Null) {
             $request->is_default = 0;
         }
         $address->is_default = $request->is_default;
 
-        if($request->status == Null){
+        if ($request->status == Null) {
             $request->status = 0;
         }
         $address->status = $request->status;
@@ -108,9 +140,9 @@ class UserController extends Controller
 
         $address->save();
 
-        Session::flash('success','Page Inserted Successfully');
+        Session::flash('success', 'Page Inserted Successfully');
 
-        Session::flash('success','User Address Inserted Successfully');
+        Session::flash('success', 'User Address Inserted Successfully');
         return redirect()->back();
     }
 
@@ -132,13 +164,14 @@ class UserController extends Controller
 
         $address->save();
 
-        $addresses = Address::where('user_id', Auth::user()->id)->orderBy('id','DESC')->get();
+        $addresses = Address::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->get();
 
         return json_encode($addresses);
     }
 
     /* =================== Start getAddress Methoed =================== */
-    public function getAddress($address_id){
+    public function getAddress($address_id)
+    {
         $address = Address::find($address_id);
         $address_details = [
             'division_name_en' => $address->division->division_name_en ?? 'NULL',
@@ -205,16 +238,16 @@ class UserController extends Controller
 
         $profile_image = $user->profile_image;
         // user Photo Update
-        if($request->hasfile('profile_image')){
+        if ($request->hasfile('profile_image')) {
             // if($profile_image !== ''){
             //     unlink($profile_image);
             // }
             $profile_img = $request->profile_image;
-            $profile_save = time().$profile_img->getClientOriginalName();
-            $profile_img->move('upload/user/',$profile_save);
-            $user->profile_image = 'upload/user/'.$profile_save;
-        }else{
-           $profile_save = '';
+            $profile_save = time() . $profile_img->getClientOriginalName();
+            $profile_img->move('upload/user/', $profile_save);
+            $user->profile_image = 'upload/user/' . $profile_save;
+        } else {
+            $profile_save = '';
         }
 
         // user table update
@@ -244,7 +277,7 @@ class UserController extends Controller
         $hashedPassword = Auth::guard('web')->user()->password;
 
         // dd($hashedPassword);
-        if (Hash::check($request->oldpassword,$hashedPassword )) {
+        if (Hash::check($request->oldpassword, $hashedPassword)) {
             $id = Auth::guard('web')->user()->id;
 
             $user = User::find($id);
@@ -256,7 +289,7 @@ class UserController extends Controller
                 'alert-type' => 'success'
             );
             return redirect()->back()->with($notification);
-        }else{
+        } else {
             $notification = array(
                 'message' => 'Old password is not match.',
                 'alert-type' => 'error'
@@ -271,10 +304,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        
-    }
+    public function destroy($id) {}
 
     public function logout()
     {
@@ -283,7 +313,8 @@ class UserController extends Controller
         return redirect()->route('home');
     }
 
-    public function set_default($id){
+    public function set_default($id)
+    {
 
         $user_id = Auth::user()->id;
         $addresses = Address::where('user_id', $user_id)->get();
@@ -322,89 +353,88 @@ class UserController extends Controller
         $order =  Order::where('invoice_no', $invoice_no)->first();
         $pdf = PDF::loadView('FrontEnd.order.order_confirmed', compact('order'));
 
-        return $pdf->stream('Invoice-'.$order->invoice_no.'.pdf');
+        return $pdf->stream('Invoice-' . $order->invoice_no . '.pdf');
     }
 
-    public function orderDetails($invoice_no){
+    public function orderDetails($invoice_no)
+    {
         $order = Order::where('invoice_no', $invoice_no)->first();
         $order_details = OrderDetail::where('order_id', $order->id)->get();
 
         return view('FrontEnd.order.order_details', compact('order', 'order_details'));
     }
 
-    public function ProductReview($id){
+    public function ProductReview($id)
+    {
         $product = Product::find($id);
-        
+
         return view('FrontEnd.product.product_review', compact('product'));
     }
 
 
 
-public function ProductReviewStore(Request $request)
-{
-    $validated = $request->validate([
-        'product_id' => 'required|exists:products,id',
-        'rating'     => 'required|integer|min:1|max:5',
-          'photo'      => 'nullable|array',
-         'photo.*'    => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'body'       => 'required|string',
-    ]);
+    public function ProductReviewStore(Request $request)
+    {
+        $validated = $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'rating'     => 'required|integer|min:1|max:5',
+            'photo'      => 'nullable|array',
+            'photo.*'    => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'body'       => 'required|string',
+        ]);
 
-         $notification = array(
-                'message' => 'You have already reviewed this product.',
-                'alert-type' => 'error'
-            );
-    if (Review::where('product_id', $validated['product_id'])->where('user_id', auth()->id())->exists()) {
+        $notification = array(
+            'message' => 'You have already reviewed this product.',
+            'alert-type' => 'error'
+        );
+        if (Review::where('product_id', $validated['product_id'])->where('user_id', auth()->id())->exists()) {
+            return redirect()->back()->with($notification);
+        }
+        $photoPaths = [];  // Array to store all uploaded photo paths
+
+        if ($request->hasFile('photo')) {
+            foreach ($request->file('photo') as $photo) {
+                $photo_name = time() . '_' . $photo->getClientOriginalName();
+                $photo->move(public_path('FrontEnd/img/review/'), $photo_name);
+                $photoPaths[] = 'FrontEnd/img/review/' . $photo_name;
+            }
+        }
+
+        Review::create([
+            'user_id'    => auth()->id(),
+            'product_id' => $validated['product_id'],
+            'rating'     => $validated['rating'],
+            'body'       => $validated['body'],
+            'image'      => json_encode($photoPaths),
+            'verified_purchase' => true,
+            'status' => 1
+        ]);
+
+        $notification = array(
+            'message' => 'Review submitted successfully.',
+            'alert-type' => 'success'
+        );
         return redirect()->back()->with($notification);
     }
-$photoPaths = [];  // Array to store all uploaded photo paths
-
-if ($request->hasFile('photo')) {
-    foreach ($request->file('photo') as $photo) {
-        $photo_name = time() . '_' . $photo->getClientOriginalName();
-        $photo->move(public_path('FrontEnd/img/review/'), $photo_name);
-        $photoPaths[] = 'FrontEnd/img/review/' . $photo_name;
-    }
-}
-
-    Review::create([
-        'user_id'    => auth()->id(),
-        'product_id' => $validated['product_id'],
-        'rating'     => $validated['rating'],
-        'body'       => $validated['body'],
-        'image'      => json_encode($photoPaths),
-        'verified_purchase' => true,
-        'status' => 1
-    ]);
-
-    $notification = array(
-        'message' => 'Review submitted successfully.',
-        'alert-type' => 'success'
-    );
-    return redirect()->back()->with($notification);
-}
 
 
     public function getReturningProduct($id)
     {
-            $request = ReturnRequest::find($id);
-            if($request->user_id == Auth::user()->id){
-                $data['success'] = 'Product Found';
-                $data['products'] = ReturningProduct::where('request_id', $id)->get();
-                $arr = array();
-                foreach ($data['products'] as $product){
-                    $item = Product::find($product->product_id);
-                    if($item){
-                        array_push($arr, [$item->name_en, $item->name_bn]);
-                    }
+        $request = ReturnRequest::find($id);
+        if ($request->user_id == Auth::user()->id) {
+            $data['success'] = 'Product Found';
+            $data['products'] = ReturningProduct::where('request_id', $id)->get();
+            $arr = array();
+            foreach ($data['products'] as $product) {
+                $item = Product::find($product->product_id);
+                if ($item) {
+                    array_push($arr, [$item->name_en, $item->name_bn]);
                 }
-                $data['product'] = $arr;
-                return response()->json($data);
             }
-            else{
-                return response()->json(['error' => 'No Products Found']);
-            }
-
+            $data['product'] = $arr;
+            return response()->json($data);
+        } else {
+            return response()->json(['error' => 'No Products Found']);
+        }
     }
-
 }
