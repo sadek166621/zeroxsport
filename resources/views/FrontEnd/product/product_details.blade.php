@@ -30,7 +30,7 @@
     }
 
     .discount-position {
-        background-color: #01B45E;
+        background-color: #036343;
         color: #f8f9fa;
         border-radius: 50%;
         width: 60px;
@@ -51,7 +51,7 @@
     }
 
     .buy_now {
-        background-color: #01B45E;
+        background-color: #036343;
         border: none;
         border-radius: 5px;
         color: white !important;
@@ -59,7 +59,7 @@
 
     .product_card {
         background: #fff;
-        border: 2px solid #01B45E;
+        border: 2px solid #036343;
         border-radius: 12px;
         box-shadow: 0 2px 12px rgba(1, 180, 94, 0.08);
         transition: box-shadow 0.2s, border-color 0.2s;
@@ -101,7 +101,7 @@
     }
 
     .qty-btn {
-        background: #01B45E;
+        background: #036343;
         border: none;
         width: 28px;
         height: 28px;
@@ -232,13 +232,13 @@
     }
 
     .thumbnail-item:hover {
-        border-color: #01B45E;
+        border-color: #036343;
         transform: scale(1.05);
     }
 
     .thumbnail-item.active {
-        border-color: #01B45E;
-        box-shadow: 0 0 0 1px #01B45E;
+        border-color: #036343;
+        box-shadow: 0 0 0 1px #036343;
     }
 
     .thumbnail-item img {
@@ -248,7 +248,7 @@
     }
 
     .discount-position {
-        background-color: #01B45E;
+        background-color: #036343;
         color: #f8f9fa;
         border-radius: 50%;
         width: 60px;
@@ -271,7 +271,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb breadcrumb-custom  mb-0 d-flex align-items-center gap-2">
             <li class="breadcrumb-item">
-                <a href="{{ route('home') }}" style="color: #01B45E; text-decoration: none; transition: all 0.3s;">
+                <a href="{{ route('home') }}" style="color: #036343; text-decoration: none; transition: all 0.3s;">
                     @if (session()->get('language') == 'bangla')
                     হোম
                     @else
@@ -282,7 +282,7 @@
             <i class="fa fa-chevron-right mx-2" aria-hidden="true"></i>
             <li class="breadcrumb-item">
                 <a href="{{ route('product.category', $product->category->slug) }}"
-                    style="color: #01B45E; text-decoration: none; transition: all 0.3s;">
+                    style="color: #036343; text-decoration: none; transition: all 0.3s;">
                     @if (session()->get('language') == 'bangla')
                     {{ $product->category->name_bn ?? '' }}
                     @else
@@ -423,50 +423,48 @@
                             {{ Str::limit(strip_tags($product->short_description_en), 100) }}
                             @endif
                         </p>
-                        <!-- @if ($product->product_type == 2 && count($group_products) > 0)
-    <strong>
-                                                                                                                                        @if (session()->get('language') == 'bangla')
-    প্যাকেজের পণ্য সমূহ
-@else
-    Package Items
-    @endif
-                                                                                                                                        :</strong>
-                                                                                                                                    @foreach ($group_products as $item)
-    <div class="row mb-1">
-                                                                                                                                            <div class="col-md-1">
-                                                                                                                                                <a href="{{ route('product.details', $item->product->slug) }}">
-                                                                                                                                                    <img src="{{ asset($item->product->product_thumbnail) }}" alt="" height="30px"
-                                                                                                                                                        width="30px">
-                                                                                                                                                </a>
-                                                                                                                                            </div>
-                                                                                                                                            <div class="col-md-11">
-                                                                                                                                                <a href="{{ route('product.details', $item->product->slug) }}">
-                                                                                                                                                    <small>
-                                                                                                                                                        @if (session()->get('language') == 'bangla')
-    {{ $item->product->name_bn }}
-@else
-    {{ $item->product->name_en }}
-    @endif
-                                                                                                                                                    </small>
-                                                                                                                                                </a>
-                                                                                                                                            </div>
-                                                                                                                                        </div>
-    @endforeach
-                                                                                                                                    <br>
-@else
-    -->
+                        {{-- যদি product_type == 2 এবং group_products থাকে --}}
+                        @if ($product->product_type == 2 && count($group_products) > 0)
+                        <strong>
+                            @if (session()->get('language') == 'bangla')
+                            প্যাকেজের পণ্য সমূহ :
+                            @else
+                            Package Items :
+                            @endif
+                        </strong>
+
+                        @foreach ($group_products as $item)
+                        <div class="row mb-1">
+                            <div class="col-md-1">
+                                <a href="{{ route('product.details', $item->product->slug) }}">
+                                    <img src="{{ asset($item->product->product_thumbnail) }}"
+                                        alt="{{ $item->product->name_en }}" height="30" width="30">
+                                </a>
+                            </div>
+                            <div class="col-md-11">
+                                <a href="{{ route('product.details', $item->product->slug) }}">
+                                    <small>
+                                        @if (session()->get('language') == 'bangla')
+                                        {{ $item->product->name_bn }}
+                                        @else
+                                        {{ $item->product->name_en }}
+                                        @endif
+                                    </small>
+                                </a>
+                            </div>
+                        </div>
+                        @endforeach
+
+                        <br>
+                        @else
                         <p>
                             @if (session()->get('language') == 'bangla')
                             ব্র্যান্ড : {{ $product->brand->name_bn ?? '' }}
                             @else
-                            Brand :
-                            {{ $product->brand->name_en ?? 'N/A' }}
+                            Brand : {{ $product->brand->name_en ?? 'N/A' }}
                             @endif
-
-
                         </p>
-                        <!--
-    @endif -->
+                        @endif
                     </div>
                     <form id="choice_form">
                         <div class="row " id="choice_attributes">
@@ -612,9 +610,6 @@
                             @endif
                         </button>
                         @endif
-
-
-
                     </div>
                     @endif
 
@@ -716,7 +711,7 @@
 <section class="custom_container mb-5">
     <div class="row g-3">
         <div class="col-md-12 bg-white">
-            <div class="p-4">
+            <div class="p-2 p-md-4">
                 <h4>
                     @if (session()->get('language') == 'bangla')
                     পণ্যের বিবরণ
@@ -736,8 +731,557 @@
                     @endif
 
                 </div>
+                
+
+                <style>
+                    /* Review Section Styles */
+                    .reviews-container {
+                        background: #fff;
+                        padding: 24px;
+                        border-radius: 8px;
+                        margin-top: 20px;
+                    }
+
+                    .reviews-header {
+                        border-bottom: 1px solid #e8e8e8;
+                        padding-bottom: 16px;
+                        margin-bottom: 24px;
+                    }
+
+                    .reviews-header h3 {
+                        font-size: 20px;
+                        font-weight: 600;
+                        color: #212121;
+                        margin: 0;
+                    }
+
+                    /* Rating Summary */
+                    .rating-summary {
+                        display: flex;
+                        gap: 40px;
+                        margin-bottom: 32px;
+                        padding: 20px;
+                        background: #fafafa;
+                        border-radius: 8px;
+                        width: 70%;
+                    }
+
+                    .overall-rating {
+                        text-align: center;
+                        padding: 20px;
+                    }
+
+                    .rating-number {
+                        font-size: 40px;
+                        font-weight: 700;
+                        color: #212121;
+                        line-height: 1;
+                        margin-bottom: 8px;
+                    }
+
+                    .rating-number span {
+                        font-size: 24px;
+                        color: #757575;
+                    }
+
+                    .star-display {
+                        display: flex;
+                        gap: 4px;
+                        justify-content: center;
+                        margin-bottom: 8px;
+                    }
+
+                    .star-display .star {
+                        color: #faca51;
+                        font-size: 20px;
+                    }
+
+                    .star-display .star.empty {
+                        color: #e0e0e0;
+                    }
+
+                    .total-reviews {
+                        color: #757575;
+                        font-size: 14px;
+                    }
+
+                    /* Rating Breakdown */
+                    .rating-breakdown {
+                        flex: 1;
+                    }
+
+                    .rating-row {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        margin-bottom: 12px;
+                        cursor: pointer;
+                        transition: background 0.2s;
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                    }
+
+                    .rating-row:hover {
+                        background: #f5f5f5;
+                    }
+
+                    .rating-row.active {
+                        background: #fff3e0;
+                    }
+
+                    .star-label {
+                        min-width: 60px;
+                        display: flex;
+                        align-items: center;
+                        gap: 4px;
+                        color: #212121;
+                        font-size: 14px;
+                    }
+
+                    .star-label .star {
+                        color: #faca51;
+                        font-size: 20px;
+                    }
+
+                    .progress-bar-container {
+                        flex: 1;
+                        height: 8px;
+                        background: #e8e8e8;
+                        border-radius: 4px;
+                        overflow: hidden;
+                    }
+
+                    .progress-bar-fill {
+                        height: 100%;
+                        background: #faca51;
+                        border-radius: 4px;
+                        transition: width 0.3s;
+                    }
+
+                    .rating-count {
+                        min-width: 40px;
+                        text-align: right;
+                        color: #757575;
+                        font-size: 14px;
+                    }
+
+
+
+                    .filter-btn {
+                        padding: 8px 16px;
+                        border: 1px solid #e8e8e8;
+                        background: #fff;
+                        border-radius: 20px;
+                        font-size: 14px;
+                        color: #212121;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    }
+
+                    .filter-btn:hover {
+                        border-color: #036343;
+                        color: #036343;
+                    }
+
+                    .filter-btn.active {
+                        background: #036343;
+                        color: #fff;
+                        border-color: #036343;
+                    }
+
+                    /* Review Items */
+                    .review-list {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+                    }
+
+                    .review-item {
+                        padding: 20px;
+                        border: 1px solid #e8e8e8;
+                        border-radius: 8px;
+                        transition: box-shadow 0.2s;
+                        width: 70%;
+                    }
+
+                    .review-item:hover {
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                    }
+
+                    .review-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: start;
+                        margin-bottom: 12px;
+                    }
+
+                    .reviewer-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                    }
+
+                    .reviewer-avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background: #e8e8e8;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 600;
+                        color: #757575;
+                    }
+
+                    .reviewer-details h4 {
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: #212121;
+                        margin: 0 0 4px 0;
+                    }
+
+                    .review-stars {
+                        display: flex;
+                        gap: 2px;
+                    }
+
+                    .review-stars .star {
+                        color: #faca51;
+                        font-size: 14px;
+                    }
+
+                    .review-stars .star.empty {
+                        color: #e0e0e0;
+                    }
+
+                    .review-date {
+                        font-size: 12px;
+                        color: #9e9e9e;
+                    }
+
+                    .review-content {
+                        margin-bottom: 12px;
+                    }
+
+                    .review-text {
+                        color: #424242;
+                        font-size: 14px;
+                        line-height: 1.6;
+                        margin-bottom: 12px;
+                    }
+
+                    .review-images {
+                        display: flex;
+                        gap: 8px;
+                        flex-wrap: wrap;
+                    }
+
+                    .review-image {
+                        width: 80px;
+                        height: 80px;
+                        border-radius: 4px;
+                        overflow: hidden;
+                        cursor: pointer;
+                        border: 1px solid #e8e8e8;
+                    }
+
+                    .review-image img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+
+                    .review-footer {
+                        display: flex;
+                        gap: 16px;
+                        padding-top: 12px;
+                        border-top: 1px solid #f5f5f5;
+                    }
+
+                    .review-action {
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                        color: #757575;
+                        font-size: 13px;
+                        cursor: pointer;
+                        transition: color 0.2s;
+                    }
+
+                    .review-action:hover {
+                        color: #036343;
+                    }
+
+                    .review-action i {
+                        font-size: 16px;
+                    }
+
+                    /* Write Review */
+                    .write-review-container {
+                        margin-top: 32px;
+                        padding: 24px;
+                        background: #fafafa;
+                        border-radius: 8px;
+                    }
+
+                    .write-review-container h4 {
+                        font-size: 18px;
+                        font-weight: 600;
+                        margin-bottom: 20px;
+                        color: #212121;
+                    }
+
+                    .star-rating-input {
+                        display: flex;
+                        gap: 8px;
+                        margin-bottom: 16px;
+                    }
+
+                    .star-input {
+                        font-size: 32px;
+                        color: #e0e0e0;
+                        cursor: pointer;
+                        transition: color 0.2s;
+                    }
+
+                    .star-input:hover,
+                    .star-input.active {
+                        color: #faca51;
+                    }
+
+                    .form-group {
+                        margin-bottom: 16px;
+                    }
+
+                    .form-group label {
+                        display: block;
+                        margin-bottom: 8px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        color: #212121;
+                    }
+
+                    .form-group textarea {
+                        width: 100%;
+                        padding: 12px;
+                        border: 1px solid #e0e0e0;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        resize: vertical;
+                        min-height: 120px;
+                    }
+
+                    .form-group textarea:focus {
+                        outline: none;
+                        border-color: #036343;
+                    }
+
+                    .submit-review-btn {
+                        background: #036343;
+                        color: #fff;
+                        border: none;
+                        padding: 12px 32px;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: background 0.2s;
+                    }
+
+                    .submit-review-btn:hover {
+                        background: #d9621e;
+                    }
+
+                    /* Load More */
+                    .load-more-container {
+                        text-align: center;
+                        margin-top: 24px;
+                    }
+
+                    .load-more-btn {
+                        padding: 12px 32px;
+                        border: 1px solid #e8e8e8;
+                        background: #fff;
+                        border-radius: 4px;
+                        color: #212121;
+                        font-size: 14px;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    }
+
+                    .load-more-btn:hover {
+                        border-color: #036343;
+                        color: #036343;
+                    }
+
+                    .verified-badge {
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 4px;
+                        background: #e8f5e9;
+                        color: #2e7d32;
+                        padding: 2px 8px;
+                        border-radius: 12px;
+                        font-size: 11px;
+                        font-weight: 500;
+                    }
+
+                    .verified-badge i {
+                        font-size: 12px;
+                    }
+
+                    @media (max-width: 768px) {
+                        .reviews-container{
+                            padding: 0;
+                        }
+                        .rating-summary {
+                            flex-direction: column;
+                            gap: 20px;
+                            width: 100%;
+                        }
+                        .review-item {
+                            width: 100%;
+                        }
+
+
+                    }
+                </style>
+
+                <!-- Reviews Section HTML -->
+                <div class="reviews-container">
+                    <div class="reviews-header">
+                        <h3>Ratings & Reviews of ({{ $product->name_en }})</h3>
+                    </div>
+
+                    <!-- Rating Summary -->
+                    <div class="rating-summary">
+                        <div class="overall-rating">
+                            <div class="rating-number">
+                                {{ number_format($average_rating, 1) }}<span>/5</span>
+                            </div>
+                            <div class="star-display">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <span class="star {{ $i <= round($average_rating) ? '' : 'empty' }}">★</span>
+                                    @endfor
+                            </div>
+                            <div class="total-reviews">{{ $total_ratings }} Ratings</div>
+                        </div>
+
+                        <div class="rating-breakdown">
+                            @foreach ([5, 4, 3, 2, 1] as $star)
+                            <div class="rating-row review-star" data-star="{{ $star }}">
+                                <div class="star-label">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <span class="star">{{ $i <= $star ? '★' : '' }}</span>
+                                        @endfor
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill"
+                                        style="width: {{ $total_ratings ? ($formattedCounts[$star] / $total_ratings) * 100 : 0 }}%">
+                                    </div>
+                                </div>
+                                <div class="rating-count">{{ $formattedCounts[$star] }}</div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Review List -->
+                    <div class="review-list" id="reviewsContainer">
+                        @include('FrontEnd.product.partials.reviews_list', ['reviews' => $reviews])
+                    </div>
+
+                    <!-- Write Review -->
+                    @auth
+                    <div class="write-review-container">
+                        <h4>Share your experience</h4>
+                        <form action="{{ route('product.review.store', $product->id) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+
+                            <div class="form-group">
+                                <label>Your Rating</label>
+                                <div class="star-rating-input">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <span class="star-input" data-rating="{{ $i }}">★</span>
+                                        @endfor
+                                </div>
+                                <input type="hidden" name="rating" id="rating-value" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Your Review</label>
+                                <textarea name="comment" placeholder="Share your thoughts about this product..." required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Add Photos (Optional)</label>
+                                <input type="file" name="images[]" multiple accept="image/*" class="form-control">
+                            </div>
+
+                            <button type="submit" class="submit-review-btn">Submit Review</button>
+                        </form>
+                    </div>
+                    @else
+                    <div class="write-review-container" style="text-align: center;">
+                        <p style="margin-bottom: 16px; color: #757575;">Please login to write a review</p>
+                        <a href="{{ route('login') }}" class="submit-review-btn" style="display: inline-block; text-decoration: none;">
+                            Login to Review
+                        </a>
+                    </div>
+                    @endauth
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const container = document.getElementById('reviewsContainer');
+                        const slug = "{{ $product->slug }}";
+
+                        // Star Rating Input
+                        const starInputs = document.querySelectorAll('.star-input');
+                        const ratingValue = document.getElementById('rating-value');
+
+                        starInputs.forEach(star => {
+                            star.addEventListener('click', function() {
+                                const rating = this.dataset.rating;
+                                ratingValue.value = rating;
+
+                                starInputs.forEach((s, index) => {
+                                    if (index < rating) {
+                                        s.classList.add('active');
+                                    } else {
+                                        s.classList.remove('active');
+                                    }
+                                });
+                            });
+                        });
+
+                        // Filter by Star Rating
+                        document.querySelectorAll('.review-star, .filter-btn').forEach(elem => {
+                            elem.addEventListener('click', function() {
+                                const filter = this.dataset.filter || this.dataset.star;
+
+                                // Update active state
+                                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                                if (this.classList.contains('filter-btn')) {
+                                    this.classList.add('active');
+                                }
+
+                                fetch(`/product/${slug}/reviews?filter=${filter}`, {
+                                        headers: {
+                                            'X-Requested-With': 'XMLHttpRequest'
+                                        }
+                                    })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        container.innerHTML = data.html;
+                                    })
+                                    .catch(err => console.error('Error loading reviews:', err));
+                            });
+                        });
+                    });
+                </script>
+
             </div>
-        </div>
 </section>
 
 {{-- side cart page trigger --}}
@@ -780,36 +1324,33 @@
 
 @endsection
 
+
+
 @push('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const sortSelect = document.getElementById('sortReviews');
-        const filterSelect = document.getElementById('filterReviews');
-        const reviewsContainer = document.getElementById('reviewsContainer');
-        const productSlug = "{{ $product->slug }}";
 
-        function fetchReviews() {
-            const sort = sortSelect.value;
-            const filter = filterSelect.value;
+        const container = document.getElementById('reviewsContainer');
+        const slug = "{{ $product->slug }}";
 
-            fetch(`/product/${productSlug}/reviews?sort=${sort}&filter=${filter}`, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    reviewsContainer.innerHTML = data.html;
-                })
-                .catch(error => {
-                    console.error('Error fetching reviews:', error);
-                });
-        }
+        document.querySelectorAll('.review-star').forEach(star => {
+            star.addEventListener('click', function() {
+                fetch(`/product/${slug}/reviews?filter=${this.dataset.star}`, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        container.innerHTML = data.html;
+                    });
+            });
+        });
 
-        sortSelect.addEventListener('change', fetchReviews);
-        filterSelect.addEventListener('change', fetchReviews);
     });
 </script>
+
+
 
 <script>
     $('.detail-qty').each(function() {

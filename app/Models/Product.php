@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+protected $appends = ['product_affiliate_commission'];
 
     public function productPrices()
     {
@@ -53,4 +55,60 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+
+public function getProductAffiliateCommissionAttribute()
+{
+    $overrideAmount = $this->attributes['affiliate_commission'] ?? null;
+    $overrideType   = $this->attributes['affiliate_commission_type'] ?? null;
+
+    // ১. Product override (highest priority)
+    if (
+        $overrideAmount !== null &&
+        $overrideAmount > 0 &&
+        in_array($overrideType, [0, 1])
+    ) {
+        return [
+            'amount' => $overrideAmount,
+            'type'   => $overrideType == 0 ? 'percentage' : 'flat',
+            'source' => 'product_override'
+        ];
+    }
+
+    // ২. Category chain search: self → parent → grandparent → ... → root
+    $categoryId = $this->category_id;
+
+    while ($categoryId) {
+        $structure = DB::table('commission_structures')
+            ->where('category_id', $categoryId)
+            ->where('status', 1)
+            ->first();
+
+        if ($structure) {
+            return [
+                'amount' => $structure->commission_rate,
+                'type'   => $structure->commission_type, // 'flat' or 'percentage'
+                'source' => 'category_structure'
+            ];
+        }
+
+        // Next parent খুঁজো
+        $parentId = DB::table('categories')
+            ->where('id', $categoryId)
+            ->value('parent_id');
+
+        $categoryId = $parentId > 0 ? $parentId : null; // root (0) হলে stop
+    }
+
+    // ৩. কিছুই না পেলে
+    return [
+        'amount' => 0,
+        'type'   => null,
+        'source' => 'none'
+    ];
+}
+
+public function getAffiliateCommissionAmountAttribute()
+{
+    return $this->product_affiliate_commission['amount'];
+}
 }

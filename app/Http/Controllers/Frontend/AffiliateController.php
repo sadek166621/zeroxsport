@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Frontend;
+
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Http;
 
 class AffiliateController extends Controller
 {
+    public function affiliate()
+    {
+        return view('FrontEnd.affiliate.index');
+    }
     public function pageAffiliate()
     {
         return view('FrontEnd.affiliate.index');
@@ -26,9 +31,7 @@ class AffiliateController extends Controller
 
     public function registerAffiliateStore(Request $request)
     {
-
         $request->validate([
-
             'name' => 'required',
             'phone' => ['required', 'regex:/(\+){0,1}(88){0,1}01(3|4|5|6|7|8|9)(\d){8}/', 'min:11', 'max:15'],
             'email' => 'required|string|email|max:255|unique:affiliates',
@@ -38,46 +41,51 @@ class AffiliateController extends Controller
             'profile_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if ($request->hasfile('profile_image')) {
+        // Profile image upload
+        if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
             $directory = public_path('upload/affiliate/');
             if (!is_dir($directory)) {
                 mkdir($directory, 0777, true);
             }
-            $image->move($directory, $name_gen);  // Correct method
-            $profile_image = 'upload/affiliate/' . $name_gen; // Store relative path for public access
+            $image->move($directory, $name_gen);
+            $profile_image = 'upload/affiliate/' . $name_gen;
         } else {
             $profile_image = '';
         }
 
+        // Duplicate check
         if (
             Affiliate::where('email', $request->email)->exists() ||
-            Affiliate::where('affiliate_member_id', $request->affiliateid)->exists()
+            Affiliate::where('affiliate_member_id', $request->affiliate_code)->exists()
         ) {
-            return response()->json(['message' => 'অ্যাফিলিয়েট ইতিমধ্যে বিদ্যমান।'], 409);
+
+            return redirect()->back()->with('error', 'Email or Affiliate ID already exists.');
         }
 
-
-       $affiliateId = $request->affiliateid;
+        // Affiliate ID validation
+        $affiliateId = $request->affiliate_code;
         $isValid = false;
-        
-        $responseGk = Http::get('https://ghorkonnya.com/api/check-affiliateId', [
+
+        // প্রথম API চেক (Ghorkonnya)
+        $responseGk = Http::withoutVerifying()->get('https://ghorkonnya.com/api/check-affiliateId', [
             'affiliateId' => $affiliateId
         ]);
-        
+
         if ($responseGk->successful()) {
             $data = $responseGk->json();
             if (isset($data['user']) && ($data['user']['status'] == 2 || $data['user']['affiliate_status'] == 1)) {
                 $isValid = true;
             }
         }
-        
+
+
         if (!$isValid) {
-            $responseUp = Http::get('https://uparjok.com/api/check-affiliateId', [
+            $responseUp = Http::withoutVerifying()->get('https://uparjok.com/api/check-affiliateId', [
                 'affiliateId' => $affiliateId
             ]);
-        
+
             if ($responseUp->successful()) {
                 $data = $responseUp->json();
                 if (isset($data['user']) && ($data['user']['status'] == 2 || $data['user']['affiliate_status'] == 1)) {
@@ -85,13 +93,13 @@ class AffiliateController extends Controller
                 }
             }
         }
-        
-        if ($isValid) {
-            return response()->json(['message' => 'Invalid or inactive affiliate ID.'], 422);
+
+        if (!$isValid) {
+            return redirect()->back()->with('error', 'Invalid or inactive affiliate ID.');
         }
 
 
-
+        // ✅ Valid হলে রেজিস্ট্রেশন হবে
         $refferalCode = 'OHBD' . strtoupper(Str::random(rand(5, 6)));
         $affiliate = Affiliate::create([
             'name' => $request->name,
@@ -105,13 +113,12 @@ class AffiliateController extends Controller
         ]);
 
         if ($affiliate) {
-            $notification = array(
+            $notification = [
                 'message' => 'Affiliate Registered Successfully.',
                 'alert-type' => 'success'
-            );
+            ];
             return redirect()->route('login.affiliate')->with($notification);
         }
-
     }
 
     public function loginAffiliate()
@@ -122,13 +129,14 @@ class AffiliateController extends Controller
     public function loginAffiliateSubmit(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email',
+            'login' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Check if affiliate exists
-        $affiliate = Affiliate::where('email', $request->email)->first();
-        $isValid = false;
+        // Check if affiliate exists by email or phone
+        $affiliate = Affiliate::where('email', $request->login)
+            ->orWhere('phone', $request->login)
+            ->first();
 
         if (!$affiliate) {
             $notification = [
@@ -147,33 +155,33 @@ class AffiliateController extends Controller
             return redirect()->route('login.affiliate')->with($notification);
         }
 
-            $affiliateId = $affiliate->affiliate_member_id;
-           $isValid = false;
+        $affiliateId = $affiliate->affiliate_member_id;
+        $isValid = false;
 
 
-            $responseGk = Http::get('https://ghorkonnya.com/api/check-affiliateId', [
+        $responseGk = Http::withoutVerifying()->get('https://ghorkonnya.com/api/check-affiliateId', [
+            'affiliateId' => $affiliateId
+        ]);
+
+        if ($responseGk->successful()) {
+            $data = $responseGk->json();
+            if (isset($data['user']) && $data['user']['status'] == 2) {
+                $isValid = true;
+            }
+        }
+
+        if (!$isValid) {
+            $responseUp = Http::withoutVerifying()->get('https://uparjok.com/api/check-affiliateId', [
                 'affiliateId' => $affiliateId
             ]);
 
-            if ($responseGk->successful()) {
-                $data = $responseGk->json();
+            if ($responseUp->successful()) {
+                $data = $responseUp->json();
                 if (isset($data['user']) && $data['user']['status'] == 2) {
                     $isValid = true;
                 }
             }
-
-            if (!$isValid) {
-                $responseUp = Http::get('https://uparjok.com/api/check-affiliateId', [
-                    'affiliateId' => $affiliateId
-                ]);
-
-                if ($responseUp->successful()) {
-                    $data = $responseUp->json();
-                    if (isset($data['user']) && $data['user']['status'] == 2) {
-                        $isValid = true;
-                    }
-                }
-            }
+        }
 
         if (!$isValid) {
             $notification = [
@@ -182,12 +190,16 @@ class AffiliateController extends Controller
             ];
             return redirect()->route('login.affiliate')->with($notification);
         }
-        // Attempt login only if all checks passed
-        if (Auth::guard('affiliate')->attempt(['email' => $request->email, 'password' => $request->password])) {
+
+        
+      if (
+            Auth::guard('affiliate')->attempt(['email' => $request->login, 'password' => $request->password]) ||
+            Auth::guard('affiliate')->attempt(['phone' => $request->login, 'password' => $request->password])
+        ) {
             return redirect()->route('affiliate.dashboard');
         } else {
             $notification = [
-                'message' => 'ইমেইল অথবা পাসওয়ার্ড ভুল।',
+                'message' => 'ইমেইল/ফোন অথবা পাসওয়ার্ড ভুল।',
                 'alert-type' => 'error'
             ];
             return redirect()->route('login.affiliate')->with($notification);
@@ -199,13 +211,15 @@ class AffiliateController extends Controller
     {
         $affiliate = auth('affiliate')->user();
         $products = Product::where('status', 1)->where('is_affiliate', 1)->latest()->get();
+        $totalOrders = Order::where('affiliate_id', $affiliate->id)->count();
 
         // Example dummy data, replace with real queries
         $totalReferrals = Order::where('affiliate_id', $affiliate->id)->where('payment_status', 1)->count();
         $totalCommissions = $affiliate->total_earning;
         $pendingReferrals = Order::where('affiliate_id', $affiliate->id)->where('payment_status', 0)->count();
+        $totalEarnings = Order::where('affiliate_id', $affiliate->id)->where('payment_status', 1)->where('delivery_status', 4)->sum('affiliate_commission');
 
-        return view('FrontEnd.affiliate.dashboard', compact('totalReferrals', 'totalCommissions', 'pendingReferrals', 'products', 'affiliate'));
+        return view('FrontEnd.affiliate.dashboard', compact('totalReferrals', 'totalCommissions', 'pendingReferrals', 'totalEarnings', 'products', 'affiliate', 'totalOrders'));
     }
 
     public function profile()
@@ -291,7 +305,8 @@ class AffiliateController extends Controller
     }
 
 
-    public function orderDetails($id){
+    public function orderDetails($id)
+    {
         $order = Order::find($id);
         return view('FrontEnd.affiliate.order-details', compact('order'));
     }
@@ -301,5 +316,4 @@ class AffiliateController extends Controller
         Auth::guard('affiliate')->logout();
         return redirect()->route('page.affiliate');
     }
-
 }

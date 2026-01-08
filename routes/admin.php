@@ -17,25 +17,26 @@ use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\VendorController;
+use App\Http\Controllers\Backend\PenaltyController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\AccountsController;
 use App\Http\Controllers\Backend\CampaingController;
 use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\ShippingController;
 //use App\Http\Controllers\Backend\TagController;
+use App\Http\Controllers\Backend\ShippingController;
 use App\Http\Controllers\Backend\SupplierController;
 use App\Http\Controllers\Backend\AffiliateController;
 use App\Http\Controllers\Backend\AttributeController;
 use App\Http\Controllers\Backend\CommissionController;
 use App\Http\Controllers\Backend\SubscriberController;
+use App\Http\Controllers\Vendor\VendorOrderController;
 use App\Http\Controllers\Frontend\UserMessageController;
 use App\Http\Controllers\Backend\PaymentMethodController;
 use App\Http\Controllers\Backend\VendorPaymentController;
 use App\Http\Controllers\Frontend\ReturnRequestController;
 use App\Http\Controllers\Backend\WithdrawRequestController;
 use App\Http\Controllers\Backend\VendorTransactionController;
-use App\Http\Controllers\Backend\PenaltyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,63 +51,76 @@ use App\Http\Controllers\Backend\PenaltyController;
 
 
 
-Route::get('/admin',[AdminController::class, 'Index'])->name('login_form');
-Route::post('/admin',[AdminController::class, 'Login'])->name('admin.login');
+Route::get('/admin', [AdminController::class, 'Index'])->name('login_form');
+Route::post('/admin', [AdminController::class, 'Login'])->name('admin.login');
+Route::get('/vendor/login', [AdminController::class, 'vendorLogin'])->name('vendor.login_form');
+Route::post('/vendor/login', [AdminController::class, 'VendorLoginStore'])->name('vendor.login');
 
-Route::get('/vendor/login',[AdminController::class, 'Index'])->name('vendor.login_form');
+//Route::get('/vendor/login', [AdminController::class, 'Index'])->name('vendor.login_form');
 
 
 /*========================== Only Vendor Accessible Route  ==========================*/
-Route::prefix('vendor')->middleware('vendor')->group(function(){
-    //Withdraw Request All Routes
-    Route::resource('/withdraw-requests', WithdrawRequestController::class);
-    Route::post('/withdraw-requests/update/{id}', [WithdrawRequestController::class, 'update'])->name('withdraw-requests.update');
-    Route::get('/withdraw-requests/remove/{id}', [WithdrawRequestController::class, 'delete'])->name('withdraw-requests.delete');
+Route::prefix('vendor')->middleware('vendor')->group(function () {
+	//Withdraw Request All Routes
+	Route::resource('/withdraw-requests', WithdrawRequestController::class);
+	Route::post('/withdraw-requests/update/{id}', [WithdrawRequestController::class, 'update'])->name('withdraw-requests.update');
+	Route::get('/withdraw-requests/remove/{id}', [WithdrawRequestController::class, 'delete'])->name('withdraw-requests.delete');
 
+
+	// Orders Routes
+	Route::get('/orders/all', [VendorOrderController::class, 'index'])->name('vendor.orders.index');
+	Route::get('/orders/pending', [VendorOrderController::class, 'pendingOrder'])->name('vendor.orders.pending');
+	Route::get('/orders/completed', [VendorOrderController::class, 'completedOrder'])->name('vendor.orders.completed');
+	Route::get('/orders/canceled', [VendorOrderController::class, 'cancelledOrder'])->name('vendor.orders.canceled');
+	Route::get('/sales-report', [VendorOrderController::class, 'salesReport'])->name('vendor.sales.report');
+	Route::get('/sales-report/details/{id}', [VendorOrderController::class, 'details'])->name('vendor.sales.report.view');
+
+	Route::get('/order-details/{id}', [VendorOrderController::class, 'vendorOrdershow'])->name('vendor.order.details');
+	Route::get('/invoice-download/{order_id}', [VendorOrderController::class, 'vendorinvoiceDownload'])->name('vendor.invoice.download');
+
+	Route::patch('/affilitate/product/request/{id}',[ProductController::class, 'requestForAffiliate'])->name('vendor.product.affiliate.request');
 });
 /*==========================End Only Vendor Accessible Route  ==========================*/
 
 //*========================== Common Accessible All Routes  ==========================*/
 //dd(Auth::guard('admin')->check());
-if (Auth::guard('admin')->check()){
-    if (Auth::guard('admin')->user()->role == 1){
-        $prefix = 'admin';
-    }
-    else{
-        $prefix = 'vendor';
-       /// dd('vv');
-    }
-
+if (Auth::guard('admin')->check()) {
+	if (Auth::guard('admin')->user()->role == 1) {
+		$prefix = 'admin';
+	} else {
+		$prefix = 'vendor';
+		/// dd('vv');
+	}
+} else {
+	//dd('hgf');
+	$prefix = 'admin';
 }
-else{
-    //dd('hgf');
-    $prefix='admin';
-}
-Route::prefix($prefix)->middleware('admin')->group(function(){
-    Route::get('/dashboard',[AdminController::class, 'dashboard'])->name('admin.dashboard');
-	Route::get('/logout',[AdminController::class, 'AminLogout'])->name('admin.logout');
-	Route::get('/register',[AdminController::class, 'AdminRegister'])->name('admin.regester');
-	Route::post('/register/store',[AdminController::class, 'AdminRegisterStore'])->name('admin.register.store');
-	Route::get('/forgot-password',[AdminController::class, 'AdminForgotPassword'])->name('admin.password.request');
-	Route::get('/profile',[AdminController::class, 'Profile'])->name('admin.profile');
-	Route::get('/edit/profile',[AdminController::class, 'EditProfile'])->name('edit.profile');
-	Route::post('/store/profile',[AdminController::class, 'StoreProfile'])->name('store.profile');
-	Route::get('/change/password',[AdminController::class, 'ChangePassword'])->name('change.password');
-	Route::post('/update/password',[AdminController::class, 'UpdatePassword'])->name('update.password');
+Route::prefix($prefix)->middleware('admin')->group(function () {
+	Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+	Route::get('/logout', [AdminController::class, 'AminLogout'])->name('admin.logout');
+	Route::get('/register', [AdminController::class, 'AdminRegister'])->name('admin.regester');
+	Route::post('/register/store', [AdminController::class, 'AdminRegisterStore'])->name('admin.register.store');
+	Route::get('/forgot-password', [AdminController::class, 'AdminForgotPassword'])->name('admin.password.request');
+	Route::get('/profile', [AdminController::class, 'Profile'])->name('admin.profile');
+	Route::get('/edit/profile', [AdminController::class, 'EditProfile'])->name('edit.profile');
+	Route::post('/store/profile', [AdminController::class, 'StoreProfile'])->name('store.profile');
+	Route::get('/change/password', [AdminController::class, 'ChangePassword'])->name('change.password');
+	Route::post('/update/password', [AdminController::class, 'UpdatePassword'])->name('update.password');
 
 	/* ================ Admin Cache Clear ============== */
-	Route::get('/cache-cache',[AdminController::class, 'clearCache'])->name('cache.clear');
+	Route::get('/cache-cache', [AdminController::class, 'clearCache'])->name('cache.clear');
 
-    //Withdraw Request Routes
-     //Withdraw Request Routes
-    Route::get('/withdraw-requests', [WithdrawRequestController::class, 'index'])->name('withdraw-requests.index');
+	//Withdraw Request Routes
+	//Withdraw Request Routes
+	Route::get('/withdraw-requests', [WithdrawRequestController::class, 'index'])->name('withdraw-requests.index');
 	//Withdraw Request Routes
 	Route::get('/withdraw-requests', [WithdrawRequestController::class, 'index'])->name('withdraw-requests.index');
 	Route::get('/lowstock/products', [ProductController::class, 'lowstock'])->name('lowstocks.products');
 	Route::get('/pending/orders', [OrderController::class, 'pendingOrders'])->name('pending.orders');
 
+
 	// Admin Brand All Routes
-	Route::prefix('supplier')->group(function(){
+	Route::prefix('supplier')->group(function () {
 		Route::get('/view', [SupplierController::class, 'SupplierView'])->name('supplier.all');
 		Route::get('/create', [SupplierController::class, 'create'])->name('supplier.create');
 		Route::post('/create', [SupplierController::class, 'store'])->name('supplier.store');
@@ -118,7 +132,7 @@ Route::prefix($prefix)->middleware('admin')->group(function(){
 	});
 
 	// Admin Tags All Routes
-	Route::prefix('tag')->group(function(){
+	Route::prefix('tag')->group(function () {
 		Route::get('/view', [TagController::class, 'TagView'])->name('tag.all');
 		Route::get('/add', [TagController::class, 'TagAdd'])->name('tag.add');
 		Route::post('/store', [TagController::class, 'TagStore'])->name('tag.store');
@@ -127,11 +141,10 @@ Route::prefix($prefix)->middleware('admin')->group(function(){
 		Route::get('/delete/{id}', [TagController::class, 'TagDelete'])->name('tag.delete');
 		Route::get('/tag_active/{id}', [TagController::class, 'active'])->name('tag.active');
 		Route::get('/tag_inactive/{id}', [TagController::class, 'inactive'])->name('tag.in_active');
-
 	});
 
 	// Admin Product All Routes
-	Route::prefix('product')->group(function(){
+	Route::prefix('product')->group(function () {
 		Route::get('/view', [ProductController::class, 'ProductView'])->name('product.all');
 		Route::get('/affiliate', [ProductController::class, 'AffiliateProductView'])->name('product.affiliate');
 		Route::get('/wholesell-products', [ProductController::class, 'wholesellProductView'])->name('product.wholesell');
@@ -140,7 +153,7 @@ Route::prefix($prefix)->middleware('admin')->group(function(){
 		Route::get('/edit/{id}', [ProductController::class, 'EditProduct'])->name('product.edit');
 
 		Route::get('/product/upload-csv', [ProductController::class, 'uploadCsv'])->name('product.upload.csv');
-        Route::post('/product/import-csv', [ProductController::class, 'importCsv'])->name('product.import.csv');
+		Route::post('/product/import-csv', [ProductController::class, 'importCsv'])->name('product.import.csv');
 
 
 		Route::post('/update/{id}', [ProductController::class, 'ProductUpdate'])->name('product.update');
@@ -149,8 +162,10 @@ Route::prefix($prefix)->middleware('admin')->group(function(){
 
 		Route::get('/delete/{id}', [ProductController::class, 'ProductDelete'])->name('product.delete');
 
-		 Route::patch('/product-authenticity/{product}',[ProductController::class, 'updateAuthenticity']
-        )->name('product.authenticity.update');
+		Route::patch(
+			'/product-authenticity/{product}',
+			[ProductController::class, 'updateAuthenticity']
+		)->name('product.authenticity.update');
 
 		Route::get('/product_active/{id}', [ProductController::class, 'active'])->name('product.active');
 		Route::get('/product_inactive/{id}', [ProductController::class, 'inactive'])->name('product.in_active');
@@ -165,49 +180,51 @@ Route::prefix($prefix)->middleware('admin')->group(function(){
 		Route::get('/subcategory/minicategory/ajax/{subcategory_id}', [ProductController::class, 'GetSubSubCategory']);
 	});
 
-    //Vendor Transactions All Routes
-    Route::get('/transaction/list', [VendorTransactionController::class, 'index'])->name('transaction.index');
-    Route::get('/account/summary', [VendorTransactionController::class, 'transactionSummary'])->name('transaction.summary');
-    Route::get('/account/details/{id}', [VendorTransactionController::class, 'details'])->name('transaction.details');
+	//Vendor Transactions All Routes
+	Route::get('/transaction/list', [VendorTransactionController::class, 'index'])->name('transaction.index');
+	Route::get('/account/summary', [VendorTransactionController::class, 'transactionSummary'])->name('transaction.summary');
+	Route::get('/account/details/{id}', [VendorTransactionController::class, 'details'])->name('transaction.details');
 
-      // Seller Penalty routes
-    Route::get('/penalties', [PenaltyController::class, 'penalties'])->name('penalties');
-    Route::get('/commission', [CommissionController::class, 'adminCommission'])->name('admin.commission');
+	// Seller Penalty routes
+	Route::get('/penalties', [PenaltyController::class, 'penalties'])->name('penalties');
+	Route::get('/commission', [CommissionController::class, 'adminCommission'])->name('admin.commission');
 
-    // Report All Route
-Route::get('/stock-report', [ReportController::class, 'index'])->name('stock_report.index');
-Route::get('/sales-report', [ReportController::class, 'salesReport'])->name('sales.report');
-Route::get('/sales-report/details/{id}', [ReportController::class, 'details'])->name('report.view');
-Route::get('/reports/category-sales', [ReportController::class, 'categorySales'])->name('report.category.sales');
-Route::get('/reports/traffic', [ReportController::class, 'trafficAnalytics'])->name('report.traffic');
-Route::get('/reports/conversion-rate', [ReportController::class, 'conversionRate'])->name('report.conversion');
-Route::get('/reports/most-viewed-products', [ReportController::class, 'mostViewedProducts'])->name('report.most.viewed');
+	// Report All Route
+	Route::get('/stock-report', [ReportController::class, 'index'])->name('stock_report.index');
+	Route::get('/sales-report', [ReportController::class, 'salesReport'])->name('sales.report');
+	Route::get('/sales-report/details/{id}', [ReportController::class, 'details'])->name('report.view');
+	Route::get('/reports/category-sales', [ReportController::class, 'categorySales'])->name('report.category.sales');
+	Route::get('/category/product/{id}', [ReportController::class, 'categoryProduct'])->name('report.category.products');
+	Route::get('/reports/traffic', [ReportController::class, 'trafficAnalytics'])->name('report.traffic');
+	Route::get('/reports/conversion-rate', [ReportController::class, 'conversionRate'])->name('report.conversion');
+	Route::get('/reports/most-viewed-products', [ReportController::class, 'mostViewedProducts'])->name('report.most.viewed');
+
+	Route::post('/vendor_orders_update/{id}', [OrderController::class, 'vendorOrdersUpdate'])->name('vendor.orders.update');
+	//Route::get('/vendor/invoice/{id}', [OrderController::class, 'vendorInvoice'])->name('vendor.invoice.download');
 
 
-
-    /*================  Ajax Category Store ==================*/
-	Route::post('/category/insert',[ProductController::class,'categoryInsert'])->name('category.ajax.store');
+	/*================  Ajax Category Store ==================*/
+	Route::post('/category/insert', [ProductController::class, 'categoryInsert'])->name('category.ajax.store');
 	/*================  Ajax Brand Store ==================*/
-	Route::post('/brand/insert',[ProductController::class,'brandInsert'])->name('brand.ajax.store');
+	Route::post('/brand/insert', [ProductController::class, 'brandInsert'])->name('brand.ajax.store');
 
-    Route::get('/get-total-regular-price', function () {
-        return session('totalRegularPrice');
-    });
+	Route::get('/get-total-regular-price', function () {
+		return session('totalRegularPrice');
+	});
 
-    Route::get('/forget-total-regular-price', function () {
-        session()->forget('totalRegularPrice');
-    });
-    Route::get('/get-total-buying-price', function () {
-        return session('totalBuyingPrice');
-    });
+	Route::get('/forget-total-regular-price', function () {
+		session()->forget('totalRegularPrice');
+	});
+	Route::get('/get-total-buying-price', function () {
+		return session('totalBuyingPrice');
+	});
 
-    Route::get('/forget-total-buying-price', function () {
-        session()->forget('totalBuyingPrice');
-    });
+	Route::get('/forget-total-buying-price', function () {
+		session()->forget('totalBuyingPrice');
+	});
 
-    Route::get('return-request/all', [ReturnRequestController::class, 'list'])->name('return-request.all');
-    Route::get('return-request/show/{id}', [ReturnRequestController::class, 'show'])->name('return-request.show');
-
+	Route::get('return-request/all', [ReturnRequestController::class, 'list'])->name('return-request.all');
+	Route::get('return-request/show/{id}', [ReturnRequestController::class, 'show'])->name('return-request.show');
 });
 
 
@@ -215,47 +232,46 @@ Route::get('/reports/most-viewed-products', [ReportController::class, 'mostViewe
 
 
 //*========================== Only Admin Accessible All Routes  ==========================*/
-Route::middleware('adminAccess')->group(function(){
+Route::middleware('adminAccess')->group(function () {
 
-    // ==================== Admin Brand All Routes ===================//
-    Route::prefix('brand')->group(function(){
-        Route::get('/view', [BrandController::class, 'BrandView'])->name('brand.all');
-        Route::get('/add', [BrandController::class, 'BrandAdd'])->name('brand.add');
-        Route::post('/store', [BrandController::class, 'BrandStore'])->name('brand.store');
-        Route::get('/edit/{id}', [BrandController::class, 'BrandEdit'])->name('brand.edit');
-        Route::post('/update/{id}', [BrandController::class, 'BrandUpdate'])->name('brand.update');
-        Route::get('/delete/{id}', [BrandController::class, 'BrandDelete'])->name('brand.delete');
-        Route::get('/brand_active/{id}', [BrandController::class, 'active'])->name('brand.active');
-        Route::get('/brand_inactive/{id}', [BrandController::class, 'inactive'])->name('brand.in_active');
-    });
+	// ==================== Admin Brand All Routes ===================//
+	Route::prefix('brand')->group(function () {
+		Route::get('/view', [BrandController::class, 'BrandView'])->name('brand.all');
+		Route::get('/add', [BrandController::class, 'BrandAdd'])->name('brand.add');
+		Route::post('/store', [BrandController::class, 'BrandStore'])->name('brand.store');
+		Route::get('/edit/{id}', [BrandController::class, 'BrandEdit'])->name('brand.edit');
+		Route::post('/update/{id}', [BrandController::class, 'BrandUpdate'])->name('brand.update');
+		Route::get('/delete/{id}', [BrandController::class, 'BrandDelete'])->name('brand.delete');
+		Route::get('/brand_active/{id}', [BrandController::class, 'active'])->name('brand.active');
+		Route::get('/brand_inactive/{id}', [BrandController::class, 'inactive'])->name('brand.in_active');
+	});
 
-    // Admin Category All Routes
-    Route::prefix('category')->group(function(){
+	// Admin Category All Routes
+	Route::prefix('category')->group(function () {
 
-        Route::get('/index', [CategoryController::class, 'index'])->name('category.index');
-        Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
-        Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
-        Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
-        Route::post('/update/{id}', [CategoryController::class, 'update'])->name('category.update');
-        Route::get('/delete/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
+		Route::get('/index', [CategoryController::class, 'index'])->name('category.index');
+		Route::get('/create', [CategoryController::class, 'create'])->name('category.create');
+		Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
+		Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('category.edit');
+		Route::post('/update/{id}', [CategoryController::class, 'update'])->name('category.update');
+		Route::get('/delete/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
 
-        Route::get('/category_active/{id}', [CategoryController::class, 'active'])->name('category.active');
-        Route::get('/category_inactive/{id}', [CategoryController::class, 'inactive'])->name('category.in_active');
+		Route::get('/category_active/{id}', [CategoryController::class, 'active'])->name('category.active');
+		Route::get('/category_inactive/{id}', [CategoryController::class, 'inactive'])->name('category.in_active');
 
-        Route::get('/category_feature_status_change/{id}', [CategoryController::class, 'changeFeatureStatus'])->name('category.changeFeatureStatus');
+		Route::get('/category_feature_status_change/{id}', [CategoryController::class, 'changeFeatureStatus'])->name('category.changeFeatureStatus');
+	});
 
-    });
-
-    // Attribute All Route
-    Route::resource('/attribute', AttributeController::class);
-    Route::get('/attribute/delete/{id}', [AttributeController::class, 'destroy'])->name('attribute.delete');
-    // AttributeValue All Route
-    Route::post('/attribute/value', [AttributeController::class, 'value_store'])->name('attribute.value_store');
-    Route::get('/attribute/value/edit/{id}', [AttributeController::class, 'value_edit'])->name('attribute_value.edit');
-    Route::post('/attribute/value/update/{id}', [AttributeController::class, 'value_update'])->name('attribute.val_update');
-    Route::get('/attribute_value_active/{id}', [AttributeController::class, 'value_active'])->name('attribute_value.active');
-    Route::get('/attribute_value_inactive/{id}', [AttributeController::class, 'value_inactive'])->name('attribute_value.in_active');
-    Route::get('/attribute/value/delete/{id}', [AttributeController::class, 'value_destroy'])->name('attribute_value.delete');
+	// Attribute All Route
+	Route::resource('/attribute', AttributeController::class);
+	Route::get('/attribute/delete/{id}', [AttributeController::class, 'destroy'])->name('attribute.delete');
+	// AttributeValue All Route
+	Route::post('/attribute/value', [AttributeController::class, 'value_store'])->name('attribute.value_store');
+	Route::get('/attribute/value/edit/{id}', [AttributeController::class, 'value_edit'])->name('attribute_value.edit');
+	Route::post('/attribute/value/update/{id}', [AttributeController::class, 'value_update'])->name('attribute.val_update');
+	Route::get('/attribute_value_active/{id}', [AttributeController::class, 'value_active'])->name('attribute_value.active');
+	Route::get('/attribute_value_inactive/{id}', [AttributeController::class, 'value_inactive'])->name('attribute_value.in_active');
+	Route::get('/attribute/value/delete/{id}', [AttributeController::class, 'value_destroy'])->name('attribute_value.delete');
 
 	// Admin Slider All Routes
 	Route::resource('/slider', SliderController::class);
@@ -264,42 +280,65 @@ Route::middleware('adminAccess')->group(function(){
 	Route::get('/slider_inactive/{id}', [SliderController::class, 'inactive'])->name('slider.in_active');
 
 	// commission structrue routes
-    Route::get('/commission/index', [CommissionController::class, 'commissionIndex'])->name('commission.index');
-    Route::get('/commission/crete', [CommissionController::class, 'commissionCreate'])->name('commission.create');
-    Route::post('/commission/store', [CommissionController::class, 'commissionStore'])->name('commission.store');
-    Route::get('/commission/edit/{id}', [CommissionController::class, 'commissionEdit'])->name('commission.edit');
-    Route::post('/commission/update/{id}', [CommissionController::class, 'commissionUpdate'])->name('commission.update');
-    Route::get('/commission/destroy/{id}', [CommissionController::class, 'commissionDestroy'])->name('commission.destroy');
+	Route::get('/commission/index', [CommissionController::class, 'commissionIndex'])->name('commission.index');
+	Route::get('/commission/crete', [CommissionController::class, 'commissionCreate'])->name('commission.create');
+	Route::post('/commission/store', [CommissionController::class, 'commissionStore'])->name('commission.store');
+	Route::get('/commission/edit/{id}', [CommissionController::class, 'commissionEdit'])->name('commission.edit');
+	Route::post('/commission/update/{id}', [CommissionController::class, 'commissionUpdate'])->name('commission.update');
+	Route::get('/commission/destroy/{id}', [CommissionController::class, 'commissionDestroy'])->name('commission.destroy');
 
-    // Seller Penalty routes
-    Route::get('/seller/penalty/index', [PenaltyController::class, 'sellerPenaltyIndex'])->name('seller.penalty.index');
-    Route::get('/seller/penalty/crete', [PenaltyController::class, 'sellerPenaltyCreate'])->name('seller.penalty.create');
-    Route::post('/seller/penalty/store', [PenaltyController::class, 'sellerPenaltyStore'])->name('seller.penalty.store');
-    Route::get('/seller/penalty/edit/{id}', [PenaltyController::class, 'sellerPenaltyEdit'])->name('seller.penalty.edit');
-    Route::put('/seller/penalty/update/{id}', [PenaltyController::class, 'sellerPenaltyUpdate'])->name('seller.penalty.update');
-    Route::delete('/seller/penalty/destroy/{id}', [PenaltyController::class, 'sellerPenaltyDestroy'])->name('seller.penalty.destroy');
+	// Seller Penalty routes
+	Route::get('/seller/penalty/index', [PenaltyController::class, 'sellerPenaltyIndex'])->name('seller.penalty.index');
+	Route::get('/seller/penalty/crete', [PenaltyController::class, 'sellerPenaltyCreate'])->name('seller.penalty.create');
+	Route::post('/seller/penalty/store', [PenaltyController::class, 'sellerPenaltyStore'])->name('seller.penalty.store');
+	Route::get('/seller/penalty/edit/{id}', [PenaltyController::class, 'sellerPenaltyEdit'])->name('seller.penalty.edit');
+	Route::put('/seller/penalty/update/{id}', [PenaltyController::class, 'sellerPenaltyUpdate'])->name('seller.penalty.update');
+	Route::delete('/seller/penalty/destroy/{id}', [PenaltyController::class, 'sellerPenaltyDestroy'])->name('seller.penalty.destroy');
 	// Admin Vendor All Routes
 	Route::resource('/vendor', VendorController::class);
-	 Route::get('/vendor/pending/products', [VendorController::class, 'pendignProduct'])->name('vendor.all.pending');
-    Route::get('/vendor/approved/products', [VendorController::class, 'approvedProduct'])->name('vendor.all.approved');
+	Route::get('/vendor/pending/products', [VendorController::class, 'pendignProduct'])->name('vendor.all.pending');
+	Route::get('/vendor/approved/products', [VendorController::class, 'approvedProduct'])->name('vendor.all.approved');
 	Route::get('/vendor/sell/request', [VendorController::class, 'vendorrequest'])->name('vendor.sell.request');
 	Route::get('/vendor/delete/{id}', [VendorController::class, 'destroy'])->name('vendor.delete');
 	Route::get('/vendor_active/{id}', [VendorController::class, 'active'])->name('vendor.active');
 	Route::get('/vendor_inactive/{id}', [VendorController::class, 'inactive'])->name('vendor.in_active');
 
 
-    Route::get('/withdraw-requests/approve/{id}', [VendorPaymentController::class, 'addPaymentForRequest'])->name('request.approve');
+	Route::get('/withdraw-requests/approve/{id}', [VendorPaymentController::class, 'addPaymentForRequest'])->name('request.approve');
 
-    //Vendor Payment All Routes
-    Route::resource('/payment', VendorPaymentController::class);
-    Route::post('/payment/update/{id}', [VendorPaymentController::class, 'update'])->name('payment.update');
+	//Vendor Payment All Routes
+	Route::resource('/payment', VendorPaymentController::class);
+	Route::post('/payment/update/{id}', [VendorPaymentController::class, 'update'])->name('payment.update');
 
 
 
 	// Admin Customer All Routes
 	Route::resource('/customer', UserController::class);
+
+
+
+	// Admin Affiliate All Routes
 	Route::resource('/affiliates', AffiliateController::class);
+	Route::get('/request/affiliate/products', [AffiliateController::class, 'requestAffiliateProducts'])->name('product.request.affiliates');
+
+	Route::patch('/approve/affiliate/product/{id}', [AffiliateController::class, 'approveAffiliateProduct'])->name('approve.affiliate.product');
+	Route::patch('/reject/affiliate/product/{id}', [AffiliateController::class, 'rejectAffiliateProduct'])->name('reject.affiliate.product');
+
+	Route::get('affiliate/product', [AffiliateController::class, 'AllaffiliateProduct'])->name('affiliate.products');
+	Route::get('vendor/affiliate/product', [AffiliateController::class, 'vendorAffiliateProduct'])->name('vendor.affiliate.products');
+	Route::get('admin/affiliate/product', [AffiliateController::class, 'adminAffiliateProduct'])->name('admin.affiliate.products');
+	Route::patch('product/{id}/affiliate-commission', [ProductController::class, 'updateAffiliateCommission'])
+		->name('product.affiliate.commission.update');
+
 	Route::get('affiliate/earning', [AffiliateController::class, 'earning'])->name('affiliate.earnings');
+
+	// affiliate product active and inactive
+	Route::get('/affiliate/product_active/{id}', [AffiliateController::class, 'active'])->name('product.active.affiliate');
+	Route::get('/affiliate/product_inactive/{id}', [AffiliateController::class, 'inactive'])->name('product.in_active_affiliate');
+
+	Route::get('/vendor/affiliate/product_on', [AffiliateController::class, 'allProductOn'])->name('product.affiliate.on');
+	Route::get('/vendor/affiliate/product_off', [AffiliateController::class, 'allProductOff'])->name('product.affiliate.off');
+
 
 	//Admin Campaign All Route
 	Route::resource('/campaing', CampaingController::class);
@@ -312,14 +351,14 @@ Route::middleware('adminAccess')->group(function(){
 	Route::post('/flash-deals/product-discount-edit', [CampaingController::class, 'product_discount_edit'])->name('flash_deals.product_discount_edit');
 
 
-                //------------------------- Group Product-------------------------
-    Route::post('/group_product/product_discount', [CampaingController::class, 'group_product_discount'])->name('group_product.product_discount');
-    Route::post('/group-product/product-discount-edit', [CampaingController::class, 'group_product_discount_edit'])->name('group_product.product_discount_edit');
-    //------------------------- End Group Product-------------------------
+	//------------------------- Group Product-------------------------
+	Route::post('/group_product/product_discount', [CampaingController::class, 'group_product_discount'])->name('group_product.product_discount');
+	Route::post('/group-product/product-discount-edit', [CampaingController::class, 'group_product_discount_edit'])->name('group_product.product_discount_edit');
+	//------------------------- End Group Product-------------------------
 
 
 
-    // <--------- Banner route start ------>
+	// <--------- Banner route start ------>
 	Route::resource('/banner', BannerController::class);
 	Route::post('/banner/update/{id}', [BannerController::class, 'update'])->name('banner.update');
 	Route::get('/banner/delete/{id}', [BannerController::class, 'destroy'])->name('banner.delete');
@@ -335,7 +374,7 @@ Route::middleware('adminAccess')->group(function(){
 
 	// <--------- Page route start ------>
 	Route::resource('/page', PageController::class);
-    Route::post('/page/update/{id}', [PageController::class, 'update'])->name('page.update');
+	Route::post('/page/update/{id}', [PageController::class, 'update'])->name('page.update');
 	Route::get('/page/delete/{id}', [PageController::class, 'destroy'])->name('page.delete');
 	Route::get('/page_active/{id}', [PageController::class, 'active'])->name('page.active');
 	Route::get('/page_inactive/{id}', [PageController::class, 'inactive'])->name('page.in_active');
@@ -374,16 +413,19 @@ Route::middleware('adminAccess')->group(function(){
 	Route::post('/payment-methods/update', [PaymentMethodController::class, 'update'])->name('paymentMethod.update');
 
 
-	Route::prefix('orders')->group(function(){
+	Route::prefix('orders')->group(function () {
 		// Orders All Route
 
 
 		Route::get('/all_orders', [OrderController::class, 'index'])->name('all_orders.index');
+		Route::get('/vendor_orders', [OrderController::class, 'vendorOrders'])->name('vendor_orders.index');
 		Route::get('/wholesell', [OrderController::class, 'allWholesellOrders'])->name('wholesell.orders');
 		Route::get('/all_orders/{id}/show', [OrderController::class, 'show'])->name('all_orders.show');
-		Route::get('/vendor_orders/{id}/show', [OrderController::class, 'vendorOrderShow'])->name('admin.all_orders.show');
+		Route::get('/vendor_orders/{id}/show', [OrderController::class, 'vendorOrdershow'])->name('admin.vendor.orders.show');
+
 		Route::get('/orders_delete/{id}', [OrderController::class, 'destroy'])->name('delete.orders');
 		Route::post('/orders_update/{id}', [OrderController::class, 'update'])->name('admin.orders.update');
+
 		Route::get('/invoice/{id}', [OrderController::class, 'invoice_download'])->name('invoice.download');
 	});
 
@@ -395,6 +437,11 @@ Route::middleware('adminAccess')->group(function(){
 	// delivery status
 	Route::post('/orders/update_delivery_status', [OrderController::class, 'update_delivery_status'])->name('orders.update_delivery_status');
 
+	// payment status
+	Route::post('/orders/update_vendor_payment_status', [OrderController::class, 'updateVendorPaymentStatus'])->name('orders.update_vendor_payment_status');
+	// delivery status
+	Route::post('/orders/update_vendor_delivery_status', [OrderController::class, 'updateVendorDeliveryStatus'])->name('orders.update_vendor_delivery_status');
+
 
 
 	/*================  Admin Address Updated  ==================*/
@@ -402,8 +449,8 @@ Route::middleware('adminAccess')->group(function(){
 	/*================  Admin User Updated  ==================*/
 	Route::post('/user/update/{id}', [OrderController::class, 'admin_user_update'])->name('admin.user.update');
 	/*================  Ajax  ==================*/
-	Route::get('/division-district/ajax/{division_id}',[OrderController::class,'getdivision'])->name('division.ajax');
-	Route::get('/district-upazilla/ajax/{district_id}',[OrderController::class,'getupazilla'])->name('upazilla.ajax');
+	Route::get('/division-district/ajax/{division_id}', [OrderController::class, 'getdivision'])->name('division.ajax');
+	Route::get('/district-upazilla/ajax/{district_id}', [OrderController::class, 'getupazilla'])->name('upazilla.ajax');
 	/*================  Ajax  ==================*/
 
 
@@ -446,7 +493,7 @@ Route::middleware('adminAccess')->group(function(){
 	Route::get('/subscribers/destroy/{id}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
 	// Admin Accounting All Routes
-	Route::prefix('accounts')->group(function(){
+	Route::prefix('accounts')->group(function () {
 		Route::get('/account-heads', [AccountsController::class, 'heads'])->name('accounts.heads');
 		Route::get('/account-heads/create', [AccountsController::class, 'create_head'])->name('accounts.heads.create');
 		Route::post('/account-heads/store', [AccountsController::class, 'store_head'])->name('accounts.heads.store');
@@ -458,11 +505,11 @@ Route::middleware('adminAccess')->group(function(){
 		Route::get('/account-ledgers/delete/{id}', [AccountsController::class, 'ledger_destroy'])->name('accounts.ledgers.delete');
 	});
 
-    Route::post('/pos/customer/insert',[PosController::class,'customerInsert'])->name('customer.ajax.store.pos');
+	Route::post('/pos/customer/insert', [PosController::class, 'customerInsert'])->name('customer.ajax.store.pos');
 
 
-     //Admin POS All Routes
-	Route::prefix('pos')->group(function(){
+	//Admin POS All Routes
+	Route::prefix('pos')->group(function () {
 		Route::get('/', [PosController::class, 'index'])->name('pos.index');
 		Route::get('/product', [PosController::class, 'getProduct'])->name('pos.getProduct');
 		Route::get('/product/variants', [PosController::class, 'getProductVariations'])->name('pos.getProductVariations');
@@ -471,12 +518,11 @@ Route::middleware('adminAccess')->group(function(){
 		Route::POST('/store', [PosController::class, 'store'])->name('pos.store');
 	});
 
-    //user-message routes
-    Route::get('/messages',[UserMessageController::class,'list'])->name('messages.list');
+	//user-message routes
+	Route::get('/messages', [UserMessageController::class, 'list'])->name('messages.list');
 
-    //return request update
-    Route::post('return-request/update', [ReturnRequestController::class, 'update'])->name('return-request.update');
-
+	//return request update
+	Route::post('return-request/update', [ReturnRequestController::class, 'update'])->name('return-request.update');
 });
 
 //*==========================End Only Admin Accessible All Routes  ==========================*/
@@ -487,4 +533,4 @@ Route::middleware('adminAccess')->group(function(){
 
 /*========================== End Admin Route  ==========================*/
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -9,30 +9,30 @@
     @endphp
 
     <section class="content-main">
-       <div class="row">
+        <div class="row">
             <div class="col-md-10 offset-1">
                 <div class="content-header d-flex justify-content-between align-items-center">
-    <h2 class="content-title">Add Product</h2>
-    <div>
+                    <h2 class="content-title">Add Product</h2>
+                    <div>
 
-        <!-- Seller Instruction Button -->
-<!-- Button -->
-<button type="button" class="btn btn-warning px-3"
-        data-bs-toggle="modal"
-        data-bs-target="#noticeModalAddProduct">
-    <i class="fa fa-info-circle"></i> Seller Instruction for Product Add
-</button>
-
+                        <!-- Seller Instruction Button -->
+                        <!-- Button -->
+                        <button type="button" class="btn btn-warning px-3" data-bs-toggle="modal"
+                            data-bs-target="#noticeModalAddProduct">
+                            <i class="fa fa-info-circle"></i> Seller Instruction for Product Add
+                        </button>
 
 
-        <a href="{{ route('product.all') }}" class="btn btn-primary px-3" title="Product List">
-            <i class="fa fa-list" style="margin-top: 3px"></i>
-        </a>
-    </div>
-</div>
+
+                        <a href="{{ route('product.all') }}" class="btn btn-primary px-3" title="Product List">
+                            <i class="fa fa-list" style="margin-top: 3px"></i>
+                        </a>
+                    </div>
+                </div>
 
             </div>
-        </div>
+
+        </div>
         <div class="row">
             {{-- @if ($errors->any())
 		    <div class="alert alert-danger">
@@ -166,7 +166,7 @@
                                         </div>
                                     @endif
                                 @endif
-
+{{-- 
                                 <div class="col-md-6 mb-4" id="supplier_field">
                                     <label for="supplier_id" class="col-form-label"
                                         style="font-weight: bold;">Supplier:</label>
@@ -182,7 +182,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-6 mb-4 " id="unit_field">
                                     <label for="unit_id" class="col-form-label" style="font-weight: bold;">Unit
                                         Type:</label>
@@ -280,11 +280,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12 mb-4">
-                                    <div class="customer_choice_options" id="customer_choice_options">
-
-                                    </div>
-                                </div>
+                           <div class="col-md-12 mb-4">
+                            <label class="col-form-label" style="font-weight: bold;">Attribute Values:</label>
+                            <div class="customer_choice_options" id="customer_choice_options">
+                                <!-- AJAX থেকে predefined values + custom input এখানে আসবে -->
+                            </div>
+                        </div>
                                 <!-- Variation End -->
                             </div>
                         </div>
@@ -292,14 +293,14 @@
                     <!-- card //-->
 
                     {{-- Wholesale product toggle (styled switch) --}}
-                    <div class="form-check form-switch d-flex align-items-center ps-0 ms-5 my-3">
+                    {{-- <div class="form-check form-switch d-flex align-items-center ps-0 ms-5 my-3">
                         <input class="form-check-input me-2" type="checkbox" id="is_wholesell" name="is_wholesell"
                             value="1" style="width: 2.5em; height: 1.4em; cursor: pointer;">
                         <label class="form-check-label fw-bold fs-5 text-dark" for="is_wholesell"
                             style="cursor: pointer;">
                             Is Wholesale Product?
                         </label>
-                    </div>
+                    </div> --}}
 
                     <div class="card">
                         <div class="card-header" style="background-color: #fff !important;">
@@ -416,7 +417,7 @@
                         </div>
                     </div>
                     <!-- card //-->
-                    @if (Auth::guard('admin')->user()->role == 2)
+                    {{-- @if (Auth::guard('admin')->user()->role == 2)
                         <div class="card">
                             <div class="card-header" style="background-color: #fff !important;">
                                 <h3 style="color: #4f5d77 !important">Points</h3>
@@ -434,7 +435,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    @endif --}}
 
                     <div class="card">
                         <div class="card-header" style="background-color: #fff !important;">
@@ -450,13 +451,13 @@
                                         placeholder="Write Short Description English">
                                         </textarea>
                                 </div>
-                                <div class="col-md-12 mb-4">
+                                {{-- <div class="col-md-12 mb-4">
                                     <label for="long_descp_bn" class="col-form-label"
                                         style="font-weight: bold;">Description (Bn):</label>
                                     <textarea name="short_description_bn" id="short_description_bn" class="form-control d-none"
                                         placeholder="Write Short Description Bangla">
                                         </textarea>
-                                </div>
+                                </div> --}}
                                 <!-- Description End -->
                             </div>
                         </div>
@@ -474,12 +475,12 @@
                                     <textarea name="description_en" id="description_en" rows="2" cols="2" class="form-control"
                                         placeholder="Write Long Description English">{{ old('description_en') }}</textarea>
                                 </div>
-                                <div class="col-md-12 mb-4">
+                                {{-- <div class="col-md-12 mb-4">
                                     <label for="long_descp_bn" class="col-form-label"
                                         style="font-weight: bold;">Description (Bn):</label>
                                     <textarea name="description_bn" id="description_bn" rows="2" cols="2" class="form-control"
                                         placeholder="Write Long Description Bangla">{{ old('description_bn') }}</textarea>
-                                </div>
+                                </div> --}}
                                 <!-- Description End -->
                             </div>
                         </div>
@@ -494,6 +495,7 @@
                             <!-- Porduct Image Start -->
                             <div class="mb-4">
                                 <label for="product_thumbnail" class="col-form-label" style="font-weight: bold;">Product
+                                    Thumbnail
                                     Image: <span class="text-danger">*</span></label>
                                 <input required type="file" name="product_thumbnail" class="form-control"
                                     id="product_thumbnail" onChange="mainThamUrl(this)">
@@ -512,52 +514,54 @@
                             </div>
                             <!-- Porduct Image End -->
                             <!-- Checkbox Start -->
-                            <div class="mb-4 ">
-                                <div class="row">
-                                    <div class="custom-control custom-switch d-none">
-                                        <input type="checkbox" class="form-check-input me-2 cursor" name="is_deals"
-                                            id="is_deals" value="1">
-                                        <label class="form-check-label cursor" for="is_deals">Today's Deal</label>
+                            @if (Auth::guard('admin')->user()->role == 1)
+                                <div class="mb-4 ">
+                                    <div class="row">
+                                        <div class="custom-control custom-switch d-none">
+                                            <input type="checkbox" class="form-check-input me-2 cursor" name="is_deals"
+                                                id="is_deals" value="1">
+                                            <label class="form-check-label cursor" for="is_deals">Today's Deal</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="custom-control custom-switch d-none">
-                                        <input type="checkbox" class="form-check-input me-2 cursor" name="is_digital"
-                                            id="is_digital" value="1">
-                                        <label class="form-check-label cursor" for="is_digital">Digital</label>
+                                    <div class="row">
+                                        <div class="custom-control custom-switch d-none">
+                                            <input type="checkbox" class="form-check-input me-2 cursor" name="is_digital"
+                                                id="is_digital" value="1">
+                                            <label class="form-check-label cursor" for="is_digital">Digital</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="custom-control custom-switch ">
-                                        <input type="checkbox" class="form-check-input me-2 cursor" name="is_featured"
-                                            id="is_featured" value="1">
-                                        <label class="form-check-label cursor" for="is_featured">Featured</label>
+                                    <div class="row">
+                                        <div class="custom-control custom-switch ">
+                                            <input type="checkbox" class="form-check-input me-2 cursor"
+                                                name="is_featured" id="is_featured" value="1">
+                                            <label class="form-check-label cursor" for="is_featured">Featured</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="custom-control custom-switch ">
-                                        <input type="checkbox" class="form-check-input me-2 cursor" name="is_replaceable"
-                                            id="is_replaceable" value="1">
-                                        <label class="form-check-label cursor" for="is_replaceable">Replaceable</label>
+                                    <div class="row">
+                                        <div class="custom-control custom-switch ">
+                                            <input type="checkbox" class="form-check-input me-2 cursor"
+                                                name="is_replaceable" id="is_replaceable" value="1">
+                                            <label class="form-check-label cursor"
+                                                for="is_replaceable">Replaceable</label>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="form-check-input me-2 cursor" name="is_affiliate"
-                                            id="is_affiliate" value="1">
-                                        <label class="form-check-label cursor" for="is_affiliate">Affiliate</label>
+                                    <div class="row">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="form-check-input me-2 cursor"
+                                                name="is_affiliate" id="is_affiliate" value="1">
+                                            <label class="form-check-label cursor" for="is_affiliate">Affiliate</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="form-check-input me-2 cursor" name="status"
+                                                id="status" checked value="1">
+                                            <label class="form-check-label cursor" for="status">Status</label>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="form-check-input me-2 cursor" name="status"
-                                            id="status" checked value="1">
-                                        <label class="form-check-label cursor" for="status">Status</label>
-                                    </div>
-                                </div>
-                            </div>
+                            @endif
                             <!-- Checkbox End -->
                         </div>
                     </div>
@@ -661,22 +665,22 @@
     </div>
 
     <!-- Modal -->
-<div class="modal fade" id="noticeModalAddProduct" tabindex="-1"
-     aria-labelledby="noticeModalAddProductLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-body text-center">
-                <img src="{{ asset('uploads/seller_instrcution.jpg') }}" alt="Notice Image"
-                     class="img-fluid mb-3 rounded">
+    <div class="modal fade" id="noticeModalAddProduct" tabindex="-1" aria-labelledby="noticeModalAddProductLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img src="{{ asset('uploads/seller_instrcution.jpg') }}" alt="Notice Image"
+                        class="img-fluid mb-3 rounded">
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                        data-bs-dismiss="modal">Close</button>
-            </div>
+
         </div>
-    </div>
-</div>
+    </div>
 
 
     <!--  Brand Modal -->
@@ -736,8 +740,7 @@
 
 
     @push('footer-script')
-
-    <!-- CKEditor 4 CDN -->
+        <!-- CKEditor 4 CDN -->
         <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
         <script>
             if (document.getElementById('short_description_en')) {
@@ -760,7 +763,6 @@
                     height: 200
                 });
             }
-
         </script>
 
         {{-- show wholesell products js --}}
@@ -1178,6 +1180,8 @@
         });
     });
 </script> --}}
+
+        <script></script>
         <script>
             $(document).ready(function() {
                 // Variable to track whether any input field is being edited

@@ -1,66 +1,38 @@
 @extends('FrontEnd.master')
 
-@section('title', 'Reset Password')
+@section('title', 'Verify OTP')
 
 @section('content')
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg border-0">
-                <div class="card-header text-center bg-primary text-white">
-                    <h4>{{ __('Reset Password') }}</h4>
-                </div>
-                <div class="card-body p-4">
+<main class="main pages">
+    <section class="otp-section" style="padding:100px 0; background:#f9fafb; min-height:90vh; display:flex; align-items:center;">
+        <div class="container">
+            <div class="otp-card" style="max-width:420px; margin:0 auto; background:#fff; border-radius:16px; box-shadow:0 8px 32px rgba(31,38,135,0.15);">
+                <div class="card-body text-center" style="padding:40px 36px;">
+                    <h2 class="otp-title" style="font-size:24px; font-weight:700; color:#222; margin-bottom:20px;">Verify OTP</h2>
+                    <p class="otp-desc" style="color:#6b7280; margin-bottom:25px;">Enter the OTP sent to your mobile number.</p>
 
-                    <!-- Validation Errors -->
-                    @if ($errors->any())
-                        <div class="alert alert-danger mb-4">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <form method="POST" action="{{ route('password.update') }}">
+                    <form method="POST" action="{{ route('reset.password.post') }}">
                         @csrf
-
-                        <!-- Password Reset Token -->
-                        <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-                        <!-- Email Address -->
                         <div class="mb-3">
-                            <label for="email" class="form-label">{{ __('Email Address') }}</label>
-                            <input id="email" type="email" name="email" class="form-control"
-                                   value="{{ old('email', $request->email) }}" required autofocus>
+                            <input type="text" name="otp" placeholder="Enter OTP *" value="{{ old('otp') }}" required autofocus class="form-control full" style="width:100%; height:50px; border-radius:10px; padding:12px 14px; border:1px solid #dce1eb; font-size:15px;">
+                            @error('otp')
+                                <div class="text-danger fw-bold">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <!-- Password -->
                         <div class="mb-3">
-                            <label for="password" class="form-label">{{ __('New Password') }}</label>
-                            <input id="password" type="password" name="password" class="form-control" required>
+                            <input type="password" name="password" placeholder="New Password *" required class="form-control full">
                         </div>
 
-                        <!-- Confirm Password -->
                         <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
-                            <input id="password_confirmation" type="password" name="password_confirmation" class="form-control" required>
+                            <input type="password" name="password_confirmation" placeholder="Confirm Password *" required class="form-control full">
                         </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Reset Password') }}
-                            </button>
-                        </div>
+                        <button type="submit" class="btn btn-green-wide mt-2">Reset Password</button>
                     </form>
-                </div>
-
-                <div class="card-footer text-center">
-                    <a href="{{ route('login') }}">{{ __('Back to Login') }}</a>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 @endsection

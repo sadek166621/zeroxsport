@@ -148,25 +148,25 @@
             </li>
             {{-- comission structure end --}}
 
-              {{-- Seller Penalty start --}}
-             @if (Auth::guard('admin')->user()->role == '1')
-            <li
-                class="menu-item has-submenu
+            {{-- Seller Penalty start --}}
+            @if (Auth::guard('admin')->user()->role == '1')
+                <li
+                    class="menu-item has-submenu
                 {{ $route == 'seller.penalty.index' ? 'active' : '' }}
                 {{ $route == 'seller.penalty.create' ? 'active' : '' }}
             ">
-                <a class="menu-link" href="#">
-                    <i class="fa fa-sliders fontawesome_icon_custom"></i>
-                    <span class="text">Seller Penalty</span>
-                </a>
-                <div class="submenu">
-                    <a class="{{ $route == 'seller.penalty.index' ? 'active' : '' }}"
-                        href="{{ route('seller.penalty.index') }}">Seller Penalty List</a>
-                    <a class="{{ $route == 'seller.penalty.create' ? 'active' : '' }}"
-                        href="{{ route('seller.penalty.create') }}">Seller Penalty Create</a>
+                    <a class="menu-link" href="#">
+                        <i class="fa fa-sliders fontawesome_icon_custom"></i>
+                        <span class="text">Seller Penalty</span>
+                    </a>
+                    <div class="submenu">
+                        <a class="{{ $route == 'seller.penalty.index' ? 'active' : '' }}"
+                            href="{{ route('seller.penalty.index') }}">Seller Penalty List</a>
+                        <a class="{{ $route == 'seller.penalty.create' ? 'active' : '' }}"
+                            href="{{ route('seller.penalty.create') }}">Seller Penalty Create</a>
 
-                </div>
-            </li>
+                    </div>
+                </li>
             @endif
             {{-- Seller Penalty end --}}
 
@@ -183,9 +183,9 @@
                             <span class="text">Vendors</span>
                         </a>
                         <div class="submenu">
-                             <a class="{{ $route == 'vendor.all.pending' ? 'active' : '' }}"
+                            <a class="{{ $route == 'vendor.all.pending' ? 'active' : '' }}"
                                 href="{{ route('vendor.all.pending') }}">Pending Prodcuts</a>
-                             <a class="{{ $route == 'vendor.all.approved' ? 'active' : '' }}"
+                            <a class="{{ $route == 'vendor.all.approved' ? 'active' : '' }}"
                                 href="{{ route('vendor.all.approved') }}">Approved Prodcuts</a>
                             <a class="{{ $route == 'vendor.request' ? 'active' : '' }}"
                                 href="{{ route('vendor.sell.request') }}">Vendor Request</a>
@@ -305,14 +305,19 @@
                         in_array('17', json_decode(Auth::guard('admin')->user()->staff->role->permissions)))
                     <a class="menu-link" href="#">
                         <i class="fas fa-list fontawesome_icon_custom"></i>
-                        <span class="text">Sales</span>
+                        <span class="text">Orders</span>
                     </a>
                 @endif
                 <div class="submenu">
                     @if (Auth::guard('admin')->user()->role == '1' ||
                             in_array('17', json_decode(Auth::guard('admin')->user()->staff->role->permissions)))
                         <a class="{{ $route == 'all_orders.index' ? 'active' : '' }}"
-                            href="{{ route('all_orders.index') }}">All Orders</a>
+                            href="{{ route('all_orders.index') }}">Admin Orders</a>
+                    @endif
+                    @if (Auth::guard('admin')->user()->role == '1' ||
+                            in_array('17', json_decode(Auth::guard('admin')->user()->staff->role->permissions)))
+                        <a class="{{ $route == 'vendor_orders.index' ? 'active' : '' }}"
+                            href="{{ route('vendor_orders.index') }}">Vendor Orders</a>
                     @endif
 
 
@@ -393,6 +398,10 @@
                         <span class="text">Report</span>
                     </a>
                     <div class="submenu vendor-submenu">
+                        <a class="{{ $route == 'report.category.sales' ? 'active' : '' }}"
+                        href="{{ route('report.category.sales') }}">
+                        Category-wise Sales
+                    </a>
                         <a class="{{ $route == 'stock_report.index' ? 'active' : '' }}"
                             href="{{ route('stock_report.index') }}">Product Stock</a>
                     </div>
@@ -532,9 +541,25 @@
                             href="{{ route('affiliates.index') }}">
                             Affiliate List
                         </a>
+                        <a class="{{ $route == 'product.request.affiliates' ? 'active' : '' }}"
+                            href="{{ route('product.request.affiliates') }}">
+                            Affiliate Product Requests
+                        </a>
                         <a class="{{ $route == 'affiliate.earnings' ? 'active' : '' }}"
                             href="{{ route('affiliate.earnings') }}">
                             Earnings Report
+                        </a>
+                        <a class="{{ $route == 'affiliate.products' ? 'active' : '' }}"
+                            href="{{ route('affiliate.products') }}">
+                            All Affiliate Products
+                        </a>
+                        <a class="{{ $route == 'admin.affiliate.products' ? 'active' : '' }}"
+                            href="{{ route('admin.affiliate.products') }}">
+                            Admin Affiliate Products
+                        </a>
+                        <a class="{{ $route == 'vendor.affiliate.products' ? 'active' : '' }}"
+                            href="{{ route('vendor.affiliate.products') }}">
+                            Vendor Affiliate Products
                         </a>
                     </div>
                 </li>

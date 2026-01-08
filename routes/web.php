@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\UserMiddleware;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\UserController;
+use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\Frontend\BkashController;
 use App\Http\Controllers\Frontend\NagadController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -16,17 +17,17 @@ use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\LanguageController;
+
+
+
 use App\Http\Controllers\Backend\SubscriberController;
-
-
-
 use App\Http\Controllers\Frontend\AffiliateController;
 use App\Http\Controllers\Frontend\AttributeController;
 use App\Http\Controllers\Frontend\UserMessageController;
+use App\Http\Controllers\Frontend\WholesellerController;
+
 use App\Http\Controllers\Frontend\ReturnRequestController;
 use App\Http\Controllers\Frontend\PublicSslCommerzPaymentController;
-
-use App\Http\Controllers\Frontend\WholesellerController;
 
 
 /*
@@ -41,14 +42,36 @@ use App\Http\Controllers\Frontend\WholesellerController;
 */
 
 /*================== Frontend All Route ==============*/
+// routes/web.php
 
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/home2', [FrontendController::class, 'index2'])->name('home2');
 Route::get('/seller/apply', [FrontendController::class, 'sellerApply'])->name('seller.apply');
 // Route::get('/shop-grid', [FrontendController::class, 'shopgrid'])->name('shop.grid');
 
+Route::get('forget-password', [ForgetPasswordController::class, 'forgetPassword'])
+    ->name('forgot.password');
+
+Route::post('forget-password', [ForgetPasswordController::class, 'forgetPasswordPost'])
+    ->name('send.otp');
+
+Route::get('verify_otp_and_reset_password', [ForgetPasswordController::class, 'verifyOtp'])
+    ->name('verify.otp.form');
+
+Route::post('verify_otp_and_reset_password', [ForgetPasswordController::class, 'resetPasswordPost'])
+    ->name('otp.verify.reset.password');
+
+    
+
+
 Route::middleware([UserMiddleware::class])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/orders', [UserController::class, 'ordersPage'])->name('dashboard.orders');
+    Route::get('/dashboard/profile', [UserController::class, 'profilePage'])->name('dashboard.profile');
+    Route::get('/dashboard/password', [UserController::class, 'passwordPage'])->name('dashboard.password');
+
+    Route::get('/logout', [UserController::class, 'logout'])->name('logout');
+
     Route::get('/get-returning-product/{id}', [UserController::class, 'getReturningProduct'])->name('get-returning-product');
     Route::get('/product/review/{id}', [UserController::class, 'ProductReview'])->name('product.review.create');
     Route::post('/product/review/{id}', [UserController::class, 'ProductReviewStore'])->name('product.review.store');
@@ -146,6 +169,24 @@ Route::get('/register/affiliate', [AffiliateController::class, 'registerAffiliat
 Route::post('/register/affiliate/store', [AffiliateController::class, 'registerAffiliateStore'])->name('register.affiliate.store');
 Route::get('/affiliate/login', [AffiliateController::class, 'loginAffiliate'])->name('login.affiliate');
 Route::post('/affiliate/login/store', [AffiliateController::class, 'loginAffiliateSubmit'])->name('login.affiliate.submit');
+
+
+// Affiliate Forget Password (show form)
+Route::get('affiliate/forget-password', [ForgetPasswordController::class, 'AffiliateforgetPassword'])
+    ->name('affiliate.forgot.password');
+
+// Affiliate Forget Password (send OTP)
+Route::post('affiliate/forget-password', [ForgetPasswordController::class, 'AffiliateforgetPasswordPost'])
+    ->name('affiliate.send.otp');
+
+// Affiliate Verify OTP Form
+Route::get('affiliate/verify_otp_and_reset_password', [ForgetPasswordController::class, 'AffiliateverifyOtp'])
+    ->name('affiliate.verify.otp.form');
+
+// Affiliate Reset Password (after OTP)
+Route::post('affiliate/verify_otp_and_reset_password', [ForgetPasswordController::class, 'AffiliateresetPasswordPost'])
+    ->name('affiliate.otp.verify.reset.password');
+
 
 Route::prefix('affiliate')->name('affiliate.')->middleware('auth:affiliate')->group(function () {
     Route::get('/dashboard', [AffiliateController::class, 'dashboard'])->name('dashboard');
@@ -272,9 +313,9 @@ Route::POST('/subscribers/store', [SubscriberController::class,'store'])->name('
 // Compare
 Route::post('/become-a-seller', [FrontendController::class, 'becomeaseller'])->name('become.a.seller');
 
-Route::get('/compare', 'CompareController@index')->name('compare');
-Route::get('/compare/reset', 'CompareController@reset')->name('compare.reset');
-Route::post('/compare/addToCompare', 'CompareController@addToCompare')->name('compare.addToCompare');
+// Route::get('/compare', 'CompareController@index')->name('compare');
+// Route::get('/compare/reset', 'CompareController@reset')->name('compare.reset');
+// Route::post('/compare/addToCompare', 'CompareController@addToCompare')->name('compare.addToCompare');
 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/creat-contact', [ContactController::class, 'newcontact'])->name('new-contact');
@@ -301,6 +342,10 @@ Route::get('/test', function () {
 
 // });
 
+
+Route::get('/seller/terms-condition', function () {
+    return view('FrontEnd.seller-application.terms_condition');
+})->name('seller.terms_condition');
 
 
 require __DIR__ . '/auth.php';

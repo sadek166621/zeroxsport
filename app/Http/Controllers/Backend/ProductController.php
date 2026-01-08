@@ -79,6 +79,7 @@ class ProductController extends Controller
     /*=================== Start StoreProduct Methoed ===================*/
     public function StoreProduct(Request $request)
     {
+        // dd($request->all());
         //         return $request;
         $request->validate([
             'name_en'               => 'required|max:150',
@@ -116,9 +117,11 @@ class ProductController extends Controller
             $request->regular_price = 0;
         }
 
-        if ($request->vendor_id == null || $request->vendor_id == "") {
-            $request->vendor_id = 0;
-        }
+        // if ($request->vendor_id == null || $request->vendor_id == "") {
+        //     $request->vendor_id = 0;
+        // }
+
+
         if ($request->brand_id == null || $request->brand_id == "") {
             $request->brand_id = 0;
         }
@@ -149,12 +152,12 @@ class ProductController extends Controller
             // ADMIN → auto verified
             if (Auth::guard('admin')->user()->role == 1) {
                 $authStatus = 1;
-                $status=1;
+                $status = 1;
             }
             // VENDOR → pending
             if (Auth::guard('admin')->user()->role == 2) {
                 $authStatus = 0;
-                $status=0;
+                $status = 0;
             }
         }
 
@@ -226,9 +229,12 @@ class ProductController extends Controller
                 $item['attribute_id'] = $attribute;
                 $data = array();
 
-                foreach ($request[$atr] as $key => $value) {
-                    array_push($data, $value);
+                if ($request->has($atr) && is_array($request[$atr])) {
+                    foreach ($request[$atr] as $key => $value) {
+                        $data[] = $value;
+                    }
                 }
+
 
                 $item['values'] = $data;
                 array_push($attribute_values, $item);
@@ -789,34 +795,11 @@ class ProductController extends Controller
             'authenticity_status' => 'required|in:0,1,2'
         ]);
 
-        DB::transaction(function () use ($request, $product) {
+        $product->update([
+            'authenticity_status' => $request->authenticity_status,
+            'status' => $request->authenticity_status == 1 ? 1 : 0
+        ]);
 
-            $product->update([
-                'authenticity_status' => $request->authenticity_status,
-                'status' => $request->status
-            ]);
-
-            if ($request->authenticity_status == 2) {
-
-                $orderIds = DB::table('order_details')
-                    ->where('product_id', $product->id)
-                    ->pluck('order_id')
-                    ->unique();
-
-                Order::whereIn('id', $orderIds)
-                    ->whereIn('deliver_status', [
-                        'pending',
-                        'confirmed',
-                        'shipped',
-                        'picked up',
-                        'on the way'
-                    ])
-                    ->update([
-                        'deliver_status' => 'cancelled',
-                        'cancel_reason'  => 'Product marked as fake by admin'
-                    ]);
-            }
-        });
 
         return back()->with('success', 'Product authenticity updated successfully.');
     }
@@ -1003,31 +986,64 @@ class ProductController extends Controller
     }
 
 
-public function lowstock()
-{
-    $user = Auth::guard('admin')->user();
-    $vendor = Vendor::where('user_id', $user->id)->first();
+    public function lowstock()
+    {
+        $user = Auth::guard('admin')->user();
+        $vendor = Vendor::where('user_id', $user->id)->first();
 
-    if ($user->role == '2' && $vendor) {
-        $vendorLowStockProducts = DB::table('products as s')
-            ->where('s.stock_qty', '<=', 5)
-            ->where('s.vendor_id', $vendor->id) // শুধু ওই vendor-এর products
-            ->get();
+        if ($user->role == '2' && $vendor) {
+            $vendorLowStockProducts = DB::table('products as s')
+                ->where('s.stock_qty', '<=', 5)
+                ->where('s.vendor_id', $vendor->id) // শুধু ওই vendor-এর products
+                ->get();
 
-        return view('backend.product.lowstock', compact('vendorLowStockProducts'));
+            return view('backend.product.lowstock', compact('vendorLowStockProducts'));
+        }
+
+        // Admin role হলে vendor_id null products দেখাবে
+        if ($user->role == '1') {
+            $adminLowStockProducts = DB::table('products as s')
+                ->where('s.stock_qty', '<=', 5)
+                ->whereNull('s.vendor_id')
+                ->get();
+
+            return view('backend.product.lowstock', compact('adminLowStockProducts'));
+        }
+
+        // অন্য কোনো role থাকলে empty view
+        return view('backend.product.lowstock');
     }
 
-    // Admin role হলে vendor_id null products দেখাবে
-    if ($user->role == '1') {
-        $adminLowStockProducts = DB::table('products as s')
-            ->where('s.stock_qty', '<=', 5)
-            ->whereNull('s.vendor_id')
-            ->get();
 
-        return view('backend.product.lowstock', compact('adminLowStockProducts'));
+
+    public function updateAffiliateCommission(Request $request, $id)
+    {
+        //  dd($request->all());
+        $request->validate([
+            'affiliate_commission' => 'nullable|numeric|min:0',
+            'affiliate_commission_type' => 'nullable|in:1,2',
+        ]);
+
+        $product = Product::findOrFail($id);
+
+
+        if ($request->filled('affiliate_commission')) {
+            $product->affiliate_commission = $request->affiliate_commission;
+            $product->affiliate_commission_type = $request->affiliate_commission_type ?? 1;
+        }
+
+        $product->save();
+
+        return redirect()->back()->with('success', 'Affiliate commission updated successfully!');
     }
 
-    // অন্য কোনো role থাকলে empty view
-    return view('backend.product.lowstock');
-}
+       public function requestForAffiliate($id)
+    {
+        $product = Product::find($id);
+        $product->affiliate_request = 1;
+        $product->save();
+
+        Session::flash('success', 'Affiliate request sent successfully');
+        return redirect()->back();
+    }
 }

@@ -131,7 +131,7 @@
                     <img class="forgot-illustration" src="{{ asset('FrontEnd/img/forgot_password.svg') }}" alt="Forgot password">
 
                     <h2 class="forgot-title">Forgot your password?</h2>
-                    <p class="forgot-desc">Enter the email address associated with your account and we'll send you a link to reset your password.</p>
+                    <p class="forgot-desc">Enter the  phone number associated with your account and we'll send you a otp in your phone to reset your password.</p>
 
                     @if (session('status'))
                         <div class="alert alert-success alert-custom">{{ session('status') }}</div>
@@ -147,14 +147,14 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('password.email') }}" class="text-start">
+                    <form method="POST" action="{{ route('send.otp') }}" class="text-start">
                         @csrf
                         <div class="mb-3">
-                            <label for="email" class="form-label fw-semibold">Email address</label>
-                            <input id="email" name="email" type="email" value="{{ old('email') }}" required autofocus placeholder="Enter your email" class="form-control full" />
+                            <label for="phone" class="form-label fw-semibold">Phone Number</label>
+                            <input id="phone" name="phone" type="phone" value="{{ old('phone') }}" required autofocus placeholder="Enter your Phone Number" class="form-control full" />
                         </div>
 
-                        <button type="submit" class="btn btn-green-wide mt-2">Send reset link</button>
+                        <button type="submit" class="btn btn-green-wide mt-2">Send OTP</button>
                     </form>
 
                     <div class="helper-links mt-4">

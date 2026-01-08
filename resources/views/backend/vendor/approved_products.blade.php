@@ -32,7 +32,7 @@
                             @foreach ($products as $key => $item)
                                 <tr>
                                     <td> {{ $key + 1 }} </td>
-                                    <td> {{ $item->vendor->user->name }} </td>
+                                    <td> {{ $item->vendor->user->name ?? 'N/A' }} </td>
                                     <td width="15%">
                                         <a href="#" class="itemside">
                                             <div class="left">
@@ -46,7 +46,7 @@
 
                                     </td>
                                     <td> {{ $item->name_bn ?? 'NULL' }} </td>
-                                    <td> {{ $item->category->name_en }} </td>
+                                    <td> {{ $item->category->name_en ?? 'N/A' }} </td>
                                     <td> {{ $item->regular_price ?? 'NULL' }} </td>
                                     <td>
                                         @if ($item->is_varient)

@@ -6,7 +6,7 @@
 
     <style>
         .register-container {
-            background: linear-gradient(180deg, #f3f7fb 0%, #ffffff 60%) !important;
+            background: linear-gradient(135deg, #f0faf8 0%, #ffffff 60%) !important;
             padding: 40px 20px;
             min-height: 100vh;
             display: flex;
@@ -20,8 +20,8 @@
             max-width: 1100px;
             margin: 0 auto;
             background-color: white !important;
-            box-shadow: 0 12px 30px rgba(13, 38, 59, 0.08);
-            border-radius: 18px;
+            box-shadow: 0 12px 40px rgba(2, 97, 66, 0.08);
+            border-radius: 20px;
             overflow: hidden;
         }
 
@@ -31,8 +31,20 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(135deg, rgba(19, 178, 98, 0.06), rgba(74, 144, 226, 0.04)) !important;
+            background: linear-gradient(135deg, rgba(2, 97, 66, 0.08), rgba(1, 69, 42, 0.05)) !important;
             padding: 40px 30px;
+            position: relative;
+        }
+
+        .register-left::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: rgba(2, 97, 66, 0.05);
+            border-radius: 50%;
         }
 
         .register-logo {
@@ -40,12 +52,15 @@
             max-width: 60%;
             margin-bottom: 18px;
             display: block;
+            background-color: #01452a;
+            padding: 10px;
+            border-radius: 12px;
         }
 
         .register-title {
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #0f172a;
+            font-weight: 700;
+            color: #026142;
             font-size: 26px;
             text-transform: uppercase;
             letter-spacing: 0.6px;
@@ -60,7 +75,7 @@
         }
 
         .signin-btn {
-            background: #13B262;
+            background: #026142;
             color: white;
             padding: 10px 26px;
             border-radius: 50px;
@@ -68,11 +83,15 @@
             font-weight: 600;
             display: inline-block;
             margin-top: 10px;
-            box-shadow: 0 8px 22px rgba(19, 178, 98, 0.12);
+            box-shadow: 0 8px 22px rgba(2, 97, 66, 0.12);
+            transition: all 0.25s ease;
         }
 
         .signin-btn:hover {
             transform: translateY(-3px);
+            background: #01452a;
+            box-shadow: 0 12px 28px rgba(2, 97, 66, 0.16);
+            color: white;
         }
 
         .register-right {
@@ -84,9 +103,9 @@
 
         .register-right h2 {
             margin-bottom: 14px;
-            font-size: 22px;
-            font-weight: 600;
-            color: #01B45E;
+            font-size: 24px;
+            font-weight: 700;
+            color: #026142;
         }
 
         .form-grid {
@@ -107,16 +126,24 @@
             grid-column: 1 / -1;
         }
 
+        .form-group label {
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+
         .form-control {
             padding: 12px 14px;
             border-radius: 10px;
-            border: 1px solid #e6e9ee;
+            border: 2px solid #e6e9ee;
             background: #fbfdff;
+            transition: all 0.25s ease;
+            font-size: 14px;
         }
 
         .form-control:focus {
-            border-color: #D83F26;
-            box-shadow: 0 6px 18px rgba(216, 63, 38, 0.06);
+            border-color: #026142;
+            box-shadow: 0 6px 18px rgba(2, 97, 66, 0.08);
             outline: none;
         }
 
@@ -126,7 +153,7 @@
         }
 
         .submit-btn {
-            background: #01B45E !important;
+            background: linear-gradient(90deg, #026142 0%, #01452a 100%) !important;
             color: #fff;
             padding: 12px 26px;
             border-radius: 12px;
@@ -136,16 +163,24 @@
             grid-column: 1 / -1;
             justify-self: center;
             margin-top: 6px;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 22px rgba(2, 97, 66, 0.16);
         }
 
         .submit-btn:hover {
             transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(2, 97, 66, 0.18);
         }
 
         .form-check {
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .text-danger {
+            color: #dc3545;
+            font-size: 13px;
         }
 
         @media (min-width: 768px) {
@@ -170,6 +205,13 @@
             .register-left {
                 padding: 28px 20px;
             }
+
+            .register-left::before {
+                width: 200px;
+                height: 200px;
+                top: -30px;
+                right: -30px;
+            }
         }
     </style>
 
@@ -177,8 +219,9 @@
         <div class="register-grid">
             <div class="register-left">
                 <img src="{{ asset(get_setting('site_logo')->value) }}" alt="Logo" class="register-logo">
-                <h2 class="register-title">Welcome Back!</h2>
-                <p class="register-text">To stay connected and get best offers, create your account with a few details.</p>
+                <h2 class="register-title">Welcome!</h2>
+                <p class="register-text">To stay connected and get best offers, create your account with a few details.
+                </p>
                 <span style="color: #374151;">Already have an account?</span>
                 <a href="{{ route('login') }}" class="signin-btn">Sign In</a>
             </div>
@@ -189,24 +232,26 @@
                     @csrf
 
                     <div class="form-group full">
-                        <label class="mb-1">Full Name *</label>
-                        <input class="form-control" type="text" name="name" placeholder="Name" value="{{ old('name') }}">
+                        <label class="mb-1">Full Name <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" name="name" placeholder="Enter your full name"
+                            value="{{ old('name') }}">
                         @error('name')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="form-group">
-                        <label class="mb-1">Username *</label>
-                        <input class="form-control" name="username" placeholder="Username" value="{{ old('username') }}">
+                        <label class="mb-1">Username <span class="text-danger">*</span></label>
+                        <input class="form-control" name="username" placeholder="Choose username"
+                            value="{{ old('username') }}">
                         @error('username')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="form-group">
-                        <label class="mb-1">Email *</label>
-                        <input class="form-control" type="email" name="email" placeholder="Email"
+                        <label class="mb-1">Email <span class="text-danger">*</span></label>
+                        <input class="form-control" type="email" name="email" placeholder="your@email.com"
                             value="{{ old('email') }}">
                         @error('email')
                             <div class="text-danger">{{ $message }}</div>
@@ -214,8 +259,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="mb-1">Phone *</label>
-                        <input class="form-control" type="text" name="phone" placeholder="Phone Number"
+                        <label class="mb-1">Phone <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" name="phone" placeholder="Phone number"
                             value="{{ old('phone') }}">
                         @error('phone')
                             <div class="text-danger">{{ $message }}</div>
@@ -223,8 +268,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="mb-1">Password *</label>
-                        <input class="form-control" type="password" name="password" placeholder="Password"
+                        <label class="mb-1">Password <span class="text-danger">*</span></label>
+                        <input class="form-control" type="password" name="password" placeholder="Create password"
                             autocomplete="new-password">
                         @error('password')
                             <div class="text-danger">{{ $message }}</div>
@@ -232,12 +277,12 @@
                     </div>
 
                     <div class="form-group full">
-                        <label class="mb-1">Retype-Password *</label>
+                        <label class="mb-1">Confirm Password <span class="text-danger">*</span></label>
                         <input class="form-control" type="password" name="password_confirmation"
                             placeholder="Confirm password">
                     </div>
 
-                    <button type="submit" class="submit-btn">Submit & Register</button>
+                    <button type="submit" class="submit-btn">Create Account</button>
                 </form>
             </div>
         </div>

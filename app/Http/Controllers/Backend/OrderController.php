@@ -15,6 +15,7 @@ use App\Models\Shipping;
 use App\Models\Upazilla;
 use App\Models\Affiliate;
 use App\Models\OrderDetail;
+use App\Models\VendorOrder;
 use App\Models\ProductStock;
 use Illuminate\Http\Request;
 use App\Models\AccountLedger;
@@ -58,43 +59,43 @@ class OrderController extends Controller
 
         if ($request->delivery_status != null && $request->payment_status != null && $date != null) {
 
-            $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])))->where('delivery_status', $request->delivery_status)->where('payment_status', $request->payment_status);
+            $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])))->where('delivery_status', $request->delivery_status)->where('payment_status', $request->payment_status)->where('is_vendor_order', 0);
 
             $delivery_status = $request->delivery_status;
             $payment_status = $request->payment_status;
         } else if ($request->delivery_status == null && $request->payment_status == null && $date == null) {
-            $orders = Order::orderBy('id', 'desc');
+            $orders = Order::orderBy('id', 'desc')->where('is_vendor_order', 0);
         } else {
             if ($request->delivery_status == null) {
                 if ($request->payment_status != null && $date != null) {
-                    $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])))->where('payment_status', $request->payment_status);
+                    $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])))->where('payment_status', $request->payment_status)->where('is_vendor_order', 0);
                     $payment_status = $request->payment_status;
                 } else if ($request->payment_status == null && $date != null) {
-                    $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])));
+                    $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])))->where('is_vendor_order', 0);
                 } else {
-                    $orders = Order::where('payment_status', $request->payment_status);
+                    $orders = Order::where('payment_status', $request->payment_status)->where('is_vendor_order', 0);
                     $payment_status = $request->payment_status;
                 }
             } else if ($request->payment_status == null) {
                 if ($request->delivery_status != null && $date != null) {
-                    $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])))->where('delivery_status', $request->delivery_status);
+                    $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])))->where('delivery_status', $request->delivery_status)->where('is_vendor_order', 0);
                     $delivery_status = $request->delivery_status;
                 } else if ($request->delivery_status == null && $date != null) {
-                    $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])));
+                    $orders = Order::where('created_at', '>=', date('Y-m-d', strtotime(explode(" - ", $date)[0])))->where('created_at', '<=', date('Y-m-d', strtotime(explode(" - ", $date)[1])))->where('is_vendor_order', 0);
                 } else {
-                    $orders = Order::where('delivery_status', $request->delivery_status);
+                    $orders = Order::where('delivery_status', $request->delivery_status)->where('is_vendor_order', 0);
                     $delivery_status = $request->delivery_status;
                 }
             } else if ($request->date == null) {
                 if ($request->delivery_status != null && $request->payment_status != null) {
-                    $orders = Order::where('delivery_status', $request->delivery_status)->where('payment_status', $request->payment_status);
+                    $orders = Order::where('delivery_status', $request->delivery_status)->where('payment_status', $request->payment_status)->where('is_vendor_order', 0);
                     $delivery_status = $request->delivery_status;
                     $payment_status = $request->payment_status;
                 } else if ($request->delivery_status == null && $request->payment_status != null) {
-                    $orders = Order::where('payment_status', $request->payment_status);
+                    $orders = Order::where('payment_status', $request->payment_status)->where('is_vendor_order', 0);
                     $payment_status = $request->payment_status;
                 } else {
-                    $orders = Order::where('delivery_status', $request->delivery_status);
+                    $orders = Order::where('delivery_status', $request->delivery_status)->where('is_vendor_order', 0);
                     $delivery_status = $request->delivery_status;
                 }
             }
@@ -105,6 +106,41 @@ class OrderController extends Controller
         $orders = $orders->paginate(15);
         return view('backend.sales.all_orders.index', compact('orders', 'delivery_status', 'date', 'payment_status'));
     }
+ public function vendorOrders(Request $request)
+{
+    $date = $request->date;
+    $delivery_status = null;
+    $payment_status = null;
+
+    // Base query VendorOrders থেকে
+    $orders = VendorOrder::orderBy('id', 'desc');
+
+    // Delivery status filter
+    if ($request->delivery_status != null) {
+        $orders = $orders->where('delivery_status', $request->delivery_status);
+        $delivery_status = $request->delivery_status;
+    }
+
+    // Payment status filter
+    if ($request->payment_status != null) {
+        $orders = $orders->where('payment_status', $request->payment_status);
+        $payment_status = $request->payment_status;
+    }
+
+    // Date range filter
+    if ($date != null) {
+        $dateRange = explode(" - ", $date);
+        $startDate = date('Y-m-d', strtotime($dateRange[0]));
+        $endDate   = date('Y-m-d', strtotime($dateRange[1]));
+
+        $orders = $orders->whereBetween('created_at', [$startDate, $endDate]);
+    }
+
+    // Pagination
+    $orders = $orders->paginate(15);
+
+    return view('backend.sales.vendor_orders.index', compact('orders', 'delivery_status', 'date', 'payment_status'));
+}
 
     public function allWholesellOrders(Request $request)
     {
@@ -237,6 +273,13 @@ class OrderController extends Controller
 
         return view('backend.sales.all_orders.show', compact('order', 'shippings'));
     }
+    public function vendorOrdershow($id)
+    {
+        //        return AccountLedger::latest()->first();
+        $order = VendorOrder::findOrFail($id);
+    
+        return view('backend.sales.vendor_orders.details', compact('order'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -277,6 +320,25 @@ class OrderController extends Controller
             'shipping_charge'   => $request->shipping_charge,
             'discount'          => $request->discount,
             'grand_total'       => $total_ammount,
+        ]);
+
+        $order->save();
+
+        Session::flash('success', 'Admin Orders Information Updated Successfully');
+        return redirect()->back();
+    }
+    public function vendorOrdersUpdate(Request $request, $id)
+    {
+       // dd($request->all());
+        //        return $request;
+        $this->validate($request, [
+            'delivery_status' => 'required',
+        ]);
+        $order = VendorOrder::findOrFail($id);
+
+      
+        VendorOrder::where('id', $id)->update([
+           'delivery_status'   => $request->delivery_status,
         ]);
 
         $order->save();
@@ -338,6 +400,39 @@ class OrderController extends Controller
 
         // dd($order);
     }
+
+     public function updateVendorPaymentStatus(Request $request)
+    {
+
+        $commission_rate = get_setting('commission_rate')->value;
+        //  dd($commission_rate);
+        $order = VendorOrder::findOrFail($request->order_id);
+        $affiliateId = $order->affiliate_id;
+        $order->payment_status = $request->status;
+
+        if ($order->payment_status == 1) {
+            $affiliate = Affiliate::find($affiliateId);
+            if ($affiliate) {
+                $affiliate->total_earning += $order->sub_total * ($commission_rate / 100);
+                $affiliate->save();
+            }
+
+            if ($order->payment_method == 'wallet') {
+                $user = User::find($order->user_id);
+                $user->points -= $order->grand_total;
+                $user->save();
+            }
+        }
+
+        $order->save();
+        if ($order->user_id != 1) {
+            $this->addOrRemovePoints($request->order_id);
+        }
+
+        return response()->json(['success' => 'Payment status has been updated']);
+
+        // dd($order);
+    }
     public function addOrRemovePoints($id)
     {
         $order = Order::findOrFail($id);
@@ -367,6 +462,21 @@ class OrderController extends Controller
             $this->addOrRemoveCommission($request->order_id);
         }
         if ($order->delivery_status == 'cancelled') {
+            $this->deductAdminBalance($order->id, $order->grand_total);
+            $this->addStock($order->id);
+        }
+
+        return response()->json(['success' => 'Delivery status has been updated']);
+    }
+    public function updateVendorDeliveryStatus(Request $request)
+    {
+        $order = VendorOrder::findOrFail($request->order_id);
+        $order->delivery_status = $request->status;
+        $order->save();
+        if ($order->user_id != 1) {
+            $this->addOrRemoveCommission($request->order_id);
+        }
+        if ($order->delivery_status == 5) {
             $this->deductAdminBalance($order->id, $order->grand_total);
             $this->addStock($order->id);
         }
@@ -539,16 +649,26 @@ class OrderController extends Controller
     /* ============= End invoice_download Method ============== */
 
 
+       public function vendorinvoiceDownload($id)
+    {
+        $order = VendorOrder::findOrFail($id);
+    
+        //dd(app('url')->asset('upload/abc.png'));
+        $pdf = PDF::loadView('backend.vendor.orders.invoices', compact('order'))->setPaper('a4');
+        return $pdf->download('vendor_invoice.pdf');
+    }
+
   public function pendingOrders()
 {
     $user = Auth::guard('admin')->user();
 
-    if ($user->role == '2') {
-        $vendor = Vendor::where('user_id', $user->id)->first();
+  if ($user->role == '2') {
+        $vendor = Vendor::where('user_id', $user->id)->firstOrFail();
 
-        $orders = OrderDetail::where('delivery_status', 'pending')
-            ->where('vendor_id', $vendor->id) // 
-            ->orderBy('id', 'desc')
+        $orders = VendorOrder::with('order') // relation load করে performance ভালো হবে
+            ->where('vendor_id', $vendor->id)
+            ->where('delivery_status', 'pending') // অথবা 0 যদি integer হয়
+            ->latest()
             ->paginate(15);
 
         return view('backend.sales.all_orders.pending_orders', compact('orders'));

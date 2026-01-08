@@ -1,24 +1,71 @@
 <?php
 
-use Gloudemans\Shoppingcart\Facades\Cart;
-use App\Models\Category;
-use App\Models\Banner;
-use App\Models\Division;
-use App\Models\User;
-use App\Models\District;
-use App\Models\Upazilla;
 use App\Models\Page;
-use App\Models\Setting;
-use App\Models\Attribute;
-use App\Models\ProductStock;
-use App\Models\Vendor;
-use Illuminate\Support\Collection;
-use App\Models\AccountLedger;
-use App\Utility\CategoryUtility;
-use App\Models\Product;
+use App\Models\User;
 use App\Models\Brand;
-use App\Models\ReturningProduct;
+use App\Models\Banner;
+use App\Models\Review;
+use App\Models\Vendor;
+use App\Models\Product;
+use App\Models\Setting;
+use App\Models\Category;
+use App\Models\District;
+use App\Models\Division;
+use App\Models\Upazilla;
+use App\Models\Attribute;
 use App\Models\OrderDetail;
+use App\Models\ProductStock;
+use App\Models\AccountLedger;
+use App\Models\ReturningProduct;
+use App\Utility\CategoryUtility;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
+use Gloudemans\Shoppingcart\Facades\Cart;
+
+function sendSms($phone, $message)
+{
+  $url = "https://msg.mram.com.bd/smsapi";
+    $data = [
+        "api_key" => "C400039969130fa7873443.36238056",
+        "type" => "text",
+        "contacts" => $phone,
+        "senderid" => "8809601017292",
+        "msg" => $message,
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    return $response;
+}
+
+if (!function_exists('getProductReviewsSummary')) {
+
+    function getProductReviewsSummary($productId)
+    {
+        // Fetch verified & active reviews
+        $reviews = Review::where('product_id', $productId)
+            ->where('status', 1)
+            ->where('verified_purchase', 1)
+            ->get();
+        $total_ratings = $reviews->count();
+        // Average rating
+        $average_rating = $total_ratings > 0 ? round($reviews->avg('rating'), 2) : 0;
+
+        return [
+            'total_ratings'   => $total_ratings,
+            'average_rating'  => $average_rating,
+           
+        ];
+    }
+}
+
 
 if (!function_exists('get_setting')) {
     function get_setting($name)

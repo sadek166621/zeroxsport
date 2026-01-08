@@ -31,7 +31,7 @@
                     <div class="card-body p-4 p-lg-5">
                         <div class="terms-content">
                             <div class="mb-4 pb-2 border-bottom">
-                                <h2 class="h4 fw-bold mb-0">Our Terms & Conditions</h2>
+                                <h2 class="h4 fw-bold mb-0 terms-heading">Our Terms & Conditions</h2>
                                 <p class="text-muted small">Last updated: {{date('F d, Y')}}</p>
                             </div>
                             <div class="terms-text lh-lg">
@@ -53,6 +53,9 @@
         .terms-text {
             color: #4a5568;
             font-size: 1.1rem;
+        }
+        .terms-heading {
+            color: #026544;
         }
         .terms-text h1, .terms-text h2, .terms-text h3 {
             margin-top: 2rem;

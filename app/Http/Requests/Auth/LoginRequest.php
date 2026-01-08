@@ -29,7 +29,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'login' => ['required'],
             'password' => ['required', 'string'],
         ];
     }
@@ -41,20 +41,34 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate()
-    {
-        $this->ensureIsNotRateLimited();
+public function authenticate()
+{
+    $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+    $login    = $this->input('login');   // email or phone
+    $password = $this->input('password');
+    $remember = $this->boolean('remember');
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
-        }
+    // Try login with email OR phone
+    if (
+        !Auth::attempt(['email' => $login, 'password' => $password], $remember) &&
+        !Auth::attempt(['phone' => $login, 'password' => $password], $remember)
+    ) {
+        RateLimiter::hit($this->throttleKey());
 
-        RateLimiter::clear($this->throttleKey());
+        return back()->with([
+            'message' => 'ইমেইল/ফোন অথবা পাসওয়ার্ড ভুল।',
+            'alert-type' => 'error'
+        ]);
     }
+
+    RateLimiter::clear($this->throttleKey());
+
+    return redirect()->intended('dashboard')->with([
+        'message' => 'লগইন সফল হয়েছে!',
+        'alert-type' => 'success'
+    ]);
+}
 
     /**
      * Ensure the login request is not rate limited.
@@ -88,6 +102,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey()
     {
-        return Str::lower($this->input('email')).'|'.$this->ip();
+        return Str::lower($this->input('login')).'|'.$this->ip();
     }
 }

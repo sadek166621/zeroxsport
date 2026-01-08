@@ -589,23 +589,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-header" style="background-color: #fff !important;">
-                                <h3 style="color: #4f5d77 !important">Points</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <!-- Description Start -->
-                                    <div class="col-md-12 mb-4">
-                                        <label for="long_descp_en" class="col-form-label"
-                                            style="font-weight: bold;">Product Points</label>
-                                        <input type="number" name="points" value="{{ $product->points }}"
-                                            class="form-control" placeholder=" Add Points">
-                                    </div>
-                                    <!-- Description End -->
-                                </div>
-                            </div>
-                        </div>
+              
                     @endif
 
 
@@ -617,19 +601,19 @@
                         <div class="card-body">
                             <div class="row">
                                 <!-- Description Start -->
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-12 mb-4">
                                     <label for="long_descp_en" class="col-form-label"
                                         style="font-weight: bold;">Description (En): </label><span
                                         class="text-danger">*</span>
                                     <textarea name="short_description_en" rows="2" cols="2" class="form-control summernote"
                                         placeholder="Write Short Description English" required>{{ $product->short_description_en }}</textarea>
                                 </div>
-                                <div class="col-md-6 mb-4">
+                                {{-- <div class="col-md-6 mb-4">
                                     <label for="long_descp_bn" class="col-form-label"
                                         style="font-weight: bold;">Description (Bn): </label>
                                     <textarea name="short_description_bn" rows="2" cols="2" class="form-control summernote"
                                         placeholder="Write Short Description Bangla">{{ $product->short_description_bn }}</textarea>
-                                </div>
+                                </div> --}}
                                 <!-- Description End -->
                             </div>
                         </div>
@@ -641,19 +625,19 @@
                         <div class="card-body">
                             <div class="row">
                                 <!-- Description Start -->
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-12 mb-4">
                                     <label for="long_descp_en" class="col-form-label"
                                         style="font-weight: bold;">Description (En): </label><span
                                         class="text-danger">*</span>
                                     <textarea name="description_en" rows="2" cols="2" class="form-control summernote"
                                         placeholder="Write Long Description English" required>{{ $product->description_en }}</textarea>
                                 </div>
-                                <div class="col-md-6 mb-4">
+                                {{-- <div class="col-md-6 mb-4">
                                     <label for="long_descp_bn" class="col-form-label"
                                         style="font-weight: bold;">Description (Bn): </label>
                                     <textarea name="description_bn" rows="2" cols="2" class="form-control summernote"
                                         placeholder="Write Long Description Bangla">{{ $product->description_bn }}</textarea>
-                                </div>
+                                </div> --}}
                                 <!-- Description End -->
                             </div>
                         </div>
@@ -712,6 +696,7 @@
                             </div>
                             <!-- Porduct Image End -->
                             <!-- Checkbox Start -->
+                  @if (Auth::guard('admin')->user()->role == 1)
                             <div class="mb-4">
                                 <div class="row d-none">
                                     <div class="custom-control custom-switch">
@@ -762,6 +747,7 @@
                                     </div>
                                 </div>
                             </div>
+                    @endif
                             <!-- Checkbox End -->
                         </div>
                     </div>

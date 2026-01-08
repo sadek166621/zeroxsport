@@ -39,56 +39,63 @@ class AuthenticatedSessionController extends Controller
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LoginRequest $request)
-    {
-        // dd($request->all());
-        $this->validate($request,[
-            'email' =>'required',
-            'password' =>'required'
-        ]);
+ public function store(LoginRequest $request)
+{
+    // Validate login (email or phone) and password
+    $this->validate($request, [
+        'login'    => 'required',
+        'password' => 'required',
+    ]);
 
-        // dd($request->all());
-        $check = $request->all();
-        if(Auth::guard('web')->attempt(['email' => $check['email'], 'password'=> $check['password'] ])){
+    $check = $request->all();
 
-            if(Auth::guard('web')->user()->role == "3"){
-                $notification = array(
-                    'message' => 'User Login Successfully.', 
-                    'alert-type' => 'success'
-                );
-                return redirect()->route('dashboard')->with($notification);
-            }elseif(Auth::guard('web')->user()->role == "5"){
-                $notification = array(
-                    'message' => 'User Login Successfully.', 
-                    'alert-type' => 'success'
-                );
-                return redirect()->route('wholeseller.dashboard')->with($notification);
-            }
-            
-            else{
-                Auth::guard('web')->logout();
-                $request->session()->invalidate();
-                $request->session()->regenerateToken();
+    // Detect if login is email or phone
+    $loginField = filter_var($check['login'], FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
-                $notification = array(
-                    'message' => 'Invaild Email Or Password.', 
-                    'alert-type' => 'error'
-                );
-                return back()->with($notification);
-            }
-            
-        }else{
-            $notification = array(
-                'message' => 'Invaild Email Or Password.', 
+    // Attempt login with dynamic field
+    if (Auth::guard('web')->attempt([$loginField => $check['login'], 'password' => $check['password']])) {
+
+        $role = Auth::guard('web')->user()->role;
+
+        if ($role == "3") {
+            $notification = [
+                'message'    => 'User Login Successfully.',
+                'alert-type' => 'success'
+            ];
+            return redirect()->route('dashboard')->with($notification);
+
+        } elseif ($role == "5") {
+            $notification = [
+                'message'    => 'User Login Successfully.',
+                'alert-type' => 'success'
+            ];
+            return redirect()->route('wholeseller.dashboard')->with($notification);
+        } else {
+            // Invalid role → logout
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            $notification = [
+                'message'    => 'Invalid Email Or Phone Or Password.',
                 'alert-type' => 'error'
-            );
+            ];
             return back()->with($notification);
         }
 
-        // $request->authenticate();
-        // $request->session()->regenerate();
-        // return redirect()->route('dashboard');
+    } else {
+        $notification = [
+            'message'    => 'Invalid Email Or Phone Or Password.',
+            'alert-type' => 'error'
+        ];
+        return back()->with($notification);
     }
+
+    // Fallback
+    $request->authenticate();
+    $request->session()->regenerate();
+    return redirect()->route('dashboard');
+}
 
     public function otp_login(Request $request)
     {
@@ -224,7 +231,7 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+   //     $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 

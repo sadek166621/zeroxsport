@@ -26,11 +26,16 @@
                     </div>
                 </div>
 
+
+                 @php 
+                        $total_earning =  App\Models\Order::where('affiliate_id', $affiliate->id)->where('payment_status', 1)->where('delivery_status', 4)->sum('affiliate_commission');
+             @endphp
+
                 <!-- Stats Section -->
                 <div class="col-md-6">
                     <div class="bg-light rounded p-3">
                         <p class="mb-2"><strong>Total Earnings:</strong>
-                            <span class="badge bg-success fs-6">৳{{ number_format($affiliate->total_earning ?? 0, 2) }}</span>
+                            <span class="badge bg-success fs-6">৳{{ number_format($total_earning ?? 0, 2) }}</span>
                         </p>
                         <p class="mb-2"><strong>Joined:</strong>
                             <span class="text-muted">{{ $affiliate->created_at->format('d M Y') }}</span>

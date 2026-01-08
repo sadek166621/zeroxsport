@@ -34,14 +34,14 @@
                                 <th scope="col">Quantity </th>
                                 <th scope="col">Discount </th>
                                 <th scope="col">Featured</th>
-                                @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
-                                    <th scope="col">Authenticate Status</th>
-                                @endif
-                                @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 2)
+                                @if (Auth::guard('admin')->check() && in_array(Auth::guard('admin')->user()->role, [1, 2]))
                                     <th scope="col">Authenticate Status</th>
                                 @endif
 
                                 <th scope="col">Status</th>
+                                <th scope="col">Affiliate Status</th>
+                                <th scope="col">Vendor Product</th>
+
                                 <th scope="col" class="text-end">Action</th>
                             </tr>
                         </thead>
@@ -98,25 +98,21 @@
                                     </td>
                                     @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
                                         <td>
+
                                             <form action="{{ route('product.authenticity.update', $item->id) }}"
                                                 method="POST" class="d-flex gap-1">
                                                 @csrf
                                                 @method('PATCH')
 
-                                                <button name="authenticity_status" value="1" title="Verified"
-                                                    class="btn btn-sm {{ $item->authenticity_status == 1 ? 'btn-success' : 'btn-outline-success' }}">
-                                                    ✔
-                                                </button>
-
-                                                <button name="authenticity_status" value="2" title='Fake'
-                                                    class="btn btn-sm {{ $item->authenticity_status == 2 ? 'btn-danger' : 'btn-outline-danger' }}">
-                                                    ✖
-                                                </button>
-
-                                                <button name="authenticity_status" value="0" title="Pending"
-                                                    class="btn btn-sm {{ $item->authenticity_status == 0 ? 'btn-warning' : 'btn-outline-warning' }}">
-                                                    ⏳
-                                                </button>
+                                                @if ($item->authenticity_status == 0)
+                                                    {{-- এখন Verified, তাই শুধু Fake বাটন দেখাও --}}
+                                                    <button name="authenticity_status" value="2" title="Mark as Fake"
+                                                        class="btn btn-sm btn-danger">✖</button>
+                                                @elseif ($item->authenticity_status == 1)
+                                                    {{-- এখন Fake, তাই শুধু Verified বাটন দেখাও --}}
+                                                    <button name="authenticity_status" value="1"
+                                                        title="Mark as Verified" class="btn btn-sm btn-success">✔</button>
+                                                @endif
                                             </form>
                                         </td>
                                     @endif
@@ -125,23 +121,82 @@
                                             @php
                                                 $badge = match ($item->authenticity_status) {
                                                     1 => 'success',
-                                                    2 => 'danger',
+                                                    0 => 'danger',
                                                     default => 'warning',
                                                 };
                                             @endphp
                                             <span class="badge bg-{{ $badge }}">
-                                                {{ $item->authenticity_status == 1 ? 'Verified' : ($item->authenticity_status == 2 ? 'Fake' : 'Pending') }}
+                                                {{ $item->authenticity_status == 1 ? 'Verified' : ($item->authenticity_status == 0 ? 'Fake' : 'Pending') }}
                                             </span>
                                         </td>
                                     @endif
+
+
                                     <td>
-                                        @if ($item->status == 1)
-                                            <a href="{{ route('product.in_active', ['id' => $item->id]) }}">
-                                                <span class="product-status badge rounded-pill alert-success">Active</span>
-                                            </a>
+                                        @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
+                                            {{-- শুধু role 1 হলে clickable link থাকবে --}}
+                                            @if ($item->status == 1)
+                                                <a href="{{ route('product.in_active', ['id' => $item->id]) }}">
+                                                    <span
+                                                        class="product-status badge rounded-pill alert-success">Active</span>
+                                                </a>
+                                            @else
+                                                <a href="{{ route('product.active', ['id' => $item->id]) }}">
+                                                    <span
+                                                        class="product-status badge rounded-pill alert-danger">Disable</span>
+                                                </a>
+                                            @endif
                                         @else
-                                            <a href="{{ route('product.active', ['id' => $item->id]) }}"> <span
-                                                    class="product-status badge rounded-pill alert-danger">Disable</span></a>
+                                            {{-- অন্য role হলে শুধু status দেখাবে --}}
+                                            @if ($item->status == 1)
+                                                <span class="product-status badge rounded-pill alert-success">Active</span>
+                                            @else
+                                                <span class="product-status badge rounded-pill alert-danger">Disable</span>
+                                            @endif
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
+                                            {{-- শুধু role 1 হলে clickable link থাকবে --}}
+                                            @if ($item->is_affiliate == 1)
+                                                <a href="{{ route('product.in_active_affiliate', $item->id) }}">
+                                                    <span class="badge rounded-pill alert-success">Active</span>
+                                                </a>
+                                            @else
+                                                <a href="{{ route('product.active.affiliate', $item->id) }}">
+                                                    <span class="badge rounded-pill alert-danger">Inactive</span>
+                                                </a>
+                                            @endif
+                                        @else
+                                            {{-- অন্য role হলে শুধু status দেখাবে --}}
+                                            @if ($item->is_affiliate == 1)
+                                                {{-- ইতিমধ্যেই affiliate active --}}
+                                                <span class="badge rounded-pill alert-success">Active</span>
+                                            @elseif ($item->is_affiliate == 0 && $item->affiliate_request == 1)
+                                                {{-- request already sent --}}
+                                                <span class="badge rounded-pill alert-warning">Requested</span>
+                                            @else
+                                                {{-- এখনো request করা হয়নি --}}
+                                                <form
+                                                    action="{{ route('vendor.product.affiliate.request', ['id' => $item->id]) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="text-danger " style="border: none">
+                                                        Request for Affiliate
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($item->vendor_id == null)
+                                            <span class="badge rounded-pill alert-success">No</span>
+                                        @else
+                                            <span class="badge rounded-pill alert-success">Yes</span>
+
+                                            </a>
                                         @endif
                                     </td>
                                     <td>
@@ -172,5 +227,5 @@
             </div>
             <!-- card-body end// -->
         </div>
-    </section>
+    </section> 
 @endsection

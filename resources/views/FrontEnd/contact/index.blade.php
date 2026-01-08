@@ -10,7 +10,7 @@
         }
 
         .info-pane {
-            background: #01B45E;
+            background: #026544;
             color: #fff;
             padding: 32px;
         }
@@ -44,7 +44,7 @@
         }
 
         .btn-gradient {
-            background: #01B45E;
+            background: #026544;
             border: none;
         }
 

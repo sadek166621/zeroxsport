@@ -12,7 +12,7 @@
         <div class="card mb-4">
             <div class="card-body">
                 <div class="table-responsive-sm">
-                    <table id="example" class="table table-bordered table-striped" width="100%">
+                    <table id="example" class="table table-bordered table-striped" id="example" width="100%">
                         <thead>
                             <tr>
                                 <th scope="col">Sl</th>
@@ -28,6 +28,7 @@
                                 @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
                                     <th scope="col">Authenticity Status</th>
                                 @endif
+                                <th>Action</th>
 
                             </tr>
                         </thead>
@@ -100,12 +101,19 @@
                                                     ✖
                                                 </button>
 
-                                                <button name="authenticity_status" value="0" title="Pending"
-                                                    class="btn btn-sm {{ $item->authenticity_status == 0 ? 'btn-warning' : 'btn-outline-warning' }}">
-                                                    ⏳
-                                                </button>
                                             </form>
                                         </td>
+                                    @endif
+                                    <td>
+                                        <a href="{{ route('product.edit', $item->id) }}" class="btn btn-sm btn-primary">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="{{ route('product.delete', $item->id) }}"
+                                            class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                    @if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->role == 1)
                                     @endif
 
                                 </tr>

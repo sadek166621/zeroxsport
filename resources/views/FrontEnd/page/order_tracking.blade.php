@@ -13,7 +13,7 @@
                                     style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; box-shadow: 0 4px 16px rgba(216,63,38,0.10); border: 4px solid #fff;">
                             </div>
                             <h2
-                                style="font-weight: 900; font-size: 2.3rem; color: #02A92B; margin: 1rem 0 0.5rem 0; letter-spacing: -1px;">
+                                style="font-weight: 900; font-size: 2.3rem; color: #026544; margin: 1rem 0 0.5rem 0; letter-spacing: -1px;">
                                 Track Your Order</h2>
                             <p style="font-size: 1.1rem; color: #444; margin-bottom: 0;">Stay updated on your package from
                                 checkout to delivery.</p>
@@ -21,12 +21,12 @@
                         <div class="card-body px-5 py-4" style="background: transparent;">
                             <div class="text-center mb-4">
                                 <h4 id="error_msg"
-                                    style="color: #02A92B; font-weight: 700; font-size: 1.15rem; margin-bottom: 0.5rem;">
+                                    style="color: #026544; font-weight: 700; font-size: 1.15rem; margin-bottom: 0.5rem;">
                                     {{ session()->get('message') }}
                                 </h4>
                                 <p style="color: #888; font-size: 1rem; margin-bottom: 2rem;">
-                                    Enter your <span style="color:#02A92B;font-weight:600;">Invoice ID</span> and <span
-                                        style="color:#02A92B;font-weight:600;">Phone</span> to check your order status.
+                                    Enter your <span style="color:#026544;font-weight:600;">Invoice ID</span> and <span
+                                        style="color:#026544;font-weight:600;">Phone</span> to check your order status.
                                 </p>
                             </div>
                             <form method="get" action="{{ route('order.track') }}" class="needs-validation" novalidate
@@ -35,51 +35,51 @@
                                 <div class="mb-4">
                                     <label class="form-label"
                                         style="font-weight: 700; color: #222; font-size: 1.08rem;">Invoice ID <span
-                                            style="color: #02A92B;">*</span></label>
+                                            style="color: #026544;">*</span></label>
                                     <div class="input-group"
                                         style="border-radius: 1rem; overflow: hidden; box-shadow: 0 2px 8px rgba(216,63,38,0.04);">
                                         <span class="input-group-text"
                                             style="background: #fff; border-right: 0; border-radius: 1rem 0 0 1rem; font-size: 1.2rem;">
-                                            <i class="fi-rs-receipt" style="color: #02A92B;"></i>
+                                            <i class="fi-rs-receipt" style="color: #026544;"></i>
                                         </span>
                                         <input type="text" name="invoice_no" class="form-control"
                                             placeholder="e.g. INV123456" value="{{ old('invoice_no') }}" required
                                             style="border-radius: 0 1rem 1rem 0; border-left: 0; background: #fff; font-size: 1.08rem; padding: 0.85rem 1rem;">
                                     </div>
                                     @error('invoice_no')
-                                        <div style="color: #02A92B; font-size: 14px; margin-top: 6px; font-weight: 500;">
+                                        <div style="color: #026544; font-size: 14px; margin-top: 6px; font-weight: 500;">
                                             {{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label"
                                         style="font-weight: 700; color: #222; font-size: 1.08rem;">Phone <span
-                                            style="color: #02A92B;">*</span></label>
+                                            style="color: #026544;">*</span></label>
                                     <div class="input-group"
                                         style="border-radius: 1rem; overflow: hidden; box-shadow: 0 2px 8px rgba(216,63,38,0.04);">
                                         <span class="input-group-text"
                                             style="background: #fff; border-right: 0; border-radius: 1rem 0 0 1rem; font-size: 1.2rem;">
-                                            <i class="fi-rs-smartphone" style="color: #02A92B;"></i>
+                                            <i class="fi-rs-smartphone" style="color: #026544;"></i>
                                         </span>
                                         <input type="number" name="phone" class="form-control"
                                             placeholder="Your phone number" value="{{ old('phone') }}" required
                                             style="border-radius: 0 1rem 1rem 0; border-left: 0; background: #fff; font-size: 1.08rem; padding: 0.85rem 1rem;">
                                     </div>
                                     @error('phone')
-                                        <div style="color: #02A92B; font-size: 14px; margin-top: 6px; font-weight: 500;">
+                                        <div style="color: #026544; font-size: 14px; margin-top: 6px; font-weight: 500;">
                                             {{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="d-grid mt-4">
                                     <button type="submit"
-                                        style="background: #01B45E; color: #fff; border: none; padding: 1rem 0; font-size: 1.15rem; font-weight: 800; border-radius: 1rem; box-shadow: 0 4px 16px rgba(216,63,38,0.10); transition: background 0.2s, transform 0.2s;">
+                                        style="background: #026544; color: #fff; border: none; padding: 1rem 0; font-size: 1.15rem; font-weight: 800; border-radius: 1rem; box-shadow: 0 4px 16px rgba(216,63,38,0.10); transition: background 0.2s, transform 0.2s;">
                                         <i class="fi-rs-search me-2"></i> Track My Order
                                     </button>
                                 </div>
                                 <div class="text-center mt-4">
                                     <p style="font-size: 1rem; color: #888;">
                                         Need help? <a href="#"
-                                            style="color: #02A92B; text-decoration: underline; font-weight: 600;">Contact
+                                            style="color: #026544; text-decoration: underline; font-weight: 600;">Contact
                                             our support team</a>
                                     </p>
                                 </div>
@@ -107,18 +107,18 @@
             }
 
             $('.form-control').focus(function() {
-                $(this).css('box-shadow', '0 0 0 3px #02A92B33').css('border-color', '#02A92B');
+                $(this).css('box-shadow', '0 0 0 3px #02654433').css('border-color', '#026544');
             }).blur(function() {
                 $(this).css('box-shadow', 'none').css('border-color', '#ced4da');
             });
 
             $('button[type="submit"]').hover(
                 function() {
-                    $(this).css('background', 'linear-gradient(90deg, #C02D15 60%, #A32212 100%)').css(
+                    $(this).css('background', 'linear-gradient(90deg, #015236 60%, #013d2a 100%)').css(
                         'transform', 'scale(1.03)');
                 },
                 function() {
-                    $(this).css('background', 'linear-gradient(90deg, #02A92B 60%, #B9321C 100%)').css(
+                    $(this).css('background', '#026544').css(
                         'transform', 'scale(1)');
                 }
             );
