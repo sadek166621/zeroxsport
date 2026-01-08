@@ -213,7 +213,7 @@
         @if (session()->get('language') == 'bangla')
           ক্যাটাগোরি
         @else
-          Categories
+          Top Categories
         @endif
       </h2>
       <p>

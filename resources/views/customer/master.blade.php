@@ -104,6 +104,7 @@
         .dashboard-content {
             padding: .75rem;
         }
+    }
 </style>
 
 <body class="bg-light">
@@ -124,8 +125,8 @@
             </div>
         </div>
     </div>
-    @include('customer.include.cart-contianer')
-    @include('customer.include.footer')
+    @include('frontend.include.cart-contianer')
+    @include('frontend.include.footer')
 
 
     @stack('scripts')

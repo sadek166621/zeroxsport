@@ -384,17 +384,17 @@ Shopping Cart
                             <span>৳<span id="cartTotal"></span></span>
                         </div>
                     </div>
-                    <div class="checkout-actions text-center mt-4">
-                        @if (Auth::check() || !Auth::check())
-                        <a href="{{ route('checkout') }}" class="btn btn-lg w-100" style="text-decoration: none;">
-                            @if (session()->get('language') == 'bangla')
-                            চেকআউটে যান
-                            @else
-                            Proceed To Checkout
-                            @endif
-                            <i class="fas fa-arrow-right ms-2"></i>
-                        </a>
-                        @endif
+          <div class="checkout-actions text-center mt-4">
+                <a href="{{ Auth::check() ? route('checkout') : route('login') }}" 
+                class="btn btn-lg w-100" style="text-decoration: none;">
+                    @if (session()->get('language') == 'bangla')
+                        চেকআউটে যান
+                    @else
+                        Proceed To Checkout
+                    @endif
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div> 
                     </div>
                 </div>
             </div>
