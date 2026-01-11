@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Staff::class);
     }
+
+        public function vendor()
+    {
+        return $this->hasOne(Vendor::class, 'user_id');
+    }
 }

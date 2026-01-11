@@ -91,8 +91,12 @@
                                         <span class="badge bg-warning">Pending</span>
                                     @elseif ($request->status == 1)
                                         <span class="badge bg-success">Approved</span>
+                                    @elseif ($request->status == 2)
+                                        <span class="badge bg-success">Rejected</span>
+                                    @elseif ($request->status == 3)
+                                        <span class="badge bg-success">Returned</span>
                                     @else
-                                        <span class="badge bg-danger">Rejected</span>
+                                        <span class="badge bg-danger">Modified</span>
                                     @endif
                                 </td>
                                 <td>

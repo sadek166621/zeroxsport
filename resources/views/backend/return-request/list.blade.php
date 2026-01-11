@@ -6,9 +6,7 @@
             <h3 class="content-title">Order Return List </h3>
             <strong style="font-weight: bold" class="text-dark"> {{ count($return_requests) }} Orders Found </strong>
         </div>
-{{--        <div class="col-md-2">--}}
-{{--            <a href="{{ route('supplier.create') }}" class="btn btn-primary" title="Supplier Create"><i class="material-icons md-plus"></i></a>--}}
-{{--        </div>--}}
+
     </div>
 
     <div class="card mb-4">

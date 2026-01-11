@@ -15,8 +15,9 @@ class CreateReturningProductsTable extends Migration
     {
         Schema::create('returning_products', function (Blueprint $table) {
             $table->id();
-            $table->integer('request_id');
+            $table->integer('ordered_product_id'); //order_detials id
             $table->bigInteger('product_id');
+            $table->bigInteger('vendor_id');
             $table->string('issue');
             $table->integer('qty');
             $table->text('image');

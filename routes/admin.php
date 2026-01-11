@@ -225,7 +225,10 @@ Route::prefix($prefix)->middleware('admin')->group(function () {
 
 	Route::get('return-request/all', [ReturnRequestController::class, 'list'])->name('return-request.all');
 	Route::get('return-request/show/{id}', [ReturnRequestController::class, 'show'])->name('return-request.show');
-});
+
+    //return request update
+	Route::post('return-request/update', [ReturnRequestController::class, 'update'])->name('return-request.update');
+    });
 
 
 //*========================== End Common Accessible All Routes  ==========================*/
@@ -521,8 +524,8 @@ Route::middleware('adminAccess')->group(function () {
 	//user-message routes
 	Route::get('/messages', [UserMessageController::class, 'list'])->name('messages.list');
 
-	//return request update
-	Route::post('return-request/update', [ReturnRequestController::class, 'update'])->name('return-request.update');
+
+
 });
 
 //*==========================End Only Admin Accessible All Routes  ==========================*/

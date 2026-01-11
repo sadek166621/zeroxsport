@@ -89,53 +89,73 @@ class ReturnRequestController extends Controller
 
     public function list()
     {
-        if (Auth::guard('admin')->user()->role == 1) {
+        $user = Auth::guard('admin')->user();
+
+        if ($user->role == 1) { // Admin
             $return_requests = ReturnRequest::latest();
-        } else {
-            $request_id = array();
-            $vendor = Vendor::where('user_id', Auth::guard('admin')->user()->id)->first();
-            //            return $vendor;
-            foreach (ReturningProduct::all() as $product) {
-                //                return $product;
-                $main_product = Product::find($product->product_id);
-                //                return $main_product;
-                if ($main_product != null && $main_product->vendor_id == $vendor->id) {
-                    array_push($request_id, $product->request_id);
-                }
-            }
-            $return_requests = ReturnRequest::whereIn('id', $request_id)->latest();
+        } elseif ($user->role == 2) { // Vendor
+            $vendor = Vendor::where('user_id', $user->id)->first();
+            $return_requests = ReturnRequest::whereHas('returningProducts', function ($q) use ($vendor) {
+                $q->where('vendor_id', $vendor->id);
+            })->latest();
         }
+
+        // Optional filters
         if (isset($_GET['month']) && $_GET['month'] > 0) {
-            $return_requests  = $return_requests->whereMonth('created_at', $_GET['month']);
+            $return_requests = $return_requests->whereMonth('created_at', $_GET['month']);
         }
-        //        if(isset($_GET['product_id']) && $_GET['product_id'] > 0){
-        //
-        //        }
+
         if (isset($_GET['status']) && ($_GET['status'] != 0 || $_GET['status'] != null)) {
             $return_requests  = $return_requests->where('status', $_GET['status']);
         }
+
         $return_requests = $return_requests->paginate(25);
+
         return view('backend.return-request.list', compact('return_requests'));
     }
 
     public function show($id)
     {
-        $return_request = ReturnRequest::find($id);
-        $returning_products = get_returning_products($id);
-        $order = Order::find($return_request->order_id);
+        $user = Auth::guard('admin')->user();
+
+        $return_request = ReturnRequest::findOrFail($id);
+
+        if ($user->role == 1) { // Admin sees all products
+            $returning_products = $return_request->returningProducts;
+        } else { // Vendor sees only their products
+            $vendor = Vendor::where('user_id', $user->id)->first();
+
+            $returning_products = $return_request->returningProducts()->where('vendor_id', $vendor->id)->get();
+        }
+
+        $order = $return_request->order;
+
         return view('backend.return-request.details', compact('return_request', 'returning_products', 'order'));
     }
 
     public function update(Request $request)
     {
-        //        return $request;
-        $return_request = ReturnRequest::find($request->request_id);
-        //        return $return_request;
-        $return_request->status = $request->return_request_status;
-        $return_request->save();
+        $user = Auth::guard('admin')->user();
+        $vendor = $user->role == 2 ? $user->vendor : null;
 
-        ReturningProduct::updateStatus($request);
 
-        return redirect()->route('return-request.all');
+        foreach ($request->returning_product_id as $key => $returning_product_id) {
+            $product = ReturningProduct::findOrFail($returning_product_id);
+
+            // Admin can update all, Vendor only their products
+            if ($user->role == 1 || ($user->role == 2 && $product->vendor_id == $vendor->id)) {
+                $product->status = $request->status[$key] ?? $product->status;
+                $product->save();
+            }
+        }
+
+        // Admin can update overall return request status
+        if (($user->role == 1 || $vendor) && isset($request->return_request_status)) {
+            $return_request = ReturnRequest::findOrFail($request->request_id);
+            $return_request->status = $request->return_request_status;
+            $return_request->save();
+        }
+
+        return back()->with('message', 'Return request updated successfully');
     }
 }

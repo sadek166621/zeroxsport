@@ -19,7 +19,7 @@ class CreateReturnRequestsTable extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->text('comment')->nullable();
             $table->tinyInteger('status')->default(0)
-                ->comment('0=Pending,1=Approved,2=Rejected,3=Returned');
+                ->comment('0=Pending,1=Approved,2=Rejected,3=Returned, 4=Modified');
             $table->timestamps();
         });
     }
