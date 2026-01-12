@@ -108,6 +108,7 @@ Route::prefix('wholeseller')->group(function () {
         Route::get('/minicart/remove/{rowId}', [WholesellerController::class, 'remove']);
         Route::get('/cart/show', [WholesellerController::class, 'show'])->name('wholeseller.cart.show');
         Route::get('/checkout', [WholesellerController::class, 'index'])->name('wholeseller.checkout');
+        
 
         Route::get('/orders/{invoice_no}', [WholesellerController::class, 'orderView'])->name('wholeseller.order.view');
         Route::get('/orders/download/{invoice_no}', [WholesellerController::class, 'orderInvoicePDF'])->name('wholeseller.order.download');

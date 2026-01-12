@@ -822,6 +822,8 @@
         </div>
     </div>
     @include('FrontEnd.include.script')
+    
+    @include('FrontEnd.include.checkout')
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -879,6 +881,67 @@
             };
         });
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkoutModal = document.getElementById('checkoutModal');
+        const closeCheckoutModal = document.getElementById('closeCheckoutModal');
+        const checkoutForm = document.getElementById('checkoutForm');
+
+        // Open checkout modal using event delegation
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'checkoutButtonSidebar' || e.target.closest('#checkoutButtonSidebar')) {
+                e.preventDefault();
+                checkoutModal.classList.add('open');
+                updateOrderSummary();
+            }
+        });
+
+        // Close checkout modal
+        if (closeCheckoutModal) {
+            closeCheckoutModal.addEventListener('click', function() {
+                checkoutModal.classList.remove('open');
+            });
+        }
+
+        // Close modal when clicking overlay
+        const checkoutOverlay = checkoutModal.querySelector('.checkout-modal-overlay');
+        if (checkoutOverlay) {
+            checkoutOverlay.addEventListener('click', function() {
+                checkoutModal.classList.remove('open');
+            });
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && checkoutModal.classList.contains('open')) {
+                checkoutModal.classList.remove('open');
+            }
+        });
+
+        // Update order summary when modal opens
+        function updateOrderSummary() {
+            const subtotalText = document.getElementById('cartSubtotal')?.textContent || '৳0.00';
+            const shipping = 100; // Default shipping cost
+            const subtotal = parseFloat(subtotalText.replace('৳', '').replace(',', '')) || 0;
+            const total = subtotal + shipping;
+
+            document.getElementById('summarySubtotal').textContent = subtotalText;
+            document.getElementById('summaryShipping').textContent = '৳' + shipping.toFixed(2);
+            document.getElementById('summaryTotal').textContent = '৳' + total.toFixed(2);
+        }
+
+        // Handle form submission
+        if (checkoutForm) {
+            checkoutForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Add your form submission logic here
+                console.log('Order submitted');
+            });
+        }
+    });
+</script>
+
 
     @stack('js')
 </body>
