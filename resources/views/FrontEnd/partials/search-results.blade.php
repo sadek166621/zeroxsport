@@ -7,6 +7,9 @@
     box-shadow: 0 6px 12px rgba(0,0,0,0.1);
     max-height: 350px;
     overflow-y: auto;
+    width: 100%;
+    left: 0;
+    right: 0;
 }
 
 /* Hover effect for product rows */

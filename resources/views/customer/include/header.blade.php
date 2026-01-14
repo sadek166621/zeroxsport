@@ -19,6 +19,7 @@ $dashboardRoute = route('dashboard');
 // Fetch categories for nav-bottom
 $navCategories = \App\Models\Category::where('type', 1)->limit(7)->get();
 $allCategories = \App\Models\Category::where('type', 1)->get();
+$currentCategorySlug = request()->route('slug');
 @endphp
 
 <style>
@@ -75,6 +76,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
         min-width: 200px;
         max-width: 900px;
         gap: 0;
+        position: relative;
     }
 
     .search-select {
@@ -367,6 +369,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
         font-size: 11px;
         transition: all 0.3s ease;
         cursor: pointer;
+        position: relative;
     }
 
     .mobile-bottom-nav-item:hover {
@@ -375,6 +378,23 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
 
     .mobile-bottom-nav-item i {
         font-size: 20px;
+    }
+
+    .mobile-bottom-nav-item .cart-count {
+        position: absolute;
+        top: 5px;
+        right: 8px;
+        background-color: #ff4444;
+        color: #fff;
+        font-weight: bold;
+        font-size: 10px;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     /* Slider styles for nav-bottom */
@@ -615,19 +635,23 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
         </div>
 
         <div class="nav-search">
-            <select class="search-select">
-                <option>{{ $isBangla ? 'সব' : 'All' }}</option>
-                <option>{{ $isBangla ? 'বই' : 'Books' }}</option>
-                <option>{{ $isBangla ? 'ইলেকট্রনিক্স' : 'Electronics' }}</option>
-                <option>{{ $isBangla ? 'ফ্যাশন' : 'Fashion' }}</option>
-                <option>{{ $isBangla ? 'হোম' : 'Home' }}</option>
+            <select class="search-select" onchange="redirectToCategory(this)">
+                <option value="">{{ $isBangla ? 'সব' : 'All' }}</option>
+                @foreach ($allCategories as $category)
+                <option value="{{ route('product.category', $category->slug) }}"
+                    {{ $currentCategorySlug === $category->slug ? 'selected' : '' }}>
+                    {{ $isBangla ? $category->name_bn : $category->name_en }}
+                </option>
+                @endforeach
             </select>
             <input type="text" class="search-input" id="search-input" name="search"
-                placeholder="{{ $isBangla ? 'অনলাইন হাট বিডি অনুসন্ধান করুন' : 'Search Online Hut BD' }}"
+                placeholder="{{ $isBangla ? 'এখানে অনুসন্ধান করুন...' : 'Search products...' }}"
                 onfocus="search_result_show()" onblur="search_result_hide()">
             <button class="search-button" type="submit">
                 <i class="fas fa-search"></i>
             </button>
+            <div id="search-results" class="searchProducts"
+                style="position: absolute; z-index: 999; width: 100%; top: 120%; display: none;"></div>
         </div>
 
         <button class="menu-toggle" id="menuToggle">
@@ -639,75 +663,81 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
             <div class="user-account-dropdown">
                 <div class="nav-item">
                     <a href="{{ $dashboardRoute }}">
-                      <span class="btn btn-info" style="background-color: white; color: #003D32;">{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
+                        <span class="btn btn-info"
+                            style="background-color: white; color: #003D32;">{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
                     </a>
                     {{-- <span class="nav-item-top">{{ $isBangla ? 'হ্যালো' : 'Hello' }}, {{ $userName }}</span> --}}
                     {{-- <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span> --}}
                 </div>
                 {{-- <div class="user-account-dropdown-menu">
                     <a href="{{ $dashboardRoute }}" class="dropdown-menu-item">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
-                    </a>
-                    <div class="dropdown-menu-divider"></div>
-                    <a href="{{ route('logout') }}" class="dropdown-menu-item"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>{{ $isBangla ? 'লগআউট' : 'Logout' }}</span>
-                    </a>
-                </div> --}}
-            </div>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-            @else
-            <div class="nav-item" onclick="window.location.href='{{ route('login') }}'">
-                <span class="nav-item-top">{{ $isBangla ? 'স্বাগতম' : 'Hello, sign in' }}</span>
-                <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span>
-            </div>
-            @endauth
-
-            <div class="nav-item">
-                <span class="nav-item-top">{{ $isBangla ? 'রিটার্ন' : 'Returns' }}</span>
-                <span class="nav-item-bottom">{{ $isBangla ? 'ও অর্ডার' : '& Orders' }}</span>
-            </div>
-
-            <div class="nav-cart" id="cartSidebarToggle">
-                <span class="cart-icon"><i class="fas fa-shopping-cart"></i></span>
-                <span class="cart-count cartQty">0</span>
-                <span class="cart-text">{{ $isBangla ? 'কার্ট' : 'Cart' }}</span>
-            </div>
-        </div>
-
-        <div class="nav-mobile-menu" id="mobileMenu">
-            <div class="nav-mobile-item">
-                <a href="{{ route('home') }}"><i class="fas fa-home"></i> {{ $isBangla ? 'হোম' : 'Home' }}</a>
-            </div>
-            <div class="nav-mobile-item">
-                <a href="{{ route('product.show') }}"><i class="fas fa-store"></i> {{ $isBangla ? 'শপ' : 'Shop' }}</a>
-            </div>
-            <div class="nav-mobile-item">
-                <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i> {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
-            </div>
-            <div class="nav-mobile-item">
-                <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i> {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
-            </div>
-            <div style="border-top: 1px solid rgba(255, 255, 255, 0.3); margin-top: 10px;"></div>
-            @auth
-            <div class="nav-mobile-item">
-                <a href="{{ $dashboardRoute }}"><i class="fas fa-tachometer-alt"></i> {{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</a>
-            </div>
-            <div class="nav-mobile-item">
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt"></i> {{ $isBangla ? 'লগআউট' : 'Logout' }}
+                <i class="fas fa-tachometer-alt"></i>
+                <span>{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
                 </a>
-            </div>
-            @else
-            <div class="nav-mobile-item">
-                <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> {{ $isBangla ? 'লগইন' : 'Login' }}</a>
-            </div>
-            @endauth
+                <div class="dropdown-menu-divider"></div>
+                <a href="{{ route('logout') }}" class="dropdown-menu-item"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>{{ $isBangla ? 'লগআউট' : 'Logout' }}</span>
+                </a>
+            </div> --}}
         </div>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+        @else
+        <div class="nav-item" onclick="window.location.href='{{ route('login') }}'">
+            <span class="nav-item-top">{{ $isBangla ? 'স্বাগতম' : 'Hello, sign in' }}</span>
+            <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span>
+        </div>
+        @endauth
+
+        <div class="nav-item">
+            <span class="nav-item-top">{{ $isBangla ? 'রিটার্ন' : 'Returns' }}</span>
+            <span class="nav-item-bottom">{{ $isBangla ? 'ও অর্ডার' : '& Orders' }}</span>
+        </div>
+
+        <div class="nav-cart" id="cartSidebarToggle">
+            <span class="cart-icon"><i class="fas fa-shopping-cart"></i></span>
+            <span class="cart-count cartQty">0</span>
+            <span class="cart-text">{{ $isBangla ? 'কার্ট' : 'Cart' }}</span>
+        </div>
+    </div>
+
+    <div class="nav-mobile-menu" id="mobileMenu">
+        <div class="nav-mobile-item">
+            <a href="{{ route('home') }}"><i class="fas fa-home"></i> {{ $isBangla ? 'হোম' : 'Home' }}</a>
+        </div>
+        <div class="nav-mobile-item">
+            <a href="{{ route('product.show') }}"><i class="fas fa-store"></i> {{ $isBangla ? 'শপ' : 'Shop' }}</a>
+        </div>
+        <div class="nav-mobile-item">
+            <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i>
+                {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
+        </div>
+        <div class="nav-mobile-item">
+            <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i>
+                {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
+        </div>
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.3); margin-top: 10px;"></div>
+        @auth
+        <div class="nav-mobile-item">
+            <a href="{{ $dashboardRoute }}"><i class="fas fa-tachometer-alt"></i>
+                {{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</a>
+        </div>
+        <div class="nav-mobile-item">
+            <a href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fas fa-sign-out-alt"></i> {{ $isBangla ? 'লগআউট' : 'Logout' }}
+            </a>
+        </div>
+        @else
+        <div class="nav-mobile-item">
+            <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i>
+                {{ $isBangla ? 'লগইন' : 'Login' }}</a>
+        </div>
+        @endauth
+    </div>
     </div>
 
     <div class="nav-bottom">
@@ -718,10 +748,12 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
             <a href="{{ route('product.show') }}"><i class="fas fa-store"></i> {{ $isBangla ? 'শপ' : 'Shop' }}</a>
         </div>
         <div class="nav-bottom-item">
-            <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i> {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
+            <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i>
+                {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
         </div>
         <div class="nav-bottom-item">
-            <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i> {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
+            <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i>
+                {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
         </div>
     </div>
 
@@ -734,10 +766,12 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
                 <a href="{{ route('product.show') }}"><i class="fas fa-store"></i> {{ $isBangla ? 'শপ' : 'Shop' }}</a>
             </div>
             <div class="nav-bottom-item">
-                <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i> {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
+                <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i>
+                    {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
             </div>
             <div class="nav-bottom-item">
-                <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i> {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
+                <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i>
+                    {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
             </div>
         </div>
     </div>
@@ -759,6 +793,7 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
     </a>
     <a href="{{ route('cart.show') }}" class="mobile-bottom-nav-item" id="cartSidebarToggleMobile">
         <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count cartQty">0</span>
         <span>{{ $isBangla ? 'কার্ট' : 'Cart' }}</span>
     </a>
     <a href="{{ route('order.tracking') }}" class="mobile-bottom-nav-item">
@@ -767,7 +802,70 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
     </a>
 </div>
 
+<section class="d-block d-lg-none">
+    <div class="container">
+        <form class="d-none d-md-flex " role="search" action="{{ route('product.search') }}" method="post">
+            @csrf
+            <input class="form-control typewriter-effect " type="search" onfocus="search_result_show()"
+                onblur="search_result_hide()" name="search" placeholder="Search Product Here ..."
+                aria-label="Search">
+            <button class="btn search-icon" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+</section>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function redirectToCategory(select) {
+        if (select.value) {
+            window.location.href = select.value;
+        }
+    }
+</script>
+<script>
+    $(document).ready(function() {
+        $('#search-input').on('keyup', function() {
+            let query = $(this).val();
+
+            if (query.length > 1) {
+                $.ajax({
+                    url: "{{ route('ajax.product.search') }}",
+                    method: "GET",
+                    data: {
+                        search: query
+                    },
+                    success: function(response) {
+                        $('#search-results').html(response.html).show();
+                    },
+                    error: function(xhr) {
+                        console.log("AJAX error:", xhr.responseText);
+                    }
+                });
+            } else {
+                $('#search-results').hide();
+            }
+        });
+
+        // Search button functionality
+        document.querySelector('.search-button').addEventListener('click', function() {
+            const searchTerm = document.querySelector('.search-input').value;
+            if (searchTerm) {
+                window.location.href = "{{ route('product.search') }}?search=" + encodeURIComponent(searchTerm);
+            }
+        });
+
+        document.querySelector('.search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value;
+                if (searchTerm) {
+                    window.location.href = "{{ route('product.search') }}?search=" + encodeURIComponent(searchTerm);
+                }
+            }
+        });
+    });
+</script>
+
 <script>
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -789,52 +887,15 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
         }
     });
 
-    // Search functionality
-    document.querySelector('.search-button').addEventListener('click', function() {
-        const searchTerm = document.querySelector('.search-input').value;
-        if (searchTerm) {
-            window.location.href = "{{ route('product.search') }}?search=" + encodeURIComponent(searchTerm);
-        }
-    });
 
-    document.querySelector('.search-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const searchTerm = this.value;
-            if (searchTerm) {
-                window.location.href = "{{ route('product.search') }}?search=" + encodeURIComponent(searchTerm);
-            }
-        }
-    });
 
     // Cart sidebar toggle
     const cartToggle = document.getElementById('cartSidebarToggle');
     const cartToggleMobile = document.getElementById('cartSidebarToggleMobile');
-    
-    function openCartSidebar() {
-        const cartSidebar = document.getElementById('cartSidebar');
-        const cartOverlay = document.getElementById('cartOverlay');
-        if (cartSidebar && cartOverlay) {
-            cartSidebar.classList.add('open');
-            cartOverlay.classList.add('open');
-            cartSidebar.setAttribute('aria-hidden', 'false');
-            cartOverlay.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-        }
-    }
-    
-    if (cartToggle) {
-        cartToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            openCartSidebar();
-        });
-    }
-    
-    if (cartToggleMobile) {
-        cartToggleMobile.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            openCartSidebar();
-        });
-    }
+    if (cartToggle) cartToggle.addEventListener('click', function() {
+        // Trigger your cart sidebar here
+    });
+    if (cartToggleMobile) cartToggleMobile.addEventListener('click', function() {
+        // Trigger your cart sidebar here
+    });
 </script>
