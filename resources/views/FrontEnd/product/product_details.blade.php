@@ -265,6 +265,184 @@
         align-items: center;
         justify-content: center;
     }
+
+    /* Variant Selection Styles (Inspired by https://anshifood.com/product-details/testPrdouct-Uj1e7) */
+    .variant-section {
+        /* margin: 1.5rem 0; */
+        animation: slideInUp 0.4s ease;
+    }
+
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .variant-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 1rem;
+        text-transform: capitalize;
+        letter-spacing: 0.3px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .variant-title::before {
+        content: '';
+        display: inline-block;
+        width: 4px;
+        height: 16px;
+        background: linear-gradient(180deg, #026745 0%, #01513d 100%);
+        border-radius: 2px;
+    }
+
+    .variant-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px;
+        background: #f8fafb;
+        border-radius: 10px;
+        border: 1px solid #e8ecf1;
+    }
+
+    .variant-option {
+        display: none;
+    }
+
+    .variant-label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 70px;
+        padding: 10px 18px;
+        border: 2px solid #d4dce6;
+        border-radius: 8px;
+        background: #ffffff;
+        color: #424242;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        white-space: nowrap;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .variant-label::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(2, 103, 69, 0.08);
+        transition: left 0.3s ease;
+        z-index: 0;
+    }
+
+    .variant-label:hover {
+        border-color: #026745;
+        color: #026745;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(2, 103, 69, 0.12);
+    }
+
+    .variant-label:hover::before {
+        left: 0;
+    }
+
+    .variant-option:checked + .variant-label {
+        border-color: #026745;
+        background: linear-gradient(135deg, #026745 0%, #01513d 100%);
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 6px 20px rgba(2, 103, 69, 0.3);
+        transform: scale(1.02);
+    }
+
+    .variant-option:checked + .variant-label::before {
+        content: '✓';
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: auto;
+        height: auto;
+        left: auto;
+        background: none;
+        font-size: 16px;
+        font-weight: 700;
+        color: #ffffff;
+        animation: checkPulse 0.4s ease;
+    }
+
+    @keyframes checkPulse {
+        0% {
+            transform: translateY(-50%) scale(0);
+            opacity: 0;
+        }
+
+        50% {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        100% {
+            transform: translateY(-50%) scale(1);
+            opacity: 1;
+        }
+    }
+
+    .variant-option:focus + .variant-label {
+        outline: 2px solid #026745;
+        outline-offset: 2px;
+    }
+
+    .variant-option:disabled + .variant-label {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: #f5f5f5;
+    }
+
+    @media (max-width: 768px) {
+        .variant-section {
+            /* margin: 1rem 0; */
+        }
+
+        .variant-title {
+            font-size: 14px;
+            margin-bottom: 0.75rem;
+        }
+
+        .variant-options {
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .variant-label {
+            min-width: 60px;
+            padding: 8px 14px;
+            font-size: 13px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .variant-label {
+            min-width: 50px;
+            padding: 7px 12px;
+            font-size: 12px;
+        }
+    }
 </style>
 <!-- Product Information Start -->
 <section class="custom_container  my-3  " style="border-radius: 10px;">
@@ -466,8 +644,10 @@
                         </p>
                         @endif
                     </div>
+
+                    <!-- choice form -->
                     <form id="choice_form">
-                        <div class="row " id="choice_attributes">
+                        <div class="row" id="choice_attributes">
                             @if ($product->is_varient)
                             @php $i = 0; @endphp
                             @foreach (json_decode($product->attribute_values) as $attribute)
@@ -475,10 +655,8 @@
                             $attr = get_attribute_by_id($attribute->attribute_id);
                             $i++;
                             @endphp
-                            <input type="hidden" name=""
-                                onload="selectAttribute('{{ $attribute->attribute_id }}', '{{ $attr->name }}', '{{ $attribute->values[0] }}', '{{ $product->id }}', '1')">
-                            <div class="attr-detail attr-size mb-3">
-                                <strong class="mr-10">{{ $attr->name }}: </strong>
+                            <div class="variant-section mb-3">
+                                <div class="variant-title">{{ $attr->name }}</div>
                                 <input type="hidden" name="attribute_ids[]"
                                     id="attribute_id_{{ $i }}"
                                     value="{{ $attribute->attribute_id }}">
@@ -488,19 +666,21 @@
                                     value="0">
                                 <input type="hidden" id="attribute_check_attr_{{ $i }}"
                                     value="0">
-                                <ul class="list-filter size-filter font-small">
+                                <div class="variant-options">
                                     @foreach ($attribute->values as $key => $value)
-                                    <label class="radio-inline">
-                                        <input type="radio" class="m-2"
-                                            onclick="selectAttribute('{{ $attribute->attribute_id }}{{ $attr->name }}', '{{ $value }}', '{{ $product->id }}', '{{ $i }}')"
-                                            name="option_{{ $i }}">{{ $value }}
-                                    </label>
-                                    @php $key++; @endphp
+                                    <input type="radio" 
+                                        class="variant-option"
+                                        onclick="selectAttribute('{{ $attribute->attribute_id }}{{ $attr->name }}', '{{ $value }}', '{{ $product->id }}', '{{ $i }}')"
+                                        name="option_{{ $i }}" 
+                                        id="option_{{ $i }}_{{ $key }}"
+                                        value="{{ $value }}"
+                                        {{ $key == 0 ? 'checked' : '' }}>
+                                    <label for="option_{{ $i }}_{{ $key }}" class="variant-label">{{ $value }}</label>
                                     @endforeach
                                     <input type="hidden" name="attribute_options[]"
                                         id="{{ $attribute->attribute_id }}{{ $attr->name }}"
                                         class="attr_value_{{ $i }}">
-                                </ul>
+                                </div>
                             </div>
                             @endforeach
                             <input type="hidden" id="total_attributes"
@@ -508,6 +688,23 @@
                             @endif
                         </div>
                     </form>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Auto-select first variant on page load
+                            @if ($product->is_varient)
+                            @php $i = 0; @endphp
+                            @foreach (json_decode($product->attribute_values) as $attribute)
+                            @php $i++; @endphp
+                            const firstOption_{{ $i }} = document.querySelector('input[name="option_{{ $i }}"]');
+                            if (firstOption_{{ $i }}) {
+                                firstOption_{{ $i }}.checked = true;
+                                firstOption_{{ $i }}.dispatchEvent(new Event('change', { bubbles: true }));
+                            }
+                            @endforeach
+                            @endif
+                        });
+                    </script>
 
                     <div class="row" id="attribute_alert">
 

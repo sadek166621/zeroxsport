@@ -20,6 +20,7 @@
         </div>
         <a href="javascript:void(0);"
             id="checkoutButtonSidebar"
+            onclick="openCheckout()"
             class="checkout-btn btn">
             {{ session()->get('language') == 'bangla' ? 'অর্ডার করতে ক্লিক করুন' : 'Proceed to Checkout' }}
         </a>
