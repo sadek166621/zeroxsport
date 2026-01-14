@@ -1,24 +1,25 @@
 @php
-$logoUrl = asset(get_setting('site_logo')->value);
-$isAuthenticated = Auth::check();
-$user = $isAuthenticated ? Auth::user() : null;
-$userName = $user ? Str::before($user->name, ' ') : '';
-$userImage = $isAuthenticated && $user->profile_image ? asset($user->profile_image) : '';
-$language = session()->get('language');
-$isBangla = $language == 'bangla';
+    $logoUrl = asset(get_setting('site_logo')->value);
+    $isAuthenticated = Auth::check();
+    $user = $isAuthenticated ? Auth::user() : null;
+    $userName = $user ? Str::before($user->name, ' ') : '';
+    $userImage = $isAuthenticated && $user->profile_image ? asset($user->profile_image) : '';
+    $language = session()->get('language');
+    $isBangla = $language == 'bangla';
 
-$dashboardRoute = route('login');
-if ($user) {
-if ($user->role == 5) {
-$dashboardRoute = route('wholeseller.dashboard');
-} elseif (in_array($user->role, [3, 4])) {
-$dashboardRoute = route('dashboard');
-}
-}
+    $dashboardRoute = route('login');
+    if ($user) {
+        if ($user->role == 5) {
+            $dashboardRoute = route('wholeseller.dashboard');
+        } elseif (in_array($user->role, [3, 4])) {
+            $dashboardRoute = route('dashboard');
+        }
+    }
 
-// Fetch categories for nav-bottom
-$navCategories = \App\Models\Category::where('type', 1)->limit(7)->get();
-$allCategories = \App\Models\Category::where('type', 1)->get();
+    // Fetch categories for nav-bottom
+    $navCategories = \App\Models\Category::where('type', 1)->limit(7)->get();
+    $allCategories = \App\Models\Category::where('type', 1)->get();
+    $currentCategorySlug = request()->route('slug');
 @endphp
 
 <style>
@@ -633,12 +634,13 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
         </div>
 
         <div class="nav-search">
-            <select class="search-select">
+            <select class="search-select" onchange="redirectToCategory(this)">
                 <option value="">{{ $isBangla ? 'সব' : 'All' }}</option>
                 @foreach ($allCategories as $category)
-                <option value="{{ $category->id }}">
-                    {{ $isBangla ? $category->name_bn : $category->name_en }}
-                </option>
+                    <option value="{{ route('product.category', $category->slug) }}"
+                        {{ $currentCategorySlug === $category->slug ? 'selected' : '' }}>
+                        {{ $isBangla ? $category->name_bn : $category->name_en }}
+                    </option>
                 @endforeach
             </select>
             <input type="text" class="search-input" id="search-input" name="search"
@@ -655,15 +657,16 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
 
         <div class="nav-account-section">
             @auth
-            <div class="user-account-dropdown">
-                <div class="nav-item">
-                    <a href="{{ $dashboardRoute }}">
-                      <span class="btn btn-info" style="background-color: white; color: #003D32;">{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
-                    </a>
-                    {{-- <span class="nav-item-top">{{ $isBangla ? 'হ্যালো' : 'Hello' }}, {{ $userName }}</span> --}}
-                    {{-- <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span> --}}
-                </div>
-                {{-- <div class="user-account-dropdown-menu">
+                <div class="user-account-dropdown">
+                    <div class="nav-item">
+                        <a href="{{ $dashboardRoute }}">
+                            <span class="btn btn-info"
+                                style="background-color: white; color: #003D32;">{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
+                        </a>
+                        {{-- <span class="nav-item-top">{{ $isBangla ? 'হ্যালো' : 'Hello' }}, {{ $userName }}</span> --}}
+                        {{-- <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span> --}}
+                    </div>
+                    {{-- <div class="user-account-dropdown-menu">
                     <a href="{{ $dashboardRoute }}" class="dropdown-menu-item">
                         <i class="fas fa-tachometer-alt"></i>
                         <span>{{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</span>
@@ -675,15 +678,15 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
                         <span>{{ $isBangla ? 'লগআউট' : 'Logout' }}</span>
                     </a>
                 </div> --}}
-            </div>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
+                </div>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             @else
-            <div class="nav-item" onclick="window.location.href='{{ route('login') }}'">
-                <span class="nav-item-top">{{ $isBangla ? 'স্বাগতম' : 'Hello, sign in' }}</span>
-                <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span>
-            </div>
+                <div class="nav-item" onclick="window.location.href='{{ route('login') }}'">
+                    <span class="nav-item-top">{{ $isBangla ? 'স্বাগতম' : 'Hello, sign in' }}</span>
+                    <span class="nav-item-bottom">{{ $isBangla ? 'অ্যাকাউন্ট' : 'Account' }}</span>
+                </div>
             @endauth
 
             <div class="nav-item">
@@ -706,25 +709,30 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
                 <a href="{{ route('product.show') }}"><i class="fas fa-store"></i> {{ $isBangla ? 'শপ' : 'Shop' }}</a>
             </div>
             <div class="nav-mobile-item">
-                <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i> {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
+                <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i>
+                    {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
             </div>
             <div class="nav-mobile-item">
-                <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i> {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
+                <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i>
+                    {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
             </div>
             <div style="border-top: 1px solid rgba(255, 255, 255, 0.3); margin-top: 10px;"></div>
             @auth
-            <div class="nav-mobile-item">
-                <a href="{{ $dashboardRoute }}"><i class="fas fa-tachometer-alt"></i> {{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</a>
-            </div>
-            <div class="nav-mobile-item">
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt"></i> {{ $isBangla ? 'লগআউট' : 'Logout' }}
-                </a>
-            </div>
+                <div class="nav-mobile-item">
+                    <a href="{{ $dashboardRoute }}"><i class="fas fa-tachometer-alt"></i>
+                        {{ $isBangla ? 'ড্যাশবোর্ড' : 'Dashboard' }}</a>
+                </div>
+                <div class="nav-mobile-item">
+                    <a href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i> {{ $isBangla ? 'লগআউট' : 'Logout' }}
+                    </a>
+                </div>
             @else
-            <div class="nav-mobile-item">
-                <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i> {{ $isBangla ? 'লগইন' : 'Login' }}</a>
-            </div>
+                <div class="nav-mobile-item">
+                    <a href="{{ route('login') }}"><i class="fas fa-sign-in-alt"></i>
+                        {{ $isBangla ? 'লগইন' : 'Login' }}</a>
+                </div>
             @endauth
         </div>
     </div>
@@ -737,10 +745,12 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
             <a href="{{ route('product.show') }}"><i class="fas fa-store"></i> {{ $isBangla ? 'শপ' : 'Shop' }}</a>
         </div>
         <div class="nav-bottom-item">
-            <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i> {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
+            <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i>
+                {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
         </div>
         <div class="nav-bottom-item">
-            <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i> {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
+            <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i>
+                {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
         </div>
     </div>
 
@@ -753,10 +763,12 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
                 <a href="{{ route('product.show') }}"><i class="fas fa-store"></i> {{ $isBangla ? 'শপ' : 'Shop' }}</a>
             </div>
             <div class="nav-bottom-item">
-                <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i> {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
+                <a href="{{ route('category_list.index') }}"><i class="fas fa-th-large"></i>
+                    {{ $isBangla ? 'ক্যাটাগোরি' : 'Categories' }}</a>
             </div>
             <div class="nav-bottom-item">
-                <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i> {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
+                <a href="{{ route('order.tracking') }}"><i class="fas fa-truck"></i>
+                    {{ $isBangla ? 'ট্র্যাক করুন' : 'Track Order' }}</a>
             </div>
         </div>
     </div>
@@ -788,6 +800,13 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function redirectToCategory(select) {
+        if (select.value) {
+            window.location.href = select.value;
+        }
+    }
+</script>
 <script>
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -821,7 +840,8 @@ $allCategories = \App\Models\Category::where('type', 1)->get();
         if (e.key === 'Enter') {
             const searchTerm = this.value;
             if (searchTerm) {
-                window.location.href = "{{ route('product.search') }}?search=" + encodeURIComponent(searchTerm);
+                window.location.href = "{{ route('product.search') }}?search=" + encodeURIComponent(
+                    searchTerm);
             }
         }
     });
