@@ -643,12 +643,16 @@
                     </option>
                 @endforeach
             </select>
-            <input type="text" class="search-input" id="search-input" name="search"
-                placeholder="{{ $isBangla ? 'অনলাইন হাট বিডি অনুসন্ধান করুন' : 'Search Online Hut BD' }}"
-                onfocus="search_result_show()" onblur="search_result_hide()">
-            <button class="search-button" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
+            <form action="{{ route('product.search') }}" method="get">
+                <input type="text" class="search-bar" name="search" id="search-input"
+                    placeholder="{{ $isBangla ? 'এখানে অনুসন্ধান করুন...' : 'Search products...' }}"
+                    onfocus="search_result_show()" onblur="search_result_hide()">
+                <button type="submit" class="search-btn">
+                    Search
+                </button>
+            </form>
+            <div id="search-results" class="searchProducts"
+                style="position: absolute; z-index: 999; width: 100%; top: 100%; display: none;"></div>
         </div>
 
         <button class="menu-toggle" id="menuToggle">
@@ -799,6 +803,19 @@
     </a>
 </div>
 
+<section class="d-block d-lg-none">
+    <div class="container">
+        <form class="d-none d-md-flex " role="search" action="{{ route('product.search') }}" method="post">
+            @csrf
+            <input class="form-control typewriter-effect " type="search" onfocus="search_result_show()"
+                onblur="search_result_hide()" name="search" placeholder="Search Product Here ..."
+                aria-label="Search">
+            <button class="btn search-icon" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+</section>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function redirectToCategory(select) {
@@ -807,6 +824,34 @@
         }
     }
 </script>
+<script>
+    $(document).ready(function() {
+        $('#search-input').on('keyup', function() {
+            let query = $(this).val();
+
+            if (query.length > 1) {
+                $.ajax({
+                    url: "{{ route('ajax.product.search') }}",
+                    method: "GET",
+                    data: {
+                        search: query
+                    },
+                    success: function(response) {
+                        $('#search-results').html(response.html).show();
+                    },
+                    error: function(xhr) {
+                        console.log("AJAX error:", xhr.responseText);
+                    }
+                });
+            } else {
+                $('#search-results').hide();
+            }
+        });
+
+
+    });
+</script>
+
 <script>
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -828,23 +873,7 @@
         }
     });
 
-    // Search functionality
-    document.querySelector('.search-button').addEventListener('click', function() {
-        const searchTerm = document.querySelector('.search-input').value;
-        if (searchTerm) {
-            window.location.href = "{{ route('product.search') }}?search=" + encodeURIComponent(searchTerm);
-        }
-    });
 
-    document.querySelector('.search-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            const searchTerm = this.value;
-            if (searchTerm) {
-                window.location.href = "{{ route('product.search') }}?search=" + encodeURIComponent(
-                    searchTerm);
-            }
-        }
-    });
 
     // Cart sidebar toggle
     const cartToggle = document.getElementById('cartSidebarToggle');
