@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Session;
 
 class UserController extends Controller
@@ -17,11 +18,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        if(Auth::guard('admin')->user()->role != '1'){
+        if (Auth::guard('admin')->user()->role != '1') {
             abort(404);
         }
         $customers = User::where('role', 3)->latest()->get();
-    	return view('backend.customer.index',compact('customers'));
+        return view('backend.customer.index', compact('customers'));
     }
 
     /**
@@ -88,5 +89,28 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function resetPassword($id)
+    {
+        $customer = User::where('id', $id)->first();
+        return view('backend.customer.reset_password', compact('customer'));
+    }
+
+    public function resetPasswordStore(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $customer = User::findOrFail($id);
+
+        $customer->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()
+            ->route('customer.index')
+            ->with('success', 'Customer password reset successfully.');
     }
 }
