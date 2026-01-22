@@ -32,7 +32,7 @@ class VendorController extends Controller
         $vendors = Vendor::where('is_request', 1)->latest()->get();
         return view('backend.vendor.request',compact('vendors'));
     }
-    
+
     public function pendignProduct()
     {
         $products = Product::where('vendor_id', '!=', 0)->where('authenticity_status',0)->latest()->get();
@@ -381,6 +381,30 @@ class VendorController extends Controller
 
         Session::flash('warning','Vendor Inactive Successfully.');
         return redirect()->back();
+    }
+
+    public function resetPassword($id)
+    {
+        $vendorer = Vendor::findOrFail($id);
+        $vendor = User::where('id', $vendorer->user_id)->where('role', 2)->first();
+        return view('backend.vendor.reset_password', compact('vendor'));
+    }
+
+    public function resetPasswordStore(Request $request, $id)
+    {
+        $request->validate([
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $vendor = User::findOrFail($id);
+
+        $vendor->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()
+            ->route('vendor.index')
+            ->with('success', 'Vendor password reset successfully.');
     }
 
 

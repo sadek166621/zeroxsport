@@ -305,6 +305,8 @@ Route::middleware('adminAccess')->group(function () {
     Route::get('/vendor/delete/{id}', [VendorController::class, 'destroy'])->name('vendor.delete');
     Route::get('/vendor_active/{id}', [VendorController::class, 'active'])->name('vendor.active');
     Route::get('/vendor_inactive/{id}', [VendorController::class, 'inactive'])->name('vendor.in_active');
+    Route::get('/vendor/reset-password/{id}', [VendorController::class, 'resetPassword'])->name('vendor.reset-password');
+    Route::post('/vendor/{id}/reset-password-store', [VendorController::class, 'resetPasswordStore'])->name('vendor.reset-password.store');
 
 
     Route::get('/withdraw-requests/approve/{id}', [VendorPaymentController::class, 'addPaymentForRequest'])->name('request.approve');

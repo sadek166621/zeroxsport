@@ -67,6 +67,10 @@
                                     <div class="">
                                         <a class="btn btn-primary" style="padding: 12px" href="{{ route('vendor.edit',$vendor->id) }}" title="Edit Info"><i class="fa fa-pencil"></i></a>
                                         <a class=" btn btn-danger" href="{{ route('vendor.delete',$vendor->id) }}" title="Delete" id="delete"> <i class="fa fa-trash"></i></a>
+                                         <a href="{{ route('vendor.reset-password', $vendor->id) }}"
+                                            class="btn btn-sm btn-warning" title="Reset Password">
+                                            <i class="fa fa-key"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <!-- dropdown //end -->
