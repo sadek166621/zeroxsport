@@ -446,6 +446,14 @@
         box-shadow: 0 4px 12px rgba(3, 99, 68, 0.3);
     }
 
+    .item-image img {
+        width: 45px;
+        height: 45px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #eee;
+    }
+
     @media (max-width: 768px) {
         .checkout-modal-content {
             width: 95%;
@@ -459,6 +467,9 @@
 </style>
 
 
+@php
+    $isAuth = Auth::check();
+@endphp
 
 <div id="checkoutModal" class="checkout-modal">
     <div class="checkout-modal-overlay" onclick="closeCheckout()"></div>
@@ -470,16 +481,23 @@
 
         <div class="checkout-modal-body">
             <form id="checkoutForm" action="{{ route('checkout.store') }}" method="post" enctype="multipart/form-data">
+
+                @csrf
                 <!-- Customer Information -->
                 <div class="form-group">
                     <label>আপনার নাম <span class="required">*</span></label>
                     <div class="input-with-icon">
                         <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                         </svg>
-                        <input id="name" name="name" value="{{ Auth::user()->name ?? old('name') }}" type="text" class="form-control" placeholder="আপনার নাম" required>
+
+                        <input type="text" name="name" class="form-control"
+                            value="{{ $isAuth ? Auth::user()->name : old('name') }}"
+                            {{ $isAuth ? 'readonly' : 'required' }} placeholder="আপনার নাম">
+
                         @error('name')
-                        <div class="text-danger small mt-1">{{ $message }}</div>
+                            <div class="text-danger small mt-1">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -488,9 +506,13 @@
                     <label>ফোন নম্বর <span class="required">*</span></label>
                     <div class="input-with-icon">
                         <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                            </path>
                         </svg>
-                        <input type="number" id="phone" name="phone" class="form-control" placeholder="ফোন নম্বর" value="{{ Auth::user()->phone ?? old('phone') }}" required>
+                        <input type="text" name="phone" class="form-control"
+                            value="{{ $isAuth ? Auth::user()->phone : old('phone') }}"
+                            {{ $isAuth ? 'readonly' : 'required' }} placeholder="ফোন নম্বর">
                     </div>
                 </div>
 
@@ -498,99 +520,123 @@
                     <label>ঠিকানা <span class="required">*</span></label>
                     <div class="input-with-icon">
                         <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
-                        <input type="text" name="address" id="address" class="form-control" placeholder="ঠিকানা" required>
+                        <input type="text" name="address" class="form-control"
+                            value="{{ $isAuth ? Auth::user()->address : old('address') }}" required
+                            placeholder="ঠিকানা">
                         @error('address')
-                        <div class="text-danger small mt-1">{{ $message }}</div>
+                            <div class="text-danger small mt-1">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
-
                 <!-- Shipping Options -->
                 <div class="shipping-section">
                     <div class="shipping-title">শিপিং ডেলিভারি</div>
+
                     <div class="shipping-options">
-                        <label class="shipping-option">
-                            <div class="shipping-option-content">
-                                <input type="radio" name="shipping" value="inside" checked>
-                                <span class="shipping-option-label">ঢাকা শহরের ভিতরে ডেলিভারি</span>
-                            </div>
-                            <span class="shipping-option-price">Tk 70.00</span>
-                        </label>
-                        <label class="shipping-option">
-                            <div class="shipping-option-content">
-                                <input type="radio" name="shipping" value="outside">
-                                <span class="shipping-option-label">ঢাকা শহরের বাহিরে ডেলিভারি</span>
-                            </div>
-                            <span class="shipping-option-price">Tk 70.00</span>
-                        </label>
-                        <label class="shipping-option">
-                            <div class="shipping-option-content">
-                                <input type="radio" name="shipping" value="express">
-                                <span class="shipping-option-label">ঢাকা এবং ঢাকার বাহিরে সকল এরিয়া</span>
-                            </div>
-                            <span class="shipping-option-price">Tk 130.00</span>
-                        </label>
+                        @php
+                            $settings = $settings ?? \App\Models\AccountSetting::first();
+                        @endphp
+
+                        @if ($settings)
+                            <label class="shipping-option">
+                                <div class="shipping-option-content">
+                                    <input type="radio" name="shipping" value="{{ $settings->shipping_inside_dhaka }}"
+                                        checked>
+                                    <span class="shipping-option-label">
+                                        ঢাকা শহরের ভিতরে ডেলিভারি
+                                    </span>
+                                </div>
+                                <span class="shipping-option-price">
+                                    Tk {{ number_format($settings->shipping_inside_dhaka, 2) }}
+                                </span>
+                            </label>
+
+                            <label class="shipping-option">
+                                <div class="shipping-option-content">
+                                    <input type="radio" name="shipping"
+                                        value="{{ $settings->shipping_outside_dhaka }}">
+                                    <span class="shipping-option-label">
+                                        ঢাকা শহরের বাহিরে ডেলিভারি
+                                    </span>
+                                </div>
+                                <span class="shipping-option-price">
+                                    Tk {{ number_format($settings->shipping_outside_dhaka, 2) }}
+                                </span>
+                            </label>
+
+                            <label class="shipping-option">
+                                <div class="shipping-option-content">
+                                    <input type="radio" name="shipping" value="{{ $settings->shipping_all_area }}">
+                                    <span class="shipping-option-label">
+                                        ঢাকা এবং ঢাকার বাহিরে সকল এরিয়া
+                                    </span>
+                                </div>
+                                <span class="shipping-option-price">
+                                    Tk {{ number_format($settings->shipping_all_area, 2) }}
+                                </span>
+                            </label>
+                        @else
+                            <p class="text-danger small">
+                                Shipping charge not configured yet.
+                            </p>
+                        @endif
                     </div>
                 </div>
 
-                <!-- Order Summary -->
-                <div class="order-summary">
-                    <div class="order-item">
-                        <div class="item-image">🧴</div>
-                        <div class="item-details">
-                            <div class="item-name">Gawa Ghee/পাক্কা ঘী (১ কোয়া)</div>
-                            <div class="item-quantity">পরিমান: 1</div>
-                        </div>
-                        <div class="item-price">Tk 1,800.00</div>
-                    </div>
-                </div>
+
+                <div class="order-summary" id="checkoutOrderItems"></div>
 
                 <!-- Order Note -->
                 <div class="order-note-section">
                     <label>Order note</label>
-                    <textarea class="order-note" placeholder="Order note"></textarea>
+                    <textarea class="order-note" name="comment" placeholder="Order note"></textarea>
                 </div>
 
-                <!-- Promo Section -->
-                <div class="promo-section">
-                    <div class="promo-icon">
-                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%231976d2' viewBox='0 0 24 24'%3E%3Cpath d='M21 5l-9-4-9 4v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5z'/%3E%3C/svg%3E" alt="promo">
-                    </div>
-                    <div class="promo-content">
-                        <p class="promo-text">
-                            Add <strong>৫০০ টাকা সর্বনিম্ন</strong> for just <strong>Tk 625.00</strong><br>
-                            এখনই পণ্যটি অর্ডার করুন সেপ <a href="#" class="promo-link">এখানে ক্লিক করুন</a>
-                        </p>
-                    </div>
-                </div>
+
 
                 <!-- Totals -->
                 <div class="summary-totals">
                     <div class="summary-row">
-                        <span class="label">কার্ট মোট</span>
-                        <span class="value" id="cartSubtotalDisplay">Tk 1,800.00</span>
+                        <span>কার্ট মোট</span>
+                        <span id="cartSubtotalDisplay">৳0.00</span>
                     </div>
+
                     <div class="summary-row">
-                        <span class="label">ডেলিভারি চার্জ</span>
-                        <span class="value" id="shippingChargeDisplay">Tk 70.00</span>
+                        <span>ডেলিভারি চার্জ</span>
+                        <span id="shippingChargeDisplay">৳70.00</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>কুপন ছাড়</span>
+                        <span id="couponDiscountDisplay">- ৳0.00</span>
                     </div>
 
                     <!-- Coupon Code Section -->
-                    <div class="coupon-section" style="margin: 16px 0; padding: 12px; background: #f0f9f6; border-radius: 6px; border: 1px solid #036344;">
-                        <label style="display: block; font-size: 12px; font-weight: 500; color: #333; margin-bottom: 6px;">কুপন কোড (ঐচ্ছিক)</label>
+                    <div class="coupon-section"
+                        style="margin: 16px 0; padding: 12px; background: #f0f9f6; border-radius: 6px; border: 1px solid #036344;">
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 500; color: #333; margin-bottom: 6px;">কুপন
+                            কোড (ঐচ্ছিক)</label>
                         <div style="display: flex; gap: 6px;">
-                            <input type="text" id="couponCodeInput" class="form-control" placeholder="কুপন কোড দিন" style="padding: 8px 12px; border: 1px solid #ddd; font-size: 12px;">
-                            <button type="button" id="applyCouponBtn" class="btn" style="background: #036344; color: #fff; padding: 8px 12px; font-size: 12px; white-space: nowrap;">প্রয়োগ করুন</button>
+                            <input type="text" id="couponCodeInput" class="form-control"
+                                placeholder="কুপন কোড দিন"
+                                style="padding: 8px 12px; border: 1px solid #ddd; font-size: 12px;">
+                            <button type="button" id="applyCouponBtn" class="btn"
+                                style="background: #036344; color: #fff; padding: 8px 12px; font-size: 12px; white-space: nowrap;">প্রয়োগ
+                                করুন</button>
                         </div>
                         <div id="couponMessage" style="font-size: 11px; margin-top: 6px; color: #666;"></div>
                     </div>
 
                     <div class="summary-row total">
-                        <span class="label">সর্বমোট</span>
-                        <span class="value" id="grandTotalDisplay">Tk 1,870.00</span>
+                        <span>সর্বমোট</span>
+                        <span id="grandTotalDisplay">৳0.00</span>
                     </div>
                 </div>
 
@@ -604,7 +650,9 @@
                 <!-- Pay Online Button -->
                 <button type="button" class="btn-pay-online">
                     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
+                        </path>
                     </svg>
                     Pay Online
                 </button>
@@ -612,19 +660,23 @@
                 <!-- Payment Info -->
                 <div class="payment-info">
                     <p class="payment-info-text">
-                        উপরের লাল রঙয়ের বিল্ক করলে আপনার ফর্মটি সাবমিট হয়ে যাবে এবং আপনার অর্ডারটি প্রক্রিয়াকরণ শুরু হবে। ক্যাশ অন ডেলিভারি পেমেন্ট মেথডে অর্ডার করার জন্য উপরের "অর্ডার" বাটনে ক্লিক করুন।
+                        উপরের লাল রঙয়ের বিল্ক করলে আপনার ফর্মটি সাবমিট হয়ে যাবে এবং আপনার অর্ডারটি প্রক্রিয়াকরণ শুরু
+                        হবে। ক্যাশ অন ডেলিভারি পেমেন্ট মেথডে অর্ডার করার জন্য উপরের "অর্ডার" বাটনে ক্লিক করুন।
                     </p>
                 </div>
+
+                <input type="hidden" name="shipping_type" id="shippingTypeInput" value="1">
+                <input type="hidden" name="payment_option" id="paymentOptionInput" value="cod">
+                <input type="hidden" name="shipping_charge" id="shippingChargeInput"
+                    value="{{ $settings->shipping_inside_dhaka ?? 0 }}">
+
             </form>
         </div>
     </div>
 </div>
 
+
 <script>
-    let appliedCoupon = null;
-
-
-
     function closeCheckout() {
         document.getElementById('checkoutModal').classList.remove('open');
     }
@@ -635,8 +687,41 @@
         }
     });
 
-    // Apply Coupon Handler
+    // global coupon state
+    window.appliedCoupon = null;
+
+    // Cache DOM elements
+    const cartSubtotalEl = document.getElementById('cartSubtotalDisplay');
+    const shippingChargeEl = document.getElementById('shippingChargeDisplay');
+    const couponDiscountEl = document.getElementById('couponDiscountDisplay');
+    const grandTotalEl = document.getElementById('grandTotalDisplay');
+    const shippingInputs = document.querySelectorAll('input[name="shipping"]');
+    const shippingTypeInput = document.getElementById('shippingTypeInput');
+    const shippingChargeInput = document.getElementById('shippingChargeInput');
+    const paymentOptionInput = document.getElementById('paymentOptionInput');
+
+    // Initial subtotal from modal/cart
+    let cartSubtotal = parseFloat(document.getElementById('cartSubtotal')?.innerText.replace(/[^\d.]/g, '')) || 0;
+
+    // Update shipping type & charge when user selects
+    shippingInputs.forEach((input, index) => {
+        // Assign default data-type if missing
+        if (!input.dataset.type) input.dataset.type = (index + 1).toString();
+
+        input.addEventListener('change', () => {
+            const charge = parseFloat(input.value) || 0;
+            const type = input.dataset.type || '1';
+
+            shippingChargeEl.textContent = '৳' + charge.toFixed(2);
+            shippingTypeInput.value = type;
+            shippingChargeInput.value = charge;
+
+            calculateTotal();
+        });
+    });
+
     document.getElementById('applyCouponBtn').addEventListener('click', function() {
+
         const couponCode = document.getElementById('couponCodeInput').value.trim();
         const messageDiv = document.getElementById('couponMessage');
 
@@ -646,72 +731,181 @@
             return;
         }
 
-        // AJAX call to validate coupon
         $.ajax({
             url: "{{ route('apply-coupon') }}",
             type: "POST",
             data: {
                 _token: '{{ csrf_token() }}',
                 apply_coupon: couponCode,
-                cart_value: document.querySelector('input[name="sub_total"]')?.value || 0
+                cart_value: parseFloat(
+                    document.getElementById('cartSubtotal')
+                    ?.innerText.replace(/[^\d.]/g, '')
+                ) || 0
             },
             dataType: 'json',
+
             success: function(data) {
+
                 if (data.error) {
                     messageDiv.textContent = data.error;
                     messageDiv.style.color = '#d32f2f';
-                    appliedCoupon = null;
-                } else {
-                    messageDiv.textContent = '✓ ' + data.success + ' - ৳' + Math.floor(data.discount) + ' ছাড়';
-                    messageDiv.style.color = '#036344';
-                    appliedCoupon = {
-                        code: couponCode,
-                        discount: data.discount
-                    };
-                    updateModalTotals();
+                    window.appliedCoupon = null;
+                    calculateTotal();
+                    return;
                 }
+
+                messageDiv.textContent =
+                    '✓ ' + data.success + ' - ৳' + Math.floor(data.discount) + ' ছাড়';
+                messageDiv.style.color = '#036344';
+
+                window.appliedCoupon = {
+                    code: couponCode,
+                    discount: parseFloat(data.discount)
+                };
+
+                calculateTotal();
             },
-            error: function() {
-                messageDiv.textContent = 'অবৈধ কুপন কোড';
+
+            error: function(xhr) {
+                let message = 'অবৈধ কুপন কোড';
+
+                if (xhr.responseJSON && xhr.responseJSON.error) {
+                    message = xhr.responseJSON.error;
+                }
+
+                messageDiv.textContent = message;
                 messageDiv.style.color = '#d32f2f';
-                appliedCoupon = null;
+
+                window.appliedCoupon = null;
+                calculateTotal();
             }
         });
     });
 
+    function calculateTotal() {
+        const subtotal = cartSubtotal;
+        const shipping = parseFloat(shippingChargeInput.value) || 0;
+        const discount = window.appliedCoupon?.discount || 0;
+        const grandTotal = Math.max(subtotal + shipping - discount, 0);
+
+        cartSubtotalEl.textContent = '৳' + subtotal.toFixed(2);
+        shippingChargeEl.textContent = '৳' + shipping.toFixed(2);
+        couponDiscountEl.textContent = '- ৳' + discount.toFixed(2);
+        grandTotalEl.textContent = '৳' + grandTotal.toFixed(2);
+
+        // Store hidden inputs for submission
+        document.querySelector('input[name="grand_total"]')?.remove();
+        const grandInput = document.createElement('input');
+        grandInput.type = 'hidden';
+        grandInput.name = 'grand_total';
+        grandInput.value = grandTotal.toFixed(2);
+        document.getElementById('checkoutForm').appendChild(grandInput);
+
+        document.querySelector('input[name="sub_total"]')?.remove();
+        const subInput = document.createElement('input');
+        subInput.type = 'hidden';
+        subInput.name = 'sub_total';
+        subInput.value = subtotal.toFixed(2);
+        document.getElementById('checkoutForm').appendChild(subInput);
+    }
+
+    calculateTotal();
+
+    // Submit form for COD
     document.getElementById('checkoutForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        paymentOptionInput.value = 'cod';
+        submitCheckoutForm();
+    });
 
-        const formData = {
-            _token: '{{ csrf_token() }}',
-            name: document.querySelector('input[name="name"]')?.value || '',
-            phone: document.querySelector('input[name="phone"]')?.value || '',
-            address: document.querySelector('input[name="address"]')?.value || '',
-            shipping_id: document.querySelector('input[name="shipping"]:checked')?.value || '',
-            comment: document.querySelector('textarea[name="comment"]')?.value || '',
-            coupon: appliedCoupon?.code || ''
-        };
+    // Pay Online button
+    document.querySelector('.btn-pay-online').addEventListener('click', function() {
+        paymentOptionInput.value = 'online';
+        submitCheckoutForm();
+    });
 
-        if (!formData.name || !formData.phone || !formData.address) {
-            alert('সকল তথ্য দিন');
-            return;
-        }
+    function submitCheckoutForm() {
+        const form = document.getElementById('checkoutForm');
+        const data = $(form).serialize();
 
-        // Submit to server
         $.ajax({
-            url: "{{ route('checkout.store') }}",
-            type: "POST",
-            data: formData,
-            success: function(response) {
-                alert('অর্ডার সফলভাবে জমা দেওয়া হয়েছে!');
-                closeCheckout();
-                // Optionally reload or redirect
+            url: form.action,
+            method: form.method,
+            data: data,
+            success: function(res) {
+
+                if (res.success && res.redirect_url) {
+                    closeCheckout();
+                    window.location.href = res.redirect_url;
+                } else {
+                    alert('Redirect URL missing');
+                }
+
             },
-            error: function() {
-                alert('অর্ডার জমা দিতে ত্রুটি হয়েছে');
+            error: function(xhr) {
+                alert(xhr.responseJSON?.message || 'অর্ডার জমা দিতে ত্রুটি হয়েছে');
             }
         });
-    });
+    }
+
+
+    // function submitCheckoutForm() {
+    //     const form = document.getElementById('checkoutForm');
+    //     const data = $(form).serialize(); // serialize all form fields including hidden inputs
+
+    //     $.ajax({
+    //         url: form.action,
+    //         method: form.method,
+    //         data: data,
+    //         success: function(res) {
+    //             alert('অর্ডার সফলভাবে জমা দেওয়া হয়েছে!');
+    //             closeCheckout();
+    //             // Optionally redirect to success page:
+    //             if (res.invoice_no) {
+    //                 window.location.href = '/checkout/success/' + res.invoice_no;
+    //             } else {
+    //                 location.reload();
+    //             }
+    //         },
+    //         error: function(xhr) {
+    //             alert(xhr.responseJSON?.message || 'অর্ডার জমা দিতে ত্রুটি হয়েছে');
+    //         }
+    //     });
+    // }
+
+    // document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+    //     e.preventDefault();
+
+    //     const formData = {
+    //         _token: '{{ csrf_token() }}',
+    //         name: document.querySelector('input[name="name"]')?.value || '',
+    //         phone: document.querySelector('input[name="phone"]')?.value || '',
+    //         address: document.querySelector('input[name="address"]')?.value || '',
+    //         shipping_id: document.querySelector('input[name="shipping"]:checked')?.value || '',
+    //         comment: document.querySelector('textarea[name="comment"]')?.value || '',
+    //         coupon: appliedCoupon?.code || ''
+    //     };
+
+    //     if (!formData.name || !formData.phone || !formData.address) {
+    //         alert('সকল তথ্য দিন');
+    //         return;
+    //     }
+
+    //     // Submit to server
+    //     $.ajax({
+    //         url: "{{ route('checkout.store') }}",
+    //         type: "POST",
+    //         data: formData,
+    //         success: function(response) {
+    //             alert('অর্ডার সফলভাবে জমা দেওয়া হয়েছে!');
+    //             closeCheckout();
+    //             // Optionally reload or redirect
+    //         },
+    //         error: function() {
+    //             alert('অর্ডার জমা দিতে ত্রুটি হয়েছে');
+    //         }
+    //     });
+    // });
 
     function updateModalTotals() {
         // Recalculate totals with coupon discount if applied

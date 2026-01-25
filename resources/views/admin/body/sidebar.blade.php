@@ -605,6 +605,9 @@
                         <a class="{{ $route == 'shipping.index' || $route == 'shipping.create' || $route == 'shipping.edit' ? 'active' : '' }}"
                             href="{{ route('shipping.index') }}">Shipping Methods</a>
                         {{-- <a class="{{ ($route == 'paymentMethod.config') ? 'active':'' }}" href="{{ route('paymentMethod.config') }}">Payment Methods</a> --}}
+
+                         <a class="{{ $route == 'setting.shipping.and.delivery' ? 'active' : '' }}"
+                            href="{{ route('setting.shipping.and.delivery') }}">Shipping & Delivery</a>
                     </div>
                 </li>
             </ul>

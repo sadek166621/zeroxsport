@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{get_setting('business_name')->value}} | @yield('title')</title>
+    <title>{{ get_setting('business_name')->value }} | @yield('title')</title>
     <!-- Add this in your <head> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <link rel="shortcut icon" href="{{asset(get_setting('site_favicon')->value ?? '')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset(get_setting('site_favicon')->value ?? '') }}" type="image/x-icon">
 
     <style>
         .quantity-controls {
@@ -679,7 +679,8 @@
                                 <!-- MAIN SLIDES -->
                                 <div class="product-image-slider">
                                     <figure class="border-radius-10">
-                                        <img id="pimage" src="" class="img-fluid" width="375" alt="product image" />
+                                        <img id="pimage" src="" class="img-fluid" width="375"
+                                            alt="product image" />
                                     </figure>
                                 </div>
                                 <!-- THUMBNAILS -->
@@ -693,7 +694,8 @@
                         <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="detail-info pr-30 pl-30">
                                 <!--  <span class="stock-status out-stock"> Sale Off </span> -->
-                                <h3 class="title-detail"><a id="product_name" href="#" class="text-heading"></a></h3>
+                                <h3 class="title-detail"><a id="product_name" href="#" class="text-heading"></a>
+                                </h3>
                                 <!--  <div class="product-detail-rating">
                                      <div class="product-rate-cover text-end">
                                          <div class="product-rate d-inline-block">
@@ -731,38 +733,40 @@
                                 <div class="font-xs">
                                     <ul style="list-style: none">
                                         <li class="mb-1">
-                                            {{session()->get('language') == 'bangla' ? 'ক্যাটাগোরি' : 'Category'}}:
+                                            {{ session()->get('language') == 'bangla' ? 'ক্যাটাগোরি' : 'Category' }}:
                                             <span class="text-brand" id="pcategory">
 
                                             </span>
                                         </li>
                                         <li class="mb-1">
-                                            {{session()->get('language') == 'bangla' ? 'ব্র্যান্ড' : 'Brand'}}:
+                                            {{ session()->get('language') == 'bangla' ? 'ব্র্যান্ড' : 'Brand' }}:
                                             <span class="text-brand" id="pbrand">
 
                                             </span>
                                         </li>
                                         <li class="mb-1 d-none">
-                                            {{session()->get('language') == 'bangla' ? 'পণ্য কোড' : 'Product Code'}}:
+                                            {{ session()->get('language') == 'bangla' ? 'পণ্য কোড' : 'Product Code' }}:
                                             <span class="text-brand" id="pcode">
 
                                             </span>
                                         </li>
-                                        <li class="mb-1">{{session()->get('language') == 'bangla' ? 'স্টক' : 'Stock'}}:
+                                        <li class="mb-1">
+                                            {{ session()->get('language') == 'bangla' ? 'স্টক' : 'Stock' }}:
                                             <span class="badge badge-pill badge-success" id="pavailable"
                                                 style="background: green; color: white;">
-                                                {{session()->get('language') == 'bangla' ? 'স্টকে আছে' : 'Available'}}
+                                                {{ session()->get('language') == 'bangla' ? 'স্টকে আছে' : 'Available' }}
                                             </span>
                                             <span class="badge badge-pill badge-danger" id="pstockout"
                                                 style="background: red; color: white;">
-                                                {{session()->get('language') == 'bangla' ? 'স্টক আউট' : 'Stock Out'}}
+                                                {{ session()->get('language') == 'bangla' ? 'স্টক আউট' : 'Stock Out' }}
                                             </span>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="detail-extralink align-items-baseline d-flex" style="margin-top: 30px;">
                                     <div class="mr-10">
-                                        <span class="">{{session()->get('language') == 'bangla' ? 'পরিমাণ' : 'Quantity'}}:</span>
+                                        <span
+                                            class="">{{ session()->get('language') == 'bangla' ? 'পরিমাণ' : 'Quantity' }}:</span>
                                     </div>
                                     <div class="quantity-controls">
                                         <button type="button" class="qty-btn qty-down" aria-label="Decrease quantity">
@@ -801,14 +805,14 @@
 
                                         <input type="hidden" id="buyNowCheck" value="0">
 
-                                        <button class="like btn button button-add-to-cart add_to_cart" onclick="test()"
-                                            id="closeModel"><i class="fi-rs-shopping-cart"></i>
-                                            {{session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart'}}
+                                        <button class="like btn button button-add-to-cart add_to_cart"
+                                            onclick="test()" id="closeModel"><i class="fi-rs-shopping-cart"></i>
+                                            {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
                                         </button>
 
                                         <button class="like btn button button-add-to-cart ml-5 buy_now"
                                             onclick="buyProduct()"><i class="fi-rs-shopping-cart"></i>
-                                            {{session()->get('language') == 'bangla' ? 'এখুনি কিনুন' : 'Buy Now'}}
+                                            {{ session()->get('language') == 'bangla' ? 'এখুনি কিনুন' : 'Buy Now' }}
                                         </button>
                                     </div>
                                 </div>
@@ -822,7 +826,7 @@
         </div>
     </div>
     @include('FrontEnd.include.script')
-    
+
     @include('FrontEnd.include.checkout')
 
     <script>
@@ -882,65 +886,94 @@
         });
     </script>
 
+
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const checkoutModal = document.getElementById('checkoutModal');
-        const closeCheckoutModal = document.getElementById('closeCheckoutModal');
-        const checkoutForm = document.getElementById('checkoutForm');
+        document.addEventListener('DOMContentLoaded', function() {
 
-        // Open checkout modal using event delegation
-        document.addEventListener('click', function(e) {
-            if (e.target.id === 'checkoutButtonSidebar' || e.target.closest('#checkoutButtonSidebar')) {
-                e.preventDefault();
+            const checkoutModal = document.getElementById('checkoutModal');
+            const cartSubtotalEl = document.getElementById('cartSubtotal');
+            const orderItemsBox = document.getElementById('checkoutOrderItems');
+
+            window.openCheckout = function() {
                 checkoutModal.classList.add('open');
-                updateOrderSummary();
+                renderOrderSummary();
+                calculateTotal();
+            };
+
+            window.closeCheckout = function() {
+                checkoutModal.classList.remove('open');
+            };
+
+            function renderOrderSummary() {
+                orderItemsBox.innerHTML = '';
+
+                document.querySelectorAll('#cartItemsList .cart-item').forEach(item => {
+
+                    const nameEl = item.querySelector('.title');
+                    const priceEl = item.querySelector('.price');
+                    const qtyEl = item.querySelector('.qty-input-mini');
+                    const imgEl = item.querySelector('img');
+
+                    if (!nameEl || !priceEl || !qtyEl) return;
+
+                    const name = nameEl.innerText.trim();
+                    const qty = parseInt(qtyEl.value) || 1;
+                    const unitPrice = parseFloat(priceEl.innerText.replace(/[^\d.]/g, '')) || 0;
+                    const lineTotal = unitPrice * qty;
+                    const imgSrc = imgEl ? imgEl.src : '/images/no-image.png';
+
+                    orderItemsBox.innerHTML += `
+                <div class="order-item d-flex align-items-center gap-2">
+                    <div class="item-image">
+                        <img src="${imgSrc}" alt="${name}">
+                    </div>
+                    <div class="item-details flex-grow-1">
+                        <div class="item-name">${name}</div>
+                        <div class="item-quantity">পরিমান: ${qty}</div>
+                    </div>
+                    <div class="item-price">৳${lineTotal.toFixed(2)}</div>
+                </div>
+            `;
+                });
             }
+
+            window.calculateTotal = function() {
+
+                const subtotal = parseFloat(
+                    cartSubtotalEl.innerText.replace(/[^\d.]/g, '')
+                ) || 0;
+
+                const shipping = parseFloat(
+                    document.querySelector('input[name="shipping"]:checked')?.value
+                ) || 0;
+
+                let discount = 0;
+
+                if (window.appliedCoupon && window.appliedCoupon.discount) {
+                    discount = parseFloat(window.appliedCoupon.discount) || 0;
+                }
+
+                const grandTotal = Math.max(subtotal + shipping - discount, 0);
+
+                document.getElementById('cartSubtotalDisplay').innerText =
+                    '৳' + subtotal.toFixed(2);
+
+                document.getElementById('shippingChargeDisplay').innerText =
+                    '৳' + shipping.toFixed(2);
+
+                document.getElementById('couponDiscountDisplay').innerText =
+                    '- ৳' + discount.toFixed(2);
+
+                document.getElementById('grandTotalDisplay').innerText =
+                    '৳' + grandTotal.toFixed(2);
+            };
+
+            document.querySelectorAll('input[name="shipping"]').forEach(radio => {
+                radio.addEventListener('change', calculateTotal);
+            });
+
         });
-
-        // Close checkout modal
-        if (closeCheckoutModal) {
-            closeCheckoutModal.addEventListener('click', function() {
-                checkoutModal.classList.remove('open');
-            });
-        }
-
-        // Close modal when clicking overlay
-        const checkoutOverlay = checkoutModal.querySelector('.checkout-modal-overlay');
-        if (checkoutOverlay) {
-            checkoutOverlay.addEventListener('click', function() {
-                checkoutModal.classList.remove('open');
-            });
-        }
-
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && checkoutModal.classList.contains('open')) {
-                checkoutModal.classList.remove('open');
-            }
-        });
-
-        // Update order summary when modal opens
-        function updateOrderSummary() {
-            const subtotalText = document.getElementById('cartSubtotal')?.textContent || '৳0.00';
-            const shipping = 100; // Default shipping cost
-            const subtotal = parseFloat(subtotalText.replace('৳', '').replace(',', '')) || 0;
-            const total = subtotal + shipping;
-
-            document.getElementById('summarySubtotal').textContent = subtotalText;
-            document.getElementById('summaryShipping').textContent = '৳' + shipping.toFixed(2);
-            document.getElementById('summaryTotal').textContent = '৳' + total.toFixed(2);
-        }
-
-        // Handle form submission
-        if (checkoutForm) {
-            checkoutForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                // Add your form submission logic here
-                console.log('Order submitted');
-            });
-        }
-    });
-</script>
+    </script>
 
 
     @stack('js')

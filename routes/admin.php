@@ -401,6 +401,8 @@ Route::middleware('adminAccess')->group(function () {
     Route::get('/settings/index', [SettingController::class, 'index'])->name('setting.index');
     Route::post('/settings/update', [SettingController::class, 'update'])->name('update.setting');
     Route::get('/settings/activation', [SettingController::class, 'activation'])->name('setting.activation');
+    Route::get('/settings/shipping-and-delivery', [SettingController::class, 'shippingAndDelivery'])->name('setting.shipping.and.delivery');
+    Route::post('/settings/shipping-and-delivery/update',[SettingController::class, 'updateShippingAndDelivery'])->name('setting.shipping.and.delivery.update');
 
     // Shipping Methods Route
     Route::get('/shipping/index', [ShippingController::class, 'index'])->name('shipping.index');

@@ -49,7 +49,7 @@ class FrontendController extends Controller
         // $products = Product::where('status',1)->orderBy('id','DESC')->get();
 
         $products = Product::where('status', 1)->where('is_featured', 1)->orderBy('id', 'DESC')->get();
-     
+
 
         // Search Start
         $sort_search = null;
@@ -91,14 +91,14 @@ class FrontendController extends Controller
         //featured_products
         $product_featured = Product::where('status', 1)->where('is_featured', 1)->latest()->limit(9)->get();
         foreach ($product_featured as $product) {
-                $reviews = Review::where('product_id', $product->id)
-                    ->where('status', 1)
-                    ->where('verified_purchase', 1)
-                    ->get();
-                $product->rating_count = $product->reviews->count();
-                $average_rating = $reviews->count() > 0 ? $reviews->avg('rating') : 0;
-                $product->average_rating = round($average_rating, 1); // you can choose 1 or 2 decimals
-            }
+            $reviews = Review::where('product_id', $product->id)
+                ->where('status', 1)
+                ->where('verified_purchase', 1)
+                ->get();
+            $product->rating_count = $product->reviews->count();
+            $average_rating = $reviews->count() > 0 ? $reviews->avg('rating') : 0;
+            $product->average_rating = round($average_rating, 1); // you can choose 1 or 2 decimals
+        }
 
         $product_top_rates = Product::where('status', 1)->orderBy('regular_price')->limit(9)->get();
         // Home Banner
@@ -200,44 +200,44 @@ class FrontendController extends Controller
 
     /* ========== Start ProductDetails Method ======== */
 
-public function loadMoreProducts(Request $request)
-{
-    $count  = $request->input('count', 12); // Number of products to load (default is 12)
-    $offset = $request->input('offset', 0); // Offset for pagination
+    public function loadMoreProducts(Request $request)
+    {
+        $count  = $request->input('count', 12); // Number of products to load (default is 12)
+        $offset = $request->input('offset', 0); // Offset for pagination
 
-    $products = Product::where('status', 1)
-        ->orderBy('id', 'desc')
-        ->skip($offset)
-        ->limit($count)
-        ->get();
+        $products = Product::where('status', 1)
+            ->orderBy('id', 'desc')
+            ->skip($offset)
+            ->limit($count)
+            ->get();
 
-    $productsData = $products->map(function ($product) {
-        $discount = calculateDiscount($product->id);
-        $summary  = getProductReviewsSummary($product->id);
+        $productsData = $products->map(function ($product) {
+            $discount = calculateDiscount($product->id);
+            $summary  = getProductReviewsSummary($product->id);
 
-        return [
-            'id'               => $product->id,
-            'slug'             => $product->slug,
-            'name_en'          => $product->name_en,
-            'name_bn'          => $product->name_bn,
-            'product_thumbnail'=> asset($product->product_thumbnail),
-            'regular_price'    => $product->regular_price,
-            'discount_price'   => $discount['discount'],
-            'discount_text'    => $discount['text'],
-            'stock_qty'        => $product->stock_qty,
-            'is_varient'       => $product->is_varient,
-            'average_rating'   => $summary['average_rating'],
-            'reviews_count'    => $summary['total_ratings'],
-        ];
-    });
+            return [
+                'id'               => $product->id,
+                'slug'             => $product->slug,
+                'name_en'          => $product->name_en,
+                'name_bn'          => $product->name_bn,
+                'product_thumbnail' => asset($product->product_thumbnail),
+                'regular_price'    => $product->regular_price,
+                'discount_price'   => $discount['discount'],
+                'discount_text'    => $discount['text'],
+                'stock_qty'        => $product->stock_qty,
+                'is_varient'       => $product->is_varient,
+                'average_rating'   => $summary['average_rating'],
+                'reviews_count'    => $summary['total_ratings'],
+            ];
+        });
 
-    $nextOffset = $offset + $count;
+        $nextOffset = $offset + $count;
 
-    return response()->json([
-        'products'   => $productsData,
-        'nextOffset' => $nextOffset
-    ]);
-}
+        return response()->json([
+            'products'   => $productsData,
+            'nextOffset' => $nextOffset
+        ]);
+    }
     public function productDetails($slug)
     {
 
@@ -269,7 +269,7 @@ public function loadMoreProducts(Request $request)
             $average_rating = $total_ratings > 0 ? $reviews->avg('rating') : 0;
 
             // Ratings grouped by star (5 to 1)
-               $ratingCounts = $reviews->groupBy(function($review) {
+            $ratingCounts = $reviews->groupBy(function ($review) {
                 return (int) $review->rating;
             })->map->count();
 
@@ -293,7 +293,7 @@ public function loadMoreProducts(Request $request)
             }
             $product->increment('views');
 
-       
+
             return view('FrontEnd.product.product_details', compact('group_products', 'shipping_charge', 'product', 'multiImg', 'categories', 'new_products', 'product_color_en', 'product_size_en', 'relatedProduct', 'reviews', 'total_ratings', 'average_rating', 'formattedCounts'));
         }
 
@@ -387,7 +387,6 @@ public function loadMoreProducts(Request $request)
                 $products = Product::where('status', '=', 1)->where('vendor_id', $vendor->id)->whereBetween('regular_price', [$filter_price_start, $filter_price_end])->paginate(20);
                 // dd($products);
             }
-
         }
 
         $categories = Category::orderBy('name_en', 'ASC')->where('status', '=', 1)->get();
@@ -498,14 +497,12 @@ public function loadMoreProducts(Request $request)
         $categories = Category::orderBy('name_en', 'DESC')->where('status', 1)->get();
         if ($category_id == 0) {
             $products = Product::where('name_en', 'LIKE', "%$item%")->where(
-                'status'
-                ,
+                'status',
                 1
             )->latest()->get();
         } else {
             $products = Product::where('name_en', 'LIKE', "%$item%")->where('category_id', $category_id)->where(
-                'status'
-                ,
+                'status',
                 1
             )->latest()->get();
         }
@@ -513,7 +510,6 @@ public function loadMoreProducts(Request $request)
         $attributes = Attribute::orderBy('name', 'DESC')->where('status', 1)->latest()->get();
 
         return view('FrontEnd.product.search', compact('products', 'categories', 'attributes', 'sort_by', 'brand_id'));
-
     } // end method
 
     /* ================= End Product Search =================== */
@@ -535,14 +531,12 @@ public function loadMoreProducts(Request $request)
 
         if ($category_id == 0) {
             $products = Product::where('name_en', 'LIKE', "%$item%")->where(
-                'status'
-                ,
+                'status',
                 1
             )->latest()->get();
         } else {
             $products = Product::where('name_en', 'LIKE', "%$item%")->where('category_id', $category_id)->where(
-                'status'
-                ,
+                'status',
                 1
             )->latest()->get();
         }
@@ -550,7 +544,6 @@ public function loadMoreProducts(Request $request)
         $attributes = Attribute::orderBy('name', 'DESC')->where('status', 1)->latest()->get();
 
         return view('FrontEnd.product.advance_search', compact('products', 'categories', 'attributes'));
-
     } // end method
 
     /* ================= End Advance Product Search =================== */
@@ -613,44 +606,95 @@ public function loadMoreProducts(Request $request)
         $attributes = Attribute::orderBy('name', 'DESC')->where('status', 1)->latest()->get();
         // End Shop Product //
         return view('FrontEnd.deals.hot_deals', compact('attributes', 'products', 'sort_by', 'brand_id'));
-
     } // end method
 
     public function applycoupon(Request $request)
     {
+        $request->validate([
+            'apply_coupon' => 'required|string',
+            'cart_value'   => 'required|numeric|min:0',
+        ]);
+
         $coupon = Coupon::where('coupon_code', $request->apply_coupon)
             ->where('status', 1)
-            ->where('total_use_limit', '>', 0) // Ensure total_use_limit is greater than 0
+            ->where('total_use_limit', '>', 0)
             ->first();
 
-        if ($coupon) {
-            // Check if the coupon has expired
-            $now = Carbon::now();
-            $expirationDate = Carbon::parse($coupon->expire_date);
-
-            if ($expirationDate->greaterThanOrEqualTo($now)) {
-                if ($coupon->discount <= $request->cart_value) {
-                    // Calculate discount based on coupon type
-                    $discountAmount = ($coupon->discount_type == 0) ? ($coupon->discount / 100) * $request->cart_value : $coupon->discount;
-                    // ... your existing code for applying the coupon
-                    // Fetch shipping charge based on the selected shipping_id
-                    $shippingCharge = $this->getShippingCharge($request->shipping_id);
-                    // Return both coupon discount and shipping charge as JSON response
-                    Session::put('couponCode', $coupon->coupon_code);
-                    Session::put('discountType', $coupon->discount_type);
-                    Session::put('amount', $discountAmount);
-                    Session::put('couponId', $coupon->id);
-                    return response()->json(['success' => 'Coupon Applied Successfully', 'discount' => $discountAmount, 'shipping_charge' => $shippingCharge]);
-                } else {
-                    return back()->with('message', 'Not Enough Cart Amount To Get Offer. Please Update Cart Amount.');
-                }
-            } else {
-                return response()->json(['error' => 'Coupon Date Is Expired']);
-            }
+        if (!$coupon) {
+            return response()->json([
+                'error' => 'অবৈধ কুপন কোড'
+            ], 422);
         }
-        // Handle other cases if necessary
-        return back()->with('message', 'Invalid coupon code');
+
+        // Expiry check
+        if (Carbon::parse($coupon->expire_date)->isPast()) {
+            return response()->json([
+                'error' => 'কুপনের মেয়াদ শেষ'
+            ], 422);
+        }
+
+        // Minimum cart amount check
+        if ($request->cart_value <= 0) {
+            return response()->json([
+                'error' => 'কার্ট খালি'
+            ], 422);
+        }
+
+        // Calculate discount
+        $discountAmount = $coupon->discount_type == 0
+            ? ($coupon->discount / 100) * $request->cart_value
+            : $coupon->discount;
+
+        // Store in session (optional)
+        session([
+            'couponCode'   => $coupon->coupon_code,
+            'discountType' => $coupon->discount_type,
+            'amount'       => $discountAmount,
+            'couponId'     => $coupon->id,
+        ]);
+
+        return response()->json([
+            'success'  => 'Coupon Applied Successfully',
+            'discount' => round($discountAmount, 2),
+        ]);
     }
+
+
+    // public function applycoupon(Request $request)
+    // {
+    //     $coupon = Coupon::where('coupon_code', $request->apply_coupon)
+    //         ->where('status', 1)
+    //         ->where('total_use_limit', '>', 0) // Ensure total_use_limit is greater than 0
+    //         ->first();
+
+    //     if ($coupon) {
+    //         // Check if the coupon has expired
+    //         $now = Carbon::now();
+    //         $expirationDate = Carbon::parse($coupon->expire_date);
+
+    //         if ($expirationDate->greaterThanOrEqualTo($now)) {
+    //             if ($coupon->discount <= $request->cart_value) {
+    //                 // Calculate discount based on coupon type
+    //                 $discountAmount = ($coupon->discount_type == 0) ? ($coupon->discount / 100) * $request->cart_value : $coupon->discount;
+    //                 // ... your existing code for applying the coupon
+    //                 // Fetch shipping charge based on the selected shipping_id
+    //                 $shippingCharge = $this->getShippingCharge($request->shipping_id);
+    //                 // Return both coupon discount and shipping charge as JSON response
+    //                 Session::put('couponCode', $coupon->coupon_code);
+    //                 Session::put('discountType', $coupon->discount_type);
+    //                 Session::put('amount', $discountAmount);
+    //                 Session::put('couponId', $coupon->id);
+    //                 return response()->json(['success' => 'Coupon Applied Successfully', 'discount' => $discountAmount, 'shipping_charge' => $shippingCharge]);
+    //             } else {
+    //                 return back()->with('message', 'Not Enough Cart Amount To Get Offer. Please Update Cart Amount.');
+    //             }
+    //         } else {
+    //             return response()->json(['error' => 'Coupon Date Is Expired']);
+    //         }
+    //     }
+    //     // Handle other cases if necessary
+    //     return back()->with('message', 'Invalid coupon code');
+    // }
 
     // Add a helper method to fetch the shipping charge based on shipping_id
     protected function getShippingCharge($shipping_id)
@@ -700,7 +744,7 @@ public function loadMoreProducts(Request $request)
         return view('FrontEnd.about_us.index', compact('page'));
     }
 
-   
+
     // public function loginCheck()
     // {
     //     if (Auth::user() && Auth::user()->role == 3) {
@@ -715,7 +759,7 @@ public function loadMoreProducts(Request $request)
     {
         if (Auth::user() || !Auth::user() || Auth::user()->role == 3 || Auth::user()->role == 4) {
             return redirect()->route('checkout');
-        } 
+        }
     }
 
     public function orderTracking()
@@ -741,131 +785,131 @@ public function loadMoreProducts(Request $request)
         return view('FrontEnd.page.track', compact('order'));
     }
 
-   public function becomeaseller(Request $request)
-{
-    // dd($request->all()); // টেস্ট করার পর কমেন্ট করো
+    public function becomeaseller(Request $request)
+    {
+        // dd($request->all()); // টেস্ট করার পর কমেন্ট করো
 
-    $rules = [
-        'seller_type' => 'required|in:1,2', // ডাটাবেসে integer, তাই string না দিয়ে 1,2 দাও
-        'password'    => 'required|min:6|confirmed',
-        'shop_cover'  => 'nullable|image|mimes:jpg,jpeg,png,webp',
-    ];
-
-    if ($request->seller_type == 1) { // Individual
-        $rules += [
-            'full_name'     => 'required|string|max:255',
-            'dob'           => 'required|date|before:today',
-            'gender'        => 'required|in:male,female,other',
-            'nid_number'    => 'required|string',
-            'phone'         => 'required|regex:/^01[3-9]\d{8}$/|size:11',
-            'email'         => 'required|email|unique:users,email',
-            'profile_photo' => 'required|image|mimes:jpg,jpeg,png,webp',
-            'nid_front'     => 'required|image|mimes:jpg,jpeg,png,webp',
-            'nid_back'      => 'required|image|mimes:jpg,jpeg,png,webp',
+        $rules = [
+            'seller_type' => 'required|in:1,2', // ডাটাবেসে integer, তাই string না দিয়ে 1,2 দাও
+            'password'    => 'required|min:6|confirmed',
+            'shop_cover'  => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ];
-    }
 
-    if ($request->seller_type == 2) { // Business
-        $rules += [
-            'shop_name'         => 'required|string|max:255',
-            'business_type'     => 'required|in:1,2,3',
-            'trade_license_no'  => 'required|string',
-            'owner_name'        => 'required|string|max:255',
-           // 'owner_nid'         => 'required|string|size:10,13,17',
-            'business_email'    => 'required|email|unique:users,email',
-           // 'hotline'           => 'required|regex:/^01[3-9]\d{8}$/|size:11',
-            'company_logo'      => 'required|image|mimes:jpg,jpeg,png,webp',
-            'trade_license_doc' => 'required|image|mimes:jpg,jpeg,png,webp',
-            'owner_nid_front'   => 'required|image|mimes:jpg,jpeg,png,webp',
-            'owner_nid_back'    => 'required|image|mimes:jpg,jpeg,png,webp',
+        if ($request->seller_type == 1) { // Individual
+            $rules += [
+                'full_name'     => 'required|string|max:255',
+                'dob'           => 'required|date|before:today',
+                'gender'        => 'required|in:male,female,other',
+                'nid_number'    => 'required|string',
+                'phone'         => 'required|regex:/^01[3-9]\d{8}$/|size:11',
+                'email'         => 'required|email|unique:users,email',
+                'profile_photo' => 'required|image|mimes:jpg,jpeg,png,webp',
+                'nid_front'     => 'required|image|mimes:jpg,jpeg,png,webp',
+                'nid_back'      => 'required|image|mimes:jpg,jpeg,png,webp',
+            ];
+        }
+
+        if ($request->seller_type == 2) { // Business
+            $rules += [
+                'shop_name'         => 'required|string|max:255',
+                'business_type'     => 'required|in:1,2,3',
+                'trade_license_no'  => 'required|string',
+                'owner_name'        => 'required|string|max:255',
+                // 'owner_nid'         => 'required|string|size:10,13,17',
+                'business_email'    => 'required|email|unique:users,email',
+                // 'hotline'           => 'required|regex:/^01[3-9]\d{8}$/|size:11',
+                'company_logo'      => 'required|image|mimes:jpg,jpeg,png,webp',
+                'trade_license_doc' => 'required|image|mimes:jpg,jpeg,png,webp',
+                'owner_nid_front'   => 'required|image|mimes:jpg,jpeg,png,webp',
+                'owner_nid_back'    => 'required|image|mimes:jpg,jpeg,png,webp',
+            ];
+        }
+
+        $validated = $request->validate($rules);
+
+        // Slug তৈরি
+        $base = $request->seller_type == 1 ? $request->full_name : $request->shop_name;
+        $slug = Str::slug($base) . '-' . Str::random(6);
+        while (Vendor::where('slug', $slug)->exists()) {
+            $slug = Str::slug($base) . '-' . Str::random(8);
+        }
+
+        // ইমেজ আপলোড ফাংশন
+        $upload = function ($file, $folder) {
+            $name = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
+            $path = public_path("upload/vendor/{$folder}");
+
+            // ✅ ফোল্ডার না থাকলে তৈরি করো
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
+
+            // ✅ ইমেজ প্রসেসিং
+            Image::make($file)
+                ->resize(800, 800, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })
+                ->save($path . '/' . $name);
+
+            return "upload/vendor/{$folder}/{$name}";
+        };
+
+
+
+        // ইউজার তৈরি
+        $user = User::create([
+            'name'     => $request->seller_type == 1 ? $request->full_name : $request->owner_name,
+            'username' => $slug,
+            'email'    => $request->seller_type == 1 ? $request->email : $request->business_email,
+            'phone'    => $request->seller_type == 1 ? $request->phone : $request->hotline,
+            'password' => Hash::make($request->password),
+            'role'     => 2,
+            'status'   => 0,
+        ]);
+
+        // ভেন্ডর ডাটা
+        $vendorData = [
+            'user_id'      => $user->id,
+            'seller_type'  => (int)$request->seller_type, // integer
+            'slug'         => $slug,
+            'phone'        => $request->seller_type == 1 ? $request->phone : $request->hotline,
+            'email'        => $request->seller_type == 1 ? $request->email : $request->business_email,
+            'address'      => $request->address ?? null,
+            'shop_cover'   => $request->hasFile('shop_cover') ? $upload($request->file('shop_cover'), 'cover') : null,
+            'status'       => 0,
+            'is_request'   => 1,
+            'created_by'   => auth('admin')->id() ?? null,
         ];
+
+        if ($request->seller_type == 1) {
+            $vendorData += [
+                'full_name'     => $request->full_name,
+                'dob'           => $request->dob,
+                'gender'        => $request->gender,
+                'nid_number'    => $request->nid_number,
+                'profile_photo' => $upload($request->file('profile_photo'), 'profile'),
+                'nid_front'     => $upload($request->file('nid_front'), 'nid'),
+                'nid_back'      => $upload($request->file('nid_back'), 'nid'),
+            ];
+        } else {
+            $vendorData += [
+                'shop_name'         => $request->shop_name,
+                'owner_name'        => $request->owner_name,
+                'business_type'     => (int)$request->business_type,
+                'trade_license_no'  => $request->trade_license_no,
+                'bin_tin'           => $request->bin_tin ?? null,
+                'profile_photo'     => $upload($request->file('company_logo'), 'logo'),
+                'trade_license_doc' => $upload($request->file('trade_license_doc'), 'license'),
+                'nid_front'         => $upload($request->file('owner_nid_front'), 'nid'),
+                'nid_back'          => $upload($request->file('owner_nid_back'), 'nid'),
+            ];
+        }
+
+        Vendor::create($vendorData);
+
+        return back()->with('success', 'আপনার সেলার অ্যাপ্লিকেশন সফলভাবে জমা হয়েছে। অ্যাডমিনের অনুমোদনের অপেক্ষায় আছেন।');
     }
-
-    $validated = $request->validate($rules);
-
-    // Slug তৈরি
-    $base = $request->seller_type == 1 ? $request->full_name : $request->shop_name;
-    $slug = Str::slug($base) . '-' . Str::random(6);
-    while (Vendor::where('slug', $slug)->exists()) {
-        $slug = Str::slug($base) . '-' . Str::random(8);
-    }
-
-    // ইমেজ আপলোড ফাংশন
-$upload = function ($file, $folder) {
-    $name = hexdec(uniqid()) . '.' . $file->getClientOriginalExtension();
-    $path = public_path("upload/vendor/{$folder}");
-
-    // ✅ ফোল্ডার না থাকলে তৈরি করো
-    if (!File::exists($path)) {
-        File::makeDirectory($path, 0777, true, true);
-    }
-
-    // ✅ ইমেজ প্রসেসিং
-    Image::make($file)
-        ->resize(800, 800, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        })
-        ->save($path . '/' . $name);
-
-    return "upload/vendor/{$folder}/{$name}";
-};
-
-
-
-    // ইউজার তৈরি
-    $user = User::create([
-        'name'     => $request->seller_type == 1 ? $request->full_name : $request->owner_name,
-        'username' => $slug,
-        'email'    => $request->seller_type == 1 ? $request->email : $request->business_email,
-        'phone'    => $request->seller_type == 1 ? $request->phone : $request->hotline,
-        'password' => Hash::make($request->password),
-        'role'     => 2,
-        'status'   => 0,
-    ]);
-
-    // ভেন্ডর ডাটা
-    $vendorData = [
-        'user_id'      => $user->id,
-        'seller_type'  => (int)$request->seller_type, // integer
-        'slug'         => $slug,
-        'phone'        => $request->seller_type == 1 ? $request->phone : $request->hotline,
-        'email'        => $request->seller_type == 1 ? $request->email : $request->business_email,
-        'address'      => $request->address ?? null,
-        'shop_cover'   => $request->hasFile('shop_cover') ? $upload($request->file('shop_cover'), 'cover') : null,
-        'status'       => 0,
-        'is_request'   => 1,
-        'created_by'   => auth('admin')->id() ?? null,
-    ];
-
-    if ($request->seller_type == 1) {
-        $vendorData += [
-            'full_name'     => $request->full_name,
-            'dob'           => $request->dob,
-            'gender'        => $request->gender,
-            'nid_number'    => $request->nid_number,
-            'profile_photo' => $upload($request->file('profile_photo'), 'profile'),
-            'nid_front'     => $upload($request->file('nid_front'), 'nid'),
-            'nid_back'      => $upload($request->file('nid_back'), 'nid'),
-        ];
-    } else {
-        $vendorData += [
-            'shop_name'         => $request->shop_name,
-            'owner_name'        => $request->owner_name,
-            'business_type'     => (int)$request->business_type,
-            'trade_license_no'  => $request->trade_license_no,
-            'bin_tin'           => $request->bin_tin ?? null,
-            'profile_photo'     => $upload($request->file('company_logo'), 'logo'),
-            'trade_license_doc' => $upload($request->file('trade_license_doc'), 'license'),
-            'nid_front'         => $upload($request->file('owner_nid_front'), 'nid'),
-            'nid_back'          => $upload($request->file('owner_nid_back'), 'nid'),
-        ];
-    }
-
-    Vendor::create($vendorData);
-
-    return back()->with('success', 'আপনার সেলার অ্যাপ্লিকেশন সফলভাবে জমা হয়েছে। অ্যাডমিনের অনুমোদনের অপেক্ষায় আছেন।');
-}
 
     public function pagesstore()
     {
@@ -886,7 +930,7 @@ $upload = function ($file, $folder) {
 
     public function sellerApply()
     {
-       
+
         return view('FrontEnd.seller-application.form');
     }
 
@@ -994,7 +1038,7 @@ $upload = function ($file, $folder) {
     public function productDetailsNew($slug)
     {
         $product = Product::where('slug', $slug)->first();
-        
+
         if ($product) {
             if ($product->id) {
                 $multiImg = MultiImg::where('product_id', $product->id)->limit(3)->get();
@@ -1048,6 +1092,4 @@ $upload = function ($file, $folder) {
 
         return view('FrontEnd.product.productNotFound');
     }
-
 }
-
