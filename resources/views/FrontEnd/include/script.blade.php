@@ -43,57 +43,80 @@
         });
     });
 </script>
+
+<script>
+    function buyNowInstant() {
+    const qty = $('.qty-val').val() || 1;
+    const id = $('#product_id').val();
+
+    addToCartAndCheckout(id, qty);
+}
+
+function addToCartAndCheckout(id, qty = 1) {
+    const product_name = $('#' + id + '-product_pname').val();
+
+    // Step 1: Check cart
+    $.ajax({
+        type: 'GET',
+        url: '/cart/check/' + id,
+        success: function (res) {
+
+            // Step 2: If already exists → open checkout
+            if (res.exists) {
+                openCheckout();
+                return;
+            }
+
+            // Step 3: Otherwise add to cart
+            $.ajax({
+                type: 'POST',
+                url: '/cart/data/store/' + id,
+                data: {
+                    quantity: qty,
+                    product_name: product_name,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (data) {
+                    miniCart();     // refresh cart UI
+                    openSidebar();  // optional
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 1200
+                    });
+
+                    if (!data.error) {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success
+                        });
+
+                        // 🔥 OPEN CHECKOUT MODAL
+                        setTimeout(() => {
+                            openCheckout();
+                        }, 300);
+
+                    } else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.error
+                        });
+                    }
+                }
+            });
+        }
+    });
+}
+</script>
+
 <script>
     function buyNow(id, qty = 0) {
         // alert();
         addToCartDirect(id, true, qty);
     }
 
-
-
-    /* ---------------- Add to Cart / Buy Now ---------------- */
-    // function addToCartDirect(id, redirectToCheckout = false, qty = null) {
-    //     var product_name = $('#' + id + '-product_pname').val();
-    //     var quantity = qty > 1 ? qty : 1;
-
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/cart/data/store/' + id,
-    //         data: {
-    //             quantity: quantity,
-    //             product_name: product_name,
-    //             _token: "{{ csrf_token() }}"
-    //         },
-    //         success: function(data) {
-    //             miniCart(); // refresh sidebar & header count
-    //             $('#closeModel').click(); // close modal if any
-
-    //             const Toast = Swal.mixin({
-    //                 toast: true,
-    //                 position: 'top-end',
-    //                 showConfirmButton: false,
-    //                 timer: 1200
-    //             });
-
-    //             if ($.isEmptyObject(data.error)) {
-    //                 Toast.fire({
-    //                     icon: 'success',
-    //                     title: data.success
-    //                 });
-    //                 openSidebar(); // open sidebar dynamically
-
-    //                 if (redirectToCheckout) {
-    //                     window.location.href = '/login-status/check';
-    //                 }
-    //             } else {
-    //                 Toast.fire({
-    //                     icon: 'error',
-    //                     title: data.error
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
 
     function addToCartDirect(id, redirectToCheckout = false, qty = null) {
     var product_name = $('#' + id + '-product_pname').val();
@@ -1035,7 +1058,7 @@
     });
 
     function buyProduct() {
-        $('#buyNowCheck').val(1);
+        $('#buyProduct').val(1);
         test();
     }
 </script>
