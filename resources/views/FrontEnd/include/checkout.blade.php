@@ -71,7 +71,6 @@
     .checkout-modal-header h2 {
         font-size: 18px;
         font-weight: 600;
-        color: white;
     }
 
     .close-btn {
@@ -125,11 +124,9 @@
         left: 12px;
         top: 50%;
         transform: translateY(-50%);
-        width: 25px;
-        height: 25px;
-        color: white;
-        background: black;
-        padding: 5px;
+        width: 20px;
+        height: 20px;
+        color: #999;
     }
 
     .form-control {
@@ -214,24 +211,6 @@
         padding: 16px;
         border-radius: 6px;
         margin: 20px 0;
-        height: 200px;
-        overflow-y: scroll;
-    }
-
-    /* width */
-    .order-summary::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    /* track */
-    .order-summary::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    /* thumb */
-    .order-summary::-webkit-scrollbar-thumb {
-        background: #036344;
-        border-radius: 20px;
     }
 
     .order-item {
@@ -476,245 +455,6 @@
         border: 1px solid #eee;
     }
 
-    /* Payment Methods Styling */
-    .payment-methods-container {
-        margin-top: 20px;
-    }
-
-    .payment-methods-title {
-        font-size: 15px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .payment-methods-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
-        margin-bottom: 20px;
-    }
-
-    .payment-method-card {
-        background: #fff;
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        padding: 12px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-height: 60px;
-    }
-
-    .payment-method-card:hover {
-        border-color: #036344;
-        box-shadow: 0 4px 12px rgba(3, 99, 68, 0.15);
-        transform: translateY(-2px);
-    }
-
-    .payment-method-card.active {
-        border-color: #036344;
-        background: #f0f9f6;
-        box-shadow: 0 4px 12px rgba(3, 99, 68, 0.2);
-    }
-
-    .payment-method-logo {
-        width: 80px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 8px;
-    }
-
-    .payment-method-logo img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
-
-    .payment-method-name {
-        font-size: 13px;
-        font-weight: 600;
-        color: #333;
-        text-align: center;
-    }
-
-    .payment-method-badge {
-        display: inline-block;
-        background: #036344;
-        color: #fff;
-        font-size: 10px;
-        padding: 2px 6px;
-        border-radius: 3px;
-        margin-top: 6px;
-    }
-
-    .payment-info-container {
-        display: none;
-        background: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 20px;
-        animation: slideDown 300ms ease;
-    }
-
-    .payment-info-container.active {
-        display: block;
-    }
-
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .payment-info-header {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #f0f9f6;
-    }
-
-    .payment-info-logo {
-        width: 60px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .payment-info-logo img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
-
-    .payment-info-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: #036344;
-    }
-
-    .payment-fields-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin-bottom: 15px;
-    }
-
-    .payment-fields-grid.full {
-        grid-template-columns: 1fr;
-    }
-
-    .payment-field {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .payment-field label {
-        font-size: 12px;
-        font-weight: 500;
-        color: #333;
-        margin-bottom: 6px;
-    }
-
-    .payment-field input,
-    .payment-field textarea {
-        padding: 10px 12px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 13px;
-        font-family: inherit;
-        transition: border-color 0.3s ease;
-        background: #f9f9f9;
-    }
-
-    .payment-field input:focus,
-    .payment-field textarea:focus {
-        outline: none;
-        border-color: #036344;
-        background: #fff;
-    }
-
-    .payment-file-input {
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-
-    .payment-file-input input[type="file"] {
-        position: absolute;
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .payment-file-label {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 10px 12px;
-        border: 2px dashed #ddd;
-        border-radius: 6px;
-        cursor: pointer;
-        background: #f9f9f9;
-        transition: all 0.3s ease;
-        font-size: 13px;
-        color: #666;
-        width: 100%;
-    }
-
-    .payment-file-label:hover {
-        border-color: #036344;
-        background: #f0f9f6;
-        color: #036344;
-    }
-
-    .payment-field textarea {
-        resize: vertical;
-        min-height: 60px;
-    }
-
-    .payment-submit-btn {
-        width: 100%;
-        padding: 12px;
-        background: #036344;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 10px;
-    }
-
-    .payment-submit-btn:hover {
-        background: #024d35;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(3, 99, 68, 0.3);
-    }
-
-    .payment-submit-btn:active {
-        transform: translateY(0);
-    }
-
     @media (max-width: 768px) {
         .checkout-modal-content {
             width: 95%;
@@ -724,20 +464,12 @@
         .checkout-modal-body {
             padding: 16px;
         }
-
-        .payment-methods-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .payment-fields-grid {
-            grid-template-columns: 1fr;
-        }
     }
 </style>
 
 
 @php
-$isAuth = Auth::check();
+    $isAuth = Auth::check();
 @endphp
 
 <div id="checkoutModal" class="checkout-modal">
@@ -754,7 +486,7 @@ $isAuth = Auth::check();
                 @csrf
                 <!-- Customer Information -->
                 <div class="form-group">
-                    <!-- <label>আপনার নাম <span class="required">*</span></label> -->
+                    <label>আপনার নাম <span class="required">*</span></label>
                     <div class="input-with-icon">
                         <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -766,13 +498,13 @@ $isAuth = Auth::check();
                             {{ $isAuth ? 'readonly' : 'required' }} placeholder="আপনার নাম">
 
                         @error('name')
-                        <div class="text-danger small mt-1">{{ $message }}</div>
+                            <div class="text-danger small mt-1">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <!-- <label>ফোন নম্বর <span class="required">*</span></label> -->
+                    <label>ফোন নম্বর <span class="required">*</span></label>
                     <div class="input-with-icon">
                         <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -786,7 +518,7 @@ $isAuth = Auth::check();
                 </div>
 
                 <div class="form-group">
-                    <!-- <label>ঠিকানা <span class="required">*</span></label> -->
+                    <label>ঠিকানা <span class="required">*</span></label>
                     <div class="input-with-icon">
                         <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -799,7 +531,7 @@ $isAuth = Auth::check();
                             value="{{ $isAuth ? Auth::user()->address : old('address') }}" required
                             placeholder="ঠিকানা">
                         @error('address')
-                        <div class="text-danger small mt-1">{{ $message }}</div>
+                            <div class="text-danger small mt-1">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -809,51 +541,51 @@ $isAuth = Auth::check();
 
                     <div class="shipping-options">
                         @php
-                        $settings = $settings ?? \App\Models\AccountSetting::first();
+                            $settings = $settings ?? \App\Models\AccountSetting::first();
                         @endphp
 
                         @if ($settings)
-                        <label class="shipping-option">
-                            <div class="shipping-option-content">
-                                <input type="radio" name="shipping" value="{{ $settings->shipping_inside_dhaka }}"
-                                    checked>
-                                <span class="shipping-option-label">
-                                    ঢাকা শহরের ভিতরে ডেলিভারি
+                            <label class="shipping-option">
+                                <div class="shipping-option-content">
+                                    <input type="radio" name="shipping" value="{{ $settings->shipping_inside_dhaka }}"
+                                        checked>
+                                    <span class="shipping-option-label">
+                                        ঢাকা শহরের ভিতরে ডেলিভারি
+                                    </span>
+                                </div>
+                                <span class="shipping-option-price">
+                                    Tk {{ number_format($settings->shipping_inside_dhaka, 2) }}
                                 </span>
-                            </div>
-                            <span class="shipping-option-price">
-                                Tk {{ number_format($settings->shipping_inside_dhaka, 2) }}
-                            </span>
-                        </label>
+                            </label>
 
-                        <label class="shipping-option">
-                            <div class="shipping-option-content">
-                                <input type="radio" name="shipping"
-                                    value="{{ $settings->shipping_outside_dhaka }}">
-                                <span class="shipping-option-label">
-                                    ঢাকা শহরের বাহিরে ডেলিভারি
+                            <label class="shipping-option">
+                                <div class="shipping-option-content">
+                                    <input type="radio" name="shipping"
+                                        value="{{ $settings->shipping_outside_dhaka }}">
+                                    <span class="shipping-option-label">
+                                        ঢাকা শহরের বাহিরে ডেলিভারি
+                                    </span>
+                                </div>
+                                <span class="shipping-option-price">
+                                    Tk {{ number_format($settings->shipping_outside_dhaka, 2) }}
                                 </span>
-                            </div>
-                            <span class="shipping-option-price">
-                                Tk {{ number_format($settings->shipping_outside_dhaka, 2) }}
-                            </span>
-                        </label>
+                            </label>
 
-                        <label class="shipping-option">
-                            <div class="shipping-option-content">
-                                <input type="radio" name="shipping" value="{{ $settings->shipping_all_area }}">
-                                <span class="shipping-option-label">
-                                    ঢাকা এবং ঢাকার বাহিরে সকল এরিয়া
+                            <label class="shipping-option">
+                                <div class="shipping-option-content">
+                                    <input type="radio" name="shipping" value="{{ $settings->shipping_all_area }}">
+                                    <span class="shipping-option-label">
+                                        ঢাকা এবং ঢাকার বাহিরে সকল এরিয়া
+                                    </span>
+                                </div>
+                                <span class="shipping-option-price">
+                                    Tk {{ number_format($settings->shipping_all_area, 2) }}
                                 </span>
-                            </div>
-                            <span class="shipping-option-price">
-                                Tk {{ number_format($settings->shipping_all_area, 2) }}
-                            </span>
-                        </label>
+                            </label>
                         @else
-                        <p class="text-danger small">
-                            Shipping charge not configured yet.
-                        </p>
+                            <p class="text-danger small">
+                                Shipping charge not configured yet.
+                            </p>
                         @endif
                     </div>
                 </div>
@@ -889,22 +621,18 @@ $isAuth = Auth::check();
                     <!-- Coupon Code Section -->
                     <div class="coupon-section"
                         style="margin: 16px 0; padding: 12px; background: #f0f9f6; border-radius: 6px; border: 1px solid #036344;">
-                        <label id="couponToggleLabel"
-                            style="display: block; font-size: 12px; font-weight: 500; color: #333; margin-bottom: 6px; cursor: pointer; user-select: none;">
-                            <span id="couponToggleArrow">▶</span> কুপন
-                            কোড (ঐচ্ছিক)
-                        </label>
-                        <div id="couponInputSection" style="display: none; margin-top: 10px;">
-                            <div style="display: flex; gap: 6px;">
-                                <input type="text" id="couponCodeInput" class="form-control"
-                                    placeholder="কুপন কোড দিন"
-                                    style="padding: 8px 12px; border: 1px solid #ddd; font-size: 12px;">
-                                <button type="button" id="applyCouponBtn" class="btn"
-                                    style="background: #036344; color: #fff; padding: 8px 12px; font-size: 12px; white-space: nowrap;">প্রয়োগ
-                                    করুন</button>
-                            </div>
-                            <div id="couponMessage" style="font-size: 11px; margin-top: 6px; color: #666;"></div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 500; color: #333; margin-bottom: 6px;">কুপন
+                            কোড (ঐচ্ছিক)</label>
+                        <div style="display: flex; gap: 6px;">
+                            <input type="text" id="couponCodeInput" class="form-control"
+                                placeholder="কুপন কোড দিন"
+                                style="padding: 8px 12px; border: 1px solid #ddd; font-size: 12px;">
+                            <button type="button" id="applyCouponBtn" class="btn"
+                                style="background: #036344; color: #fff; padding: 8px 12px; font-size: 12px; white-space: nowrap;">প্রয়োগ
+                                করুন</button>
                         </div>
+                        <div id="couponMessage" style="font-size: 11px; margin-top: 6px; color: #666;"></div>
                     </div>
 
                     <div class="summary-row total">
@@ -921,7 +649,7 @@ $isAuth = Auth::check();
 
 
                 <!-- Pay Online Button -->
-                <button type="button" class="btn-pay-online" id="payOnlineBtn">
+                <button type="button" class="btn-pay-online">
                     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
@@ -929,173 +657,6 @@ $isAuth = Auth::check();
                     </svg>
                     Pay Online
                 </button>
-
-                <!-- Payment Methods -->
-                <div id="paymentMethodsSection" style="display: none;">
-                    <div class="payment-methods-container">
-                        <div class="payment-methods-title">
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                            </svg>
-                            অনলাইন পেমেন্ট পদ্ধতি বেছে নিন
-                        </div>
-
-                        <!-- Payment Method Cards -->
-                        <div class="payment-methods-grid">
-                            <!-- bKash -->
-                            <div class="payment-method-card" onclick="selectPaymentMethod('bkash', this)">
-                                <div class="payment-method-logo">
-                                    <img src="{{ asset('Frontend/img/bkash-logo.png') }}" alt="bKash">
-                                </div>
-                            </div>
-
-                            <!-- Nagad -->
-                            <div class="payment-method-card" onclick="selectPaymentMethod('nagad', this)">
-                                <div class="payment-method-logo">
-                                    <img src="{{ asset('Frontend/img/nagad-Logo.png') }}" alt="Nagad">
-                                </div>
-                            </div>
-
-                            <!-- Rocket -->
-                            <div class="payment-method-card" onclick="selectPaymentMethod('rocket', this)">
-                                <div class="payment-method-logo">
-                                    <img src="{{ asset('Frontend/img/rocket-logo.png') }}" alt="Rocket">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Payment Info Forms -->
-                        <!-- bKash Form -->
-                        <div class="payment-info-container" id="bkash-form">
-                            <div class="payment-info-header">
-                                <div class="payment-info-logo">
-                                    <img src="{{ asset('Frontend/img/bkash-logo.png') }}" alt="bKash">
-                                </div>
-                                <div class="payment-info-title">bKash পেমেন্ট তথ্য</div>
-                            </div>
-
-                            <div class="payment-fields-grid">
-                                <div class="payment-field">
-                                    <label>পেমেন্ট নম্বর <span class="required">*</span></label>
-                                    <input type="text" name="bkash_number" placeholder="01XXXXXXXXX" required>
-                                </div>
-                                <div class="payment-field">
-                                    <label>পরিমাণ <span class="required">*</span></label>
-                                    <input type="number" name="bkash_amount" placeholder="0.00" required>
-                                </div>
-                            </div>
-
-                            <div class="payment-fields-grid">
-                                <div class="payment-field">
-                                    <label>ট্রান্সজ্যাকশন আইডি <span class="required">*</span></label>
-                                    <input type="text" name="bkash_txn_id" placeholder="TXN123456" required>
-                                </div>
-
-                                <div class="payment-fields-grid full">
-                                    <div class="payment-field">
-                                        <label>পেমেন্ট স্ক্রিনশট <span class="required">*</span></label>
-                                        <div class="payment-file-input">
-                                            <input type="file" id="bkash_screenshot" name="bkash_screenshot" accept="image/*" required>
-                                            <label for="bkash_screenshot" class="payment-file-label">
-                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
-                                                </svg>
-                                                ছবি আপলোড করুন
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="payment-submit-btn" onclick="submitPaymentForm('bkash')">bKash এ পেমেন্ট নিশ্চিত করুন</button>
-                        </div>
-
-                        <!-- Nagad Form -->
-                        <div class="payment-info-container" id="nagad-form">
-                            <div class="payment-info-header">
-                                <div class="payment-info-logo">
-                                    <img src="{{ asset('Frontend/img/nagad-logo.png') }}" alt="Nagad">
-                                </div>
-                                <div class="payment-info-title">Nagad পেমেন্ট তথ্য</div>
-                            </div>
-
-                            <div class="payment-fields-grid">
-                                <div class="payment-field">
-                                    <label>পেমেন্ট নম্বর <span class="required">*</span></label>
-                                    <input type="text" name="nagad_number" placeholder="01XXXXXXXXX" required>
-                                </div>
-                                <div class="payment-field">
-                                    <label>পরিমাণ <span class="required">*</span></label>
-                                    <input type="number" name="nagad_amount" placeholder="0.00" required>
-                                </div>
-                            </div>
-
-                            <div class="payment-fields-grid">
-                                <div class="payment-field">
-                                    <label>ট্রান্সজ্যাকশন আইডি <span class="required">*</span></label>
-                                    <input type="text" name="nagad_txn_id" placeholder="TXN123456" required>
-                                </div>
-                                <div class="payment-fields-grid full">
-                                    <div class="payment-field">
-                                        <label>পেমেন্ট স্ক্রিনশট <span class="required">*</span></label>
-                                        <div class="payment-file-input">
-                                            <input type="file" id="nagad_screenshot" name="nagad_screenshot" accept="image/*" required>
-                                            <label for="nagad_screenshot" class="payment-file-label">
-                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
-                                                </svg>
-                                                ছবি আপলোড করুন
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="payment-submit-btn" onclick="submitPaymentForm('nagad')">Nagad এ পেমেন্ট নিশ্চিত করুন</button>
-                        </div>
-
-                        <!-- Rocket Form -->
-                        <div class="payment-info-container" id="rocket-form">
-                            <div class="payment-info-header">
-                                <div class="payment-info-logo">
-                                    <img src="{{ asset('Frontend/img/rocket-logo.png') }}" alt="Rocket">
-                                </div>
-                                <div class="payment-info-title">Rocket পেমেন্ট তথ্য</div>
-                            </div>
-
-                            <div class="payment-fields-grid">
-                                <div class="payment-field">
-                                    <label>পেমেন্ট নম্বর <span class="required">*</span></label>
-                                    <input type="text" name="rocket_number" placeholder="01XXXXXXXXX" required>
-                                </div>
-                                <div class="payment-field">
-                                    <label>পরিমাণ <span class="required">*</span></label>
-                                    <input type="number" name="rocket_amount" placeholder="0.00" required>
-                                </div>
-                            </div>
-
-                            <div class="payment-fields-grid">
-                                <div class="payment-field">
-                                    <label>ট্রান্সজ্যাকশন আইডি <span class="required">*</span></label>
-                                    <input type="text" name="rocket_txn_id" placeholder="TXN123456" required>
-                                </div>
-                                <div class="payment-fields-grid full">
-                                    <div class="payment-field">
-                                        <label>পেমেন্ট স্ক্রিনশট <span class="required">*</span></label>
-                                        <div class="payment-file-input">
-                                            <input type="file" id="rocket_screenshot" name="rocket_screenshot" accept="image/*" required>
-                                            <label for="rocket_screenshot" class="payment-file-label">
-                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
-                                                </svg>
-                                                ছবি আপলোড করুন
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="payment-submit-btn" onclick="submitPaymentForm('rocket')">Rocket এ পেমেন্ট নিশ্চিত করুন</button>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Payment Info -->
                 <div class="payment-info">
@@ -1120,19 +681,6 @@ $isAuth = Auth::check();
     function closeCheckout() {
         document.getElementById('checkoutModal').classList.remove('open');
     }
-    document.getElementById('couponToggleLabel').addEventListener('click', function() {
-        const couponSection = document.getElementById('couponInputSection');
-        const toggleArrow = document.getElementById('couponToggleArrow');
-
-        if (couponSection.style.display === 'none') {
-            couponSection.style.display = 'block';
-            toggleArrow.textContent = '▼';
-        } else {
-            couponSection.style.display = 'none';
-            toggleArrow.textContent = '▶';
-        }
-    });
-
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
@@ -1272,123 +820,10 @@ $isAuth = Auth::check();
     });
 
     // Pay Online button
-    document.getElementById('payOnlineBtn').addEventListener('click', function() {
-        const paymentMethodsSection = document.getElementById('paymentMethodsSection');
-
-        if (paymentMethodsSection.style.display === 'none') {
-            paymentMethodsSection.style.display = 'block';
-            // Scroll to payment methods section
-            setTimeout(() => {
-                paymentMethodsSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }, 100);
-        } else {
-            paymentMethodsSection.style.display = 'none';
-        }
+    document.querySelector('.btn-pay-online').addEventListener('click', function() {
+        paymentOptionInput.value = 'online';
+        submitCheckoutForm();
     });
-
-    // Select Payment Method
-    function selectPaymentMethod(method, element) {
-        // Remove active class from all cards
-        document.querySelectorAll('.payment-method-card').forEach(card => {
-            card.classList.remove('active');
-        });
-
-        // Add active class to selected card
-        element.classList.add('active');
-
-        // Hide all payment info forms
-        document.querySelectorAll('.payment-info-container').forEach(form => {
-            form.classList.remove('active');
-        });
-
-        // Show selected payment info form
-        const formId = method + '-form';
-        const form = document.getElementById(formId);
-        if (form) {
-            form.classList.add('active');
-            // Scroll to form
-            setTimeout(() => {
-                form.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'nearest'
-                });
-            }, 100);
-        }
-    }
-
-    // Submit Payment Form
-    function submitPaymentForm(method) {
-        const form = document.getElementById(method + '-form');
-        if (!form) return;
-
-        // Validate required fields
-        const requiredInputs = form.querySelectorAll('[required]');
-        let isValid = true;
-
-        requiredInputs.forEach(input => {
-            if (!input.value.trim()) {
-                isValid = false;
-                input.style.borderColor = '#d32f2f';
-            } else {
-                input.style.borderColor = '#ddd';
-            }
-        });
-
-        if (!isValid) {
-            alert('সকল প্রয়োজনীয় ফিল্ড পূরণ করুন');
-            return;
-        }
-
-        // Collect form data
-        const formData = new FormData();
-        formData.append('_token', '{{ csrf_token() }}');
-        formData.append('payment_method', method);
-
-        // Add all payment fields
-        const inputs = form.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
-            if (input.type === 'file') {
-                formData.append(input.name, input.files[0]);
-            } else {
-                formData.append(input.name, input.value);
-            }
-        });
-
-        // Also add order data
-        const checkoutForm = document.getElementById('checkoutForm');
-        const orderData = new FormData(checkoutForm);
-        for (let [key, value] of orderData.entries()) {
-            if (key !== '_token') {
-                formData.append(key, value);
-            }
-        }
-
-        // Submit
-        $.ajax({
-            url: "{{ route('checkout.store') }}",
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                if (response.success) {
-                    alert('পেমেন্ট তথ্য সফলভাবে জমা দেওয়া হয়েছে!');
-                    closeCheckout();
-                    if (response.redirect_url) {
-                        window.location.href = response.redirect_url;
-                    }
-                } else {
-                    alert(response.message || 'ত্রুটি ঘটেছে');
-                }
-            },
-            error: function(xhr) {
-                alert(xhr.responseJSON?.message || 'পেমেন্ট জমা দিতে ত্রুটি হয়েছে');
-            }
-        });
-    }
 
     function submitCheckoutForm() {
         const form = document.getElementById('checkoutForm');
