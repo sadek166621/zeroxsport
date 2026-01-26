@@ -71,7 +71,6 @@
     .checkout-modal-header h2 {
         font-size: 18px;
         font-weight: 600;
-        color: #fff;
     }
 
     .close-btn {
@@ -125,11 +124,9 @@
         left: 12px;
         top: 50%;
         transform: translateY(-50%);
-        width: 25px;
-        height: 25px;
-        color: white;
-        background: black;
-        padding: 5px;
+        width: 20px;
+        height: 20px;
+        color: #999;
     }
 
     .form-control {
@@ -213,24 +210,6 @@
         padding: 16px;
         border-radius: 6px;
         margin: 20px 0;
-        height: 200px;
-        overflow-y: scroll;
-    }
-
-    /* width */
-    .order-summary::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    /* track */
-    .order-summary::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    /* thumb */
-    .order-summary::-webkit-scrollbar-thumb {
-        background: #036344;
-        border-radius: 20px;
     }
 
     .order-item {
@@ -489,7 +468,7 @@
 
 
 @php
-$isAuth = Auth::check();
+    $isAuth = Auth::check();
 @endphp
 
 <div id="checkoutModal" class="checkout-modal">
@@ -506,7 +485,7 @@ $isAuth = Auth::check();
                 @csrf
                 <!-- Customer Information -->
                 <div class="form-group">
-                    <!-- <label>আপনার নাম <span class="required">*</span></label> -->
+                    <label>আপনার নাম <span class="required">*</span></label>
                     <div class="input-with-icon">
                         <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -518,13 +497,13 @@ $isAuth = Auth::check();
                             {{ $isAuth ? 'readonly' : 'required' }} placeholder="আপনার নাম">
 
                         @error('name')
-                        <div class="text-danger small mt-1">{{ $message }}</div>
+                            <div class="text-danger small mt-1">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <!-- <label>ফোন নম্বর <span class="required">*</span></label> -->
+                    <label>ফোন নম্বর <span class="required">*</span></label>
                     <div class="input-with-icon">
                         <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -538,7 +517,7 @@ $isAuth = Auth::check();
                 </div>
 
                 <div class="form-group">
-                    <!-- <label>ঠিকানা <span class="required">*</span></label> -->
+                    <label>ঠিকানা <span class="required">*</span></label>
                     <div class="input-with-icon">
                         <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -551,7 +530,7 @@ $isAuth = Auth::check();
                             value="{{ $isAuth ? Auth::user()->address : old('address') }}" required
                             placeholder="ঠিকানা">
                         @error('address')
-                        <div class="text-danger small mt-1">{{ $message }}</div>
+                            <div class="text-danger small mt-1">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -561,51 +540,51 @@ $isAuth = Auth::check();
 
                     <div class="shipping-options">
                         @php
-                        $settings = $settings ?? \App\Models\AccountSetting::first();
+                            $settings = $settings ?? \App\Models\AccountSetting::first();
                         @endphp
 
                         @if ($settings)
-                        <label class="shipping-option">
-                            <div class="shipping-option-content">
-                                <input type="radio" name="shipping" value="{{ $settings->shipping_inside_dhaka }}"
-                                    checked>
-                                <span class="shipping-option-label">
-                                    ঢাকা শহরের ভিতরে ডেলিভারি
+                            <label class="shipping-option">
+                                <div class="shipping-option-content">
+                                    <input type="radio" name="shipping" value="{{ $settings->shipping_inside_dhaka }}"
+                                        checked>
+                                    <span class="shipping-option-label">
+                                        ঢাকা শহরের ভিতরে ডেলিভারি
+                                    </span>
+                                </div>
+                                <span class="shipping-option-price">
+                                    Tk {{ number_format($settings->shipping_inside_dhaka, 2) }}
                                 </span>
-                            </div>
-                            <span class="shipping-option-price">
-                                Tk {{ number_format($settings->shipping_inside_dhaka, 2) }}
-                            </span>
-                        </label>
+                            </label>
 
-                        <label class="shipping-option">
-                            <div class="shipping-option-content">
-                                <input type="radio" name="shipping"
-                                    value="{{ $settings->shipping_outside_dhaka }}">
-                                <span class="shipping-option-label">
-                                    ঢাকা শহরের বাহিরে ডেলিভারি
+                            <label class="shipping-option">
+                                <div class="shipping-option-content">
+                                    <input type="radio" name="shipping"
+                                        value="{{ $settings->shipping_outside_dhaka }}">
+                                    <span class="shipping-option-label">
+                                        ঢাকা শহরের বাহিরে ডেলিভারি
+                                    </span>
+                                </div>
+                                <span class="shipping-option-price">
+                                    Tk {{ number_format($settings->shipping_outside_dhaka, 2) }}
                                 </span>
-                            </div>
-                            <span class="shipping-option-price">
-                                Tk {{ number_format($settings->shipping_outside_dhaka, 2) }}
-                            </span>
-                        </label>
+                            </label>
 
-                        <label class="shipping-option">
-                            <div class="shipping-option-content">
-                                <input type="radio" name="shipping" value="{{ $settings->shipping_all_area }}">
-                                <span class="shipping-option-label">
-                                    ঢাকা এবং ঢাকার বাহিরে সকল এরিয়া
+                            <label class="shipping-option">
+                                <div class="shipping-option-content">
+                                    <input type="radio" name="shipping" value="{{ $settings->shipping_all_area }}">
+                                    <span class="shipping-option-label">
+                                        ঢাকা এবং ঢাকার বাহিরে সকল এরিয়া
+                                    </span>
+                                </div>
+                                <span class="shipping-option-price">
+                                    Tk {{ number_format($settings->shipping_all_area, 2) }}
                                 </span>
-                            </div>
-                            <span class="shipping-option-price">
-                                Tk {{ number_format($settings->shipping_all_area, 2) }}
-                            </span>
-                        </label>
+                            </label>
                         @else
-                        <p class="text-danger small">
-                            Shipping charge not configured yet.
-                        </p>
+                            <p class="text-danger small">
+                                Shipping charge not configured yet.
+                            </p>
                         @endif
                     </div>
                 </div>
@@ -641,22 +620,18 @@ $isAuth = Auth::check();
                     <!-- Coupon Code Section -->
                     <div class="coupon-section"
                         style="margin: 16px 0; padding: 12px; background: #f0f9f6; border-radius: 6px; border: 1px solid #036344;">
-                        <label id="couponToggleLabel"
-                            style="display: block; font-size: 12px; font-weight: 500; color: #333; margin-bottom: 6px; cursor: pointer; user-select: none;">
-                            <span id="couponToggleArrow">▶</span> কুপন
-                            কোড (ঐচ্ছিক)
-                        </label>
-                        <div id="couponInputSection" style="display: none; margin-top: 10px;">
-                            <div style="display: flex; gap: 6px;">
-                                <input type="text" id="couponCodeInput" class="form-control"
-                                    placeholder="কুপন কোড দিন"
-                                    style="padding: 8px 12px; border: 1px solid #ddd; font-size: 12px;">
-                                <button type="button" id="applyCouponBtn" class="btn"
-                                    style="background: #036344; color: #fff; padding: 8px 12px; font-size: 12px; white-space: nowrap;">প্রয়োগ
-                                    করুন</button>
-                            </div>
-                            <div id="couponMessage" style="font-size: 11px; margin-top: 6px; color: #666;"></div>
+                        <label
+                            style="display: block; font-size: 12px; font-weight: 500; color: #333; margin-bottom: 6px;">কুপন
+                            কোড (ঐচ্ছিক)</label>
+                        <div style="display: flex; gap: 6px;">
+                            <input type="text" id="couponCodeInput" class="form-control"
+                                placeholder="কুপন কোড দিন"
+                                style="padding: 8px 12px; border: 1px solid #ddd; font-size: 12px;">
+                            <button type="button" id="applyCouponBtn" class="btn"
+                                style="background: #036344; color: #fff; padding: 8px 12px; font-size: 12px; white-space: nowrap;">প্রয়োগ
+                                করুন</button>
                         </div>
+                        <div id="couponMessage" style="font-size: 11px; margin-top: 6px; color: #666;"></div>
                     </div>
 
                     <div class="summary-row total">
@@ -705,20 +680,6 @@ $isAuth = Auth::check();
     function closeCheckout() {
         document.getElementById('checkoutModal').classList.remove('open');
     }
-
-    // Coupon toggle functionality
-    document.getElementById('couponToggleLabel').addEventListener('click', function() {
-        const couponSection = document.getElementById('couponInputSection');
-        const toggleArrow = document.getElementById('couponToggleArrow');
-
-        if (couponSection.style.display === 'none') {
-            couponSection.style.display = 'block';
-            toggleArrow.textContent = '▼';
-        } else {
-            couponSection.style.display = 'none';
-            toggleArrow.textContent = '▶';
-        }
-    });
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
@@ -806,7 +767,7 @@ $isAuth = Auth::check();
             },
 
             error: function(xhr) {
-                let message = 'ভুল কুপন কোড';
+                let message = 'অবৈধ কুপন কোড';
 
                 if (xhr.responseJSON && xhr.responseJSON.error) {
                     message = xhr.responseJSON.error;
