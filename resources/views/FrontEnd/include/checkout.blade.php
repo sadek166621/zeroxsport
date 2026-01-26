@@ -1097,7 +1097,7 @@ $isAuth = Auth::check();
                     </div>
                 </div>
 
-                <!-- Payment Info -->
+                <!-- Payment Info --> #024d35
                 <div class="payment-info">
                     <p class="payment-info-text">
                         উপরের লাল রঙয়ের বিল্ক করলে আপনার ফর্মটি সাবমিট হয়ে যাবে এবং আপনার অর্ডারটি প্রক্রিয়াকরণ শুরু
