@@ -465,6 +465,99 @@
             padding: 16px;
         }
     }
+
+    .payment-method-section {
+    margin: 20px 0;
+    padding: 12px 0;
+}
+
+.payment-method-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: linear-gradient(135deg, #f0f9f6 0%, #e8f5f1 100%);
+    border: 2px solid #036344;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.payment-method-card:hover {
+    box-shadow: 0 4px 12px rgba(3, 99, 68, 0.15);
+    border-color: #024d35;
+}
+
+.payment-method-icon {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 8px;
+    border: 2px solid #036344;
+}
+
+.payment-method-icon img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.payment-method-content {
+    flex: 1;
+}
+
+.payment-method-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #036344;
+    margin: 0 0 4px 0;
+}
+
+.payment-method-description {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+}
+
+.payment-method-badge {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #036344;
+    color: #fff;
+    border-radius: 50%;
+}
+
+@media (max-width: 480px) {
+    .payment-method-card {
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .payment-method-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .payment-method-icon img {
+        width: 38px;
+        height: 38px;
+    }
+
+    .payment-method-title {
+        font-size: 14px;
+    }
+
+    .payment-method-description {
+        font-size: 12px;
+    }
+}
 </style>
 
 
@@ -642,6 +735,25 @@
                 </div>
 
                 <!-- Action Buttons -->
+                <!-- Payment Method Display -->
+                <div class="payment-method-section">
+                    <div class="payment-method-card">
+                        <div class="payment-method-icon">
+                            <img src="{{ asset('FrontEnd/img/cod.png') }}" alt="Cash on Delivery">
+                        </div>
+                        <div class="payment-method-content">
+                            <h3 class="payment-method-title">ক্যাশ অন ডেলিভারি</h3>
+                            <p class="payment-method-description">
+                                পণ্য হাতে পেয়ে পেমেন্ট করুন
+                            </p>
+                        </div>
+                        <div class="payment-method-badge">
+                            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
                 <div class="checkout-actions">
                     <button type="submit" class="btn btn-submit">অর্ডার</button>
                 </div>
@@ -649,22 +761,24 @@
 
 
                 <!-- Pay Online Button -->
-                <button type="button" class="btn-pay-online">
+                <!-- <button type="button" class="btn-pay-online">
                     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
                         </path>
                     </svg>
                     Pay Online
-                </button>
+                </button> -->
+
+
 
                 <!-- Payment Info -->
-                <div class="payment-info">
+                <!-- <div class="payment-info">
                     <p class="payment-info-text">
                         উপরের লাল রঙয়ের বিল্ক করলে আপনার ফর্মটি সাবমিট হয়ে যাবে এবং আপনার অর্ডারটি প্রক্রিয়াকরণ শুরু
                         হবে। ক্যাশ অন ডেলিভারি পেমেন্ট মেথডে অর্ডার করার জন্য উপরের "অর্ডার" বাটনে ক্লিক করুন।
                     </p>
-                </div>
+                </div> -->
 
                 <input type="hidden" name="shipping_type" id="shippingTypeInput" value="1">
                 <input type="hidden" name="payment_option" id="paymentOptionInput" value="cod">
