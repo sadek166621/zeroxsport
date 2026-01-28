@@ -46,69 +46,69 @@
 
 <script>
     function buyNowInstant() {
-    const qty = $('.qty-val').val() || 1;
-    const id = $('#product_id').val();
+        const qty = $('.qty-val').val() || 1;
+        const id = $('#product_id').val();
 
-    addToCartAndCheckout(id, qty);
-}
+        addToCartAndCheckout(id, qty);
+    }
 
-function addToCartAndCheckout(id, qty = 1) {
-    const product_name = $('#' + id + '-product_pname').val();
+    function addToCartAndCheckout(id, qty = 1) {
+        const product_name = $('#' + id + '-product_pname').val();
 
-    // Step 1: Check cart
-    $.ajax({
-        type: 'GET',
-        url: '/cart/check/' + id,
-        success: function (res) {
+        // Step 1: Check cart
+        $.ajax({
+            type: 'GET',
+            url: '/cart/check/' + id,
+            success: function(res) {
 
-            // Step 2: If already exists → open checkout
-            if (res.exists) {
-                openCheckout();
-                return;
-            }
-
-            // Step 3: Otherwise add to cart
-            $.ajax({
-                type: 'POST',
-                url: '/cart/data/store/' + id,
-                data: {
-                    quantity: qty,
-                    product_name: product_name,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function (data) {
-                    miniCart();     // refresh cart UI
-                    openSidebar();  // optional
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 1200
-                    });
-
-                    if (!data.error) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: data.success
-                        });
-
-                        // 🔥 OPEN CHECKOUT MODAL
-                        setTimeout(() => {
-                            openCheckout();
-                        }, 300);
-
-                    } else {
-                        Toast.fire({
-                            icon: 'error',
-                            title: data.error
-                        });
-                    }
+                // Step 2: If already exists → open checkout
+                if (res.exists) {
+                    openCheckout();
+                    return;
                 }
-            });
-        }
-    });
-}
+
+                // Step 3: Otherwise add to cart
+                $.ajax({
+                    type: 'POST',
+                    url: '/cart/data/store/' + id,
+                    data: {
+                        quantity: qty,
+                        product_name: product_name,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        miniCart(); // refresh cart UI
+                        openSidebar(); // optional
+
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 1200
+                        });
+
+                        if (!data.error) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: data.success
+                            });
+
+                            // 🔥 OPEN CHECKOUT MODAL
+                            setTimeout(() => {
+                                openCheckout();
+                            }, 300);
+
+                        } else {
+                            Toast.fire({
+                                icon: 'error',
+                                title: data.error
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
 </script>
 
 <script>
@@ -119,61 +119,61 @@ function addToCartAndCheckout(id, qty = 1) {
 
 
     function addToCartDirect(id, redirectToCheckout = false, qty = null) {
-    var product_name = $('#' + id + '-product_pname').val();
-    var quantity = qty > 1 ? qty : 1;
+        var product_name = $('#' + id + '-product_pname').val();
+        var quantity = qty > 1 ? qty : 1;
 
-    // Step 1: Check if product already exists in cart
-    $.ajax({
-        type: 'GET',
-        url: '/cart/check/' + id,
-        success: function (res) {
-            if (redirectToCheckout && res.exists) {
-                // If product already exists and it's Buy Now, skip adding — redirect immediately
-                window.location.href = '/login-status/check';
-                return;
-            }
-
-            // Step 2: Proceed to add to cart (normal flow)
-            $.ajax({
-                type: 'POST',
-                url: '/cart/data/store/' + id,
-                data: {
-                    quantity: quantity,
-                    product_name: product_name,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function (data) {
-                    miniCart(); // refresh sidebar & header count
-                    $('#closeModel').click(); // close modal if any
-
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 1200
-                    });
-
-                    if ($.isEmptyObject(data.error)) {
-                        Toast.fire({
-                            icon: 'success',
-                            title: data.success
-                        });
-                        openSidebar(); // open sidebar dynamically
-
-                        if (redirectToCheckout) {
-                            window.location.href = '/login-status/check';
-                        }
-                    } else {
-                        Toast.fire({
-                            icon: 'error',
-                            title: data.error
-                        });
-                    }
+        // Step 1: Check if product already exists in cart
+        $.ajax({
+            type: 'GET',
+            url: '/cart/check/' + id,
+            success: function(res) {
+                if (redirectToCheckout && res.exists) {
+                    // If product already exists and it's Buy Now, skip adding — redirect immediately
+                    window.location.href = '/login-status/check';
+                    return;
                 }
-            });
-        }
-    });
-}
+
+                // Step 2: Proceed to add to cart (normal flow)
+                $.ajax({
+                    type: 'POST',
+                    url: '/cart/data/store/' + id,
+                    data: {
+                        quantity: quantity,
+                        product_name: product_name,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
+                        miniCart(); // refresh sidebar & header count
+                        $('#closeModel').click(); // close modal if any
+
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 1200
+                        });
+
+                        if ($.isEmptyObject(data.error)) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: data.success
+                            });
+                            openSidebar(); // open sidebar dynamically
+
+                            if (redirectToCheckout) {
+                                window.location.href = '/login-status/check';
+                            }
+                        } else {
+                            Toast.fire({
+                                icon: 'error',
+                                title: data.error
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
 
     /* ---------------- Buy Now ---------------- */
     function buyNow(id, qty = 0) {
@@ -592,8 +592,21 @@ function addToCartAndCheckout(id, qty = 1) {
 
                 /* ========= Start Add To Cart Product id ======== */
                 $('#product_id').val(id);
-                $('#qty').val(data.product.minimum_buy_qty);
+                // $('#qty').val(data.product.minimum_buy_qty);
                 /* ========== End Add To Cart Product id ======== */
+                const modalEl = document.getElementById('quickViewModal');
+
+                if (!modalEl) {
+                    console.error('Quick view modal not found in DOM');
+                    return;
+                }
+
+                const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                modal.show();
+
+                setTimeout(() => {
+                    $('#qty').val(data.product.minimum_buy_qty || 1).trigger('change');
+                }, 50);
             }
         });
     }
@@ -1048,6 +1061,158 @@ function addToCartAndCheckout(id, qty = 1) {
         });
     }
 </script>
+
+<script>
+    /*
+ Unified quantity handler (jQuery)
+ Replace existing qty handlers with this single block.
+*/
+
+    (function($) {
+        // Helper: find container for a button or input
+        function findQtyContainer($el) {
+            // common container classes; add more selectors if you use different markup
+            return $el.closest('.qs-qty, .quantity-controls, .product-detail, .product-qty');
+        }
+
+        // Helper: get qty input element (jQuery)
+        function getQtyInput($container) {
+            var $input = $container.find('input.qty-val');
+            if ($input.length === 0) $input = $container.find('input#qty');
+            if ($input.length === 0) $input = $('input#qty'); // final fallback global
+            return $input;
+        }
+
+        // Helper: determine max from multiple places (input max attribute, data-stock on container, #stock_qty fallback)
+        function getMax($container, $input) {
+            var maxAttr = parseInt($input.attr('max'));
+            if (!isNaN(maxAttr)) return maxAttr;
+            var dataStock = parseInt($container.data('stock'));
+            if (!isNaN(dataStock)) return dataStock;
+            var stockVal = parseInt($('#stock_qty').val());
+            if (!isNaN(stockVal)) return stockVal;
+            return Infinity;
+        }
+
+        // Helper: determine min
+        function getMin($input) {
+            var minAttr = parseInt($input.attr('min'));
+            return (!isNaN(minAttr) && minAttr > 0) ? minAttr : 1;
+        }
+
+        // Helper: update UI (buttons disabled + message)
+        function updateUI($container, $input) {
+            var $up = $container.find('.qty-up');
+            var $down = $container.find('.qty-down');
+            var min = getMin($input);
+            var max = getMax($container, $input);
+            var val = parseInt($input.val()) || min;
+
+            if ($down.length) $down.prop('disabled', val <= min);
+            if ($up.length) $up.prop('disabled', val >= max);
+
+            // find an alert node inside container, fallback to #qty_stock_alert
+            var $alert = $container.find('.qty-stock-alert');
+            if ($alert.length === 0) $alert = $('#qty_stock_alert');
+
+            if ($alert.length) {
+                if (val >= max && max !== Infinity) {
+                    $alert.text('⚠️ Maximum stock limit reached.');
+                } else if (val <= min) {
+                    $alert.text('ℹ️ Minimum order quantity.');
+                } else {
+                    $alert.text('');
+                }
+                // clear after 2.5s if message set
+                if ($alert.text()) {
+                    setTimeout(function() {
+                        $alert.text('');
+                    }, 2500);
+                }
+            }
+        }
+
+        // Delegated click handler for both buttons
+        $(document).on('click', '.qty-up, .qty-down', function(e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var $container = findQtyContainer($btn);
+            var $input = getQtyInput($container);
+            if ($input.length === 0) return;
+
+            var min = getMin($input);
+            var max = getMax($container, $input);
+            var val = parseInt($input.val()) || min;
+
+            if ($btn.hasClass('qty-up')) {
+                if (val < max) {
+                    $input.val(val + 1).trigger('change');
+                } else {
+                    // still update UI so message shows
+                    updateUI($container, $input);
+                }
+            } else {
+                // qty-down
+                if (val > min) {
+                    $input.val(val - 1).trigger('change');
+                } else {
+                    // enforce min
+                    $input.val(min).trigger('change');
+                }
+            }
+        });
+
+        // Handle manual typing / input enforcement and update UI on change or blur
+        $(document).on('input change blur', 'input.qty-val, input#qty', function(e) {
+            var $input = $(this);
+            var $container = findQtyContainer($input);
+            var min = getMin($input);
+            var max = getMax($container, $input);
+            var val = parseInt($input.val());
+
+            if (isNaN(val)) val = min;
+            if (val < min) val = min;
+            if (val > max) val = max;
+            $input.val(val);
+
+            updateUI($container, $input);
+        });
+
+        // Initialize UI for any qty inputs present on DOM ready
+        $(function() {
+            $('input.qty-val, input#qty').each(function() {
+                var $input = $(this);
+                var $container = findQtyContainer($input);
+                // ensure data-stock if you have it on container
+                updateUI($container, $input);
+            });
+        });
+
+    })(jQuery);
+</script>
+
+<script>
+    $(document).on('change', '.qs-attr-row input[type="radio"]', function() {
+        var name = $(this).attr('name');
+        $('.' + $(this).closest('ul').attr('class').split(' ').join('.')).find('label').removeClass('active');
+        // add active to the label that contains this radio
+        $(this).closest('label').addClass('active');
+    });
+
+    // when productView builds attributes we call selectAttributeModal onclick — ensure active class set
+    // also set first radio active visually (optional)
+    $(document).on('DOMNodeInserted', '#attributes', function() {
+        // set first radio of each attribute group active (if none selected)
+        $('#attributes').find('ul.list-filter').each(function() {
+            var $firstRadio = $(this).find('input[type="radio"]:first');
+            if ($firstRadio.length && !$firstRadio.is(':checked')) {
+                // do not auto-check if you want user to choose; comment next line to only style when user selects
+                //$firstRadio.prop('checked', true).trigger('change');
+            }
+        });
+    });
+</script>
+
 <script>
     $('#buy_now').on('click', function() {
         // alert('ok');

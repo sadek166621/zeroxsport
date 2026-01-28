@@ -490,81 +490,82 @@
 
     <div class="products-slider owl-carousel owl-theme">
         @forelse ($product_featured as $product)
-        @php
-        $data = calculateDiscount($product->id);
+            @php
+                $data = calculateDiscount($product->id);
 
-        $summary = getProductReviewsSummary($product->id);
-        $average_rating = $summary['average_rating'];
-        $total_ratings = $summary['total_ratings'] ?? 0;
-        @endphp
-        <div class="item">
-            <div class="product-card" data-product-slug="{{ $product->slug }}">
-                <div class="product-image-wrapper">
-                    <img src="{{ asset($product->product_thumbnail) }}" alt="{{ $product->name_en }}" />
-                    @if ($data['text'])
-                    <span class="product-badge">{{ $data['text'] }}</span>
-                    @endif
-                </div>
-                <div class="product-info">
-                    <h3 class="product-name">
-                        @if (session()->get('language') == 'bangla')
-                        {{ $product->name_bn }}
-                        @else
-                        {{ $product->name_en }}
+                $summary = getProductReviewsSummary($product->id);
+                $average_rating = $summary['average_rating'];
+                $total_ratings = $summary['total_ratings'] ?? 0;
+            @endphp
+            <div class="item">
+                <div class="product-card" data-product-slug="{{ $product->slug }}">
+                    <div class="product-image-wrapper">
+                        <img src="{{ asset($product->product_thumbnail) }}" alt="{{ $product->name_en }}" />
+                        @if ($data['text'])
+                            <span class="product-badge">{{ $data['text'] }}</span>
                         @endif
-                    </h3>
-
-                    <div class="product-rating">
-                        @for ($i = 1; $i <= 5; $i++)
-                            @if ($i <=$average_rating)
-                            <i class="fas fa-star"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">
+                            @if (session()->get('language') == 'bangla')
+                                {{ $product->name_bn }}
                             @else
-                            <i class="fas fa-star" style="color: #ddd;"></i>
+                                {{ $product->name_en }}
                             @endif
+                        </h3>
+
+                        <div class="product-rating">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $average_rating)
+                                    <i class="fas fa-star"></i>
+                                @else
+                                    <i class="fas fa-star" style="color: #ddd;"></i>
+                                @endif
                             @endfor
 
                             <span>({{ $total_ratings }})</span>
-                    </div>
+                        </div>
 
-                    <div class="featured-product-price">
-                        <span class="current-price">{{ $data['discount'] }} TK</span>
-                        @if ($product->regular_price != $data['discount'])
-                        <span class="original-price">{{ $product->regular_price }} TK</span>
+                        <div class="featured-product-price">
+                            <span class="current-price">{{ $data['discount'] }} TK</span>
+                            @if ($product->regular_price != $data['discount'])
+                                <span class="original-price">{{ $product->regular_price }} TK</span>
+                            @endif
+                        </div>
+
+                        @if ($product->stock_qty > 0)
+                            @if (Auth::check() && Auth::user()->role == '5')
+                                <button onclick="wholesellerAlert()" class="add-to-cart">
+                                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
+                                </button>
+                            @else
+                                @if ($product->is_varient == 1)
+                                    <button onclick="productView({{ $product->id }})" data-bs-toggle="modal"
+                                        data-bs-target="#quickViewModal" class="add-to-cart">
+                                        {{-- <button onclick="productView({{ $product->id }})" class="add-to-cart"> --}}
+                                        {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
+                                    </button>
+                                @else
+                                    <button onclick="addToCartDirect({{ $product->id }})" class="add-to-cart">
+                                        {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
+                                    </button>
+                                    <input type="hidden" id="pfrom" value="direct">
+                                    <input type="hidden" id="product_product_id" value="{{ $product->id }}"
+                                        min="1">
+                                    <input type="hidden" id="{{ $product->id }}-product_pname"
+                                        value="{{ $product->name_en }}">
+                                @endif
+                            @endif
+                        @else
+                            <button class="out-of-stock" disabled>
+                                {{ session()->get('language') == 'bangla' ? 'স্টক আউট' : 'Out of Stock' }}
+                            </button>
                         @endif
                     </div>
-
-                    @if ($product->stock_qty > 0)
-                    @if (Auth::check() && Auth::user()->role == '5')
-                    <button onclick="wholesellerAlert()" class="add-to-cart">
-                        {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
-                    </button>
-                    @else
-                    @if ($product->is_varient == 1)
-                    <button onclick="productView({{ $product->id }})" data-bs-toggle="modal"
-                        data-bs-target="#quickViewModal" class="add-to-cart">
-                        {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
-                    </button>
-                    @else
-                    <button onclick="addToCartDirect({{ $product->id }})" class="add-to-cart">
-                        {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
-                    </button>
-                    <input type="hidden" id="pfrom" value="direct">
-                    <input type="hidden" id="product_product_id" value="{{ $product->id }}"
-                        min="1">
-                    <input type="hidden" id="{{ $product->id }}-product_pname"
-                        value="{{ $product->name_en }}">
-                    @endif
-                    @endif
-                    @else
-                    <button class="out-of-stock" disabled>
-                        {{ session()->get('language') == 'bangla' ? 'স্টক আউট' : 'Out of Stock' }}
-                    </button>
-                    @endif
                 </div>
             </div>
-        </div>
         @empty
-        <p style="text-align: center; padding: 20px;">No featured products available</p>
+            <p style="text-align: center; padding: 20px;">No featured products available</p>
         @endforelse
     </div>
 </section>
@@ -654,20 +655,20 @@
     }
 
     // Product View for variants
-    function productView(productId) {
-        $.ajax({
-            type: 'GET',
-            url: '/product/view/modal/' + productId,
-            success: function(response) {
-                $('#quickViewModal .modal-body').html(generateProductModal(response.product, response
-                    .attributes));
-                $('#quickViewModal').modal('show');
-            },
-            error: function(error) {
-                console.error('Error loading product:', error);
-            }
-        });
-    }
+    // function productView(productId) {
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/product/view/modal/' + productId,
+    //         success: function(response) {
+    //             $('#quickViewModal .modal-body').html(generateProductModal(response.product, response
+    //                 .attributes));
+    //             $('#quickViewModal').modal('show');
+    //         },
+    //         error: function(error) {
+    //             console.error('Error loading product:', error);
+    //         }
+    //     });
+    // }
 
     // Generate product modal HTML
     function generateProductModal(product, attributes) {
@@ -698,48 +699,48 @@
     }
 
     // Add variant product to cart
-    function addVariantToCart(productId) {
-        const qty = $('#qty').val();
-        const variants = {};
+    // function addVariantToCart(productId) {
+    //     const qty = $('#qty').val();
+    //     const variants = {};
 
-        $('.variant-select').each(function() {
-            const attrId = $(this).data('attribute');
-            const value = $(this).val();
-            if (value) {
-                variants[attrId] = value;
-            }
-        });
+    //     $('.variant-select').each(function() {
+    //         const attrId = $(this).data('attribute');
+    //         const value = $(this).val();
+    //         if (value) {
+    //             variants[attrId] = value;
+    //         }
+    //     });
 
-        $.ajax({
-            type: 'POST',
-            url: '/cart/data/store/' + productId,
-            data: {
-                qty: qty,
-                variants: JSON.stringify(variants),
-                _token: $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                if (response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Added to Cart',
-                        text: 'Product added to cart successfully!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    $('#quickViewModal').modal('hide');
-                    getMiniCart();
-                }
-            },
-            error: function(error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Failed to add product to cart'
-                });
-            }
-        });
-    }
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/cart/data/store/' + productId,
+    //         data: {
+    //             qty: qty,
+    //             variants: JSON.stringify(variants),
+    //             _token: $('meta[name="csrf-token"]').attr('content')
+    //         },
+    //         success: function(response) {
+    //             if (response.success) {
+    //                 Swal.fire({
+    //                     icon: 'success',
+    //                     title: 'Added to Cart',
+    //                     text: 'Product added to cart successfully!',
+    //                     showConfirmButton: false,
+    //                     timer: 1500
+    //                 });
+    //                 $('#quickViewModal').modal('hide');
+    //                 getMiniCart();
+    //             }
+    //         },
+    //         error: function(error) {
+    //             Swal.fire({
+    //                 icon: 'error',
+    //                 title: 'Error',
+    //                 text: 'Failed to add product to cart'
+    //             });
+    //         }
+    //     });
+    // }
 
     // Get Mini Cart
     function getMiniCart() {
