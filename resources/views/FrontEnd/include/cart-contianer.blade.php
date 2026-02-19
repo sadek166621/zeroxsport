@@ -42,7 +42,7 @@
     }
 
     .add_to_cart:hover {
-        background-color: #026142;
+        background-color: #026142 !important;
         color: #ffffff !important;
     }
 

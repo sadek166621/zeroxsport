@@ -3,7 +3,7 @@
 @section('title', 'All Categories')
 <style>
     :root {
-        --primary: #FF6200;
+        --primary: #006A4E;
         --primary-light: #FF8A47;
         --primary-dark: #CC4E00;
         --dark: #333333;

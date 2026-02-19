@@ -19,13 +19,13 @@ class CartController extends Controller
         // Header Category Start
         $categories = Category::orderBy('name_en', 'DESC')->where('status', '=', 1)->limit(5)->get();
         $carts = Cart::content();
-        //dd($carts);
+        // dd($carts);
         return view('FrontEnd.cart.index', compact('categories'));
     }
     /* ============ Start AddToCart Methoed ============ */
     public function AddToCart(Request $request, $id)
     {
-        //        dd($request->all());
+            //    dd($request->all());
         $options = json_decode(stripslashes($request->get('options')));
 
         //dd($request);

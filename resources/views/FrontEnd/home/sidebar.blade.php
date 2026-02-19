@@ -151,7 +151,7 @@
     }
 
     .category-sidemenu .dropdown ul li:hover a {
-        color: #ff6200;
+        color: #006A4E;
     }
 
     .category-sidemenu .dropdown_two>ul {

@@ -207,7 +207,7 @@ $currentCategorySlug = request()->route('slug');
     }
 
     .nav-bottom-item {
-        padding: 12px 15px;
+        padding: 5px 8px;
         cursor: pointer;
         border: none;
         color: whitesmoke;

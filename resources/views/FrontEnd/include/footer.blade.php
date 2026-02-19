@@ -110,7 +110,6 @@
     .copyright {
         border-top: 1px solid rgba(0, 0, 0, 0.05);
         padding-top: 25px;
-        margin-top: 40px;
     }
 
     .footer-menu {
@@ -150,7 +149,6 @@
         height: auto;
         margin-bottom: 25px;
         transition: all 0.3s ease;
-        /* background-color: #026544; */
         padding: 8px;
         border-radius: 8px;
     }
@@ -161,10 +159,70 @@
         gap: 2rem;
     }
 
-    @media (max-width: 768px) {
+    /* Mobile Responsive - Line by line */
+    @media (max-width: 992px) {
         .footer-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
+            gap: 2rem;
+        }
+        
+        .footer h4:after {
+            left: 0;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .footer-grid {
+            grid-template-columns: 1fr; /* Single column */
+            gap: 2rem;
+        }
+
+        .footer-grid > div {
+            text-align: left;
+            width: 100%;
+            border-bottom: 1px solid rgba(2, 101, 68, 0.1);
+            padding-bottom: 20px;
+        }
+
+        .footer-grid > div:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .footer h4 {
+            font-size: 16px;
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .footer h4:after {
+            left: 0;
+            width: 40px;
+        }
+
+        .main-logo {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .contact-info {
+            align-items: flex-start !important;
+        }
+
+        .contact-info p {
+            justify-content: flex-start;
+        }
+
+        .quick-links {
+            align-items: flex-start;
+        }
+
+        .social-links {
+            align-items: flex-start;
+        }
+
+        .social-links a {
+            justify-content: flex-start;
         }
 
         .footer-menu {
@@ -172,10 +230,11 @@
             margin-top: 20px;
             flex-direction: column;
             gap: 10px;
+            align-items: flex-start;
         }
 
         .payment-section {
-            justify-content: center !important;
+            justify-content: flex-start !important;
             margin-top: 20px;
         }
 
@@ -185,45 +244,8 @@
             margin-bottom: 10px;
         }
 
-        .footer h4 {
-            font-size: 16px;
-            text-align: center;
-        }
-
-        .footer h4:after {
-            left: 15%;
-            transform: translateX(-50%);
-        }
-
-        .footer>.custom_container>.footer-grid>div {
-            text-align: center;
-        }
-
-        .contact-info {
-            align-items: start !important;
-        }
-
-        .main-logo {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .quick-links {
-            align-items: start;
-        }
-
-        .social-links {
-            flex-direction: row;
-            align-items: start;
-            flex-wrap: wrap;
-        }
-
-        .social-links a {
-            justify-content: center;
-        }
-
-        .social-links a i {
-            margin-right: 8px;
+        .copyright p {
+            text-align: left;
         }
 
         .footer p {
@@ -238,8 +260,7 @@
 
         .footer h4 {
             font-size: 15px;
-            margin-bottom: 15px;
-            text-align: left;
+            margin-bottom: 12px;
         }
 
         .quick-links {
@@ -247,7 +268,7 @@
         }
 
         .contact-info {
-            gap: 12px;
+            gap: 10px;
         }
 
         .social-links {
@@ -258,14 +279,14 @@
             font-size: 12px !important;
         }
 
-        .copyright p {
-            font-size: 11px !important;
+        .main-logo {
+            max-width: 150px;
         }
     }
 </style>
 
 <footer class="footer wow fadeIn mb-lg-0" data-wow-delay="0.1s">
-    <div class="custom_container py-5">
+    <div class="custom_container pt-5">
         <div class="footer-grid">
             <!-- Company Info -->
             <div>
@@ -300,16 +321,6 @@
                         @if(Auth::user() && Auth::user()->role == 3) Your Account @else Login @endif
                         @endif
                     </a>
-                    <a href="{{route('seller.apply')}}">
-                        @if(session()->get('language') == 'bangla') সেলার হন @else Become a Seller @endif
-                    </a>
-                    {{-- <a href="{{route('wholeseller.register')}}">
-                    @if(session()->get('language') == 'bangla') হোলসেলার হন @else Become a Wholeseller @endif
-                    </a> --}}
-                    <a href="{{route('page.affiliate')}}">
-                        @if(session()->get('language') == 'bangla') স্বাধীন বিক্রেতা @else Become an Affiliate @endif
-                    </a>
-
                     <a href="{{route('page.about')}}">
                         @if(session()->get('language') == 'bangla') আমাদের সম্পর্কে @else About Us @endif
                     </a>
@@ -329,16 +340,12 @@
                     <a href="{{route('page.terms')}}">
                         @if(session()->get('language') == 'bangla') শর্তাবলী @else Terms & Conditions @endif
                     </a>
-                    <a href="{{route('seller.terms_condition')}}">
-                        @if(session()->get('language') == 'bangla') সেলার শর্তাবলী @else Seller Terms & Condition @endif
-                    </a>
                     <a href="{{route('page.policy')}}">
                         @if(session()->get('language') == 'bangla') গোপনীয়তা নীতি @else Privacy Policy @endif
                     </a>
                     <a href="{{route('page.help')}}">
                         @if(session()->get('language') == 'bangla') সাহায্য @else Help Center @endif
                     </a>
-
                 </div>
             </div>
 
@@ -366,22 +373,5 @@
             </div>
         </div>
     </div>
-
     <!-- Copyright Section -->
-    <div class="custom_container">
-        <div class="copyright">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center text-md-start">
-                    <p class="mb-md-0">
-                        &copy; {{date('Y')}} <a href="{{route('home')}}" class="text-primary">{{get_setting('business_name')->value}}</a>.
-                        @if(session()->get('language') == 'bangla') সর্বস্বত্ব সংরক্ষিত @else All Rights Reserved @endif || Designed & Developed By
-                        <a href="https://ibrahimtechbd.com/" class="text-primary"> Ibrahim Tech BD </a>
-                        <!-- © Dhaka Central BD || All Rights Reserved || Designed & Developed By
-                        <a href="https://ibrahimtechbd.com/" class="text-primary"> Ibrahim Tech BD </a> -->
-                    </p>
-                </div>
-
-            </div>
-        </div>
-    </div>
 </footer>

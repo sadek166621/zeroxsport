@@ -1,407 +1,317 @@
 <style>
     .about-section {
-        padding: 15px;
+        padding: 40px 0;
     }
-
-    .overview-card {
-        background: #ffffff;
-        padding: 20px;
+    
+    .about-header {
         text-align: center;
-        border-radius: 15px;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
+        margin-bottom: 40px;
     }
-
-    .brand-badge {
-        width: 60px;
-        height: 60px;
-        background: #003E32;
+    
+    .about-header h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 15px;
+    }
+    
+    .about-header p {
+        font-size: 16px;
+        color: var(--text-light);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .brand-showcase {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+        color: white;
+        padding: 40px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .brand-initial {
+        font-size: 60px;
+        font-weight: 900;
+        margin-bottom: 15px;
+    }
+    
+    .brand-name {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    
+    .brand-tagline {
+        font-size: 18px;
+        opacity: 0.9;
+    }
+    
+    .mission-statement {
+        background: var(--bg-light);
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 40px;
+        font-size: 18px;
+        line-height: 1.8;
+        color: var(--text-dark);
+        border-left: 5px solid var(--primary-color);
+    }
+    
+    .mission-statement a {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .mission-statement a:hover {
+        text-decoration: underline;
+    }
+    
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+    
+    .feature-item {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border: 1px solid var(--border-color);
+    }
+    
+    .feature-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(237, 28, 36, 0.1);
+        border-color: var(--primary-color);
+    }
+    
+    .feature-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+        color: white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 30px;
         margin: 0 auto 15px;
     }
-
-    .company-initial {
-        color: white;
-        font-size: 28px;
+    
+    .feature-item h3 {
+        font-size: 18px;
         font-weight: 700;
-    }
-
-    .company-title {
-        font-size: 22px;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 8px;
-    }
-
-    .company-subtitle {
-        font-size: 14px;
-        color: #666;
-    }
-
-    .mission-card {
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 15px;
-        position: relative;
-    }
-
-    .quote-mark {
-        position: absolute;
-        top: 10px;
-        left: 15px;
-        font-size: 40px;
-        color: #003E32;
-        opacity: 0.2;
-        font-family: Georgia, serif;
-    }
-
-    .mission-text {
-        font-size: 14px;
-        line-height: 1.6;
-        color: #444;
-        position: relative;
-        z-index: 1;
-    }
-
-    .feature-box {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        height: 100%;
-        transition: transform 0.3s;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
-    }
-
-    .feature-box:hover {
-        transform: translateY(-3px);
-    }
-
-    .feature-icon {
-        font-size: 28px;
-        color: #003E32;
-        margin-bottom: 15px;
-    }
-
-    .feature-content h3 {
-        font-size: 16px;
-        color: #333;
+        color: var(--text-dark);
         margin-bottom: 10px;
     }
-
-    .feature-content p {
-        color: #666;
-        line-height: 1.5;
-        font-size: 13px;
+    
+    .feature-item p {
+        font-size: 14px;
+        color: var(--text-light);
+        line-height: 1.6;
     }
-
-    .policy-card {
-        background: white;
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
-    }
-
-    .policy-card h3 {
-        color: #333;
-        margin-bottom: 20px;
-        text-align: center;
-        font-size: 18px;
-    }
-
-    .policy-points {
+    
+    .commitment-grid {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin-bottom: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
     }
-
-    .policy-item {
+    
+    .commitment-item {
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .commitment-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--bg-light);
+        color: var(--primary-color);
+        border-radius: 50%;
         display: flex;
         align-items: center;
-        gap: 10px;
+        justify-content: center;
+        font-size: 24px;
+        margin: 0 auto 15px;
+        transition: all 0.3s ease;
     }
-
-    .policy-item i {
-        color: #003E32;
+    
+    .commitment-item:hover .commitment-icon {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    .commitment-item h4 {
         font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
     }
-
-    .policy-item span {
-        color: #444;
+    
+    .commitment-item p {
         font-size: 13px;
+        color: var(--text-light);
+        line-height: 1.5;
     }
-
+    
     .policy-link {
-        display: block;
         text-align: center;
-        color: #003E32;
+    }
+    
+    .policy-link a {
+        display: inline-block;
+        background: var(--primary-color);
+        color: white;
+        padding: 12px 35px;
+        border-radius: 30px;
         text-decoration: none;
         font-weight: 600;
-        margin-top: 15px;
-        font-size: 13px;
+        transition: all 0.3s ease;
     }
-
-    .policy-link:hover {
-        text-decoration: underline;
+    
+    .policy-link a:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(237, 28, 36, 0.3);
     }
-
-    /* Small devices (landscape phones, 576px and up) */
-    @media (min-width: 576px) {
-        .about-section {
-            padding: 18px;
-        }
-
-        .overview-card {
-            padding: 30px;
-        }
-
-        .brand-badge {
-            width: 70px;
-            height: 70px;
-        }
-
-        .company-initial {
-            font-size: 35px;
-        }
-
-        .company-title {
+    
+    @media (max-width: 768px) {
+        .about-header h2 {
             font-size: 26px;
         }
-
-        .company-subtitle {
+        
+        .brand-name {
+            font-size: 28px;
+        }
+        
+        .mission-statement {
             font-size: 16px;
         }
-
-        .mission-card {
-            padding: 30px;
-        }
-
-        .mission-text {
-            font-size: 16px;
-        }
-
-        .feature-box {
-            padding: 25px;
-        }
-
-        .feature-icon {
-            font-size: 32px;
-        }
-
-        .feature-content h3 {
-            font-size: 18px;
-        }
-
-        .feature-content p {
-            font-size: 14px;
-        }
-
-        .policy-card {
-            padding: 30px;
-        }
-
-        .policy-card h3 {
-            font-size: 20px;
-        }
-
-        .policy-points {
+        
+        .feature-grid {
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
         }
-
-        .policy-item span {
-            font-size: 14px;
+        
+        .commitment-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
         }
     }
-
-    /* Tablets (768px and up) */
-    @media (min-width: 768px) {
-        .about-section {
-            padding: 20px;
+    
+    @media (max-width: 480px) {
+        .feature-grid {
+            grid-template-columns: 1fr;
         }
-
-        .overview-card {
-            padding: 40px;
-        }
-
-        .brand-badge {
-            width: 80px;
-            height: 80px;
-        }
-
-        .company-initial {
-            font-size: 40px;
-        }
-
-        .company-title {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .company-subtitle {
-            font-size: 18px;
-        }
-
-        .mission-card {
-            padding: 40px;
-        }
-
-        .quote-mark {
-            top: 20px;
-            left: 20px;
-            font-size: 60px;
-        }
-
-        .mission-text {
-            font-size: 18px;
-            line-height: 1.8;
-        }
-
-        .feature-box {
-            padding: 30px;
-        }
-
-        .feature-box:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .feature-content h3 {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        .feature-content p {
-            font-size: 15px;
-            line-height: 1.6;
-        }
-
-        .policy-card {
-            padding: 40px;
-        }
-
-        .policy-card h3 {
-            font-size: 22px;
-            margin-bottom: 30px;
-        }
-
-        .policy-points {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .policy-item span {
-            font-size: 15px;
-        }
-
-        .policy-link {
-            margin-top: 20px;
-            font-size: 15px;
+        
+        .commitment-grid {
+            grid-template-columns: 1fr;
         }
     }
 </style>
 
-<section class="my-5">
-    <div class="about-section">
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="overview-card">
-                    <div class="brand-badge">
-                        <span class="company-initial">{{ substr(get_setting('site_name')->value ?? 'D', 0, 1) }}</span>
-                    </div>
-                    <h1 class="company-title">{{ get_setting('site_name')->value ?? '' }}</h1>
-                    <p class="company-subtitle">Redefining Your Shopping Experience</p>
+<section class="about-section">
+    <div class="container">
+        <div class="about-header">
+            <h2>About {{ get_setting('site_name')->value ?? 'Us' }}</h2>
+            <p>Your trusted partner for premium shopping experience with exceptional quality and service</p>
+        </div>
+        
+        <!-- Brand Showcase -->
+        <div class="brand-showcase">
+            <div class="brand-initial">{{ substr(get_setting('site_name')->value ?? 'D', 0, 1) }}</div>
+            <h3 class="brand-name">{{ get_setting('site_name')->value ?? 'DhakaStore' }}</h3>
+            <p class="brand-tagline">Redefining Your Shopping Experience</p>
+        </div>
+        
+        <!-- Mission Statement -->
+        <!--<div class="mission-statement">-->
+        <!--    <i class="fas fa-quote-left" style="color: var(--primary-color); opacity: 0.3; font-size: 40px; margin-right: 10px;"></i>-->
+        <!--    Empowering customers with premium products, exceptional service, and innovative shopping solutions.-->
+        <!--    Explore our wide range of categories including-->
+        <!--    @foreach($featured_category as $key => $fc)-->
+        <!--        @if($key < 5)-->
+        <!--            <a href="{{ route('product.category', $fc->slug) }}">-->
+        <!--                {{ $fc->name_en }}@if($key < 4), @endif-->
+        <!--            </a>-->
+        <!--        @endif-->
+        <!--    @endforeach-->
+        <!--</div>-->
+        
+        <!-- Features -->
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-percent"></i>
                 </div>
+                <h3>Flexible Payment</h3>
+                <p>EMI with 0% interest available on selected products for your convenience</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Warranty Assured</h3>
+                <p>Every product backed by official warranty and genuine product guarantee</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-undo-alt"></i>
+                </div>
+                <h3>Easy Returns</h3>
+                <p>Hassle-free 3-day return policy with fast refund processing</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3>Fast Delivery</h3>
+                <p>Express shipping options with real-time tracking</p>
             </div>
         </div>
-        <div class="row mb-5">
-            <div class="col-12">
-                <div class="mission-card">
-                    <div class="quote-mark">"</div>
-                    <p class="mission-text">
-                        Empowering customers with premium products, exceptional service, and innovative shopping solutions.
-                        Explore our wide range of categories including
-                        @foreach ($featured_category as $key => $fc)
-                        @php
-                        if ($key == 5) {
-                        break;
-                        }
-                        @endphp
-                        <a href="{{ route('product.category', $fc->slug) }}" class="category-link">
-                            {{ $fc->name_en }}@if ($key < 4), @endif
-                                </a>
-                                @endforeach
-                    </p>
+        
+        <!-- Commitments -->
+        <div class="commitment-grid">
+            <div class="commitment-item">
+                <div class="commitment-icon">
+                    <i class="fas fa-star"></i>
                 </div>
+                <h4>100% Authentic</h4>
+                <p>We guarantee genuine products with official verification</p>
+            </div>
+            <div class="commitment-item">
+                <div class="commitment-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h4>Secure Payment</h4>
+                <p>Encrypted transactions with buyer protection</p>
+            </div>
+            <div class="commitment-item">
+                <div class="commitment-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h4>Best Prices</h4>
+                <p>Competitive prices with exclusive deals</p>
+            </div>
+            <div class="commitment-item">
+                <div class="commitment-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h4>24/7 Support</h4>
+                <p>Round-the-clock customer support for any assistance</p>
             </div>
         </div>
-        <div class="row features-row">
-            <div class="col-12 col-sm-6 col-md-4 mb-4">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="fas fa-percent"></i>
-                    </div>
-                    <div class="feature-content">
-                        <h3>EMI Available</h3>
-                        <p>Flexible payment options with 0% interest installment plans available on selected products</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 mb-4">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="feature-content">
-                        <h3>Warranty Assured</h3>
-                        <p>Every product comes with official warranty coverage and genuine product guarantee</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 mb-4">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="fas fa-undo-alt"></i>
-                    </div>
-                    <div class="feature-content">
-                        <h3>Easy Returns</h3>
-                        <p>Hassle-free 3-day return policy with quick refund processing</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="policy-card">
-                    <h3>Our Commitment</h3>
-                    <div class="policy-points">
-                        <div class="policy-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>100% Authentic Products</span>
-                        </div>
-                        <div class="policy-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Secure Payment Options</span>
-                        </div>
-                        <div class="policy-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Express Delivery</span>
-                        </div>
-                        <div class="policy-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>24/7 Customer Support</span>
-                        </div>
-                    </div>
-                    <a href="#" class="policy-link">Learn More About Our Policies</a>
-                </div>
-            </div>
-        </div>
+        
+        <!--<div class="policy-link">-->
+        <!--    <a href="{{ route('page.policy') }}">Learn More About Our Policies</a>-->
+        <!--</div>-->
     </div>
 </section>

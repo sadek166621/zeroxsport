@@ -5,12 +5,8 @@
 <style>
     /* Featured Products Section */
     .products-section {
-        padding: 10px;
-        background-color: white;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        max-width: 1400px;
-        margin: 0 auto;
+        padding: 10px 15px;
+        background-color: #e8e8e8;
     }
 
     .products-header {
@@ -23,12 +19,25 @@
 
     .products-header h2 {
         font-size: 32px;
-        color: #003E32;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin: 0;
+    }
+
+    .products-header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .products-header p {
+        font-size: 14px;
+        color: #666;
         margin: 0;
     }
 
     .view-all-btn {
-        background-color: #003E32;
+        background-color: #f09220;
         color: white;
         border: none;
         padding: 12px 30px;
@@ -38,12 +47,13 @@
         cursor: pointer;
         transition: all 0.3s ease;
         text-decoration: none;
+        white-space: nowrap;
     }
 
     .view-all-btn:hover {
-        background-color: #e55b00;
+        background-color: #066552;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 98, 0, 0.3);
+        box-shadow: 0 4px 12px rgba(13, 124, 102, 0.3);
     }
 
     .products-slider {
@@ -52,87 +62,126 @@
 
     .product-card {
         background: white;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        cursor: pointer;
+        border-radius: 10px;
+        padding: 15px;
+        position: relative;
+        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         display: flex;
         flex-direction: column;
         height: 100%;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        margin: 5px;
+        cursor: pointer;
     }
 
     .product-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 8px 24px rgba(255, 98, 0, 0.15);
-        border-color: #003E32;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .card-actions {
+        display: flex;
+        gap: 6px;
+    }
+
+    .icon-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: 1.5px solid #ddd;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .icon-btn:hover {
+        border-color: #f09220;
+        background: #f0f9f7;
     }
 
     .product-image-wrapper {
-        width: 100%;
-        height: 200px;
-        background: #f5f5f5;
         position: relative;
-        overflow: hidden;
+        margin-bottom: 12px;
+        text-align: center;
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f5f5;
+        border-radius: 8px;
     }
 
-    .product-image-wrapper img {
+    .product-image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        transition: transform 0.4s ease;
-    }
-
-    .product-card:hover .product-image-wrapper img {
-        transform: scale(1.05);
+        object-fit: contain;
+        margin-bottom: 8px;
     }
 
     .product-badge {
         position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: #003E32 !important;
+        top: 0;
+        right: 0;
+        background: #e91e63;
         color: white;
-        padding: 4px 12px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: bold;
+        padding: 5px 12px;
+        border-radius: 3px;
+        font-weight: 700;
+        font-size: 11px;
         z-index: 2;
     }
 
+    .product-badge::after {
+        content: '';
+        position: absolute;
+        bottom: -6px;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid #e91e63;
+    }
+
     .product-info {
-        padding: 15px;
         flex-grow: 1;
         display: flex;
         flex-direction: column;
     }
 
     .product-name {
-        font-size: 14px;
-        font-weight: 600;
+        font-size: 16px;
+        font-weight: 500;
         color: #333;
-        margin-bottom: 8px;
-        line-height: 1.4;
-        min-height: 40px;
+        margin-bottom: 10px;
+        min-height: 36px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        line-height: 1.4;
     }
 
     .featured-product-price {
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        margin-bottom: 12px;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 8px;
     }
 
     .current-price {
-        font-size: 18px;
-        font-weight: bold;
-        color: #003E32 !important;
+        font-size: 20px;
+        font-weight: 700;
+        color: #f09220;
     }
 
     .original-price {
@@ -142,23 +191,45 @@
     }
 
     .discount-badge {
-        background-color: #003E32;
+        background: #f09220;
         color: white;
-        padding: 2px 8px;
-        border-radius: 4px;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .product-rating {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 8px;
+    }
+
+    .stars {
+        display: flex;
+        gap: 1px;
+    }
+
+    .star {
+        color: #ffc107;
+        font-size: 22px !important;
+    }
+
+    .review-count {
         font-size: 11px;
-        font-weight: bold;
+        color: #666;
     }
 
     .add-to-cart {
-        background: linear-gradient(135deg, #003E32, #036645);
+        background: #f09220;
         color: white;
         border: none;
         padding: 10px 15px;
         border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
         font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
         transition: all 0.3s ease;
         width: 100%;
         margin-top: auto;
@@ -170,18 +241,18 @@
         border: none;
         padding: 10px 15px;
         border-radius: 6px;
-        cursor: not-allowed;
-        font-weight: bold;
         font-size: 14px;
+        font-weight: bold;
+        cursor: not-allowed;
         transition: all 0.3s ease;
         width: 100%;
         margin-top: auto;
     }
 
     .add-to-cart:hover {
-        background: #036A46;
+        background: #066552;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 98, 0, 0.3);
+        box-shadow: 0 4px 12px rgba(13, 124, 102, 0.3);
     }
 
     .add-to-cart:active {
@@ -191,7 +262,7 @@
     /* Owl Carousel Customization */
     .owl-carousel .owl-nav button.owl-prev,
     .owl-carousel .owl-nav button.owl-next {
-        background-color: #003E32 !important;
+        background-color: #f09220 !important;
         border-radius: 50%;
         width: 45px !important;
         height: 45px !important;
@@ -203,7 +274,7 @@
 
     .owl-carousel .owl-nav button.owl-prev:hover,
     .owl-carousel .owl-nav button.owl-next:hover {
-        background-color: #e55b00 !important;
+        background-color: #066552 !important;
     }
 
     .owl-carousel .owl-nav button span {
@@ -342,7 +413,7 @@
         }
 
         .view-all-btn {
-            width: 100%;
+            width: 100% !important;
             padding: 11px 20px;
             font-size: 13px;
         }
@@ -407,6 +478,10 @@
 
     /* Medium Devices (481px to 768px) */
     @media (min-width: 481px) and (max-width: 768px) {
+        .products-section {
+            padding: 20px 15px;
+        }
+
         .products-header {
             flex-direction: column;
             gap: 15px;
@@ -414,11 +489,11 @@
         }
 
         .products-header h2 {
-            font-size: 28px;
+            font-size: 26px;
         }
 
         .view-all-btn {
-            width: 100%;
+            width: 100% !important;
             padding: 10px 25px;
             font-size: 14px;
         }
@@ -437,10 +512,6 @@
 
         .current-price {
             font-size: 16px;
-        }
-
-        .products-section {
-            padding: 5px;
         }
 
         .owl-carousel .owl-nav button.owl-prev,
@@ -479,6 +550,7 @@
             font-size: 16px;
         }
     }
+
 </style>
 
 <!-- Products Section -->
@@ -490,82 +562,100 @@
 
     <div class="products-slider owl-carousel owl-theme">
         @forelse ($product_featured as $product)
-            @php
-                $data = calculateDiscount($product->id);
+        @php
+        $data = calculateDiscount($product->id);
 
-                $summary = getProductReviewsSummary($product->id);
-                $average_rating = $summary['average_rating'];
-                $total_ratings = $summary['total_ratings'] ?? 0;
-            @endphp
-            <div class="item">
-                <div class="product-card" data-product-slug="{{ $product->slug }}">
-                    <div class="product-image-wrapper">
-                        <img src="{{ asset($product->product_thumbnail) }}" alt="{{ $product->name_en }}" />
-                        @if ($data['text'])
-                            <span class="product-badge">{{ $data['text'] }}</span>
-                        @endif
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">
-                            @if (session()->get('language') == 'bangla')
-                                {{ $product->name_bn }}
-                            @else
-                                {{ $product->name_en }}
-                            @endif
-                        </h3>
+        $summary = getProductReviewsSummary($product->id);
+        $average_rating = $summary['average_rating'];
+        $total_ratings = $summary['total_ratings'] ?? 0;
+        @endphp
 
-                        <div class="product-rating">
-                            @for ($i = 1; $i <= 5; $i++)
-                                @if ($i <= $average_rating)
-                                    <i class="fas fa-star"></i>
-                                @else
-                                    <i class="fas fa-star" style="color: #ddd;"></i>
-                                @endif
-                            @endfor
-
-                            <span>({{ $total_ratings }})</span>
-                        </div>
-
-                        <div class="featured-product-price">
-                            <span class="current-price">{{ $data['discount'] }} TK</span>
-                            @if ($product->regular_price != $data['discount'])
-                                <span class="original-price">{{ $product->regular_price }} TK</span>
-                            @endif
-                        </div>
-
-                        @if ($product->stock_qty > 0)
-                            @if (Auth::check() && Auth::user()->role == '5')
-                                <button onclick="wholesellerAlert()" class="add-to-cart">
-                                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
-                                </button>
-                            @else
-                                @if ($product->is_varient == 1)
-                                    <button onclick="productView({{ $product->id }})" data-bs-toggle="modal"
-                                        data-bs-target="#quickViewModal" class="add-to-cart">
-                                        {{-- <button onclick="productView({{ $product->id }})" class="add-to-cart"> --}}
-                                        {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
-                                    </button>
-                                @else
-                                    <button onclick="addToCartDirect({{ $product->id }})" class="add-to-cart">
-                                        {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
-                                    </button>
-                                    <input type="hidden" id="pfrom" value="direct">
-                                    <input type="hidden" id="product_product_id" value="{{ $product->id }}"
-                                        min="1">
-                                    <input type="hidden" id="{{ $product->id }}-product_pname"
-                                        value="{{ $product->name_en }}">
-                                @endif
-                            @endif
-                        @else
-                            <button class="out-of-stock" disabled>
-                                {{ session()->get('language') == 'bangla' ? 'স্টক আউট' : 'Out of Stock' }}
-                            </button>
-                        @endif
+        <!-- Product Card -->
+        <div class="item">
+            <div class="product-card" data-product-slug="{{ $product->slug }}">
+                <div class="card-header">
+                    @if ($product->regular_price != $data['discount'] && $data['text'])
+                    <span class="discount-badge">{{ $data['text'] }}</span>
+                    @else
+                    <span class="discount-badge" style="visibility: hidden;">-0%</span>
+                    @endif
+                    <div class="card-actions">
+                        <button class="icon-btn" title="Quick View">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                        <button class="icon-btn" title="Add to Wishlist">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </button>
                     </div>
                 </div>
+
+                <div class="product-image-wrapper">
+                    <img src="{{ asset($product->product_thumbnail) }}" alt="{{ $product->name_en }}" class="product-image" />
+                </div>
+
+                <h3 class="product-name">
+                    @if (session()->get('language') == 'bangla')
+                    {{ $product->name_bn }}
+                    @else
+                    {{ $product->name_en }}
+                    @endif
+                </h3>
+
+                <div class="featured-product-price">
+                    <span class="current-price">€  {{ $data['discount'] }}</span>
+                    @if ($product->regular_price != $data['discount'])
+                    <span class="original-price">€  {{ $product->regular_price }}</span>
+                    @endif
+                </div>
+
+                <div class="product-rating">
+                    <div class="stars">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <=$average_rating)
+                            <span class="star">★</span>
+                            @else
+                            <span class="star" style="color: #ddd;">★</span>
+                            @endif
+                            @endfor
+                    </div>
+                    <span class="review-count">({{ $total_ratings }})</span>
+                </div>
+
+                {{-- Cart Button Logic --}}
+                @if ($product->stock_qty > 0)
+                @if (Auth::check() && Auth::user()->role == '5')
+                <button onclick="wholesellerAlert()" class="add-to-cart">
+                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
+                </button>
+                @else
+                @if ($product->is_varient == 1)
+                <!-- <button onclick="productView({{ $product->id }})" data-bs-toggle="modal" data-bs-target="#quickViewModal" class="add-to-cart">
+                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
+                </button> -->
+                @else
+                <!-- <button onclick="addToCartDirect({{ $product->id }})" class="add-to-cart">
+                    {{ session()->get('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
+                </button> -->
+                <input type="hidden" id="pfrom" value="direct">
+                <input type="hidden" id="product_product_id" value="{{ $product->id }}" min="1">
+                <input type="hidden" id="{{ $product->id }}-product_pname" value="{{ $product->name_en }}">
+                @endif
+                @endif
+                @else
+                <!-- <button class="out-of-stock" disabled>
+                    {{ session()->get('language') == 'bangla' ? 'স্টক আউট' : 'Out of Stock' }}
+                </button> -->
+                @endif
             </div>
+        </div>
+
         @empty
-            <p style="text-align: center; padding: 20px;">No featured products available</p>
+        <p style="text-align: center; padding: 20px;">No featured products available</p>
         @endforelse
     </div>
 </section>
@@ -605,7 +695,7 @@
                     items: 5
                 },
                 1400: {
-                    items: 5
+                    items: 6
                 }
             }
         });
@@ -655,20 +745,20 @@
     }
 
     // Product View for variants
-    // function productView(productId) {
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/product/view/modal/' + productId,
-    //         success: function(response) {
-    //             $('#quickViewModal .modal-body').html(generateProductModal(response.product, response
-    //                 .attributes));
-    //             $('#quickViewModal').modal('show');
-    //         },
-    //         error: function(error) {
-    //             console.error('Error loading product:', error);
-    //         }
-    //     });
-    // }
+    function productView(productId) {
+        $.ajax({
+            type: 'GET',
+            url: '/product/view/modal/' + productId,
+            success: function(response) {
+                $('#quickViewModal .modal-body').html(generateProductModal(response.product, response
+                    .attributes));
+                $('#quickViewModal').modal('show');
+            },
+            error: function(error) {
+                console.error('Error loading product:', error);
+            }
+        });
+    }
 
     // Generate product modal HTML
     function generateProductModal(product, attributes) {
@@ -699,48 +789,48 @@
     }
 
     // Add variant product to cart
-    // function addVariantToCart(productId) {
-    //     const qty = $('#qty').val();
-    //     const variants = {};
+    function addVariantToCart(productId) {
+        const qty = $('#qty').val();
+        const variants = {};
 
-    //     $('.variant-select').each(function() {
-    //         const attrId = $(this).data('attribute');
-    //         const value = $(this).val();
-    //         if (value) {
-    //             variants[attrId] = value;
-    //         }
-    //     });
+        $('.variant-select').each(function() {
+            const attrId = $(this).data('attribute');
+            const value = $(this).val();
+            if (value) {
+                variants[attrId] = value;
+            }
+        });
 
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/cart/data/store/' + productId,
-    //         data: {
-    //             qty: qty,
-    //             variants: JSON.stringify(variants),
-    //             _token: $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         success: function(response) {
-    //             if (response.success) {
-    //                 Swal.fire({
-    //                     icon: 'success',
-    //                     title: 'Added to Cart',
-    //                     text: 'Product added to cart successfully!',
-    //                     showConfirmButton: false,
-    //                     timer: 1500
-    //                 });
-    //                 $('#quickViewModal').modal('hide');
-    //                 getMiniCart();
-    //             }
-    //         },
-    //         error: function(error) {
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Error',
-    //                 text: 'Failed to add product to cart'
-    //             });
-    //         }
-    //     });
-    // }
+        $.ajax({
+            type: 'POST',
+            url: '/cart/data/store/' + productId,
+            data: {
+                qty: qty,
+                variants: JSON.stringify(variants),
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Added to Cart',
+                        text: 'Product added to cart successfully!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    $('#quickViewModal').modal('hide');
+                    getMiniCart();
+                }
+            },
+            error: function(error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to add product to cart'
+                });
+            }
+        });
+    }
 
     // Get Mini Cart
     function getMiniCart() {

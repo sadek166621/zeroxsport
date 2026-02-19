@@ -1,115 +1,83 @@
 <style>
-    /* Hero Slider Section */
-    .hero {
+    .hero-wrapper {
+        margin-bottom: 40px;
+        width: 100%;
+    }
+    
+    .hero-grid {
+        width: 100%;
+    }
+    
+    /* Main Slider - Full Size */
+    .hero-slider {
         position: relative;
         width: 100%;
-        height: 300px;
+        height: 500px;
+        border-radius: 10px;
         overflow: hidden;
-        background: #000;
-        border-radius: 8px;
-        margin-bottom: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
-
+    
     .slide {
         position: absolute;
         width: 100%;
         height: 100%;
         opacity: 0;
-        transition: opacity 0.6s ease-in-out;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        transition: opacity 0.6s ease;
     }
-
+    
     .slide.active {
         opacity: 1;
     }
-
-    .slide-bg {
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        z-index: 1;
-    }
-
-    .slide-bg img {
+    
+    .slide img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        display: block;
     }
-
-    /* Banner Section */
-    .banner-section {
-        width: 100%;
-        height: 150px;
-        margin: 30px 0;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-    }
-
-    .banner-section img {
-        width: 100%;
-        height: 100%;
-        border-radius: 8px;
-        object-fit: cover;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .banner-section img:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 8px 25px rgba(255, 98, 0, 0.2);
-    }
-
+    
     /* Slider Navigation */
-    .slider-nav {
+    .slider-dots {
         position: absolute;
         bottom: 20px;
         left: 50%;
         transform: translateX(-50%);
-        z-index: 10;
         display: flex;
-        gap: 15px;
-        #003E32
+        gap: 10px;
+        z-index: 10;
     }
-
+    
     .dot {
-        width: 14px;
-        height: 14px;
+        width: 12px;
+        height: 12px;
         border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.5);
+        background: rgba(255,255,255,0.5);
         cursor: pointer;
-        transition: all 0.4s ease;
-        border: 2px solid transparent;
+        transition: all 0.3s ease;
     }
-
+    
     .dot.active {
-        background-color: #003E32;
-        width: 36px;
-        border-radius: 7px;
-        box-shadow: 0 0 10px rgba(255, 98, 0, 0.6);
+        background: var(--primary-color);
+        width: 30px;
+        border-radius: 6px;
     }
-
+    
     .dot:hover {
-        background-color: rgba(255, 255, 255, 0.8);
+        background: white;
     }
-
-    /* Slider Arrow Controls */
+    
+    /* Slider Arrows */
     .slider-arrow {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        background-color: #003E32;
-        color: white;
-        border: none;
-        font-size: 28px;
         width: 50px;
         height: 50px;
+        background: rgba(237, 28, 36, 0.8);
+        border: none;
         border-radius: 50%;
+        color: white;
+        font-size: 24px;
         cursor: pointer;
         z-index: 10;
         transition: all 0.3s ease;
@@ -117,231 +85,154 @@
         align-items: center;
         justify-content: center;
     }
-
+    
     .slider-arrow:hover {
-        background-color: rgba(255, 98, 0, 0.8);
+        background: var(--primary-color);
+        transform: translateY(-50%) scale(1.1);
     }
-
-    .prev {
+    
+    .prev-arrow {
         left: 20px;
     }
-
-    .next {
+    
+    .next-arrow {
         right: 20px;
     }
-
-    @media (max-width: 1024px) {
-        .hero {
-            height: 300px;
-        }
-
-        .banner-section {
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+    
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .hero-slider {
+            height: 450px;
         }
     }
-
-    @media (max-width: 768px) {
-        .hero {
-            height: 250px;
-            border-radius: 6px;
-            margin-bottom: 15px;
+    
+    @media (max-width: 992px) {
+        .hero-slider {
+            height: 400px;
         }
-
+    }
+    
+    @media (max-width: 768px) {
+        .hero-slider {
+            height: 300px;
+            border-radius: 8px;
+        }
+        
         .slider-arrow {
             width: 40px;
             height: 40px;
             font-size: 20px;
         }
-
-        .prev {
+        
+        .prev-arrow {
             left: 10px;
         }
-
-        .next {
+        
+        .next-arrow {
             right: 10px;
         }
-
-        .slider-nav {
-            bottom: 15px;
-            gap: 10px;
-        }
-
+        
         .dot {
             width: 10px;
             height: 10px;
         }
-
+        
         .dot.active {
-            width: 28px;
-        }
-
-        .banner-section {
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin: 15px 0;
+            width: 24px;
         }
     }
-
-    @media (max-width: 520px) {
-        .hero {
+    
+    @media (max-width: 480px) {
+        .hero-slider {
             height: 200px;
-            border-radius: 4px;
-            margin-bottom: 12px;
         }
-
+        
         .slider-arrow {
             width: 35px;
             height: 35px;
             font-size: 18px;
         }
-
-        .prev {
+        
+        .prev-arrow {
             left: 8px;
         }
-
-        .next {
+        
+        .next-arrow {
             right: 8px;
         }
-
-        .slider-nav {
-            bottom: 12px;
-            gap: 8px;
+        
+        .slider-dots {
+            bottom: 10px;
         }
-
+        
         .dot {
             width: 8px;
             height: 8px;
         }
-
+        
         .dot.active {
-            width: 24px;
-        }
-
-        .banner-section {
-            display: none;
+            width: 20px;
         }
     }
-
-    @media (max-width: 375px) {
-        .hero {
-            height: 180px;
-            margin-bottom: 10px;
+    
+    @media (max-width: 320px) {
+        .hero-slider {
+            height: 150px;
         }
-
+        
         .slider-arrow {
             width: 30px;
             height: 30px;
             font-size: 16px;
         }
-
-        .prev {
-            left: 5px;
-        }
-
-        .next {
-            right: 5px;
-        }
-
-        .slider-nav {
-            bottom: 10px;
-            gap: 6px;
-        }
-
-        .dot {
-            width: 7px;
-            height: 7px;
-        }
-
-        .dot.active {
-            width: 20px;
-        }
-    }
-
-    @media (max-width: 320px) {
-        .hero {
-            height: 150px;
-            margin-bottom: 8px;
-        }
-
-        .slider-arrow {
-            width: 28px;
-            height: 28px;
-            font-size: 14px;
-        }
-
-        .slider-nav {
-            bottom: 8px;
-            gap: 5px;
-        }
-
+        
         .dot {
             width: 6px;
             height: 6px;
         }
-
+        
         .dot.active {
             width: 18px;
         }
     }
 </style>
 
-<section class="mb-4">
-    <section class="hero">
-        <div class="slider-container">
-            @foreach ($sliders as $index => $slider)
+<div class="hero-wrapper">
+    <div class="hero-grid">
+        <!-- Full Size Slider -->
+        <div class="hero-slider" id="heroSlider">
+            @foreach($sliders as $index => $slider)
             <div class="slide {{ $index === 0 ? 'active' : '' }}">
-                <div class="slide-bg">
-                    <img src="{{ asset($slider->slider_img) }}" alt="Slider {{ $index + 1 }}" />
-                </div>
+                <img src="{{ asset($slider->slider_img) }}" alt="Slide {{ $index + 1 }}">
             </div>
             @endforeach
+            
+            <!-- Slider Arrows -->
+            <button class="slider-arrow prev-arrow" onclick="changeSlide(-1)">‹</button>
+            <button class="slider-arrow next-arrow" onclick="changeSlide(1)">›</button>
+            
+            <!-- Slider Dots -->
+            <div class="slider-dots">
+                @foreach($sliders as $index => $slider)
+                <span class="dot {{ $index === 0 ? 'active' : '' }}" onclick="currentSlide({{ $index }})"></span>
+                @endforeach
+            </div>
         </div>
-
-        <!-- Navigation Dots -->
-        <!-- <div class="slider-nav">
-            @foreach ($sliders as $index => $slider)
-            <span class="dot {{ $index === 0 ? 'active' : '' }}" onclick="currentSlide({{ $index }})"></span>
-            @endforeach
-        </div> -->
-
-        <!-- Arrow Controls -->
-        <button class="slider-arrow prev" onclick="changeSlide(-1)">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="slider-arrow next" onclick="changeSlide(1)">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </section>
-
-    @if ($home_banners->isNotEmpty())
-    <section class="banner-section">
-        @foreach ($home_banners as $banner)
-        <img src="{{ asset($banner->banner_img) }}" alt="Banner Image" />
-        @endforeach
-    </section>
-    @endif
-
-</section>
+    </div>
+</div>
 
 <script>
     let currentSlideIndex = 0;
     let autoSlideTimer;
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".dot");
 
     function showSlide(n) {
-        const slides = document.querySelectorAll(".slide");
-        const dots = document.querySelectorAll(".dot");
+        if (n >= slides.length) currentSlideIndex = 0;
+        if (n < 0) currentSlideIndex = slides.length - 1;
 
-        if (n >= slides.length) {
-            currentSlideIndex = 0;
-        }
-        if (n < 0) {
-            currentSlideIndex = slides.length - 1;
-        }
-
-        slides.forEach((slide) => slide.classList.remove("active"));
-        dots.forEach((dot) => dot.classList.remove("active"));
+        slides.forEach(slide => slide.classList.remove("active"));
+        dots.forEach(dot => dot.classList.remove("active"));
 
         slides[currentSlideIndex].classList.add("active");
         dots[currentSlideIndex].classList.add("active");
@@ -371,6 +262,17 @@
         autoSlideTimer = setTimeout(autoSlide, 5000);
     }
 
+    // Initialize
     showSlide(currentSlideIndex);
     startAutoSlide();
+
+    // Pause auto-slide on hover
+    const slider = document.getElementById('heroSlider');
+    slider.addEventListener('mouseenter', () => {
+        clearTimeout(autoSlideTimer);
+    });
+    
+    slider.addEventListener('mouseleave', () => {
+        startAutoSlide();
+    });
 </script>

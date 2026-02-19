@@ -26,7 +26,10 @@ class CategoryController extends Controller
             ->latest()
             ->get();
 
-        //dd($categories);
+
+        $sub_categories = Category::where('parent_id', '!=', 0)
+            ->with('parentCategory')
+            ->get();
 
         return view('backend.category.index',compact('categories'));
     } // end method

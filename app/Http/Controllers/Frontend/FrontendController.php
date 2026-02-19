@@ -43,6 +43,8 @@ class FrontendController extends Controller
     /*=================== Start Index Methoed ===================*/
     public function index(Request $request)
     {
+
+
         //Product All Status Active
         // $products = Product::where('status',1)->orderBy('id','DESC')->get();
 
@@ -147,7 +149,6 @@ class FrontendController extends Controller
 
     public function index2(Request $request)
     {
-
 
         //Product All Status Active
         $products = Product::where('status', 1)->orderBy('id', 'DESC')->get();

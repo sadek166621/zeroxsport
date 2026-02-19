@@ -937,12 +937,12 @@ header .header-top .right-item ul li {
     font-weight: 600;
 }
 
-.page-header {
+/* .page-header {
     background: url('https://c4.wallpaperflare.com/wallpaper/170/757/221/simple-background-wallpaper-preview.jpg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-}
+} */
 
 @media screen and (max-width: 1024px) {
     .shop-option ul {

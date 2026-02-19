@@ -3,122 +3,132 @@
     Get Help
 @endsection
 @section('content')
-    <!-- Hero Section Start -->
-    <div class="help-hero py-5">
+    <!-- Page Header -->
+    <div class="page-header">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h1 class="display-4 text-white fw-bold mb-3">{{get_setting('site_name')->value ?? ''}}</h1>
-                    <h4 class="text-white-50 mb-4">Get Help</h4>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center mb-0">
-                            <li class="breadcrumb-item"><a href="{{route('home')}}" class="text-white-50">Home</a></li>
-                            <li class="breadcrumb-item active text-white" aria-current="page">Get Help</li>
-                        </ol>
-                    </nav>
+            <h1>Get Help</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Get Help</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Help Content -->
+    <div class="help-section">
+        <div class="container">
+            <div class="help-container">
+                <div class="help-header">
+                    <h2>We're Here to Help</h2>
+                    <p>Find answers to your questions and get support</p>
+                </div>
+
+                <div class="help-content">
+                    @if(session()->get('language') == 'bangla')
+                        {!! nl2br($page->help_bn) !!}
+                    @else
+                        {!! nl2br($page->help) !!}
+                    @endif
+                </div>
+            </div>
+
+            <!-- Support Boxes -->
+            <div class="support-boxes">
+                <div class="support-box">
+                    <div class="support-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Customer Support</h3>
+                    <p>Reach out to our friendly support team for immediate assistance.</p>
+                </div>
+                <div class="support-box">
+                    <div class="support-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Documentation</h3>
+                    <p>Browse our comprehensive guides and tutorials for detailed information.</p>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Hero Section End -->
-
-    <!-- Content Section Start -->
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-                    <!-- Card Header -->
-                    <div class="help-card-header p-4 p-lg-5">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="help-icon-box">
-                                <i class="fas fa-question-circle"></i>
-                            </div>
-                            <div>
-                                <h2 class="h4 fw-bold mb-2 text-white">We're Here to Help</h2>
-                                <p class="mb-0 text-white-50 small">Find answers to your questions and get support
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Card Body -->
-                    <div class="card-body p-4 p-lg-5">
-                        <div class="help-content">
-                            @if(session()->get('language') == 'bangla')
-                                {!! nl2br($page->help_bn) !!}
-                            @else
-                                {!! nl2br($page->help) !!}
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Support Boxes -->
-                <div class="row mt-5 g-3">
-                    <div class="col-md-6">
-                        <div class="support-box rounded-3 p-4 text-center h-100">
-                            <i class="fas fa-headset mb-3"></i>
-                            <h5 class="fw-bold mb-2">Customer Support</h5>
-                            <p class="small text-muted mb-0">Reach out to our friendly support team for immediate
-                                assistance.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="support-box rounded-3 p-4 text-center h-100">
-                            <i class="fas fa-book mb-3"></i>
-                            <h5 class="fw-bold mb-2">Documentation</h5>
-                            <p class="small text-muted mb-0">Browse our comprehensive guides and tutorials for detailed
-                                information.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Content Section End -->
 
     <style>
-        .help-hero {
-            background: linear-gradient(135deg, #026142 0%, #01452a 100%);
-            position: relative;
-            overflow: hidden;
+        /* Page Header */
+        .page-header {
+            background-color: #006A4E;
+            padding: 40px 0;
+            margin-bottom: 50px;
         }
 
-        .help-hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            transform: translate(100px, -100px);
-        }
-
-        .help-card-header {
-            background: linear-gradient(135deg, #026142 0%, #01452a 100%);
-            position: relative;
-        }
-
-        .help-icon-box {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+        .page-header h1 {
             color: white;
-            flex-shrink: 0;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin: 0;
+        }
+
+        .breadcrumb-item a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: white;
+        }
+
+        .breadcrumb-item.active {
+            color: white;
+        }
+
+        .breadcrumb-item + .breadcrumb-item::before {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Help Section */
+        .help-section {
+            padding: 0 15px 60px;
+        }
+
+        .help-container {
+            max-width: 900px;
+            margin: 0 auto 50px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .help-header {
+            background-color: #006A4E;
+            padding: 30px;
+            border-bottom: 3px solid #005a41;
+        }
+
+        .help-header h2 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .help-header p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+            font-size: 0.95rem;
         }
 
         .help-content {
-            color: #4a5568;
+            padding: 40px;
+            color: #333;
             font-size: 1rem;
-            line-height: 1.8;
-            letter-spacing: 0.3px;
+            line-height: 1.7;
         }
 
         .help-content h1,
@@ -127,88 +137,127 @@
         .help-content h4,
         .help-content h5,
         .help-content h6 {
-            color: #026142;
-            margin-top: 2rem;
+            color: #006A4E;
+            margin-top: 1.5rem;
             margin-bottom: 1rem;
-            font-weight: 700;
+            font-weight: 600;
         }
 
-        .help-content h1 {
-            font-size: 1.8rem;
-        }
-
-        .help-content h2 {
-            font-size: 1.5rem;
-        }
-
-        .help-content h3 {
-            font-size: 1.3rem;
-        }
+        .help-content h1 { font-size: 1.6rem; }
+        .help-content h2 { font-size: 1.4rem; }
+        .help-content h3 { font-size: 1.2rem; }
+        .help-content h4 { font-size: 1.1rem; }
 
         .help-content p {
             margin-bottom: 1rem;
+            color: #555;
         }
 
         .help-content ul,
         .help-content ol {
             margin-bottom: 1.5rem;
-            padding-left: 1.5rem;
+            padding-left: 30px;
         }
 
         .help-content li {
             margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .help-content a {
+            color: #006A4E;
+            text-decoration: underline;
+        }
+
+        .help-content a:hover {
+            color: #005a41;
+        }
+
+        .help-content strong {
+            color: #333;
+        }
+
+        /* Support Boxes */
+        .support-boxes {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
 
         .support-box {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 30px 20px;
+            text-align: center;
         }
 
-        .support-box:hover {
-            border-color: #026142;
-            background: #f0faf8;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(2, 97, 66, 0.1);
+        .support-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #006A4E;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
         }
 
-        .support-box i {
-            font-size: 2.5rem;
-            color: #026142;
-        }
-
-        .breadcrumb {
-            background: transparent;
-        }
-
-        .breadcrumb-item.active {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .breadcrumb-item a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-        }
-
-        .breadcrumb-item a:hover {
+        .support-icon i {
             color: white;
+            font-size: 1.5rem;
         }
 
+        .support-box h3 {
+            color: #006A4E;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .support-box p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
+            .page-header {
+                padding: 30px 0;
+            }
+
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .help-header {
+                padding: 20px;
+            }
+
+            .help-header h2 {
+                font-size: 1.3rem;
+            }
+
             .help-content {
+                padding: 25px 20px;
                 font-size: 0.95rem;
             }
 
             .help-content h2 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
             }
 
-            .help-icon-box {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
+            .support-boxes {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .support-box {
+                padding: 25px 15px;
             }
         }
     </style>
 @endsection
-

@@ -350,7 +350,7 @@
                                     <label for="discount_price" class="col-form-label"
                                         style="font-weight: bold;">Discount Price: <span
                                             class="text-danger">*</span></label>
-                                    <input class="form-control" id="discount_price" type="number" id="discount_price"
+                                    <input class="form-control" id="discount_price" type="text" id="discount_price"
                                         name="discount_price" value="{{ old('discount_price', 0) }}" min="0"
                                         placeholder="Write product discount value" required>
                                 </div>
@@ -368,7 +368,7 @@
                                 <div class="col-md-6 mb-4 ">
                                     <label for="minimum_buy_qty" class="col-form-label"
                                         style="font-weight: bold;">Minimum Buy Quantity:</label>
-                                    <input class="form-control" id="minimum_buy_qty" type="number"
+                                    <input class="form-control" id="minimum_buy_qty" type="text"
                                         name="minimum_buy_qty" placeholder="Write product qty"
                                         value="{{ old('minimum_buy_qty', 1) }}" min="1">
                                     @error('minimum_buy_qty')
@@ -378,7 +378,7 @@
                                 <div class="col-md-6 mb-4 ">
                                     <label for="stock_qty" class="col-form-label" style="font-weight: bold;">Stock
                                         Quantity: <span class="text-danger">*</span></label>
-                                    <input class="form-control" id="stock_qty" type="number" name="stock_qty"
+                                    <input class="form-control" id="stock_qty" type="text" name="stock_qty"
                                         value="{{ old('stock_qty', 1) }}" min="1"
                                         placeholder="Write product stock  qty" required>
                                     @error('stock_qty')

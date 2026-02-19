@@ -25,7 +25,7 @@
     }
 
     .breadcrumb-item a {
-        color: #003E32 !important;
+        color: #006A4E !important;
         text-decoration: none;
         transition: all 0.3s;
         font-weight: 500;
@@ -75,7 +75,7 @@
     .section-line {
         width: 80px;
         height: 3px;
-        background: #003E32;
+        background: #006A4E;
         margin: 0 auto;
     }
 
@@ -95,14 +95,14 @@
     .product-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 8px 24px rgba(0, 62, 50, 0.15);
-        border-color: #003E32;
+        border-color: #006A4E;
     }
 
     .discount-badge {
         position: absolute;
         top: 10px;
         right: 10px;
-        background: linear-gradient(135deg, #003E32, #036A46) !important;
+        background: linear-gradient(135deg, #006A4E, #036A46) !important;
         color: white;
         padding: 8px 12px;
         border-radius: 6px;
@@ -169,7 +169,7 @@
     }
 
     .current-price {
-        color: #003E32;
+        color: #006A4E;
         font-size: 18px;
         font-weight: 600;
         margin: 0;
@@ -209,7 +209,7 @@
     }
 
     .btn-buy-now {
-        background: linear-gradient(135deg, #003E32, #036A46);
+        background: linear-gradient(135deg, #006A4E, #036A46);
         color: white;
         box-shadow: 0 2px 8px rgba(0, 62, 50, 0.2);
     }
@@ -221,13 +221,13 @@
     }
 
     .btn-add-cart {
-        border: 1.5px solid #003E32;
-        color: #003E32;
+        border: 1.5px solid #006A4E;
+        color: #006A4E;
         background: white;
     }
 
     .btn-add-cart:hover {
-        background: #003E32;
+        background: #006A4E;
         color: white;
         transform: translateY(-2px);
     }

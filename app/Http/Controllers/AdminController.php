@@ -253,73 +253,48 @@ class AdminController extends Controller
         ]);
     }
     public function VendorLoginStore(Request $request)
-        {
-            $request->validate([
-                'login'    => 'required|string',
-                'password' => 'required',
-            ]);
+{
+    $request->validate([
+        'login' => 'required|string',
+        'password' => 'required',
+    ]);
 
-            // Find user by email or phone
-            $user = User::where('email', $request->login)
-                ->orWhere('phone', $request->login)
-                ->first();
+    $loginField = $request->login;
+    $password   = $request->password;
 
-            // User not found
-            if (!$user) {
-                return back()->with([
-                    'message' => 'Invalid Email/Phone or Password.',
-                    'alert-type' => 'error',
-                ]);
-            }
+    // Try login with email OR phone
+    if (
+        Auth::guard('admin')->attempt(['email' => $loginField, 'password' => $password]) ||
+        Auth::guard('admin')->attempt(['phone' => $loginField, 'password' => $password])
+    ) {
+        $user = Auth::guard('admin')->user();
 
-            // Check user status
-            if ($user->status != 1) {
-                return back()->with([
-                    'message' => 'Your account is inactive.',
-                    'alert-type' => 'error',
-                ]);
-            }
-
-            // Verify password
-            if (!Hash::check($request->password, $user->password)) {
-                return back()->with([
-                    'message' => 'Invalid Email/Phone or Password.',
-                    'alert-type' => 'error',
-                ]);
-            }
-
-            //  Vendor-specific check
-            if ($user->role == 2) {
-                $vendor = Vendor::where('user_id', $user->id)->first();
-
-                if (!$vendor || $vendor->status != 1) {
-                    return back()->with([
-                        'message' => 'Vendor account is inactive or not approved.',
-                        'alert-type' => 'error',
-                    ]);
-                }
-            }
-
-            // Login manually
-            Auth::guard('admin')->login($user);
-
-            // Redirect by role
-            if (in_array($user->role, [1, 5])) {
-                return redirect()->route('admin.dashboard')
-                    ->with('success', 'Admin Login Successfully.');
-            }
-
-            if ($user->role == 2) {
-                return redirect()->route('admin.dashboard')
-                    ->with('success', 'Vendor Login Successfully.');
-            }
-
-            Auth::guard('admin')->logout();
-            return back()->with([
-                'message' => 'Unauthorized role access.',
-                'alert-type' => 'error',
-            ]);
+        // Admin Roles: 1 = Super Admin, 5 = Staff/Admin
+        if (in_array($user->role, [1, 5])) {
+            return redirect()->route('admin.dashboard')
+                ->with('success', 'Admin Login Successfully.');
         }
+
+        // Vendor Role: 2 = Seller/Vendor
+        if ($user->role == 2) {
+            return redirect()->route('admin.dashboard')
+                ->with('success', 'Vendor Login Successfully.');
+        }
+
+        // Other Roles Not Allowed
+        Auth::guard('admin')->logout();
+        return back()->with([
+            'message' => 'Unauthorized role access.',
+            'alert-type' => 'error',
+        ]);
+    }
+
+    // Invalid Credentials
+    return back()->with([
+        'message' => 'Invalid Email/Phone or Password.',
+        'alert-type' => 'error',
+    ]);
+}
     /*=================== End Admin Login Methoed ===================*/
 
     /*=================== Start Logout Methoed ===================*/

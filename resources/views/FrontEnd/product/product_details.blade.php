@@ -30,7 +30,7 @@
         }
 
         .discount-position {
-            background-color: #036343;
+            background-color: #006A4E;
             color: #f8f9fa;
             border-radius: 50%;
             width: 60px;
@@ -51,7 +51,7 @@
         }
 
         .buy_now {
-            background-color: #036343;
+            background-color: #006A4E;
             border: none;
             border-radius: 5px;
             color: white !important;
@@ -59,7 +59,7 @@
 
         .product_card {
             background: #fff;
-            border: 2px solid #036343;
+            border: 2px solid #006A4E;
             border-radius: 12px;
             box-shadow: 0 2px 12px rgba(1, 180, 94, 0.08);
             transition: box-shadow 0.2s, border-color 0.2s;
@@ -101,7 +101,7 @@
         }
 
         .qty-btn {
-            background: #036343;
+            background: #006A4E;
             border: none;
             width: 28px;
             height: 28px;
@@ -232,13 +232,13 @@
         }
 
         .thumbnail-item:hover {
-            border-color: #036343;
+            border-color: #006A4E;
             transform: scale(1.05);
         }
 
         .thumbnail-item.active {
-            border-color: #036343;
-            box-shadow: 0 0 0 1px #036343;
+            border-color: #006A4E;
+            box-shadow: 0 0 0 1px #006A4E;
         }
 
         .thumbnail-item img {
@@ -248,7 +248,7 @@
         }
 
         .discount-position {
-            background-color: #036343;
+            background-color: #006A4E;
             color: #f8f9fa;
             border-radius: 50%;
             width: 60px;
@@ -309,10 +309,10 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            padding: 12px;
+            /* padding: 12px;
             background: #f8fafb;
             border-radius: 10px;
-            border: 1px solid #e8ecf1;
+            border: 1px solid #e8ecf1; */
         }
 
         .variant-option {
@@ -371,7 +371,7 @@
             transform: scale(1.02);
         }
 
-        .variant-option:checked+.variant-label::before {
+        /* .variant-option:checked+.variant-label::before {
             content: '✓';
             position: absolute;
             right: 5px;
@@ -385,7 +385,7 @@
             font-weight: 700;
             color: #ffffff;
             animation: checkPulse 0.4s ease;
-        }
+        } */
 
         @keyframes checkPulse {
             0% {
@@ -444,12 +444,21 @@
             }
         }
     </style>
+
+    @php
+                            $description_english=$product->description_en;
+                            $description_bangla=$product->description_bn;
+                            $product_name_en=$product->name_en;
+                            $product_name_bn=$product->name_bn;
+
+                            
+                            @endphp
     <!-- Product Information Start -->
     <section class="custom_container  my-3  " style="border-radius: 10px;">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom  mb-0 d-flex align-items-center gap-2">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('home') }}" style="color: #036343; text-decoration: none; transition: all 0.3s;">
+                    <a href="{{ route('home') }}" style="color: #006A4E; text-decoration: none; transition: all 0.3s;">
                         @if (session()->get('language') == 'bangla')
                             হোম
                         @else
@@ -460,7 +469,7 @@
                 <i class="fa fa-chevron-right mx-2" aria-hidden="true"></i>
                 <li class="breadcrumb-item">
                     <a href="{{ route('product.category', $product->category->slug) }}"
-                        style="color: #036343; text-decoration: none; transition: all 0.3s;">
+                        style="color: #006A4E; text-decoration: none; transition: all 0.3s;">
                         @if (session()->get('language') == 'bangla')
                             {{ $product->category->name_bn ?? '' }}
                         @else
@@ -471,9 +480,9 @@
                 <i class="fa fa-chevron-right mx-2" aria-hidden="true"></i>
                 <li class="breadcrumb-item active" style=" font-weight: 600;">
                     @if (session()->get('language') == 'bangla')
-                        পণ্যের বিবরণ
+                        {{ $product_name_bn }}
                     @else
-                        Product Details
+                        {{ $product_name_en }}
                     @endif
                 </li>
             </ol>
@@ -506,10 +515,10 @@
                                         src="{{ asset($product->product_thumbnail) }}" alt="{{ $product->name_en }}" />
 
                                     <!-- Discount Badge -->
-                                    <div
-                                        class="{{ $discount['discount'] == $product->regular_price ? 'd-none' : 'discount-position' }}">
-                                        <small>{{ str_replace(['(', ')', '-'], '', $discount['text']) }} OFF</small>
-                                    </div>
+                                    <!--<div-->
+                                    <!--    class="{{ $discount['discount'] == $product->regular_price ? 'd-none' : 'discount-position' }}">-->
+                                    <!--    <small>{{ str_replace(['(', ')', '-'], '', $discount['text']) }} OFF</small>-->
+                                    <!--</div>-->
                                 </div>
 
                                 <!-- Thumbnail Gallery -->
@@ -518,6 +527,7 @@
                                     <div class="thumbnail-item active"
                                         data-image="{{ asset($product->product_thumbnail) }}">
                                         <img src="{{ asset($product->product_thumbnail) }}" alt="Product Image">
+                                        
                                     </div>
 
                                     <!-- Additional Images -->
@@ -556,7 +566,7 @@
                             @endif
                         </h1>
 
-                        {{-- <span class="stock-status out-stock"> ৳{{ $discount }} Off </span> --}}
+                        {{-- <span class="stock-status out-stock"> € {{ $discount }} Off </span> --}}
 
                         <div>
                             <h4 class="price">
@@ -567,15 +577,15 @@
                                 @endif
                                 @if ($product->is_wholesell == 1)
                                     <!-- Show only regular price for wholesale products -->
-                                    <span class="product_price current-price">{{ $product->regular_price }} TK</span>
-                                    <del class="old-price" style="color: grey">0.00 Tk</del>
+                                    <span class="product_price current-price">{{ $product->regular_price }} € </span>
+                                    <del class="old-price" style="color: grey">0.00 € </del>
                                 @else
                                     <!-- Show discount price and original price -->
-                                    <span class="product_price current-price">{{ $discount['discount'] }} TK</span>
+                                    <span class="product_price current-price">{{ $discount['discount'] }} € </span>
                                     @if ($discount['discount'] != $product->regular_price)
                                         <del class="old-price {{ $discount['discount'] == 0 ? 'd-none' : '' }}"
                                             style="color: grey">
-                                            {{ $product->regular_price }} TK
+                                            {{ $product->regular_price }} € 
                                         </del>
                                     @endif
                                 @endif
@@ -590,13 +600,15 @@
                                 @endif
 
                             <h6 class="mb-1 mt-2">Description :</h6>
-                            <p class="product-description preview-text">
+                            <p class="product-description preview-text" style="word-wrap: break-word !important;">
                                 @if (session()->get('language') == 'bangla')
                                     {{ Str::limit(strip_tags($product->short_description_bn), 100) }}
                                 @else
                                     {{ Str::limit(strip_tags($product->short_description_en), 100) }}
                                 @endif
                             </p>
+
+                            
                             {{-- যদি product_type == 2 এবং group_products থাকে --}}
                             @if ($product->product_type == 2 && count($group_products) > 0)
                                 <strong>
@@ -638,6 +650,7 @@
                                         Brand : {{ $product->brand->name_en ?? 'N/A' }}
                                     @endif
                                 </p>
+
                             @endif
                         </div>
 
@@ -695,6 +708,9 @@
                                             'input[name="option_{{ $i }}"]');
                                         if (firstOption_{{ $i }}) {
                                             firstOption_{{ $i }}.checked = true;
+                                            // Trigger the selectAttribute function with the first option value
+                                            const firstValue_{{ $i }} = firstOption_{{ $i }}.value;
+                                            selectAttribute('{{ $attribute->attribute_id }}{{ $attr->name }}', firstValue_{{ $i }}, '{{ $product->id }}', {{ $i }});
                                             firstOption_{{ $i }}.dispatchEvent(new Event('change', {
                                                 bubbles: true
                                             }));
@@ -761,7 +777,8 @@
                                     </button>
 
                                     <button class="add_to_cart" type="button"
-                                        style="width:120px; margin-left:5px; background:white; font-size:15px;">
+                                        style="width:120px; margin-left:5px; background:white; font-size:15px;"
+                                        onclick="addCart({{ $product->id }})">
                                         {{ session('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
                                     </button>
                                 @endif
@@ -806,16 +823,16 @@
                                         @if ($product->is_wholesell == 1)
                                             {{-- Show only regular price --}}
                                             <span class="price fw-bold text-success">{{ $product->regular_price }}
-                                                TK</span>
+                                                € </span>
                                             <span class="text-muted text-decoration-line-through small">
-                                                0.00 TK
+                                                0.00 € 
                                             </span>
                                         @else
                                             {{-- Show discount + regular price --}}
-                                            <span class="price fw-bold text-success">{{ $data['discount'] }} TK</span>
+                                            <span class="price fw-bold text-success">{{ $data['discount'] }} € </span>
                                             @if ($product->regular_price != $data['discount'])
                                                 <span class="text-muted text-decoration-line-through small">
-                                                    {{ $product->regular_price }} TK
+                                                    {{ $product->regular_price }} € 
                                                 </span>
                                             @endif
                                         @endif
@@ -852,9 +869,9 @@
                     <div class="product-description">
 
                         @if (session()->get('language') == 'bangla')
-                            {!! $product->description_bn !!}
+                            {!! $description_bangla !!}
                         @else
-                            {!! $product->description_en !!}
+                            {!! $description_english !!}
                         @endif
 
                     </div>
@@ -1006,14 +1023,14 @@
                         }
 
                         .filter-btn:hover {
-                            border-color: #036343;
-                            color: #036343;
+                            border-color: #006A4E;
+                            color: #006A4E;
                         }
 
                         .filter-btn.active {
-                            background: #036343;
+                            background: #006A4E;
                             color: #fff;
-                            border-color: #036343;
+                            border-color: #006A4E;
                         }
 
                         /* Review Items */
@@ -1136,7 +1153,7 @@
                         }
 
                         .review-action:hover {
-                            color: #036343;
+                            color: #006A4E;
                         }
 
                         .review-action i {
@@ -1200,11 +1217,11 @@
 
                         .form-group textarea:focus {
                             outline: none;
-                            border-color: #036343;
+                            border-color: #006A4E;
                         }
 
                         .submit-review-btn {
-                            background: #036343;
+                            background: #006A4E;
                             color: #fff;
                             border: none;
                             padding: 12px 32px;
@@ -1237,8 +1254,8 @@
                         }
 
                         .load-more-btn:hover {
-                            border-color: #036343;
-                            color: #036343;
+                            border-color: #006A4E;
+                            color: #006A4E;
                         }
 
                         .verified-badge {
@@ -1279,7 +1296,7 @@
                     <!-- Reviews Section HTML -->
                     <div class="reviews-container">
                         <div class="reviews-header">
-                            <h3>Ratings & Reviews of ({{ $product->name_en }})</h3>
+                            <h3>Ratings & Reviews of ({{ $product_name_en }})</h3>
                         </div>
 
                         <!-- Rating Summary -->
@@ -1440,7 +1457,7 @@
             <div
                 style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-weight:800;">
                 <div>{{ session()->get('language') == 'bangla' ? 'সাবটোটাল:' : 'Subtotal:' }}</div>
-                <div id="cartSubtotal">৳0.00</div>
+                <div id="cartSubtotal">€ 0.00</div>
             </div>
 
             <button id="checkoutButtonSidebar" class="checkout-btn">
@@ -1512,7 +1529,7 @@
         });
 
         function addCart(id) {
-            var qty = $('.qty-val').val();
+            var qty = $('#qty').val() || $('.qty-input').val() || 1;
             addToCartDirect(id, false, qty);
         }
 

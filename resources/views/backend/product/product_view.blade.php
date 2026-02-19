@@ -21,7 +21,7 @@
         </div>
         <div class="card mb-4">
             <div class="card-body">
-                <div class="table-responsive-sm">
+                <div class="table-responsive-sm" style="overflow-x: scroll;">
                     <table id="example" class="table table-bordered table-striped" width="100%">
                         <thead>
                             <tr>

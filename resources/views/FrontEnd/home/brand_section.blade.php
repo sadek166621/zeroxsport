@@ -21,7 +21,7 @@
 
   .brands-header h2 {
     font-size: 32px;
-    color: #003E32;
+    color: #006A4E;
     margin: 0;
   }
 
@@ -38,7 +38,7 @@
   }
 
   .view-all-brands-btn {
-    background-color: #003E32;
+    background-color: #006A4E;
     color: white;
     border: none;
     padding: 12px 30px;
@@ -82,7 +82,7 @@
     height: 120px;
     object-fit: contain;
     border-radius: 12px;
-    border: 2px solid #003E32;
+    border: 2px solid #006A4E;
     padding: 10px;
     background-color: white;
   }
@@ -90,7 +90,7 @@
   .brand-card h3 {
     font-size: 14px;
     font-weight: bold;
-    color: #003E32;
+    color: #006A4E;
     padding: 5px;
     margin: 0;
     text-decoration: none;
