@@ -125,8 +125,8 @@
             </div>
         </div>
     </div>
-    @include('frontend.include.cart-contianer')
-    @include('frontend.include.footer')
+    @include('FrontEnd.include.cart-contianer')
+    @include('FrontEnd.include.footer')
 
 
     @stack('scripts')
