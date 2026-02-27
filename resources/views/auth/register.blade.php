@@ -52,7 +52,7 @@
             max-width: 60%;
             margin-bottom: 18px;
             display: block;
-            background-color: #01452a;
+            background-color: #f09220;
             padding: 10px;
             border-radius: 12px;
         }
@@ -60,7 +60,7 @@
         .register-title {
             margin-bottom: 8px;
             font-weight: 700;
-            color: #026142;
+            color: #f09220;
             font-size: 26px;
             text-transform: uppercase;
             letter-spacing: 0.6px;
@@ -75,7 +75,7 @@
         }
 
         .signin-btn {
-            background: #026142;
+            background: #f09220;
             color: white;
             padding: 10px 26px;
             border-radius: 50px;
@@ -89,7 +89,7 @@
 
         .signin-btn:hover {
             transform: translateY(-3px);
-            background: #01452a;
+            background: #f09220;
             box-shadow: 0 12px 28px rgba(2, 97, 66, 0.16);
             color: white;
         }
@@ -105,7 +105,7 @@
             margin-bottom: 14px;
             font-size: 24px;
             font-weight: 700;
-            color: #026142;
+            color: #f09220;
         }
 
         .form-grid {
@@ -142,7 +142,7 @@
         }
 
         .form-control:focus {
-            border-color: #026142;
+            border-color: #f09220;
             box-shadow: 0 6px 18px rgba(2, 97, 66, 0.08);
             outline: none;
         }
@@ -153,7 +153,7 @@
         }
 
         .submit-btn {
-            background: linear-gradient(90deg, #026142 0%, #01452a 100%) !important;
+            background: linear-gradient(90deg, #f09220 0%, #f09220 100%) !important;
             color: #fff;
             padding: 12px 26px;
             border-radius: 12px;

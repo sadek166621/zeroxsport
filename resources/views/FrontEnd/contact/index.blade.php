@@ -134,7 +134,7 @@
     <style>
         /* Page Header */
         .page-header {
-            background-color: #006A4E;
+            background-color: #f09220;
             padding: 40px 0;
             margin-bottom: 50px;
         }
@@ -184,7 +184,7 @@
 
         /* Contact Info */
         .contact-info {
-            background-color: #006A4E;
+            background-color: #f09220;
             color: white;
             padding: 40px 30px;
         }
@@ -271,7 +271,7 @@
 
         .form-header h2 {
             font-size: 1.5rem;
-            color: #006A4E;
+            color: #f09220;
             margin-bottom: 5px;
             font-weight: 600;
         }
@@ -309,7 +309,7 @@
 
         .form-control:focus {
             outline: none;
-            border-color: #006A4E;
+            border-color: #f09220;
         }
 
         .form-control.is-invalid {
@@ -328,7 +328,7 @@
         }
 
         .btn-submit {
-            background-color: #006A4E;
+            background-color: #f09220;
             color: white;
             padding: 12px 30px;
             border: none;

@@ -104,7 +104,7 @@
             <div class="col-sm-3 mb-2">
                 <div class="card summary-card bg-info">
                     <h6 class="text-white">Total Purchase</h6>
-                    <p>৳ {{ $total_purchase }}</p>
+                    <p>€ {{ $total_purchase }}</p>
                 </div>
             </div>
         </div>
@@ -193,7 +193,7 @@
                                     <div>No items</div>
                                 @endif
                             </td>
-                            <td>৳ {{ number_format($order->grand_total, 2) }}</td>
+                            <td>€ {{ number_format($order->grand_total, 2) }}</td>
                             <td>
                                 @if ($order->delivery_status == 'delivered')
                                     <span class="badge-status badge-completed">Completed</span>
@@ -262,7 +262,7 @@
                         </div>
                     </div>
                     <div class="mt-2">
-                        <strong>৳ {{ number_format($order->grand_total, 2) }}</strong>
+                        <strong>€ {{ number_format($order->grand_total, 2) }}</strong>
                     </div>
                 </div>
             @endforeach

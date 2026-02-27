@@ -668,7 +668,7 @@ $isAuth = Auth::check();
                                 </span>
                             </div>
                             <span class="shipping-option-price">
-                                Tk {{ number_format($settings->shipping_inside_dhaka, 2) }}
+                                € {{ number_format($settings->shipping_inside_dhaka, 2) }}
                             </span>
                         </label>
 
@@ -681,7 +681,7 @@ $isAuth = Auth::check();
                                 </span>
                             </div>
                             <span class="shipping-option-price">
-                                Tk {{ number_format($settings->shipping_outside_dhaka, 2) }}
+                                € {{ number_format($settings->shipping_outside_dhaka, 2) }}
                             </span>
                         </label>
 
@@ -693,7 +693,7 @@ $isAuth = Auth::check();
                                 </span>
                             </div>
                             <span class="shipping-option-price">
-                                Tk {{ number_format($settings->shipping_all_area, 2) }}
+                                € {{ number_format($settings->shipping_all_area, 2) }}
                             </span>
                         </label>
                         @else
@@ -719,17 +719,17 @@ $isAuth = Auth::check();
                 <div class="summary-totals">
                     <div class="summary-row">
                         <span>কার্ট মোট</span>
-                        <span id="cartSubtotalDisplay">৳0.00</span>
+                        <span id="cartSubtotalDisplay">€0.00</span>
                     </div>
 
                     <div class="summary-row">
                         <span>ডেলিভারি চার্জ</span>
-                        <span id="shippingChargeDisplay">৳70.00</span>
+                        <span id="shippingChargeDisplay">€70.00</span>
                     </div>
 
                     <div class="summary-row">
                         <span>কুপন ছাড়</span>
-                        <span id="couponDiscountDisplay">- ৳0.00</span>
+                        <span id="couponDiscountDisplay">- €0.00</span>
                     </div>
 
                     <!-- Coupon Code Section -->
@@ -755,7 +755,7 @@ $isAuth = Auth::check();
 
                     <div class="summary-row total">
                         <span>সর্বমোট</span>
-                        <span id="grandTotalDisplay">৳0.00</span>
+                        <span id="grandTotalDisplay">€0.00</span>
                     </div>
                 </div>
 
@@ -865,7 +865,7 @@ $isAuth = Auth::check();
             const charge = parseFloat(input.value) || 0;
             const type = input.dataset.type || '1';
 
-            shippingChargeEl.textContent = '৳' + charge.toFixed(2);
+            shippingChargeEl.textContent = '€' + charge.toFixed(2);
             shippingTypeInput.value = type;
             shippingChargeInput.value = charge;
 
@@ -908,7 +908,7 @@ $isAuth = Auth::check();
                 }
 
                 messageDiv.textContent =
-                    '✓ ' + data.success + ' - ৳' + Math.floor(data.discount) + ' ছাড়';
+                    '✓ ' + data.success + ' - €' + Math.floor(data.discount) + ' ছাড়';
                 messageDiv.style.color = '#036344';
 
                 window.appliedCoupon = {
@@ -941,10 +941,10 @@ $isAuth = Auth::check();
         const discount = window.appliedCoupon?.discount || 0;
         const grandTotal = Math.max(subtotal + shipping - discount, 0);
 
-        cartSubtotalEl.textContent = '৳' + subtotal.toFixed(2);
-        shippingChargeEl.textContent = '৳' + shipping.toFixed(2);
-        couponDiscountEl.textContent = '- ৳' + discount.toFixed(2);
-        grandTotalEl.textContent = '৳' + grandTotal.toFixed(2);
+        cartSubtotalEl.textContent = '€' + subtotal.toFixed(2);
+        shippingChargeEl.textContent = '€' + shipping.toFixed(2);
+        couponDiscountEl.textContent = '- €' + discount.toFixed(2);
+        grandTotalEl.textContent = '€' + grandTotal.toFixed(2);
 
         // Store hidden inputs for submission
         document.querySelector('input[name="grand_total"]')?.remove();
@@ -1008,6 +1008,6 @@ $isAuth = Auth::check();
         const discount = appliedCoupon?.discount || 0;
         const grandTotal = subtotal + shipping - discount;
 
-        document.getElementById('grandTotalDisplay').textContent = 'Tk ' + grandTotal.toFixed(2);
+        document.getElementById('grandTotalDisplay').textContent = '€ ' + grandTotal.toFixed(2);
     }
 </script>

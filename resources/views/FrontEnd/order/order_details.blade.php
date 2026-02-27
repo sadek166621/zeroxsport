@@ -8,7 +8,7 @@
 @section('content')
     <style>
         :root {
-            --primary-color: #026142;
+            --primary-color: #f09220;
             --primary-light: #038855;
             --primary-dark: #01482f;
             --accent-color: #f0f9f7;
@@ -24,7 +24,7 @@
         }
 
         .order-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, #f09220 0%, var(--primary-light) 100%);
             color: white;
             padding: 50px 30px;
             margin-bottom: 40px;
@@ -88,7 +88,7 @@
 
         .timeline-item.active .timeline-icon {
             background-color: #fff;
-            color: var(--primary-color);
+            color: #f09220;
         }
 
         .timeline-label {
@@ -113,7 +113,7 @@
         }
 
         .info-card .card-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, #f09220 0%, var(--primary-light) 100%);
             color: white;
             border: none;
             padding: 20px 25px;
@@ -184,7 +184,7 @@
 
         .summary-section {
             background: linear-gradient(135deg, var(--accent-color) 0%, #ffffff 100%);
-            border: 2px solid var(--primary-color);
+            border: 2px solid #f09220;
             border-radius: 12px;
             padding: 35px;
             margin-bottom: 30px;
@@ -217,7 +217,7 @@
         }
 
         .grand-total-row {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, #f09220 0%, var(--primary-light) 100%);
             color: white;
             padding: 22px 25px;
             border-radius: 8px;
@@ -236,7 +236,7 @@
         }
 
         .products-table thead {
-            background: var(--primary-color);
+            background: #f09220;
             color: white;
         }
 
@@ -291,13 +291,13 @@
         }
 
         .price-highlight {
-            color: var(--primary-color);
+            color: #f09220;
             font-weight: 700;
             font-size: 1.08rem;
         }
 
         .review-btn {
-            background-color: var(--primary-color);
+            background-color: #f09220;
             color: white;
             border: none;
             padding: 10px 18px;
@@ -473,19 +473,19 @@
             <h4 class="section-title">💰 Order Summary</h4>
             <div class="summary-row">
                 <span class="summary-label">Subtotal</span>
-                <span class="summary-value">{{ $order['sub_total'] }} TK</span>
+                <span class="summary-value">{{ $order['sub_total'] }} €</span>
             </div>
             <div class="summary-row">
                 <span class="summary-label">Discount</span>
-                <span class="summary-value">-{{ $order['discount'] }} TK</span>
+                <span class="summary-value">-{{ $order['discount'] }} €</span>
             </div>
             <div class="summary-row">
                 <span class="summary-label">Shipping Charge</span>
-                <span class="summary-value">+{{ $order['shipping_charge'] }} TK</span>
+                <span class="summary-value">+{{ $order['shipping_charge'] }} €</span>
             </div>
             <div class="grand-total-row">
                 <span>Grand Total</span>
-                <span>{{ $order['grand_total'] }} TK</span>
+                <span>{{ $order['grand_total'] }} €</span>
             </div>
         </div>
 
@@ -524,11 +524,11 @@
                                     </div>
                                 </td>
                                 <td>{{ $orderDetail->qty }}</td>
-                                <td><span class="price-highlight">{{ number_format($orderDetail->price, 2) }} TK</span>
+                                <td><span class="price-highlight">{{ number_format($orderDetail->price, 2) }} €</span>
                                 </td>
                                 <td><span
                                         class="price-highlight">{{ number_format($orderDetail->qty * $orderDetail->price, 2) }}
-                                        TK</span></td>
+                                        €</span></td>
                                 @if ($order['delivery_status'] == 4 && $order['payment_status'] == 1)
                                     <td>
                                         @if (!\App\Models\Review::where('product_id', $orderDetail->product_id)->where('user_id', auth()->id())->where('verified_purchase', 1)->where('status', 1)->exists())

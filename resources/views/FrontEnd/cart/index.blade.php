@@ -6,7 +6,7 @@
     <style>
         .cart-header {
             padding: 20px 0;
-            background: linear-gradient(135deg, #036042 0%, #054a3a 100%);
+            background: #f09220;
         }
 
         .breadcrumb-cart {
@@ -40,7 +40,7 @@
         }
 
         .product-name a:hover {
-            color: #036042;
+            color: #f09220;
             text-decoration: none;
         }
 
@@ -70,7 +70,7 @@
 
         .product-card:hover {
             background: #f1f5f3;
-            border-color: #036042;
+            border-color: #f09220;
             box-shadow: 0 4px 16px rgba(3, 96, 66, 0.1);
         }
 
@@ -95,7 +95,7 @@
         }
 
         .quantity-control:focus-within {
-            border-color: #036042;
+            border-color: #f09220;
         }
 
         .qty-btn {
@@ -112,11 +112,11 @@
 
         .qty-btn-minus {
             background: #f0f2f1;
-            color: #036042;
+            color: #f09220;
         }
 
         .qty-btn-minus:hover:not(:disabled) {
-            background: #036042;
+            background: #f09220;
             color: #fff;
         }
 
@@ -127,7 +127,7 @@
         }
 
         .qty-btn-plus {
-            background: #036042;
+            background: #f09220;
             color: #fff;
         }
 
@@ -172,7 +172,7 @@
         }
 
         .summary-header {
-            background: linear-gradient(135deg, #036042 0%, #054a3a 100%);
+            background: #f09220;
             padding: 24px;
             color: #fff;
         }
@@ -199,7 +199,7 @@
         }
 
         .summary-row span:last-child {
-            color: #036042;
+            color: #f09220;
             font-weight: 600;
             font-size: 1.1rem;
         }
@@ -215,7 +215,7 @@
         }
 
         .summary-total .d-flex span:last-child {
-            color: #036042;
+            color: #f09220;
             font-size: 1.4rem;
             font-weight: 700;
         }
@@ -225,7 +225,7 @@
         }
 
         .checkout-actions .btn {
-            background: linear-gradient(135deg, #036042 0%, #024d34 100%);
+            background: #f09220;
             color: #fff;
             border-radius: 10px;
             border: none;
@@ -243,7 +243,7 @@
         }
 
         .price {
-            color: #036042;
+            color: #f09220;
             font-weight: 600;
         }
 
@@ -260,12 +260,12 @@
             font-size: 13px;
             margin-right: 8px;
             margin-bottom: 6px;
-            color: #036042;
+            color: #f09220;
             font-weight: 500;
         }
 
         .subtotal {
-            color: #036042;
+            color: #f09220;
             font-weight: 700;
         }
 
@@ -301,42 +301,14 @@
         }
     </style>
     <!-- Cart Header Start -->
-    <div class="cart-header">
-        <div class="custom_container">
-            <div class="row">
-                <div class="col-12">
-                    <nav aria-label="breadcrumb">
-                        <ul class="breadcrumb-cart d-flex align-items-center mb-0">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('home') }}" style="text-decoration: none;">
-                                    @if (session()->get('language') == 'bangla')
-                                        হোম
-                                    @else
-                                        Home
-                                    @endif
-                                </a>
-                            </li>
-                            <i class="fa fa-chevron-right mx-2" aria-hidden="true" style="color: #fff;"></i>
-                            <li class="breadcrumb-item active">
-                                @if (session()->get('language') == 'bangla')
-                                    শপিং কার্ট
-                                @else
-                                    Shopping Cart
-                                @endif
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- Cart Header End -->
     <!-- Cart Content Start -->
     <section class="custom_container">
         <div class="row g-4 py-5">
             <div class="col-lg-8">
                 <div class="cart-container">
-                    <div style="padding: 24px; background: linear-gradient(135deg, #036042 0%, #054a3a 100%);">
+                    <div style="padding: 24px; background: #f09220;">
                         <h4 class="mb-0" style="color: #fff; font-weight: 700; font-size: 1.3rem;">
                             @if (session()->get('language') == 'bangla')
                                 আপনার কার্ট আইটেম
@@ -370,7 +342,7 @@
                                     Subtotal
                                 @endif
                             </span>
-                            <span>৳<span id="cartSubTotal"></span></span>
+                            <span>€<span id="cartSubTotal"></span></span>
                         </div>
                         <div class="summary-total">
                             <div class="d-flex justify-content-between align-items-center my-3">
@@ -381,18 +353,13 @@
                                         Total
                                     @endif
                                 </span>
-                                <span>৳<span id="cartTotal"></span></span>
+                                <span>€<span id="cartTotal"></span></span>
                             </div>
                         </div>
                         <div class="checkout-actions text-center mt-4">
-                            <a href="javascript:void(0);" id="checkoutButtonSidebar" class="btn btn-lg w-100"
-                                style="text-decoration: none;" onclick="openCheckout()">
-                                @if (session()->get('language') == 'bangla')
-                                    চেকআউটে যান
-                                @else
-                                    Proceed To Checkout
-                                @endif
-                                <i class="fas fa-arrow-right ms-2"></i>
+                            <a href="{{ Auth::check() ? route('checkout') : route('login') }}" id="checkoutButtonSidebar"
+                                class="checkout-btn btn">
+                                {{ session()->get('language') == 'bangla' ? 'অর্ডার করতে ক্লিক করুন' : 'Proceed to Checkout' }}
                             </a>
                         </div>
                     </div>
@@ -435,9 +402,9 @@
                                             <a href="${base_url}/product-details/${slug}">${value.name}</a>
                                         </h5>
                                         <div class="mb-2 d-flex align-items-center gap-3">
-                                            <span class="price">Price: ${value.price} TK</span>
+                                            <span class="price">Price: ${value.price} €</span>
                                             ${value.options.regular_price && value.options.regular_price != value.price
-                                                ? `<del class="old-price">${value.options.regular_price} TK</del>`
+                                                ? `<del class="old-price">${value.options.regular_price} €</del>`
                                                 : ''}
                                         </div>
                                         <div class="product-attributes">`;
@@ -452,11 +419,11 @@
                                         <div class="quantity-control mx-auto">
                                             ${value.qty > 1
                                ? `<button type="button" class="qty-btn qty-btn-minus" id="${value.rowId}" onclick="cartDecrement(this.id)">
-                                        <i class="fas fa-minus"></i>
-                                    </button>`
+                                                <i class="fas fa-minus"></i>
+                                            </button>`
                                : `<button type="button" class="qty-btn qty-btn-minus" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>`
+                                                <i class="fas fa-minus"></i>
+                                            </button>`
                            }
                             <input type="text" value="${value.qty}" class="qty-input" disabled>
                             <button type="button" class="qty-btn qty-btn-plus" id="${value.rowId}" onclick="cartIncrement(this.id)">
@@ -465,7 +432,7 @@
                         </div>
                     </div>
                     <div class="col-md-1 col-2 text-md-center mb-2 mb-md-0 mx">
-                        <h5 class="subtotal mb-0">৳${value.subtotal}</h5>
+                        <h5 class="subtotal mb-0">€${value.subtotal}</h5>
                     </div>
                     <div class="col-md-1 col-2 text-center">
                         <button type="button" id="${value.rowId}" onclick="cartRemove(this.id)" class="remove-btn">
@@ -484,9 +451,9 @@
                         rows = `
                         <div class="text-center py-5">
                             <img src="{{ asset('FrontEnd/img/empty-cart.png') }}" alt="Empty Cart" style="max-width: 160px; margin-bottom: 24px;">
-                            <h4 style="color: #036042; margin-bottom: 12px; font-weight: 700;">Your cart is empty!</h4>
+                            <h4 style="color: #f09220; margin-bottom: 12px; font-weight: 700;">Your cart is empty!</h4>
                             <p class="text-muted mb-4" style="font-size: 1.1rem;">Looks like you haven't added anything to your cart yet.</p>
-                            <a href="{{ route('home') }}" class="btn" style="background: #036042; color: #fff; border-radius: 10px; border: none; padding: 10px 28px; text-decoration: none; transition: all 0.3s;">
+                            <a href="{{ route('home') }}" class="btn" style="background: #f09220; color: #fff; border-radius: 10px; border: none; padding: 10px 28px; text-decoration: none; transition: all 0.3s;">
                                 Continue Shopping
                             </a>
                         </div>`;

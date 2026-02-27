@@ -23,7 +23,7 @@
     }
     
     .brand-showcase {
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+        background: #f09220;
         color: white;
         padding: 40px;
         border-radius: 10px;
@@ -56,11 +56,11 @@
         font-size: 18px;
         line-height: 1.8;
         color: var(--text-dark);
-        border-left: 5px solid var(--primary-color);
+        border-left: 5px solid #f09220;
     }
     
     .mission-statement a {
-        color: var(--primary-color);
+        color: #f09220;
         text-decoration: none;
         font-weight: 600;
     }
@@ -89,13 +89,13 @@
     .feature-item:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 25px rgba(237, 28, 36, 0.1);
-        border-color: var(--primary-color);
+        border-color: #f09220;
     }
     
     .feature-icon {
         width: 70px;
         height: 70px;
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+        background: #f09220;
         color: white;
         border-radius: 50%;
         display: flex;
@@ -134,7 +134,7 @@
         width: 60px;
         height: 60px;
         background: var(--bg-light);
-        color: var(--primary-color);
+        color: #f09220;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -145,7 +145,7 @@
     }
     
     .commitment-item:hover .commitment-icon {
-        background: var(--primary-color);
+        background: #f09220;
         color: white;
     }
     
@@ -168,7 +168,7 @@
     
     .policy-link a {
         display: inline-block;
-        background: var(--primary-color);
+        background: #f09220;
         color: white;
         padding: 12px 35px;
         border-radius: 30px;
@@ -234,7 +234,7 @@
         
         <!-- Mission Statement -->
         <!--<div class="mission-statement">-->
-        <!--    <i class="fas fa-quote-left" style="color: var(--primary-color); opacity: 0.3; font-size: 40px; margin-right: 10px;"></i>-->
+        <!--    <i class="fas fa-quote-left" style="color: #f09220; opacity: 0.3; font-size: 40px; margin-right: 10px;"></i>-->
         <!--    Empowering customers with premium products, exceptional service, and innovative shopping solutions.-->
         <!--    Explore our wide range of categories including-->
         <!--    @foreach($featured_category as $key => $fc)-->
@@ -247,7 +247,7 @@
         <!--</div>-->
         
         <!-- Features -->
-        <div class="feature-grid">
+        {{-- <div class="feature-grid">
             <div class="feature-item">
                 <div class="feature-icon">
                     <i class="fas fa-percent"></i>
@@ -276,7 +276,7 @@
                 <h3>Fast Delivery</h3>
                 <p>Express shipping options with real-time tracking</p>
             </div>
-        </div>
+        </div> --}}
         
         <!-- Commitments -->
         <div class="commitment-grid">

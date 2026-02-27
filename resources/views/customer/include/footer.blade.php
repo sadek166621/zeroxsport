@@ -12,7 +12,7 @@
         left: 0;
         width: 100%;
         height: 3px;
-        background: linear-gradient(90deg, #026544 0%, #02da72 100%);
+        background: linear-gradient(90deg, #f092200%, #f09220100%);
     }
 
     .footer p,
@@ -24,7 +24,7 @@
     }
 
     .footer a:hover {
-        color: #026544 !important;
+        color: #f09220!important;
     }
 
     .footer h4 {

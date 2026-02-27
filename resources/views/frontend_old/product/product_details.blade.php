@@ -153,7 +153,7 @@
 
 								@if ($product->discount_price > 0)
 								@if ($product->discount_type == 1)
-								<span class="stock-status out-stock"> ৳{{ $discount }} Off </span>
+								<span class="stock-status out-stock"> €{{ $discount }} Off </span>
 								@elseif ($product->discount_type == 2)
 								<span class="stock-status out-stock"> {{ $product->discount_price }}% Off </span>
 								@endif
@@ -179,15 +179,15 @@
 								<div class="clearfix product-price-cover">
 									<div class="product-price primary-color float-left">
 										@if($product->discount_price <= 0)
-											<span class="current-price text-brand">৳{{ $product->regular_price }}</span>
+											<span class="current-price text-brand">€{{ $product->regular_price }}</span>
 											@else
-											<span class="current-price text-brand">৳{{ $amount }}</span>
+											<span class="current-price text-brand">€{{ $amount }}</span>
 											@if ($product->discount_type == 1)
-											<span class="save-price font-md color3 ml-15"> ৳{{ $discount }} Off </span>
+											<span class="save-price font-md color3 ml-15"> €{{ $discount }} Off </span>
 											@elseif ($product->discount_type == 2)
 											<span class="save-price font-md color3 ml-15">{{ $product->discount_price }}% Off</span>
 											@endif
-											<span class="old-price font-md ml-15">৳{{ $product->regular_price }}</span>
+											<span class="old-price font-md ml-15">€{{ $product->regular_price }}</span>
 											@endif
 									</div>
 								</div>
@@ -564,7 +564,7 @@
 							@if($product->discount_price > 0)
 							<div class="product-badges-right product-badges-position-right product-badges-mrg">
 								@if($product->discount_type == 1)
-								<span class="hot">৳{{ $product->discount_price }} off</span>
+								<span class="hot">€{{ $product->discount_price }} off</span>
 								@elseif($product->discount_type == 2)
 								<span class="hot">{{ $product->discount_price }}% off</span>
 								@endif
@@ -605,12 +605,12 @@
 							<div class="product-card-bottom">
 								@if ($product->discount_price > 0)
 								<div class="product-price">
-									<span class="price">৳{{ $price_after_discount }}</span>
-									<span class="old-price">৳{{ $product->regular_price }}</span>
+									<span class="price">€{{ $price_after_discount }}</span>
+									<span class="old-price">€{{ $product->regular_price }}</span>
 								</div>
 								@else
 								<div class="product-price">
-									<span class="price">৳{{ $product->regular_price }}</span>
+									<span class="price">€{{ $product->regular_price }}</span>
 								</div>
 								@endif
 								<div class="add-cart">

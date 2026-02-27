@@ -35,7 +35,7 @@
                             <td>{{ $affiliate->phone }}</td>
                             <td>{{ $affiliate->email }}</td>
                             <td>{{ $affiliate->referral_code }}</td>
-                            <td>৳{{ number_format($total_earning ?? 0, 2) }}</td>
+                            <td>€{{ number_format($total_earning ?? 0, 2) }}</td>
                             <td class="text-end">
                                 <a href="{{ route('affiliates.show', $affiliate->id) }}" class="btn btn-sm btn-info" title="Details">
                                     <i class="material-icons md-visibility"></i>

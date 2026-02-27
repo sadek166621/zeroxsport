@@ -35,7 +35,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(135deg, #026142 0%, #034d38 100%) !important;
+            background: linear-gradient(135deg, #f09220 0%, #034d38 100%) !important;
             padding: 60px 40px;
             color: white;
         }
@@ -66,7 +66,7 @@
 
         .signin-btn {
             background: white;
-            color: #026142;
+            color: #f09220;
             padding: 12px 32px;
             border-radius: 10px;
             text-decoration: none;
@@ -80,7 +80,7 @@
         .signin-btn:hover {
             transform: translateY(-4px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            color: #026142;
+            color: #f09220;
         }
 
         .register-right {
@@ -94,7 +94,7 @@
             margin-bottom: 8px;
             font-size: 28px;
             font-weight: 700;
-            color: #026142;
+            color: #f09220;
         }
 
         .form-grid {
@@ -137,7 +137,7 @@
         }
 
         .form-control:focus {
-            border-color: #026142;
+            border-color: #f09220;
             background: white;
             box-shadow: 0 0 0 4px rgba(2, 97, 66, 0.1);
             outline: none;
@@ -160,7 +160,7 @@
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #026142 0%, #034d38 100%) !important;
+            background: linear-gradient(135deg, #f09220 0%, #034d38 100%) !important;
             color: #fff;
             padding: 14px 40px;
             border-radius: 12px;

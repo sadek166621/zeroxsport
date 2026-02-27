@@ -652,7 +652,7 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #006A4E;
+            background: #f09220;
             border-radius: 10px;
             border: 2.5px solid #f1f1f1;
             /* makes thumb appear thinner inside track */
@@ -726,12 +726,12 @@
                                  </div> -->
                                 <div class="clearfix product-price-cover">
                                     <div class="product-price primary-color float-left">
-                                        <span class="current-price mb-2 d-flex text-brand">৳ <span
+                                        <span class="current-price mb-2 d-flex text-brand">€ <span
                                                 id="pprice"></span></span>
                                         <span>
                                             <!--   <span class="save-price font-md color3 ml-15">26% Off</span> -->
                                             <del id="oldprice" class="old-price font-md ml-15 mb-2"
-                                                style="color: grey">৳</del>
+                                                style="color: grey">€</del>
                                         </span>
                                     </div>
                                 </div>
@@ -951,7 +951,7 @@
                         <div class="item-name">${name}</div>
                         <div class="item-quantity">পরিমান: ${qty}</div>
                     </div>
-                    <div class="item-price">৳${lineTotal.toFixed(2)}</div>
+                    <div class="item-price">€${lineTotal.toFixed(2)}</div>
                 </div>
             `;
                 });
@@ -976,16 +976,16 @@
                 const grandTotal = Math.max(subtotal + shipping - discount, 0);
 
                 document.getElementById('cartSubtotalDisplay').innerText =
-                    '৳' + subtotal.toFixed(2);
+                    '€' + subtotal.toFixed(2);
 
                 document.getElementById('shippingChargeDisplay').innerText =
-                    '৳' + shipping.toFixed(2);
+                    '€' + shipping.toFixed(2);
 
                 document.getElementById('couponDiscountDisplay').innerText =
-                    '- ৳' + discount.toFixed(2);
+                    '- €' + discount.toFixed(2);
 
                 document.getElementById('grandTotalDisplay').innerText =
-                    '৳' + grandTotal.toFixed(2);
+                    '€' + grandTotal.toFixed(2);
             };
 
             document.querySelectorAll('input[name="shipping"]').forEach(radio => {

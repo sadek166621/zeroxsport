@@ -45,9 +45,9 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        // if(!guest_checkout() && !auth()->check()){
-        //     return redirect()->route('login');
-        // }
+        if(!guest_checkout() && !auth()->check()){
+            return redirect()->route('login');
+        }
         $user = Auth::user();
         if (!$user) {
             $addresses = Address::where('status', 1)->get();
@@ -179,8 +179,8 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
 
-
-        //  dd($request->all());
+        
+      //  dd($request->all());
         $request->validate([
             'name'    => 'required|max:191',
             'email'   => 'nullable|email|max:191',
@@ -212,7 +212,7 @@ class CheckoutController extends Controller
 
         Auth::login($user);
 
-        // $payment_status = in_array($request->payment_option, ['cod', 'wallet']) ? 0 : 1;
+       // $payment_status = in_array($request->payment_option, ['cod', 'wallet']) ? 0 : 1;
 
         $lastOrder  = Order::latest('id')->first();
         $invoice_no = $lastOrder ? str_pad($lastOrder->id + 1, 7, '0', STR_PAD_LEFT) : '0000001';
@@ -222,11 +222,11 @@ class CheckoutController extends Controller
             : null;
 
         $paymentScreenshotPath = null;
-        if ($request->hasFile('payment_screenshot')) {
+         if($request->hasFile('payment_screenshot')){
             $file = $request->file('payment_screenshot');
-            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $filename = date('YmdHi').$file->getClientOriginalName();
             $file->move(public_path('uploads/payment_screenshot/'), $filename);
-            $paymentScreenshotPath = 'uploads/payment_screenshot/' . $filename;
+            $paymentScreenshotPath = 'uploads/payment_screenshot/'.$filename;
         }
 
         // Calculate unique vendors & shipping cost per vendor
@@ -255,7 +255,7 @@ class CheckoutController extends Controller
             'sub_total'         => 0,
             'grand_total'       => 0,
             'affiliate_commission' => 0,
-            'shipping_charge'   => $request->shipping,
+            'shipping_charge'   => $request->shipping_charge,
             'shipping_name'     => $request->shipping_name,
             'shipping_type'     => $request->shipping_type,
             'payment_method'    => $request->payment_option,
@@ -414,15 +414,9 @@ class CheckoutController extends Controller
         Cart::destroy();
         Session::forget(['couponCode', 'discountType', 'amount', 'affiliate_ref']);
 
-        // return redirect()->route('checkout.success', $order->invoice_no)->with([
-        //     'message'    => 'Order placed successfully',
-        //     'alert-type' => 'success'
-        // ]);
-
-        return response()->json([
-            'success' => true,
-            'invoice_no' => $order->invoice_no,
-            'redirect_url' => route('checkout.success', $order->invoice_no),
+        return redirect()->route('checkout.success', $order->invoice_no)->with([
+            'message'    => 'Order placed successfully',
+            'alert-type' => 'success'
         ]);
     }
 

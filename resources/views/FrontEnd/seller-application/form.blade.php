@@ -5,7 +5,7 @@ Become A Seller
 @section('content')
 <style>
     :root {
-        --primary: #026142;
+        --primary: #f09220;
         --primary-light: #0a8a5f;
         --primary-dark: #014d32;
         --primary-50: #f0faf8;

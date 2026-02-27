@@ -75,7 +75,7 @@
                         @endforeach
                         <tr>
                             <td colspan="4" class="text-center" style="font-weight: bold">Total Sales</td>
-                            <td>৳ {{$price}}</td>
+                            <td>€ {{$price}}</td>
 
                         </tr>
                         </tbody>

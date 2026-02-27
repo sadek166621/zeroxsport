@@ -353,7 +353,7 @@
                                     {{ $statusTexts[$order->delivery_status] ?? 'N/A' }}
                                 </span>
                             </td>
-                            <td class="amount-cell">৳{{ number_format($order->grand_total, 2) }}</td>
+                            <td class="amount-cell">€{{ number_format($order->grand_total, 2) }}</td>
                             <td>{{ $order->created_at->format('d M Y') }}</td>
                             <td>
                                 <a href="{{ route('affiliate.order.details', $order->id) }}" class="btn-view">

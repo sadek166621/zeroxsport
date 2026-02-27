@@ -16,7 +16,7 @@ $end_diff2 = date_diff(date_create(date('d-m-Y H:i:s')), date_create($campaign->
         background: linear-gradient(135deg, #fff5f5 0%, #ffe9e9 100%);
         padding: 30px;
         border-radius: 10px;
-        border: 2px solid var(--primary-color);
+        border: 2px solid #f09220;
     }
     
     .flash-header {
@@ -37,13 +37,13 @@ $end_diff2 = date_diff(date_create(date('d-m-Y H:i:s')), date_create($campaign->
     .flash-title h2 {
         font-size: 28px;
         font-weight: 700;
-        color: var(--primary-color);
+        color: #f09220;
         margin: 0;
     }
     
     .flash-icon {
         font-size: 40px;
-        color: var(--primary-color);
+        color: #f09220;
         animation: pulse 1.5s infinite;
     }
     
@@ -53,7 +53,7 @@ $end_diff2 = date_diff(date_create(date('d-m-Y H:i:s')), date_create($campaign->
     }
     
     .countdown-timer {
-        background: var(--primary-color);
+        background: #f09220;
         padding: 15px 25px;
         border-radius: 50px;
         display: flex;
@@ -103,14 +103,14 @@ $end_diff2 = date_diff(date_create(date('d-m-Y H:i:s')), date_create($campaign->
     .flash-product-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 25px rgba(237, 28, 36, 0.2);
-        border-color: var(--primary-color);
+        border-color: #f09220;
     }
     
     .flash-discount {
         position: absolute;
         top: 10px;
         left: 10px;
-        background: var(--primary-color);
+        background: #f09220;
         color: white;
         padding: 5px 10px;
         border-radius: 20px;
@@ -188,9 +188,9 @@ $end_diff2 = date_diff(date_create(date('d-m-Y H:i:s')), date_create($campaign->
             </h3>
             
             <div class="product-price" style="margin-bottom: 5px;">
-                <span class="current-price">৳ {{ number_format($data['discount']) }}</span>
+                <span class="current-price">€ {{ number_format($data['discount']) }}</span>
                 @if($product->product->regular_price != $data['discount'])
-                <span class="original-price">৳ {{ number_format($product->product->regular_price) }}</span>
+                <span class="original-price">€ {{ number_format($product->product->regular_price) }}</span>
                 @endif
             </div>
             

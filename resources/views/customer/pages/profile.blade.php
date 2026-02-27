@@ -77,7 +77,7 @@ Profile Details | Dashboard
 
 <style>
     :root {
-        --primary: #026142;
+        --primary: #f09220;
         --primary-light: #e8f5f1;
         --primary-dark: #014d34;
         --border-color: #e5e7eb;

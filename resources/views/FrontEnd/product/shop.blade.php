@@ -18,7 +18,7 @@
         }
 
         .breadcrumb-custom a {
-            color: #006A4E;
+            color: #f09220;
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s;
@@ -65,7 +65,7 @@
         .filter-title {
             font-size: 1rem;
             font-weight: 700;
-            color: #006A4E;
+            color: #f09220;
             margin-bottom: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -80,7 +80,7 @@
         }
 
         .category-item:hover {
-            color: #006A4E;
+            color: #f09220;
         }
 
         .category-item input[type="checkbox"] {
@@ -88,7 +88,7 @@
             height: 18px;
             margin-right: 0.8rem;
             cursor: pointer;
-            accent-color: #006A4E;
+            accent-color: #f09220;
         }
 
         .category-item label {
@@ -139,14 +139,14 @@
 
         .price-input input:focus {
             outline: none;
-            border-color: #006A4E;
+            border-color: #f09220;
             box-shadow: 0 0 0 3px rgba(1, 180, 94, 0.1);
         }
 
         .filter-btn {
             width: 100%;
             padding: 0.9rem;
-            background: linear-gradient(135deg, #006A4E 0%, #059669 100%);
+            background: linear-gradient(135deg, #f09220 0%, #059669 100%);
             color: white;
             border: none;
             border-radius: 6px;
@@ -179,8 +179,8 @@
         }
 
         .clear-filters:hover {
-            border-color: #006A4E;
-            color: #006A4E;
+            border-color: #f09220;
+            color: #f09220;
             background: #f0fdf4;
         }
 
@@ -231,7 +231,7 @@
         }
 
         .sort-controls select:focus {
-            border-color: #006A4E;
+            border-color: #f09220;
             box-shadow: 0 0 0 3px rgba(1, 180, 94, 0.1);
         }
 
@@ -257,14 +257,14 @@
         .product-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 8px 25px rgba(1, 180, 94, 0.2);
-            border-color: #006A4E;
+            border-color: #f09220;
         }
 
         .product-image {
             position: relative;
             width: 100%;
             height: 200px;
-            background: linear-gradient(135deg, #006A4E, #10B981);
+            background: linear-gradient(135deg, #f09220, #10B981);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -286,7 +286,7 @@
             position: absolute;
             top: 12px;
             right: 12px;
-            background: linear-gradient(135deg, #006A4E, #059669);
+            background: linear-gradient(135deg, #f09220, #059669);
             color: white;
             padding: 8px 12px;
             border-radius: 8px;
@@ -352,7 +352,7 @@
         .product-price {
             font-size: 15px;
             font-weight: bold;
-            color: #006A4E;
+            color: #f09220;
         }
 
         .product-old-price {
@@ -381,7 +381,7 @@
         }
 
         .btn-buy-now {
-            background: #006A4E;
+            background: #f09220;
             color: white;
             box-shadow: 0 2px 8px rgba(1, 180, 94, 0.3);
         }
@@ -393,12 +393,12 @@
 
         .btn-add-cart {
             background: white;
-            color: #006A4E;
-            border: 1px solid #006A4E;
+            color: #f09220;
+            border: 1px solid #f09220;
         }
 
         .btn-add-cart:hover {
-            background: #006A4E;
+            background: #f09220;
             color: white;
             transform: translateY(-1px);
         }
@@ -445,7 +445,7 @@
 
         .clear-btn {
             display: inline-block;
-            background: linear-gradient(135deg, #006A4E 0%, #059669 100%);
+            background: linear-gradient(135deg, #f09220 0%, #059669 100%);
             color: white;
             padding: 0.8rem 2rem;
             border-radius: 6px;
@@ -483,14 +483,14 @@
         }
 
         .pagination a:hover {
-            border-color: #006A4E;
-            color: #006A4E;
+            border-color: #f09220;
+            color: #f09220;
             background: #f0fdf4;
             transform: translateY(-2px);
         }
 
         .pagination span.active {
-            background: linear-gradient(135deg, #006A4E 0%, #059669 100%);
+            background: linear-gradient(135deg, #f09220 0%, #059669 100%);
             color: white;
             border-color: transparent;
             font-weight: 700;
@@ -510,7 +510,7 @@
 
         .filter-toggle-btn {
             display: none;
-            background: linear-gradient(135deg, #006A4E 0%, #059669 100%);
+            background: linear-gradient(135deg, #f09220 0%, #059669 100%);
             color: white;
             border: none;
             padding: 12px 20px;
@@ -604,7 +604,7 @@
                 background: none;
                 border: none;
                 font-size: 28px;
-                color: #006A4E;
+                color: #f09220;
                 cursor: pointer;
                 margin-bottom: 1.5rem;
                 float: right;
@@ -812,12 +812,12 @@
                         <div class="price-inputs">
                             <div class="price-input">
                                 <label>{{ session()->get('language') == 'bangla' ? 'সর্বনিম্ন' : 'Min Price' }}</label>
-                                <input type="number" name="min_price" placeholder="৳0"
+                                <input type="number" name="min_price" placeholder="€0"
                                     value="@isset($_GET['min_price']){{ $_GET['min_price'] }}@endisset">
                             </div>
                             <div class="price-input">
                                 <label>{{ session()->get('language') == 'bangla' ? 'সর্বোচ্চ' : 'Max Price' }}</label>
-                                <input type="number" name="max_price" placeholder="৳999999"
+                                <input type="number" name="max_price" placeholder="€999999"
                                     value="@isset($_GET['max_price']){{ $_GET['max_price'] }}@endisset">
                             </div>
                         </div>
@@ -886,8 +886,8 @@
 
                                         <div class="product-footer">
                                             <div class="price-section">
-                                                <span class="product-price">৳{{ $data['discount'] }}</span>
-                                                <span class="product-old-price">৳{{ $product->regular_price }}</span>
+                                                <span class="product-price">€{{ $data['discount'] }}</span>
+                                                <span class="product-old-price">€{{ $product->regular_price }}</span>
                                             </div>
 
 
@@ -1200,7 +1200,7 @@
                 showCancelButton: true,
                 confirmButtonText: 'Go to Dashboard',
                 cancelButtonText: 'Close',
-                confirmButtonColor: '#006A4E',
+                confirmButtonColor: '#f09220',
                 cancelButtonColor: '#6c757d',
             }).then((result) => {
                 if (result.isConfirmed) {

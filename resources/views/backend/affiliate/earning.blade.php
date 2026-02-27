@@ -29,7 +29,7 @@
                             <td>{{ $affiliate->name }}</td>
                             <td>{{ $affiliate->email }}</td>
                             <td>{{ $affiliate->referral_code }}</td>
-                            <td>৳{{ number_format($affiliate->total_earning ?? 0, 2) }}</td>
+                            <td>€{{ number_format($affiliate->total_earning ?? 0, 2) }}</td>
                             <td>{{ $affiliate->orders->count() }}</td>
                         </tr>
                         @endforeach

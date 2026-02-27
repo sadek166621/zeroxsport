@@ -44,7 +44,7 @@
                     {{-- Product Info --}}
                     <div class="flex-grow-1">
                         <div class="fw-semibold text-dark">{{ Str::limit($product->name_en, 40) }}</div>
-                        <div class="text-success fw-bold">৳ {{ number_format($product->regular_price, 2) }}</div>
+                        <div class="text-success fw-bold">€ {{ number_format($product->regular_price, 2) }}</div>
                     </div>
                 </a>
             </li>

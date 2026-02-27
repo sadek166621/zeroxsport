@@ -275,7 +275,7 @@ function calculateDiscount($id)
     $product = Product::find($id);
     if($product->discount_type == 1){
         $data['discount'] = $product->regular_price - $product->discount_price;
-        $data['text'] = '- ৳'.$product->discount_price;
+        $data['text'] = '- €'.$product->discount_price;
     }
     elseif($product->discount_type == 2){
         $data['discount'] = round($product->regular_price - ($product->discount_price*$product->regular_price/100));

@@ -227,7 +227,7 @@ $currentCategorySlug = request()->route('slug');
 
     .nav-bottom-item:hover {
         background-color: rgba(255, 255, 255, 0.1);
-        border-bottom-color: #01B45E;
+        border-bottom-color: #f09220;
     }
 
     .nav-bottom-item:hover a {
@@ -415,7 +415,7 @@ $currentCategorySlug = request()->route('slug');
     }
 
     .nav-bottom-slider-wrapper::-webkit-scrollbar-thumb {
-        background: #01B45E;
+        background: #f09220;
         border-radius: 3px;
     }
 

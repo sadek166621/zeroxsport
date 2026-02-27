@@ -3,7 +3,7 @@
 
 <style>
     :root {
-        --primary: #01B45E;
+        --primary: #f09220;
         --secondary: #3f37c9;
         --success: #4cc9f0;
         --danger: #f72585;
@@ -646,10 +646,10 @@
                                     <div class="product-name">{{$orderDetail->product->name_en ?? 'Product Name'}}</div>
                                     <div class="product-price-info">
                                         <div class="price-qty">
-                                            Unit Price: <span>৳ {{ $orderDetail->price ?? '0.00' }}</span> ×
+                                            Unit Price: <span>€ {{ $orderDetail->price ?? '0.00' }}</span> ×
                                             <span>{{ $orderDetail->qty ?? '0' }}</span>
                                         </div>
-                                        <div class="subtotal">৳ {{ $orderDetail->price*$orderDetail->qty ?? '0.00' }}</div>
+                                        <div class="subtotal">€ {{ $orderDetail->price*$orderDetail->qty ?? '0.00' }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -664,26 +664,26 @@
                             <ul class="summary-list">
                                 <li class="summary-item">
                                     <div class="summary-label">Subtotal</div>
-                                    <div class="summary-value">৳ {{ $order->sub_total ?? '0.00' }}</div>
+                                    <div class="summary-value">€ {{ $order->sub_total ?? '0.00' }}</div>
                                 </li>
                                 <li class="summary-item">
                                     <div class="summary-label">Shipping Cost</div>
-                                    <div class="summary-value">৳ {{ $order->shipping_charge }}</div>
+                                    <div class="summary-value">€ {{ $order->shipping_charge }}</div>
                                 </li>
                                 <li class="summary-item">
                                     <div class="summary-label">Discount</div>
                                     <div class="summary-value">
                                         @if ($order->coupon != Null)
-                                        ৳ {{ $order->coupon }}
+                                        € {{ $order->coupon }}
                                         @else
-                                        ৳ 0
+                                        € 0
                                         @endif
                                     </div>
                                 </li>
                             </ul>
                             <div class="grand-total">
                                 <div>Grand Total</div>
-                                <div>৳ {{ $order->grand_total }}</div>
+                                <div>€ {{ $order->grand_total }}</div>
                             </div>
                         </div>
 
@@ -726,7 +726,7 @@
                                         {{ $order->payment_method }}
                                         @endif
                                     </div>
-                                    <div class="payment-amount">৳ {{ $order->grand_total }}</div>
+                                    <div class="payment-amount">€ {{ $order->grand_total }}</div>
                                 </div>
                             </div>
                         </div>

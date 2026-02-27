@@ -83,7 +83,7 @@
                                     <span class="badge {{ $status['class'] }} text-white">{{ $status['text'] }}</span>
                                 </td>
                                 <td>
-                                    <span class="order-amount">৳{{ number_format($order->grand_total, 2) }}</span>
+                                    <span class="order-amount">€{{ number_format($order->grand_total, 2) }}</span>
                                 </td>
                                 <td>
                                     <div class="action-buttons">
@@ -124,7 +124,7 @@
 
     <style>
         :root {
-            --primary: #026142;
+            --primary: #f09220;
             --primary-light: #e8f5f1;
             --border-color: #e5e7eb;
             --lighter: #f3f4f6;

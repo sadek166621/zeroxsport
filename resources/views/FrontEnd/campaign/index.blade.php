@@ -56,7 +56,7 @@
                             @php
                                 if ($product->discount_type == 1) {
                                     $discount_price = $product->product->regular_price - $product->discount_price;
-                                    $discount_label = '৳' . $product->discount_price;
+                                    $discount_label = '€' . $product->discount_price;
                                     $discount_percent = round(
                                         ($product->discount_price / $product->product->regular_price) * 100,
                                     );
@@ -95,9 +95,9 @@
 
                                         <!-- Price -->
                                         <div class="product-price">
-                                            <span class="current-price">৳{{ number_format($discount_price, 0) }}</span>
+                                            <span class="current-price">€{{ number_format($discount_price, 0) }}</span>
                                             <span
-                                                class="original-price">৳{{ number_format($product->product->regular_price, 0) }}</span>
+                                                class="original-price">€{{ number_format($product->product->regular_price, 0) }}</span>
                                         </div>
 
                                         <!-- Stock Status -->
@@ -204,7 +204,7 @@
 
     <style>
         .btn-buy-now {
-            background: #01B45E;
+            background: #f09220;
             color: white;
             box-shadow: 0 2px 8px rgba(216, 63, 38, 0.3);
         }
@@ -230,12 +230,12 @@
 
         .btn-add-cart {
             background: white;
-            color: #01B45E;
-            border: 1px solid #01B45E;
+            color: #f09220;
+            border: 1px solid #f09220;
         }
 
         .btn-add-cart:hover {
-            background: #01B45E;
+            background: #f09220;
             color: white;
             transform: translateY(-1px);
         }
@@ -293,7 +293,7 @@
         .countdown-box span {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #01B45E;
+            color: #f09220;
             display: block;
         }
 
@@ -368,7 +368,7 @@
         }
 
         .current-price {
-            color: #01B45E;
+            color: #f09220;
             font-size: 1.25rem;
             font-weight: bold;
         }
@@ -386,7 +386,7 @@
         }
 
         .in-stock {
-            color: #01B45E;
+            color: #f09220;
         }
 
         .out-of-stock {
@@ -413,7 +413,7 @@
         }
 
         .btn-buy {
-            background: #01B45E;
+            background: #f09220;
             color: white;
         }
 
@@ -423,12 +423,12 @@
 
         .btn-cart {
             background: transparent;
-            border: 1px solid #01B45E;
-            color: #01B45E;
+            border: 1px solid #f09220;
+            color: #f09220;
         }
 
         .btn-cart:hover {
-            background: #01B45E;
+            background: #f09220;
             color: white;
         }
 

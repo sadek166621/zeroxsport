@@ -62,7 +62,7 @@
                         <div class="border-top pt-3 mt-3">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="text-muted small">Current Balance</span>
-                                <h6 class="mb-0 text-success">৳ {{ number_format($vendor->balance ?? 0, 2) }}</h6>
+                                <h6 class="mb-0 text-success">€ {{ number_format($vendor->balance ?? 0, 2) }}</h6>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-muted small">Shipping Zone</span>

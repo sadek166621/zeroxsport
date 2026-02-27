@@ -144,7 +144,7 @@
                   <h5 class="color-gray-500">{{$cart->qty}}x</h5>
                 </div>
                 <div class="wishlist-price">
-                  <h4 class="color-brand-3 font-lg-bold">৳{{$cart->subtotal}}</h4>
+                  <h4 class="color-brand-3 font-lg-bold">€{{$cart->subtotal}}</h4>
                 </div>
               </div>
               @endforeach
@@ -152,19 +152,19 @@
             <div class="form-group mb-0">
               <div class="row mb-10">
                 <div class="col-lg-6 col-6"><span class="font-md-bold color-brand-3">Subtotal</span></div>
-                <div class="col-lg-6 col-6 text-end"><span class="font-lg-bold color-brand-3">৳<span id="cartSubTotal">{{ $cartTotal }}</span></div>
+                <div class="col-lg-6 col-6 text-end"><span class="font-lg-bold color-brand-3">€<span id="cartSubTotal">{{ $cartTotal }}</span></div>
               </div>
               @if (Session::get('couponCode'))
               <div class="row mb-10">
                 <div class="col-lg-6 col-6"><span class="font-md-bold color-brand-3">Coupon</span></div>
-                <div class="col-lg-6 col-6 text-end"><span class="font-lg-bold color-brand-3">৳<span id="">{{ Session::get('amount') }}</span></div>
+                <div class="col-lg-6 col-6 text-end"><span class="font-lg-bold color-brand-3">€<span id="">{{ Session::get('amount') }}</span></div>
               </div>
               @endif
 
               <div class="border-bottom mb-10 pb-5">
                 <div class="row">
                   <div class="col-lg-6 col-6"><span class="font-md-bold color-brand-3">Shipping</span></div>
-                  <div class="col-lg-6 col-6 text-end"><span class="font-lg-bold color-brand-3">৳<span id="ship_amount">0.00</span></div>
+                  <div class="col-lg-6 col-6 text-end"><span class="font-lg-bold color-brand-3">€<span id="ship_amount">0.00</span></div>
                   <input type="hidden" value="" name="shipping_charge" class="ship_amount" />
                                     <input type="hidden" value="" name="shipping_type" class="shipping_type" />
                                     <input type="hidden" value="" name="shipping_name" class="shipping_name" />
@@ -181,7 +181,7 @@
               </div>
               <div class="row">
                 <div class="col-lg-6 col-6"><span class="font-md-bold color-brand-3">Total</span></div>
-                <div class="col-lg-6 col-6 text-end"><span class="font-lg-bold color-brand-3">৳<span id="grand_total_set">{{ $cartTotal - Session::get('amount')  }}</span></span></div>
+                <div class="col-lg-6 col-6 text-end"><span class="font-lg-bold color-brand-3">€<span id="grand_total_set">{{ $cartTotal - Session::get('amount')  }}</span></span></div>
               </div>
             </div>
             <br>

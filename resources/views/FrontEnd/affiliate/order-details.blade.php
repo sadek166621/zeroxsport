@@ -455,11 +455,11 @@
                             </div>
                             <div class="price-item">
                                 <div class="price-label">Unit Price</div>
-                                <div class="price-value">৳{{ number_format($item->price, 2) }}</div>
+                                <div class="price-value">€{{ number_format($item->price, 2) }}</div>
                             </div>
                             <div class="price-item">
                                 <div class="price-label">Total</div>
-                                <div class="price-value price-total">৳{{ number_format($item->price * $item->qty, 2) }}</div>
+                                <div class="price-value price-total">€{{ number_format($item->price * $item->qty, 2) }}</div>
                             </div>
                         </div>
                     </div>
@@ -489,12 +489,12 @@
                 </div>
                 <div class="financial-row">
                     <span class="financial-label">Subtotal</span>
-                    <span class="financial-value">৳{{ number_format($order->sub_total, 2) }}</span>
+                    <span class="financial-value">€{{ number_format($order->sub_total, 2) }}</span>
                 </div>
                 @if($order->discount)
                 <div class="financial-row">
                     <span class="financial-label">Discount</span>
-                    <span class="financial-value discount">-৳{{ number_format($order->discount, 2) }}</span>
+                    <span class="financial-value discount">-€{{ number_format($order->discount, 2) }}</span>
                 </div>
                 @endif
                 @if($order->coupon)
@@ -505,11 +505,11 @@
                 @endif
                 <div class="financial-row">
                     <span class="financial-label">Shipping Charge</span>
-                    <span class="financial-value">৳{{ number_format($order->shipping_charge, 2) }}</span>
+                    <span class="financial-value">€{{ number_format($order->shipping_charge, 2) }}</span>
                 </div>
                 <div class="financial-total">
                     <div class="total-label">Grand Total</div>
-                    <div class="total-amount">৳{{ number_format($order->grand_total, 2) }}</div>
+                    <div class="total-amount">€{{ number_format($order->grand_total, 2) }}</div>
                 </div>
             </div>
 

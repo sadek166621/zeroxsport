@@ -76,7 +76,7 @@
 						                        @endforeach
                                                 <tr>
                                                     <th colspan="4">Total</th>
-                                                    <td class="text-center">৳{{$total_stock_price}}</td>
+                                                    <td class="text-center">€{{$total_stock_price}}</td>
                                                 </tr>
 					                    </tbody>
 				                    @else

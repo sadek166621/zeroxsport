@@ -64,7 +64,7 @@
                                                 @endphp
                                                 {{ $itemCount }} item{{ $itemCount > 1 ? 's' : '' }}
                                             </td>
-                                            <td>৳ {{ number_format($vendorOrder->subtotal, 2) }}</td>
+                                            <td>€ {{ number_format($vendorOrder->subtotal, 2) }}</td>
                                             <td>
                                                 <span
                                                     class="badge {{ $mainOrder->payment_status == 1 ? 'bg-success' : 'bg-warning' }}">

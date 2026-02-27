@@ -53,7 +53,7 @@
 
 		                          		@if ($product->discount_price > 0)
 		                          			@if ($product->discount_type == 1)
-	                                			<span class="stock-status out-stock"> ৳{{  $discount }} Off </span>
+	                                			<span class="stock-status out-stock"> €{{  $discount }} Off </span>
 	                                		@elseif ($product->discount_type == 2)
 	                                			<span class="stock-status out-stock"> {{  $product->discount_price }}% Off </span>
 	                                		@endif
@@ -68,7 +68,7 @@
         @endif</h3>
           <div class="border-bottom pt-10 mb-20"></div>
           <div class="box-product-price">
-            <h3 class="color-brand-3 price-main d-inline-block mr-10">৳{{ $product->regular_price }}</h3>
+            <h3 class="color-brand-3 price-main d-inline-block mr-10">€{{ $product->regular_price }}</h3>
             {{-- <span class="color-gray-500 price-line font-xl line-througt">$3225.6</span> --}}
           </div>
           {{-- <div class="product-description mt-20 color-gray-900">
@@ -906,7 +906,7 @@ function cart(){
                       </div>
                     </div>
                     <div class="wishlist-price">
-                      <h4 class="color-brand-3">৳${value.price}</h4>
+                      <h4 class="color-brand-3">€${value.price}</h4>
                     </div>
                     <div class="wishlist-status">
                       <div class="box-quantity">

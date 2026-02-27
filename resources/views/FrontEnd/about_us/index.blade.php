@@ -18,7 +18,7 @@ About Us
 
     .page-title h1 {
         font-size: 2.5rem;
-        color: #006A4E;
+        color: #f09220;
         margin-bottom: 10px;
     }
 
@@ -31,13 +31,13 @@ About Us
         background: white;
         padding: 40px;
         margin-bottom: 30px;
-        border-left: 4px solid #006A4E;
+        border-left: 4px solid #f09220;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .content-section h2 {
         font-size: 1.8rem;
-        color: #006A4E;
+        color: #f09220;
         margin-bottom: 20px;
         padding-bottom: 10px;
         border-bottom: 2px solid #f0f0f0;

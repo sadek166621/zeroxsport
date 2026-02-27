@@ -31,11 +31,11 @@
                                 @php $data = calculateDiscount($product->id); @endphp
                                 <div class="product-pricing">
                                     @if($product->discount_price)
-                                        <span class="current-price">৳{{ number_format($data['discount'], 2) }}</span>
-                                        <span class="original-price">৳{{ number_format($product->regular_price, 2) }}</span>
+                                        <span class="current-price">€{{ number_format($data['discount'], 2) }}</span>
+                                        <span class="original-price">€{{ number_format($product->regular_price, 2) }}</span>
                                         <span class="discount-badge">SALE</span>
                                     @else
-                                        <span class="current-price">৳{{ number_format($product->regular_price, 2) }}</span>
+                                        <span class="current-price">€{{ number_format($product->regular_price, 2) }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -181,7 +181,7 @@
 
 <style>
     :root {
-        --primary-color: #026142;
+        --primary-color: #f09220;
         --primary-dark: #014d34;
         --primary-light: #e8f5f0;
         --accent-color: #ffa500;
@@ -239,7 +239,7 @@
         position: absolute;
         top: 1rem;
         right: 1rem;
-        background: var(--primary-color);
+        background: #f09220;
         color: white;
         padding: 0.4rem 1rem;
         border-radius: 20px;
@@ -282,7 +282,7 @@
     .current-price {
         font-size: 1.75rem;
         font-weight: 700;
-        color: var(--primary-color);
+        color: #f09220;
     }
 
     .original-price {
@@ -347,7 +347,7 @@
     }
 
     .section-label i {
-        color: var(--primary-color);
+        color: #f09220;
     }
 
     .required {
@@ -403,7 +403,7 @@
         display: block;
         font-size: 1rem;
         font-weight: 600;
-        color: var(--primary-color);
+        color: #f09220;
     }
 
     /* Form Controls */
@@ -420,7 +420,7 @@
 
     .form-control-custom:focus {
         outline: none;
-        border-color: var(--primary-color);
+        border-color: #f09220;
         box-shadow: 0 0 0 3px var(--primary-light);
     }
 
@@ -454,13 +454,13 @@
     }
 
     .upload-label:hover {
-        border-color: var(--primary-color);
+        border-color: #f09220;
         background: white;
     }
 
     .upload-label i {
         font-size: 3rem;
-        color: var(--primary-color);
+        color: #f09220;
         margin-bottom: 1rem;
     }
 
@@ -507,7 +507,7 @@
     }
 
     .btn-submit {
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        background: linear-gradient(135deg, #f09220, var(--primary-dark));
         color: white;
         padding: 1rem 3rem;
         border: none;
@@ -547,7 +547,7 @@
 
     .trust-icon {
         font-size: 2rem;
-        color: var(--primary-color);
+        color: #f09220;
         margin-bottom: 0.5rem;
     }
 
@@ -609,7 +609,7 @@
     .btn-back-home {
         display: inline-flex;
         align-items: center;
-        background: var(--primary-color);
+        background: #f09220;
         color: white;
         padding: 1rem 2rem;
         border-radius: 12px;

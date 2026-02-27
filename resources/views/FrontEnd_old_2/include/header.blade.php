@@ -195,7 +195,7 @@
                 <div class="cart-total" id="miniCart_btn">
                   <div class="row">
                     <div class="col-6 text-start"><span class="font-md-bold color-brand-3">Total</span></div>
-                    <div class="col-6">৳<span class="font-md-bold color-brand-1" id="cartSubTotal"></span></div>
+                    <div class="col-6">€<span class="font-md-bold color-brand-1" id="cartSubTotal"></span></div>
                   </div>
                   <div class="row mt-15">
                     <div class="col-6 text-start"><a class="btn btn-cart w-auto" href="{{ route('cart.show') }}">View cart</a></div>

@@ -8,7 +8,7 @@
         }
 
         .card-header {
-            background-color: #01B45E;
+            background-color: #f09220;
             color: white;
         }
 
@@ -19,7 +19,7 @@
         .payment-option.active {
             border: 2px solid #0d6efd;
             color: white;
-            background-color: #01b45e;
+            background-color: #f09220;
 
         }
     </style>
@@ -156,7 +156,7 @@
                                             <p class="mb-0 fw-medium">{{ $cart->name }}</p>
                                             <span class="text-muted small">Quantity: {{ $cart->qty }}</span>
                                         </div>
-                                        <span class="fw-semibold">৳{{ $cart->subtotal }}</span>
+                                        <span class="fw-semibold">€{{ $cart->subtotal }}</span>
                                     </div>
                                 @endforeach
                             </div>
@@ -187,12 +187,12 @@
                                     <div class="p-4 bg-light">
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="text-muted">Subtotal</span>
-                                            <span class="fw-medium">৳<span
+                                            <span class="fw-medium">€<span
                                                     id="cartSubTotal">{{ $cartTotal }}</span></span>
                                         </div>
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="text-muted">Shipping</span>
-                                            <span class="fw-medium">৳<span id="ship_amount">0.00</span></span>
+                                            <span class="fw-medium">€<span id="ship_amount">0.00</span></span>
                                         </div>
 
                                         <!-- Coupon Section -->
@@ -203,7 +203,7 @@
                                                 <input type="text" class="form-control form-control border-end-0"
                                                     id="apply_coupon_input" placeholder="Enter coupon">
                                                 <button type="button" id="apply_coupon_btn" class="btn px-4"
-                                                    style="background-color: #01B45E;">
+                                                    style="background-color: #f09220;">
                                                     <span class="d-none d-md-inline text-white">Apply</span>
                                                     <span class="d-inline d-md-none">Apply</span>
                                                 </button>
@@ -233,7 +233,7 @@
                                     <div class="p-4  border-top">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="fw-semibold fs-5">Total</span>
-                                            <span class="fw-semibold fs-5 text-dark">৳<span
+                                            <span class="fw-semibold fs-5 text-dark">€<span
                                                     id="grand_total_set">{{ $cartTotal }}</span></span>
                                         </div>
                                     </div>
@@ -241,7 +241,7 @@
                                     <!-- Submit Button -->
                                     <button type="submit"
                                         class="btn btn-lg w-100 py-3 mt-4 fw-bold d-flex justify-content-center align-items-center"
-                                        style="background-color: #01B45E; color: #fff;">
+                                        style="background-color: #f09220; color: #fff;">
                                         <i class="bi bi-bag-check-fill me-2"></i> Place Order
                                     </button>
                                 </div>
@@ -259,7 +259,7 @@
                 <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden">
                     <div class="card-body p-0">
                         <div class="p-3 border-start border-5 border-black d-flex align-items-center"
-                            style="background-color: #01B45E;">
+                            style="background-color: #f09220;">
                             <div class="me-3">
                                 <i class="bi bi-tag-fill text-primary fs-3"></i>
                             </div>
@@ -277,7 +277,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control form-control-lg border-end-0"
                                         name="apply_coupon" placeholder="Enter coupon code">
-                                    <button type="submit" class="btn  px-4" style="background-color: #01B45E;">
+                                    <button type="submit" class="btn  px-4" style="background-color: #f09220;">
                                         <span class="d-none d-md-inline text-white">Apply Coupon</span>
                                         <span class="d-inline d-md-none">Apply</span>
                                     </button>
@@ -528,7 +528,7 @@
                 $('#couponInformation').html(
                     '<div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">' +
                     '<span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> Coupon Applied</span>' +
-                    '<span class="text-success fw-medium">-৳<span>' + Math.floor(data.discount) +
+                    '<span class="text-success fw-medium">-€<span>' + Math.floor(data.discount) +
                     '</span></span>' +
                     '</div>' +
                     '<input type="hidden" value="" name="shipping_charge" class="ship_amount" />' +

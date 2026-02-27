@@ -256,7 +256,7 @@
                                             <h6 class="text-muted pl-20 pr-20">x {{$cart->qty}}</h6>
                                         </td>
                                         <td>
-                                            <h4 class="text-brand">৳{{$cart->subtotal}}</h4>
+                                            <h4 class="text-brand">€{{$cart->subtotal}}</h4>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -264,14 +264,14 @@
                             </table>
                             <tfoot>
                                 <tr>
-                                    <td><h6 class="d-flex justify-content-between mb-2">Subtotal : <span class="text-brand text-end">৳<span id="cartSubTotal">{{ $cartTotal }}</span></span></h6></td>
-                                    <td><h6 class="d-flex justify-content-between mb-2">Shipping : <span class="text-brand text-end">৳<span id="ship_amount">0.00</span></span><h6></td>
+                                    <td><h6 class="d-flex justify-content-between mb-2">Subtotal : <span class="text-brand text-end">€<span id="cartSubTotal">{{ $cartTotal }}</span></span></h6></td>
+                                    <td><h6 class="d-flex justify-content-between mb-2">Shipping : <span class="text-brand text-end">€<span id="ship_amount">0.00</span></span><h6></td>
                                     <input type="hidden" value="" name="shipping_charge" class="ship_amount" />
                                     <input type="hidden" value="" name="shipping_type" class="shipping_type" />
                                     <input type="hidden" value="" name="shipping_name" class="shipping_name" />
                                     <input type="hidden" value="{{ $cartTotal }}" name="sub_total" id="cartSubTotalShi" />
                                     <input type="hidden" value="" name="grand_total" id="grand_total" />
-                                    <td><h4 class="d-flex justify-content-between">Total : <span class="text-brand text-end">৳<span id="grand_total_set">{{ $cartTotal }}</span></span><h4></td>
+                                    <td><h4 class="d-flex justify-content-between">Total : <span class="text-brand text-end">€<span id="grand_total_set">{{ $cartTotal }}</span></span><h4></td>
                                 </tr>
                             </tfoot>
                         </div>

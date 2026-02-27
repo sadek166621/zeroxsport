@@ -25,7 +25,7 @@
     }
 
     .breadcrumb-item a {
-        color: #006A4E !important;
+        color: #f09220 !important;
         text-decoration: none;
         transition: all 0.3s;
         font-weight: 500;
@@ -75,7 +75,7 @@
     .section-line {
         width: 80px;
         height: 3px;
-        background: #006A4E;
+        background: #f09220;
         margin: 0 auto;
     }
 
@@ -95,14 +95,14 @@
     .product-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 8px 24px rgba(0, 62, 50, 0.15);
-        border-color: #006A4E;
+        border-color: #f09220;
     }
 
     .discount-badge {
         position: absolute;
         top: 10px;
         right: 10px;
-        background: linear-gradient(135deg, #006A4E, #036A46) !important;
+        background: linear-gradient(135deg, #bd0917, #bd0917) !important;   
         color: white;
         padding: 8px 12px;
         border-radius: 6px;
@@ -169,7 +169,7 @@
     }
 
     .current-price {
-        color: #006A4E;
+        color: #f09220;
         font-size: 18px;
         font-weight: 600;
         margin: 0;
@@ -209,7 +209,7 @@
     }
 
     .btn-buy-now {
-        background: linear-gradient(135deg, #006A4E, #036A46);
+        background: linear-gradient(135deg, #f09220, #036A46);
         color: white;
         box-shadow: 0 2px 8px rgba(0, 62, 50, 0.2);
     }
@@ -221,13 +221,13 @@
     }
 
     .btn-add-cart {
-        border: 1.5px solid #006A4E;
-        color: #006A4E;
+        border: 1.5px solid #f09220;
+        color: #f09220;
         background: white;
     }
 
     .btn-add-cart:hover {
-        background: #006A4E;
+        background: #f09220;
         color: white;
         transform: translateY(-2px);
     }
@@ -483,11 +483,11 @@
                     <!-- Price Section -->
                     <div class="price-section">
                         @if ($product_trending->is_wholesell == 1)
-                        <h4 class="current-price">{{ $product_trending->regular_price }} TK</h4>
+                        <h4 class="current-price">{{ $product_trending->regular_price }} €</h4>
                         @else
-                        <h4 class="current-price">{{ $data['discount'] }} TK</h4>
+                        <h4 class="current-price">{{ $data['discount'] }} €</h4>
                         @if ($product_trending->regular_price != $data['discount'])
-                        <span class="original-price">{{ $product_trending->regular_price }} TK</span>
+                        <span class="original-price">{{ $product_trending->regular_price }} €</span>
                         @endif
                         @endif
                     </div>

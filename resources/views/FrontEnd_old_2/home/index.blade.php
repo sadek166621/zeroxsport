@@ -215,7 +215,7 @@ Home
                           <div class="rating"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500"> (0)</span></div>
                           <div class="price-info">
 
-                            <strong class="font-lg-bold color-brand-3 price-main">৳{{ $hot_deal->regular_price }}</strong>
+                            <strong class="font-lg-bold color-brand-3 price-main">€{{ $hot_deal->regular_price }}</strong>
 
                           </div>
                           {{-- <div class="box-progress box-progress-small">
@@ -336,11 +336,11 @@ Home
                             <div class="rating"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500"> (0)</span></div>
                             <div class="price-info">
                                 @if ($product_top_rate->discount_price > 0)
-                                <strong class="color-gray-500 price-line">৳{{ $product_top_rate->discount_price }}</strong>
-                                <span class="font-lg-bold color-brand-3 price-main">৳{{ $product_top_rate->regular_price }}</span>
+                                <strong class="color-gray-500 price-line">€{{ $product_top_rate->discount_price }}</strong>
+                                <span class="font-lg-bold color-brand-3 price-main">€{{ $product_top_rate->regular_price }}</span>
                             </div>
                             @else
-                            <span class="font-lg-bold color-brand-3 price-main">৳{{ $product_top_rate->regular_price }}</span>
+                            <span class="font-lg-bold color-brand-3 price-main">€{{ $product_top_rate->regular_price }}</span>
 
                             @endif
                             </div>
@@ -394,11 +394,11 @@ Home
                             <div class="rating"><img src="{{ asset('assets') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500">(0)</span></div>
                             <div class="price-info">
                                 @if ($product_top_selling->discount_price > 0)
-                                <strong class="color-gray-500 price-line">৳{{ $product_top_selling->discount_price }}</strong>
-                                <span class="font-lg-bold color-brand-3 price-main">৳{{ $product_top_selling->regular_price }}</span>
+                                <strong class="color-gray-500 price-line">€{{ $product_top_selling->discount_price }}</strong>
+                                <span class="font-lg-bold color-brand-3 price-main">€{{ $product_top_selling->regular_price }}</span>
                             </div>
                             @else
-                            <span class="font-lg-bold color-brand-3 price-main">৳{{ $product_top_selling->regular_price }}</span>
+                            <span class="font-lg-bold color-brand-3 price-main">€{{ $product_top_selling->regular_price }}</span>
 
                             @endif
                             </div>
@@ -452,11 +452,11 @@ Home
                             <div class="rating"><img src="{{ asset('assets') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><img src="{{ asset('FrontEnd') }}/assets/imgs/template/icons/star.svg" alt="Ecom"><span class="font-xs color-gray-500">(0)</span></div>
                             <div class="price-info">
                                 @if ($product_trending->discount_price > 0)
-                                <strong class="color-gray-500 price-line">৳{{ $product_trending->discount_price }}</strong>
-                                <span class="font-lg-bold color-brand-3 price-main">৳{{ $product_trending->regular_price }}</span>
+                                <strong class="color-gray-500 price-line">€{{ $product_trending->discount_price }}</strong>
+                                <span class="font-lg-bold color-brand-3 price-main">€{{ $product_trending->regular_price }}</span>
                             </div>
                             @else
-                            <span class="font-lg-bold color-brand-3 price-main">৳{{ $product_trending->regular_price }}</span>
+                            <span class="font-lg-bold color-brand-3 price-main">€{{ $product_trending->regular_price }}</span>
 
                             @endif
                             </div>

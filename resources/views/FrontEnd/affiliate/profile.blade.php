@@ -315,7 +315,7 @@
     <div class="stats-section">
         <div class="stat-card">
             <div class="stat-label"><i class="bi bi-wallet2"></i> Total Earnings</div>
-            <div class="stat-value">৳{{ number_format($affiliate->total_earning, 2) }}</div>
+            <div class="stat-value">€{{ number_format($affiliate->total_earning, 2) }}</div>
         </div>
         <div class="stat-card">
             <div class="stat-label"><i class="bi bi-calendar-event"></i> Member Since</div>

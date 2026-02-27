@@ -405,9 +405,9 @@
                         <p class="product-text">{!! Str::substr($product_trending->name_en, 0, 20) !!}{{Str::length($product_trending->name_en) > 20 ? '...':''}}</p>
                     </a>
                     @php $data = calculateDiscount($product_trending->id); @endphp
-                    <h5 class="product-price">৳{{ $data['discount'] }}</h5>
+                    <h5 class="product-price">€{{ $data['discount'] }}</h5>
                     <p class="discount-percent"><span
-                            class="discount-price">৳{{ $product_trending->regular_price }}</span> {{$data['text']}}
+                            class="discount-price">€{{ $product_trending->regular_price }}</span> {{$data['text']}}
                         </p>
                     <small class="product-ratings">
                         <i class="fa-solid fa-star"></i>
@@ -666,8 +666,8 @@
                                         <a href="{{route('product.details', '')}}/${product.slug}">
                                             <p class="product-text">${product.name_en.substring(0, 20)}${product.name_en.length > 20 ? '...' : ''}</p>
                                         </a>
-                                        <h5 class="product-price">৳${product.discount_price}</h5>
-                                        <p class="discount-percent"><span class="discount-price">৳${product.regular_price}</span> - ${discountPercentage}%</p>
+                                        <h5 class="product-price">€${product.discount_price}</h5>
+                                        <p class="discount-percent"><span class="discount-price">€${product.regular_price}</span> - ${discountPercentage}%</p>
                                         <small class="product-ratings">
                                             <i class="fa-solid fa-star"></i>
                                             <i class="fa-solid fa-star"></i>

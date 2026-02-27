@@ -92,7 +92,7 @@
                                             class="fa-solid fa-money-check-dollar"></i></span>
                                     <div class="text">
                                         <h6 class="mb-1 card-title text-primary">Revenue</h6>
-                                        <span class="text-dark">৳ {{ number_format($orderCount->total_sell, 2) }}</span>
+                                        <span class="text-dark">€ {{ number_format($orderCount->total_sell, 2) }}</span>
                                     </div>
                                 </article>
                             </div>
@@ -115,7 +115,7 @@
                                     </span>
                                     <div class="text">
                                         <h6 class="mb-1 card-title text-success">Today’s Sales</h6>
-                                        <span class="text-dark">৳ {{ number_format($todaySalesAmount ?? 0, 2) }}</span>
+                                        <span class="text-dark">€ {{ number_format($todaySalesAmount ?? 0, 2) }}</span>
                                     </div>
                                 </article>
                             </div>
@@ -132,7 +132,7 @@
                                     </span>
                                     <div class="text">
                                         <h6 class="mb-1 card-title text-warning">Total Earnings</h6>
-                                        <span class="text-dark">৳
+                                        <span class="text-dark">€
                                             {{ number_format($totalDeliveredEarnings ?? 0, 2) }}</span>
                                     </div>
                                 </article>
@@ -618,7 +618,7 @@
                                                     @endphp
                                                     {{ $itemCount }} item{{ $itemCount > 1 ? 's' : '' }}
                                                 </td>
-                                                <td>৳ {{ number_format($vendorOrder->subtotal, 2) }}</td>
+                                                <td>€ {{ number_format($vendorOrder->subtotal, 2) }}</td>
                                                 <td>
                                                     <span
                                                         class="badge {{ $order->payment_status == 1 ? 'bg-success' : 'bg-warning' }}">

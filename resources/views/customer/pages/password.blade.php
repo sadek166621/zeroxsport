@@ -51,7 +51,7 @@ Change Password | Dashboard
 
 <style>
     :root {
-        --primary: #026142;
+        --primary: #f09220;
         --primary-dark: #014d34;
         --border-color: #e5e7eb;
         --dark: #111827;

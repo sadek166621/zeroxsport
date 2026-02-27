@@ -206,7 +206,7 @@
                         <div class="min-w-0 flex-grow-1">
                             <p class="text-muted mb-1 small">Total Earnings</p>
                             <h2 class="mb-0 fw-bold text-success d-flex" style="font-size: clamp(1.25rem, 3vw, 2rem);">
-                                ৳<span class="text-truncate d-inline-block" style="max-width: 100%;">{{ number_format(auth('affiliate')->user()->total_earning ?? 0, 2) }}</span>
+                                €<span class="text-truncate d-inline-block" style="max-width: 100%;">{{ number_format(auth('affiliate')->user()->total_earning ?? 0, 2) }}</span>
                             </h2>
                         </div>
                         <div class="bg-success bg-opacity-10 rounded-3 p-2 p-md-3 flex-shrink-0">
@@ -335,9 +335,9 @@
                                             <small class="text-muted d-sm-none d-block mt-1">
                                                 @if($product->discount_price)
                                                 @php $data = calculateDiscount($product->id); @endphp
-                                                ৳{{ number_format($data['discount'], 0) }}
+                                                €{{ number_format($data['discount'], 0) }}
                                                 @else
-                                                ৳{{ number_format($product->regular_price, 0) }}
+                                                €{{ number_format($product->regular_price, 0) }}
                                                 @endif
                                             </small>
                                         </div>
@@ -352,13 +352,13 @@
                                             <span class="badge badge-sm" style="background-color: #F1592A; font-size: 0.65rem;">
                                                 {{ $data['text'] ?? '0' }} OFF
                                             </span>
-                                            <div class="fw-bold text-success" style="font-size: 0.75rem;">৳{{ number_format($data['discount'], 0) }}</div>
+                                            <div class="fw-bold text-success" style="font-size: 0.75rem;">€{{ number_format($data['discount'], 0) }}</div>
                                             <small class="text-decoration-line-through text-muted" style="font-size: 0.65rem;">
-                                                ৳{{ number_format($product->regular_price, 0) }}
+                                                €{{ number_format($product->regular_price, 0) }}
                                             </small>
                                         </div>
                                         @else
-                                        <span class="fw-bold" style="font-size: 0.75rem;">৳{{ number_format($product->regular_price, 0) }}</span>
+                                        <span class="fw-bold" style="font-size: 0.75rem;">€{{ number_format($product->regular_price, 0) }}</span>
                                         @endif
                                     </td>
                                     <td class="p-2 d-none d-md-table-cell">

@@ -64,7 +64,7 @@
                         @endforeach
                         <tr>
                             <td colspan="4" class="text-center"><strong style="font-weight: bold">Current Balance</strong></td>
-                            <td><strong>৳ {{$balance}}</strong></td>
+                            <td><strong>€ {{$balance}}</strong></td>
                         </tr>
                         </tbody>
                     </table>

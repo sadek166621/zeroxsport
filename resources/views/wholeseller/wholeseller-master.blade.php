@@ -51,7 +51,7 @@
                     $('.cartQty').text(Object.keys(response.carts).length); // header badge
                     $('.wholesellerCartQty').text(Object.keys(response.carts).length); // optional sidebar badge
 
-                    $('#wholesellerCartSubtotal').text('৳' + subtotal);
+                    $('#wholesellerCartSubtotal').text('€' + subtotal);
 
                     if (Object.keys(response.carts).length > 0) {
                         $.each(response.carts, function(key, value) {
@@ -70,7 +70,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="price">${value.price} ৳</div>
+                                <div class="price">${value.price} €</div>
                             </div>`;
                         });
                     } else {

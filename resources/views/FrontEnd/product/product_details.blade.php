@@ -30,7 +30,7 @@
         }
 
         .discount-position {
-            background-color: #006A4E;
+            background-color: #f09220;
             color: #f8f9fa;
             border-radius: 50%;
             width: 60px;
@@ -51,7 +51,7 @@
         }
 
         .buy_now {
-            background-color: #006A4E;
+            background-color: #f09220;
             border: none;
             border-radius: 5px;
             color: white !important;
@@ -59,7 +59,7 @@
 
         .product_card {
             background: #fff;
-            border: 2px solid #006A4E;
+            border: 2px solid #f09220;
             border-radius: 12px;
             box-shadow: 0 2px 12px rgba(1, 180, 94, 0.08);
             transition: box-shadow 0.2s, border-color 0.2s;
@@ -101,7 +101,7 @@
         }
 
         .qty-btn {
-            background: #006A4E;
+            background: #f09220;
             border: none;
             width: 28px;
             height: 28px;
@@ -232,13 +232,13 @@
         }
 
         .thumbnail-item:hover {
-            border-color: #006A4E;
+            border-color: #f09220;
             transform: scale(1.05);
         }
 
         .thumbnail-item.active {
-            border-color: #006A4E;
-            box-shadow: 0 0 0 1px #006A4E;
+            border-color: #f09220;
+            box-shadow: 0 0 0 1px #f09220;
         }
 
         .thumbnail-item img {
@@ -248,7 +248,7 @@
         }
 
         .discount-position {
-            background-color: #006A4E;
+            background-color: #f09220;
             color: #f8f9fa;
             border-radius: 50%;
             width: 60px;
@@ -266,9 +266,8 @@
             justify-content: center;
         }
 
-        /* Variant Selection Styles (Inspired by https://anshifood.com/product-details/testPrdouct-Uj1e7) */
+        /* Variant Selection Styles */
         .variant-section {
-            /* margin: 1.5rem 0; */
             animation: slideInUp 0.4s ease;
         }
 
@@ -309,10 +308,6 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            /* padding: 12px;
-            background: #f8fafb;
-            border-radius: 10px;
-            border: 1px solid #e8ecf1; */
         }
 
         .variant-option {
@@ -371,38 +366,6 @@
             transform: scale(1.02);
         }
 
-        /* .variant-option:checked+.variant-label::before {
-            content: '✓';
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: auto;
-            height: auto;
-            left: auto;
-            background: none;
-            font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            animation: checkPulse 0.4s ease;
-        } */
-
-        @keyframes checkPulse {
-            0% {
-                transform: translateY(-50%) scale(0);
-                opacity: 0;
-            }
-
-            50% {
-                transform: translateY(-50%) scale(1.2);
-            }
-
-            100% {
-                transform: translateY(-50%) scale(1);
-                opacity: 1;
-            }
-        }
-
         .variant-option:focus+.variant-label {
             outline: 2px solid #026745;
             outline-offset: 2px;
@@ -415,10 +378,6 @@
         }
 
         @media (max-width: 768px) {
-            .variant-section {
-                /* margin: 1rem 0; */
-            }
-
             .variant-title {
                 font-size: 14px;
                 margin-bottom: 0.75rem;
@@ -446,19 +405,18 @@
     </style>
 
     @php
-                            $description_english=$product->description_en;
-                            $description_bangla=$product->description_bn;
-                            $product_name_en=$product->name_en;
-                            $product_name_bn=$product->name_bn;
+        $description_english = $product->description_en;
+        $description_bangla = $product->description_bn;
+        $product_name_en = $product->name_en;
+        $product_name_bn = $product->name_bn;
+    @endphp
 
-                            
-                            @endphp
     <!-- Product Information Start -->
     <section class="custom_container  my-3  " style="border-radius: 10px;">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom  mb-0 d-flex align-items-center gap-2">
                 <li class="breadcrumb-item">
-                    <a href="{{ route('home') }}" style="color: #006A4E; text-decoration: none; transition: all 0.3s;">
+                    <a href="{{ route('home') }}" style="color: #f09220; text-decoration: none; transition: all 0.3s;">
                         @if (session()->get('language') == 'bangla')
                             হোম
                         @else
@@ -469,7 +427,7 @@
                 <i class="fa fa-chevron-right mx-2" aria-hidden="true"></i>
                 <li class="breadcrumb-item">
                     <a href="{{ route('product.category', $product->category->slug) }}"
-                        style="color: #006A4E; text-decoration: none; transition: all 0.3s;">
+                        style="color: #f09220; text-decoration: none; transition: all 0.3s;">
                         @if (session()->get('language') == 'bangla')
                             {{ $product->category->name_bn ?? '' }}
                         @else
@@ -490,22 +448,17 @@
         <div class="row g-5 m-0">
             <?php $discount = calculateDiscount($product->id); ?>
             <input type="hidden" id="product_id" value="{{ $product->id }}" min="1">
-
             <input type="hidden" id="pname" value="{{ $product->name_en }}">
-
             <input type="hidden" id="product_price" value="{{ $discount['discount'] }}">
-
             <input type="hidden" id="minimum_buy_qty" value="{{ $product->minimum_buy_qty }}">
             <input type="hidden" id="stock_qty" value="{{ $product->stock_qty }}">
-
             <input type="hidden" id="pvarient" value="">
-
             <input type="hidden" id="buyNowCheck" value="0">
             <input type="hidden" name="" id="discount_amount"
                 value="{{ $product->regular_price - $discount['discount'] }}">
+            
             <div class="col-md-9 bg-white p-3 mt-2" style="border-radius: 10px;">
                 <div class="row">
-
                     <div class="col-md-6">
                         <section id="default" class="padding-top0">
                             <div class="position-relative">
@@ -513,12 +466,6 @@
                                 <div class="product-image-container">
                                     <img class="product-image" id="mainProductImage"
                                         src="{{ asset($product->product_thumbnail) }}" alt="{{ $product->name_en }}" />
-
-                                    <!-- Discount Badge -->
-                                    <!--<div-->
-                                    <!--    class="{{ $discount['discount'] == $product->regular_price ? 'd-none' : 'discount-position' }}">-->
-                                    <!--    <small>{{ str_replace(['(', ')', '-'], '', $discount['text']) }} OFF</small>-->
-                                    <!--</div>-->
                                 </div>
 
                                 <!-- Thumbnail Gallery -->
@@ -527,7 +474,6 @@
                                     <div class="thumbnail-item active"
                                         data-image="{{ asset($product->product_thumbnail) }}">
                                         <img src="{{ asset($product->product_thumbnail) }}" alt="Product Image">
-                                        
                                     </div>
 
                                     <!-- Additional Images -->
@@ -544,7 +490,6 @@
                     <div class="col-md-6" style="position: relative;">
                         <div>
                             <span class="stock-status {{ $product->stock_qty > 0 ? 'bg-success' : 'bg-danger' }}">
-
                                 <span class="text-white px-2 py-1" style="border-radius: 10px;">
                                     @if (session()->get('language') == 'bangla')
                                         {{ $product->stock_qty > 0 ? 'স্টকে আছে' : 'স্টক আউট' }}
@@ -552,7 +497,7 @@
                                         {{ $product->stock_qty > 0 ? 'In Stock' : 'Out of Stock' }}
                                     @endif
                                 </span>
-                                <span id="stock_qty" class="text-white px-2 py-1" style="border-radius: 10px;">
+                                <span id="stock_qty_display" class="text-white px-2 py-1" style="border-radius: 10px;">
                                     {{ $product->stock_qty != 0 ? '(' . $product->stock_qty . ')' : '' }}
                                 </span>
                             </span>
@@ -565,8 +510,6 @@
                                 {{ $product->name_en }}
                             @endif
                         </h1>
-
-                        {{-- <span class="stock-status out-stock"> € {{ $discount }} Off </span> --}}
 
                         <div>
                             <h4 class="price">
@@ -585,12 +528,11 @@
                                     @if ($discount['discount'] != $product->regular_price)
                                         <del class="old-price {{ $discount['discount'] == 0 ? 'd-none' : '' }}"
                                             style="color: grey">
-                                            {{ $product->regular_price }} € 
+                                            {{ $product->regular_price }} €
                                         </del>
                                     @endif
                                 @endif
                             </h4>
-
 
                             <p class="">
                                 @if (session()->get('language') == 'bangla')
@@ -598,6 +540,7 @@
                                 @else
                                     Category : {{ $product->category->name_en ?? '' }}
                                 @endif
+                            </p>
 
                             <h6 class="mb-1 mt-2">Description :</h6>
                             <p class="product-description preview-text" style="word-wrap: break-word !important;">
@@ -608,7 +551,6 @@
                                 @endif
                             </p>
 
-                            
                             {{-- যদি product_type == 2 এবং group_products থাকে --}}
                             @if ($product->product_type == 2 && count($group_products) > 0)
                                 <strong>
@@ -640,7 +582,6 @@
                                         </div>
                                     </div>
                                 @endforeach
-
                                 <br>
                             @else
                                 <p>
@@ -650,7 +591,6 @@
                                         Brand : {{ $product->brand->name_en ?? 'N/A' }}
                                     @endif
                                 </p>
-
                             @endif
                         </div>
 
@@ -710,7 +650,8 @@
                                             firstOption_{{ $i }}.checked = true;
                                             // Trigger the selectAttribute function with the first option value
                                             const firstValue_{{ $i }} = firstOption_{{ $i }}.value;
-                                            selectAttribute('{{ $attribute->attribute_id }}{{ $attr->name }}', firstValue_{{ $i }}, '{{ $product->id }}', {{ $i }});
+                                            selectAttribute('{{ $attribute->attribute_id }}{{ $attr->name }}',
+                                                firstValue_{{ $i }}, '{{ $product->id }}', {{ $i }});
                                             firstOption_{{ $i }}.dispatchEvent(new Event('change', {
                                                 bubbles: true
                                             }));
@@ -720,9 +661,8 @@
                             });
                         </script>
 
-                        <div class="row" id="attribute_alert">
-
-                        </div>
+                        <div class="row" id="attribute_alert"></div>
+                        
                         @if ($product->stock_qty > 0)
                             <div class="quantity-section">
                                 <div class="quantity-label">
@@ -751,10 +691,10 @@
 
                             <div class="d-flex gap-2">
                                 <input type="hidden" id="pfrom" value="direct">
-                                <input type="hidden" id="product_id" value="{{ $product->id }}" min="1">
+                                <input type="hidden" id="product_id_hidden" value="{{ $product->id }}" min="1">
                                 <input type="hidden" id="{{ $product->id }}-product_pname"
                                     value="{{ $product->name_en }}">
-                                    
+
                                 @if (Auth::check() && Auth::user()->role == 5)
                                     {{-- Wholeseller --}}
                                     <button class="buy_now" type="button"
@@ -772,7 +712,7 @@
                                     {{-- Normal user --}}
                                     <button class="buy_now" type="button"
                                         style="width:120px; padding:10px; font-size:15px; color:white!important;"
-                                        onclick="{{ $product->is_varient == 1 ? 'buyProduct()' : 'buyNowInstant()' }}">
+                                        onclick="{{ $product->is_varient == 1 ? 'buyProduct()' : 'buyNowNonVariant()' }}">
                                         {{ session('language') == 'bangla' ? 'এখনই কিনুন' : 'Buy Now' }}
                                     </button>
 
@@ -782,13 +722,12 @@
                                         {{ session('language') == 'bangla' ? 'কার্টে যোগ করুন' : 'Add to Cart' }}
                                     </button>
                                 @endif
-
                             </div>
                         @endif
-
                     </div>
                 </div>
             </div>
+            
             <div class="col-md-3 d-md-block d-none mt-0 pt-0">
                 <div class="related-products w-100">
                     <h5 class="my-3 fw-bold border-bottom pb-2 text-center">
@@ -800,39 +739,39 @@
                     </h5>
 
                     <div class="related-product-list">
-                        @forelse ($relatedProduct as $product)
-                            @php $data = calculateDiscount($product->id); @endphp
-                            <a href="{{ route('product.details', $product->slug) }}"
+                        @forelse ($relatedProduct as $relatedProd)
+                            @php $data = calculateDiscount($relatedProd->id); @endphp
+                            <a href="{{ route('product.details', $relatedProd->slug) }}"
                                 class="related-card d-flex align-items-center gap-3 mb-3 text-decoration-none shadow-sm p-2 rounded-3">
 
                                 <div class="related-img flex-shrink-0">
-                                    <img src="{{ asset($product->product_thumbnail) }}" alt="Product Image"
+                                    <img src="{{ asset($relatedProd->product_thumbnail) }}" alt="Product Image"
                                         class="img-fluid rounded-2">
                                 </div>
 
                                 <div class="related-info flex-grow-1">
                                     <p class="product-title mb-1 text-dark fw-semibold">
                                         @if (session()->get('language') == 'bangla')
-                                            {{ Str::limit($product->name_bn, 40) }}
+                                            {{ Str::limit($relatedProd->name_bn, 40) }}
                                         @else
-                                            {{ Str::limit($product->name_en, 40) }}
+                                            {{ Str::limit($relatedProd->name_en, 40) }}
                                         @endif
                                     </p>
 
                                     <div class="d-flex align-items-center gap-2">
-                                        @if ($product->is_wholesell == 1)
+                                        @if ($relatedProd->is_wholesell == 1)
                                             {{-- Show only regular price --}}
-                                            <span class="price fw-bold text-success">{{ $product->regular_price }}
+                                            <span class="price fw-bold text-success">{{ $relatedProd->regular_price }}
                                                 € </span>
                                             <span class="text-muted text-decoration-line-through small">
-                                                0.00 € 
+                                                0.00 €
                                             </span>
                                         @else
                                             {{-- Show discount + regular price --}}
                                             <span class="price fw-bold text-success">{{ $data['discount'] }} € </span>
-                                            @if ($product->regular_price != $data['discount'])
+                                            @if ($relatedProd->regular_price != $data['discount'])
                                                 <span class="text-muted text-decoration-line-through small">
-                                                    {{ $product->regular_price }} € 
+                                                    {{ $relatedProd->regular_price }} €
                                                 </span>
                                             @endif
                                         @endif
@@ -849,8 +788,6 @@
     </section>
     <!-- Product Information End -->
 
-
-
     <!-- Description Part Start -->
     <section class="custom_container mb-5">
         <div class="row g-3">
@@ -862,20 +799,16 @@
                         @else
                             About this item
                         @endif
-
                     </h4>
                     <hr>
                     <h6 class="mb-2">Product details</h6>
                     <div class="product-description">
-
                         @if (session()->get('language') == 'bangla')
                             {!! $description_bangla !!}
                         @else
                             {!! $description_english !!}
                         @endif
-
                     </div>
-
 
                     <style>
                         /* Review Section Styles */
@@ -1009,8 +942,6 @@
                             font-size: 14px;
                         }
 
-
-
                         .filter-btn {
                             padding: 8px 16px;
                             border: 1px solid #e8e8e8;
@@ -1023,14 +954,14 @@
                         }
 
                         .filter-btn:hover {
-                            border-color: #006A4E;
-                            color: #006A4E;
+                            border-color: #f09220;
+                            color: #f09220;
                         }
 
                         .filter-btn.active {
-                            background: #006A4E;
+                            background: #f09220;
                             color: #fff;
-                            border-color: #006A4E;
+                            border-color: #f09220;
                         }
 
                         /* Review Items */
@@ -1153,7 +1084,7 @@
                         }
 
                         .review-action:hover {
-                            color: #006A4E;
+                            color: #f09220;
                         }
 
                         .review-action i {
@@ -1217,11 +1148,11 @@
 
                         .form-group textarea:focus {
                             outline: none;
-                            border-color: #006A4E;
+                            border-color: #f09220;
                         }
 
                         .submit-review-btn {
-                            background: #006A4E;
+                            background: #f09220;
                             color: #fff;
                             border: none;
                             padding: 12px 32px;
@@ -1254,8 +1185,8 @@
                         }
 
                         .load-more-btn:hover {
-                            border-color: #006A4E;
-                            color: #006A4E;
+                            border-color: #f09220;
+                            color: #f09220;
                         }
 
                         .verified-badge {
@@ -1288,8 +1219,6 @@
                             .review-item {
                                 width: 100%;
                             }
-
-
                         }
                     </style>
 
@@ -1430,13 +1359,13 @@
                             });
                         });
                     </script>
-
                 </div>
+            </div>
+        </div>
     </section>
 
     {{-- side cart page trigger --}}
     @include('FrontEnd.include.cart-contianer')
-
 
     <!-- Cart Overlay & Sidebar -->
     <div id="cartOverlay" class="cart-overlay" aria-hidden="true"></div>
@@ -1469,12 +1398,7 @@
             </a>
         </div>
     </div>
-
-
-
 @endsection
-
-
 
 @push('js')
     <script>
@@ -1483,7 +1407,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
             const container = document.getElementById('reviewsContainer');
             const slug = "{{ $product->slug }}";
 
@@ -1500,82 +1423,36 @@
                         });
                 });
             });
-
         });
     </script>
 
-
-
     <script>
-        $('.detail-qty').each(function() {
-            var qtyval = parseInt($(this).find(".qty-val").val(), 10);
-
-            $('.qty-up').on('click', function(event) {
-                event.preventDefault();
-                qtyval = qtyval + 1;
-                $(this).prev().val(qtyval);
-            });
-
-            $(".qty-down").on("click", function(event) {
-                event.preventDefault();
-                qtyval = qtyval - 1;
-                if (qtyval > 1) {
-                    $(this).next().val(qtyval);
-                } else {
-                    qtyval = 1;
-                    $(this).next().val(qtyval);
-                }
-            });
-        });
-
-        function addCart(id) {
-            var qty = $('#qty').val() || $('.qty-input').val() || 1;
-            addToCartDirect(id, false, qty);
-        }
-
-
-        {
-            {
-                --$('#buy_now').on('click', function() {
-                        --
-                    }
-                } {
-                    {
-                        --
-                        var qty = $('.qty-val').val();
-                        --
-                    }
-                } {
-                    {
-                        --
-                        var id = {
-                            {
-                                $product - > id
-                            }
-                        };
-                        --
-                    }
-                } {
-                    {
-                        --buyNow(id, qty);
-                        --
-                    }
-                }
-
-                {
-                    {
-                        --
-                    });
-                --
+        // Function for non-variant products - direct buy now
+        function buyNowNonVariant() {
+            var id = $('#product_id').val();
+            var qty = $('#qty').val();
+            // Call the global buyNow function from your main script
+            if (typeof window.buyNow === 'function') {
+                window.buyNow(id, qty);
+            } else {
+                // Fallback direct call
+                addToCartDirect(id, true, qty);
             }
         }
-    </script>
 
+        // Function for variant products - validate and buy
+        function buyProduct() {
+            $('#buyNowCheck').val(1);
+            test(); // This should be your existing variant validation function
+        }
 
+        // Make sure the global buyNow function is accessible
+        function buyNow(id, qty = 0) {
+            addToCartDirect(id, true, qty);
+        }
 
-    <script>
+        // Quantity controls
         document.addEventListener('DOMContentLoaded', function() {
-
             const qtyInput = document.getElementById('qty');
             const qtyUp = document.querySelector('.qty-up');
             const qtyDown = document.querySelector('.qty-down');
@@ -1583,20 +1460,16 @@
 
             if (!qtyInput || !qtyUp || !qtyDown) return;
 
-
             const minQty = parseInt(qtyInput.getAttribute('min')) || 1;
             const maxQty = parseInt(qtyInput.getAttribute('max')) || 1;
             let currentQty = parseInt(qtyInput.value) || minQty;
-
 
             function updateQuantity(qty) {
                 currentQty = qty;
                 qtyInput.value = qty;
 
-
                 qtyDown.disabled = qty <= minQty;
                 qtyUp.disabled = qty >= maxQty;
-
 
                 if (qty >= maxQty) {
                     qtyAlert.textContent = '⚠️ Maximum stock limit reached.';
@@ -1607,9 +1480,7 @@
                 }
             }
 
-
             updateQuantity(currentQty);
-
 
             qtyUp.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1620,7 +1491,6 @@
                 }
             });
 
-
             qtyDown.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (currentQty > minQty) {
@@ -1630,25 +1500,16 @@
                 }
             });
 
-
             const observer = new MutationObserver(() => {
                 if (qtyAlert.textContent) {
                     setTimeout(() => (qtyAlert.textContent = ''), 2500);
                 }
             });
-            observer.observe(qtyAlert, {
-                childList: true
-            });
-
+            observer.observe(qtyAlert, { childList: true });
 
             window.addCart = function(id) {
                 const qty = parseInt(qtyInput.value);
                 addToCartDirect(id, false, qty);
-            };
-
-            window.buyNow = function(id) {
-                const qty = parseInt(qtyInput.value);
-                buyProduct(id, qty);
             };
         });
     </script>
@@ -1662,13 +1523,11 @@
 
             document.querySelectorAll('.add_to_cart').forEach(button => {
                 button.addEventListener('click', function(e) {
-
                     if (window.IS_WHOLESELLER) {
                         e.preventDefault();
                         wholesellerAlert();
                         return;
                     }
-
                     sidebar.classList.add('open');
                 });
             });
@@ -1678,6 +1537,7 @@
             });
         });
     </script>
+
     <script src="{{ asset('FrontEnd') }}/assect/js/xzoom.js"></script>
     <script src="{{ asset('FrontEnd') }}/assect/js/magnific-popup.js"></script>
     <script src="{{ asset('FrontEnd') }}/assect/js/setup.js"></script>
@@ -1686,6 +1546,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const overlay = document.getElementById('cartOverlay');
@@ -1734,19 +1595,14 @@
             const mainImage = document.getElementById('mainProductImage');
             const thumbnails = document.querySelectorAll('.thumbnail-item');
 
-
             thumbnails.forEach(thumbnail => {
                 thumbnail.addEventListener('click', function() {
-
                     const newImageSrc = this.getAttribute('data-image');
                     mainImage.src = newImageSrc;
-
-
                     thumbnails.forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
                 });
             });
-
 
             const container = document.querySelector('.product-image-container');
 
@@ -1754,7 +1610,6 @@
                 const rect = container.getBoundingClientRect();
                 const x = ((e.clientX - rect.left) / rect.width) * 100;
                 const y = ((e.clientY - rect.top) / rect.height) * 100;
-
                 mainImage.style.transformOrigin = `${x}% ${y}%`;
             });
 

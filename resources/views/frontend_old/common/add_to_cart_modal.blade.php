@@ -35,10 +35,10 @@
                             </div> -->
                             <div class="clearfix product-price-cover">
                                 <div class="product-price primary-color float-left">
-                                    <span class="current-price mb-2 d-flex text-brand">৳ <span id="pprice"></span></span>
+                                    <span class="current-price mb-2 d-flex text-brand">€ <span id="pprice"></span></span>
                                     <span>
                                       <!--   <span class="save-price font-md color3 ml-15">26% Off</span> -->
-                                        <span id="oldprice" class="old-price font-md ml-15 mb-2">৳</span>
+                                        <span id="oldprice" class="old-price font-md ml-15 mb-2">€</span>
                                     </span>
                                 </div>
                             </div>

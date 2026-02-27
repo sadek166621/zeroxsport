@@ -80,21 +80,21 @@
                                     <tbody>
                                         <tr>
                                             <th>Subtotal</th>
-                                            <td class="text-end">৳{{ number_format($order->sub_total, 2) }}</td>
+                                            <td class="text-end">€{{ number_format($order->sub_total, 2) }}</td>
                                         </tr>
                                         <tr>
                                             <th>Discount</th>
-                                            <td class="text-end text-danger">-৳{{ number_format($order->discount, 2) }}
+                                            <td class="text-end text-danger">-€{{ number_format($order->discount, 2) }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>Shipping</th>
-                                            <td class="text-end">৳{{ number_format($order->shipping_charge ?? 0, 2) }}</td>
+                                            <td class="text-end">€{{ number_format($order->shipping_charge ?? 0, 2) }}</td>
                                         </tr>
                                         <tr class="border-top bg-light">
                                             <th class="pt-3 fs-5">Grand Total</th>
                                             <td class="text-end pt-3 fs-5 fw-bold text-primary">
-                                                ৳{{ number_format($order->grand_total, 2) }}</td>
+                                                €{{ number_format($order->grand_total, 2) }}</td>
                                         </tr>
                                         <tr>
                                             <th>Current Status</th>
@@ -177,7 +177,7 @@
                                                                 <div class="fw-semibold">{{ $item->product->name_en }}
                                                                 </div>
                                                                 <small
-                                                                    class="text-muted">৳{{ number_format($item->price, 2) }}
+                                                                    class="text-muted">€{{ number_format($item->price, 2) }}
                                                                     per unit</small>
                                                                 @if ($item->variation ?? false)
                                                                     <br><small
@@ -188,12 +188,12 @@
                                                     </td>
                                                     <td>{{ $item->qty }}</td>
                                                     <td class="text-end fw-bold pe-4">
-                                                        ৳{{ number_format($item->price * $item->qty, 2) }}</td>
+                                                        €{{ number_format($item->price * $item->qty, 2) }}</td>
                                                 </tr>
                                             @endforeach
                                             <tr>
                                                 <td colspan="2" class="fw-bold text-end pe-4">Total:</td>
-                                                <td class="fw-bold text-end pe-4">৳{{ number_format($order->subtotal, 2) }}
+                                                <td class="fw-bold text-end pe-4">€{{ number_format($order->subtotal, 2) }}
                                                 </td>
                                             </tr>
                                         </tbody>

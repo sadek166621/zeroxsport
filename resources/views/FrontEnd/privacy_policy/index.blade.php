@@ -57,7 +57,7 @@
     <style>
         /* Page Header */
         .page-header {
-            background-color: #006A4E;
+            background-color: #f09220;
             padding: 40px 0;
             margin-bottom: 50px;
         }
@@ -106,7 +106,7 @@
         }
 
         .privacy-header {
-            background-color: #006A4E;
+            background-color: #f09220;
             padding: 30px;
             border-bottom: 3px solid #005a41;
         }
@@ -137,7 +137,7 @@
         .privacy-content h4,
         .privacy-content h5,
         .privacy-content h6 {
-            color: #006A4E;
+            color: #f09220;
             margin-top: 1.5rem;
             margin-bottom: 1rem;
             font-weight: 600;
@@ -165,7 +165,7 @@
         }
 
         .privacy-content a {
-            color: #006A4E;
+            color: #f09220;
             text-decoration: underline;
         }
 
@@ -196,7 +196,7 @@
         .info-icon {
             width: 60px;
             height: 60px;
-            background-color: #006A4E;
+            background-color: #f09220;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -210,7 +210,7 @@
         }
 
         .info-box h3 {
-            color: #006A4E;
+            color: #f09220;
             font-size: 1.1rem;
             margin-bottom: 10px;
             font-weight: 600;

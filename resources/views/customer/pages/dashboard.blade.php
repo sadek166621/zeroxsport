@@ -72,7 +72,7 @@ Dashboard | Welcome
             <h3 class="fw-semibold mb-1">Recent Orders</h3>
             <p class="text-muted small mb-0">Your latest 5 orders</p>
         </div>
-        <a href="{{ route('dashboard.orders') }}" class="btn .btn-view" style="background-color: #026142; color: white;">
+        <a href="{{ route('dashboard.orders') }}" class="btn .btn-view" style="background-color: #f09220; color: white;">
             <i class="fas fa-arrow-right me-2"></i>View All Orders
         </a>
     </div>
@@ -115,7 +115,7 @@ Dashboard | Welcome
                             <span class="badge {{ $status['class'] }} text-white">{{ $status['text'] }}</span>
                         </td>
                         <td>
-                            <span class="order-amount">৳{{ number_format($order->grand_total, 2) }}</span>
+                            <span class="order-amount">€{{ number_format($order->grand_total, 2) }}</span>
                         </td>
                         <td>
                             <div class="action-buttons">
@@ -149,7 +149,7 @@ Dashboard | Welcome
 
 <style>
     :root {
-        --primary: #026142;
+        --primary: #f09220;
         --primary-light: #e8f5f1;
         --primary-dark: #014d34;
         --success-light: #d1fae5;

@@ -117,12 +117,12 @@
                                                     }
                                                 @endphp
                                                 <div class="product-price">
-                                                    <del class="old-price">৳{{ $variant->price }}</del>
-                                                    <span class="price text-primary">৳{{ $price_after_discount }}</span>
+                                                    <del class="old-price">€{{ $variant->price }}</del>
+                                                    <span class="price text-primary">€{{ $price_after_discount }}</span>
                                                 </div>
                                             @else
                                                 <div class="product-price">
-                                                    <span class="price text-primary">৳{{ $variant->price }}</span>
+                                                    <span class="price text-primary">€{{ $variant->price }}</span>
                                                 </div>
                                             @endif
                                         </div>
@@ -155,12 +155,12 @@
                                                 }
                                             @endphp
                                             <div class="product-price">
-                                                <del class="old-price">৳{{ $product->regular_price }}</del>
-                                                <span class="price text-primary">৳{{ $price_after_discount }}</span>
+                                                <del class="old-price">€{{ $product->regular_price }}</del>
+                                                <span class="price text-primary">€{{ $price_after_discount }}</span>
                                             </div>
                                         @else
                                             <div class="product-price">
-                                                <span class="price text-primary">৳{{ $product->regular_price }}</span>
+                                                <span class="price text-primary">€{{ $product->regular_price }}</span>
                                             </div>
                                         @endif
                                     </div>
@@ -203,20 +203,20 @@
                                 <tbody>
                                     <tr>
                                         <td>Sub Total</td>
-                                        <td style="float: right;">৳ <span id="subtotal_text">0.00</span></td>
+                                        <td style="float: right;">€ <span id="subtotal_text">0.00</span></td>
                                         <input type="hidden" id="subtotal" name="subtotal" value="0">
                                     </tr>
                                     <tr>
                                         <td>Tax</td>
-                                        <td style="float: right;">৳ 0.00</td>
+                                        <td style="float: right;">€ 0.00</td>
                                     </tr>
                                     <tr>
                                         <td>Shipping</td>
-                                        <td style="float: right;">৳ 0.00</td>
+                                        <td style="float: right;">€ 0.00</td>
                                     </tr>
                                     <tr>
                                         <td>Discount</td>
-                                        <td style="float: right;">৳ 0.00</td>
+                                        <td style="float: right;">€ 0.00</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -225,7 +225,7 @@
                                 <tbody>
                                     <tr style="font-size: 20px; font-weight: bold">
                                         <td>Total</td>
-                                        <td style="float: right;">৳ <span id="total_text">0.00</span></td>
+                                        <td style="float: right;">€ <span id="total_text">0.00</span></td>
                                         <input type="hidden" id="total" name="total" value="0">
                                     </tr>
                                 </tbody>
@@ -820,12 +820,12 @@
                                                         if (value.discount_price > 0){
 
                                                             html  +=                    `<div class="product-price">
-                                                                            <del class="old-price">৳ ${data.price }</del>
-                                                                            <span class="price text-primary">৳ ${price_after_discount }</span>
+                                                                            <del class="old-price">€ ${data.price }</del>
+                                                                            <span class="price text-primary">€ ${price_after_discount }</span>
                                                                         </div>`;
                                                         }else{
                                                             html  +=                        `<div class="product-price">
-                                                                            <span class="price text-primary">৳ ${data.price }</span>
+                                                                            <span class="price text-primary">€ ${data.price }</span>
                                                                         </div>`;
                                                         }
                                                         html  +=            `</div>
@@ -865,12 +865,12 @@
                                     if (value.discount_price > 0){
 
                                         html  +=                    `<div class="product-price">
-                                                                    <del class="old-price">৳ ${value.regular_price }</del>
-                                                                    <span class="price text-primary">৳ ${price_after_discount }</span>
+                                                                    <del class="old-price">€ ${value.regular_price }</del>
+                                                                    <span class="price text-primary">€ ${price_after_discount }</span>
                                                                 </div>`;
                                     }else{
                                         html  +=                        `<div class="product-price">
-                                                                    <span class="price text-primary">৳ ${value.regular_price }</span>
+                                                                    <span class="price text-primary">€ ${value.regular_price }</span>
                                                                 </div>`;
                                     }
                                     html  +=            `</div>

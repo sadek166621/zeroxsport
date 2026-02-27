@@ -257,14 +257,14 @@
                 success:function(data){
                     // console.log(data);
                     if(data && data != 'na'){
-                        //$('.current-price').text('৳'+data);
+                        //$('.current-price').text('€'+data);
                         var discount = $('#discount_amount').val();
                         if(discount>0){
-                            $('.current-price').text('৳'+(data.price-discount));
-                            $('.old-price').text('৳'+data.price);
+                            $('.current-price').text('€'+(data.price-discount));
+                            $('.old-price').text('€'+data.price);
                             $('#product_price').val(data.price-discount);
                         }else{
-                            $('.current-price').text('৳'+data.price);
+                            $('.current-price').text('€'+data.price);
                             $('#product_price').val(data.price);
                         }
                         $('#pvarient').val(varient);
@@ -323,11 +323,11 @@
                 success:function(data){
                     //console.log(data);
                     if(data && data != 'na'){
-                        //$('.current-price').text('৳'+data);
+                        //$('.current-price').text('€'+data);
                         var discount = $('#discount_amount').val();
                         if(discount>0){
                             $('#pprice').text(data.price-discount);
-                            $('#oldprice').text('৳'+(data.price));
+                            $('#oldprice').text('€'+(data.price));
                             $('#product_price').val(data.price-discount);
                         }else{
                             $('#pprice').text(data.price);
@@ -369,11 +369,11 @@
                         if(data.product.discount_type==1){
                             discount = data.product.discount_price;
                             $('#pprice').text(data.product.regular_price - discount);
-                            $('#oldprice').text('৳'+(data.product.regular_price));
+                            $('#oldprice').text('€'+(data.product.regular_price));
                         }else if(data.product.discount_type==2){
                             discount = data.product.discount_price*data.product.regular_price/100;
                             $('#pprice').text(data.product.regular_price - discount);
-                            $('#oldprice').text('৳'+(data.product.regular_price));
+                            $('#oldprice').text('€'+(data.product.regular_price));
                         }
                     }else{
                         $('#pprice').text(data.product.regular_price);
@@ -803,7 +803,7 @@
                   });
                   rows +=       `</td>
                                 <td class="price" data-title="Price">
-                                    <h4 class="text-body">৳${value.price} </h4>
+                                    <h4 class="text-body">€${value.price} </h4>
                                 </td>
                                 <td class="text-center detail-info" data-title="Stock">
                                     <div class="detail-extralink mr-15">
@@ -824,7 +824,7 @@
                                     </div>
                                 </td>
                                 <td class="price text-center" width="100px;" data-title="Price">
-                                    <h4 class="text-brand">৳${value.subtotal} </h4>
+                                    <h4 class="text-brand">€${value.subtotal} </h4>
                                 </td>
                                 <td class="action text-center" data-title="Remove"><a  id="${value.rowId}" onclick="cartRemove(this.id)" class="text-body"><i class="fi-rs-trash"></i></a></td>
                             </tr>`;
@@ -872,7 +872,7 @@
                                         <h6 class="text-muted pl-20 pr-20">x ${value.qty}</h6>
                                     </td>
                                     <td>
-                                        <h4 class="text-brand">৳${value.subtotal}</h4>
+                                        <h4 class="text-brand">€${value.subtotal}</h4>
                                     </td>
                                 </tr>
                             `

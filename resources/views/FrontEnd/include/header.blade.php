@@ -332,7 +332,7 @@ $subSubCategories = $subCategories->count() ? Category::whereIn('parent_id', $su
 
     .submenu-item:hover>a {
         background: #f5f5f5;
-        color: #006A4E;
+        color: #f09220;
         padding-left: 20px;
     }
 
@@ -368,7 +368,7 @@ $subSubCategories = $subCategories->count() ? Category::whereIn('parent_id', $su
 
     .submenu-right a:hover {
         background: #f5f5f5;
-        color: #006A4E;
+        color: #f09220;
         padding-left: 20px;
     }
 
@@ -606,14 +606,14 @@ $subSubCategories = $subCategories->count() ? Category::whereIn('parent_id', $su
 
     .dropdown-menu-item:hover {
         background-color: #f8f9fa;
-        color: #006A4E;
+        color: #f09220;
         padding-left: 20px;
     }
 
     .dropdown-menu-item i {
         width: 18px;
         text-align: center;
-        color: #006A4E;
+        color: #f09220;
     }
 
     .dropdown-menu-divider {
@@ -695,7 +695,7 @@ $subSubCategories = $subCategories->count() ? Category::whereIn('parent_id', $su
     }
 
     .nav-bottom-slider-wrapper::-webkit-scrollbar-thumb {
-        background: #01B45E;
+        background: #f09220;
         border-radius: 3px;
     }
 
@@ -975,7 +975,7 @@ $subSubCategories = $subCategories->count() ? Category::whereIn('parent_id', $su
                     placeholder="{{ $isBangla ? 'এখানে অনুসন্ধান করুন...' : 'Search products...' }}"
                     autocomplete="off">
                 <button class="search-button" type="button" onclick="performSearch()">
-                    <i class="fas fa-search" style="color: #006A4E;"></i>
+                    <i class="fas fa-search" style="color: #f09220;"></i>
                 </button>
                 <div id="search-results" class="searchProducts" style="display: none;"></div>
             </div>

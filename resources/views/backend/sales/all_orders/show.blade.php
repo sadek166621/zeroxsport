@@ -107,7 +107,7 @@
                         @if (in_array(strtolower($order->payment_method), ['bkash', 'nagad', 'rocket']))
                             <hr>
                             <strong>Payment Number:</strong> {{ $order->payment_number ?? 'N/A' }}<br>
-                            <strong>Amount:</strong> {{ $order->payment_amount ?? 'N/A' }} TK<br>
+                            <strong>Amount:</strong> {{ $order->payment_amount ?? 'N/A' }} €<br>
                             <strong>Transaction ID:</strong> {{ $order->transaction_id ?? 'N/A' }}<br>
 
                             @if ($order->payment_screenshot)

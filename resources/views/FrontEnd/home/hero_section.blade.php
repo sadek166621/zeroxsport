@@ -57,7 +57,7 @@
     }
     
     .dot.active {
-        background: var(--primary-color);
+        background: #f09220;
         width: 30px;
         border-radius: 6px;
     }
@@ -73,7 +73,7 @@
         transform: translateY(-50%);
         width: 50px;
         height: 50px;
-        background: rgba(237, 28, 36, 0.8);
+        background: #f09220;
         border: none;
         border-radius: 50%;
         color: white;
@@ -87,7 +87,7 @@
     }
     
     .slider-arrow:hover {
-        background: var(--primary-color);
+        background: #f09220;
         transform: translateY(-50%) scale(1.1);
     }
     

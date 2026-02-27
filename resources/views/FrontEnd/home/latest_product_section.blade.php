@@ -33,7 +33,7 @@
     }
 
     .view-all-latest-btn {
-        background-color: ##f09220;
+        background-color: #f09220;
         color: white;
         border: none;
         padding: 12px 30px;
@@ -83,7 +83,7 @@
     }
 
     .discount-badge {
-        background: ##f09220;
+        background: #f09220;
         color: white;
         padding: 4px 10px;
         border-radius: 15px;
@@ -110,7 +110,7 @@
     }
 
     .icon-btn:hover {
-        border-color: ##f09220;
+        border-color: #f09220;
         background: #f0f9f7;
     }
 
@@ -222,7 +222,7 @@
     .current-price {
         font-size: 20px;
         font-weight: 700;
-        color: ##f09220;
+        color: #f09220;
     }
 
     .original-price {
@@ -269,7 +269,7 @@
     }
 
     .add-to-cart-btn {
-        background: ##f09220;
+        background: #f09220;
         color: white;
         border: none;
         padding: 10px 15px;
@@ -309,7 +309,7 @@
     }
 
     .load-more-btn {
-        background: ##f09220;
+        background: #f09220;
         color: white;
         border: none;
         padding: 12px 30px;
@@ -476,9 +476,9 @@
             </h3>
 
             <div class="latest-product-price">
-                <span class="current-price">৳ {{ $data['discount'] }}</span>
+                <span class="current-price">€ {{ $data['discount'] }}</span>
                 @if ($product->regular_price != $data['discount'])
-                <span class="original-price">৳ {{ $product->regular_price }}</span>
+                <span class="original-price">€ {{ $product->regular_price }}</span>
                 @endif
             </div>
 
@@ -624,9 +624,9 @@
                 </h3>
 
                 <div class="latest-product-price">
-                  <span class="current-price">৳ ${discountPrice}</span>
+                  <span class="current-price">€ ${discountPrice}</span>
                   ${product.regular_price != discountPrice ? `
-                    <span class="original-price">৳ ${product.regular_price}</span>
+                    <span class="original-price">€ ${product.regular_price}</span>
                   ` : ''}
                 </div>
 
@@ -762,7 +762,7 @@
         <div class="col-md-6">
           <h3>${product.name_en}</h3>
           <p class="text-muted">${product.category.name_en}</p>
-          <h4 class="text-danger">Tk ${product.regular_price}</h4>
+          <h4 class="text-danger">€ ${product.regular_price}</h4>
           <p>${product.short_des}</p>
     `;
 

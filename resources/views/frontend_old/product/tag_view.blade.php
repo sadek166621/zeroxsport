@@ -163,12 +163,12 @@ Tag Nest Online Shop
                                     <div class="product-price">
                                         @if ($product->discount_price == NULL)
 			                                <div class="product-price">
-			                                	<span class="price"> ৳{{ $product->regular_price }} </span>
+			                                	<span class="price"> €{{ $product->regular_price }} </span>
 			                                </div>
 			                            @else
 			                               <div class="product-price">
-			                                  	<span class="price"> ৳{{ $product->discount_price }} </span>
-			                                  	<span class="old-price">৳ {{ $product->regular_price }}</span>
+			                                  	<span class="price"> €{{ $product->discount_price }} </span>
+			                                  	<span class="old-price">€ {{ $product->regular_price }}</span>
 			                                </div>
 			                            @endif
                                     </div>

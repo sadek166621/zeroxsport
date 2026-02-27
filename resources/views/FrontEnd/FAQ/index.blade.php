@@ -64,7 +64,7 @@
     <style>
         /* Page Header */
         .page-header {
-            background-color: #006A4E !important;
+            background-color: #f09220 !important;
             padding: 40px 0;
             margin-bottom: 50px;
         }
@@ -113,7 +113,7 @@
         }
 
         .faq-header {
-            background-color: #006A4E;
+            background-color: #f09220;
             padding: 30px;
             border-bottom: 3px solid #005a41;
         }
@@ -144,7 +144,7 @@
         .faq-content h4,
         .faq-content h5,
         .faq-content h6 {
-            color: #006A4E;
+            color: #f09220;
             margin-top: 1.5rem;
             margin-bottom: 1rem;
             font-weight: 600;
@@ -172,7 +172,7 @@
         }
 
         .faq-content a {
-            color: #006A4E;
+            color: #f09220;
             text-decoration: underline;
         }
 
@@ -199,7 +199,7 @@
         .help-icon {
             width: 60px;
             height: 60px;
-            background-color: #006A4E;
+            background-color: #f09220;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -213,7 +213,7 @@
         }
 
         .help-box h3 {
-            color: #006A4E;
+            color: #f09220;
             font-size: 1.1rem;
             margin-bottom: 10px;
             font-weight: 600;

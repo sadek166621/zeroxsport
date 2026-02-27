@@ -28,7 +28,7 @@
             @if($product->discount_price > 0)
             <div class="product-badges-right product-badges-position-right product-badges-mrg">
                     @if($product->discount_type == 1)
-                        <span class="hot">৳{{ $product->discount_price }} off</span>
+                        <span class="hot">€{{ $product->discount_price }} off</span>
                     @elseif($product->discount_type == 2)
                         <span class="hot">{{ $product->discount_price }}% off</span>
                     @endif
@@ -79,12 +79,12 @@
             <div class="product-card-bottom">
             	@if ($product->discount_price > 0)
                     <div class="product-price">
-                      	<span class="price">৳{{ $price_after_discount }}</span>
-                      	<span class="old-price">৳{{ $product->regular_price }}</span>
+                      	<span class="price">€{{ $price_after_discount }}</span>
+                      	<span class="old-price">€{{ $product->regular_price }}</span>
                     </div>
                 @else
                     <div class="product-price">
-                    	<span class="price">৳{{ $product->regular_price }}</span>
+                    	<span class="price">€{{ $product->regular_price }}</span>
                     </div>
                 @endif
                 <div class="add-cart">

@@ -12,7 +12,7 @@
                         <div
                             class="user-profile modern-user-profile p-2 shadow-sm rounded-3 position-relative text-center d-flex align-items-center gap-4">
                             <div class="profile-bg rounded-3 position-absolute top-0 start-0 w-100 h-100"
-                                style="background: linear-gradient(135deg, #01B45E 0%, #efc1ba 100%); opacity: 0.08; z-index: 0;">
+                                style="background: linear-gradient(135deg, #f09220 0%, #efc1ba 100%); opacity: 0.08; z-index: 0;">
                             </div>
                             <div class="row align-items-center">
                                 <div class="col-auto">
@@ -24,7 +24,7 @@
                                         @else
                                             <div class="default-avatar rounded-circle border border-3 border-white shadow d-flex align-items-center justify-content-center"
                                                 style="width: 100px; height: 100px; background: #f8f9fa;">
-                                                <i class="fas fa-user-circle" style="font-size: 60px; color: #01B45E;"></i>
+                                                <i class="fas fa-user-circle" style="font-size: 60px; color: #f09220;"></i>
                                             </div>
                                         @endif
                                     </div>
@@ -47,7 +47,7 @@
                                 <!-- <div class="col-auto mt-3">
                                             <a href="javascript:void(0)" onclick="openProfileTab()"
                                                 class="btn btn-sm "
-                                                style="border-radius: 20px; border: 1px solid #01B45E; color: #01B45E;">
+                                                style="border-radius: 20px; border: 1px solid #f09220; color: #f09220;">
                                                 <i class="fas fa-user-edit me-1"></i> Edit Profile
                                             </a>
                                         </div> -->
@@ -218,7 +218,7 @@
                                                     </div>
                                                     <div class="order-total">
                                                         <span class="text-muted small">Total Amount</span>
-                                                        <div class="amount-display">৳{{ number_format($order->grand_total, 2) }}</div>
+                                                        <div class="amount-display">€{{ number_format($order->grand_total, 2) }}</div>
                                                     </div>
                                                 </div>
 
@@ -328,7 +328,7 @@
                             </span>
                         </td>
                                                                                 <td>
-                                                    <span class="order-amount">৳{{ number_format($order->grand_total, 2) }}</span>
+                                                    <span class="order-amount">€{{ number_format($order->grand_total, 2) }}</span>
                                                 </td>
                                                 <td>
                                                     <div class="action-buttons">
@@ -515,7 +515,7 @@
 
 <style>
     :root {
-        --primary: #026142;
+        --primary: #f09220;
         --primary-light: #e8f5f1;
         --primary-dark: #014d34;
         --primary-lighter: #f0faf8;

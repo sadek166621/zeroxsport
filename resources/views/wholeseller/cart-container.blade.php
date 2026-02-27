@@ -16,7 +16,7 @@
         <div class="sidebar-footer">
             <div class="d-flex justify-content-between align-items-center mb-3 fw-bold">
                 <div>Subtotal:</div>
-                <div id="wholesellerCartSubtotal">৳0.00</div>
+                <div id="wholesellerCartSubtotal">€0.00</div>
             </div>
 
             <a href="{{ route('wholeseller.checkout') }}" class="checkout-btn btn btn-success w-100 mb-2">
@@ -69,7 +69,7 @@
     }
 
     .sidebar-header {
-        background: #01B45E;
+        background: #f09220;
         color: #fff;
         padding: 14px 16px;
         display: flex;
@@ -139,14 +139,14 @@
 
     .cart-item .price {
         font-weight: 600;
-        color: #01B45E;
+        color: #f09220;
         min-width: 70px;
         text-align: right;
     }
 
     .checkout-btn {
         width: 100%;
-        background: #01B45E;
+        background: #f09220;
         color: #fff;
         border: 0;
         padding: 12px;
@@ -191,7 +191,7 @@
 
     .product_card {
         background: #fff;
-        border: 2px solid #01B45E;
+        border: 2px solid #f09220;
         border-radius: 12px;
         box-shadow: 0 2px 12px rgba(1, 180, 94, 0.08);
         transition: box-shadow 0.2s, border-color 0.2s;

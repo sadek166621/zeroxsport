@@ -47,7 +47,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50% !important;
-            background: #01B45E !important;
+            background: #f09220 !important;
             color: white;
             display: flex;
             line-height: 12px;
@@ -108,7 +108,7 @@
         }
 
         .current-price {
-            color: #01B45E;
+            color: #f09220;
             font-size: 1.25rem;
             font-weight: 600;
             margin: 0;
@@ -147,7 +147,7 @@
         }
 
         .btn-buy-now {
-            background: #01B45E;
+            background: #f09220;
             color: white;
         }
 
@@ -156,12 +156,12 @@
         }
 
         .btn-add-cart {
-            border: 1px solid #01B45E;
-            color: #01B45E;
+            border: 1px solid #f09220;
+            color: #f09220;
         }
 
         .btn-add-cart:hover {
-            background: #01B45E;
+            background: #f09220;
             color: white;
         }
 
@@ -195,7 +195,7 @@
         }
 
         .breadcrumb-item a {
-            color: #01B45E !important;
+            color: #f09220 !important;
             text-decoration: none;
             transition: all 0.3s;
             font-weight: 500;
@@ -323,12 +323,12 @@
 
                                 <div class="price-section">
                                     @if ($product_trending->is_wholesell == 1)
-                                        <h4 class="current-price">{{ $product_trending->regular_price }} TK</h4>
-                                        <span class="original-price">0 TK</span>
+                                        <h4 class="current-price">{{ $product_trending->regular_price }} €</h4>
+                                        <span class="original-price">0 €</span>
                                     @else
-                                        <h4 class="current-price">{{ $data['discount'] }} TK</h4>
+                                        <h4 class="current-price">{{ $data['discount'] }} €</h4>
                                         @if ($product_trending->regular_price != $data['discount'])
-                                            <span class="original-price">{{ $product_trending->regular_price }} TK</span>
+                                            <span class="original-price">{{ $product_trending->regular_price }} €</span>
                                         @endif
                                     @endif
                                 </div>

@@ -75,7 +75,7 @@
                                         @if ($item->discount_price > 0)
                                             @if ($item->discount_type == 1)
                                                 <i class="fa fa-minus text-danger"></i>
-                                                <span class="text-danger">৳{{ $item->discount_price }} </span>
+                                                <span class="text-danger">€{{ $item->discount_price }} </span>
                                             @elseif($item->discount_type == 2)
                                                 <span class="text-danger">{{ $item->discount_price }}% </span>
                                             @endif

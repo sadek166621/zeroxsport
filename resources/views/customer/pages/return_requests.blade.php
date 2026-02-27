@@ -123,7 +123,7 @@
 @endsection
 <style>
     :root {
-        --primary: #026142;
+        --primary: #f09220;
         --primary-light: #e8f5f1;
         --border-color: #e5e7eb;
         --lighter: #f3f4f6;

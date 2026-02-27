@@ -58,7 +58,7 @@
                                         @if ($item->discount_price > 0)
                                             @if ($item->discount_type == 1)
                                                 <i class="fa fa-minus text-danger"></i>
-                                                <span class="text-danger">৳{{ $item->discount_price }}</span>
+                                                <span class="text-danger">€{{ $item->discount_price }}</span>
                                             @elseif($item->discount_type == 2)
                                                 <span class="text-danger">{{ $item->discount_price }}%</span>
                                             @endif
@@ -111,7 +111,7 @@
                                   <td>
                                @if($item->affiliate_commission != 0.00)
                                    <p class="text-success"> {{ number_format($item->affiliate_commission, 2) }}
-                                    {{ $item->affiliate_commission_type == 1 ? '৳' : '%' }}</p>
+                                    {{ $item->affiliate_commission_type == 1 ? '€' : '%' }}</p>
                                 @endif
 
                                     <button type="button" class="btn btn-sm btn-warning" 
@@ -189,7 +189,7 @@
                                     <div class="alert alert-success small mb-3">
                                         <strong>Current Commision:</strong>
                                         @if($item->affiliate_commission_type == 1)
-                                            ৳{{ $item->affiliate_commission }} (Flat)
+                                            €{{ $item->affiliate_commission }} (Flat)
                                         @else
                                             {{ $item->affiliate_commission }}% (Percentage)
                                         @endif
@@ -211,7 +211,7 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Type</label>
                                         <select name="affiliate_commission_type" class="form-select">
-                                            <option value="1" {{ ($item->affiliate_commission_type ?? 0) == 1 ? 'selected' : '' }}>Flat (৳)</option>
+                                            <option value="1" {{ ($item->affiliate_commission_type ?? 0) == 1 ? 'selected' : '' }}>Flat (€)</option>
                                             <option value="2" {{ ($item->affiliate_commission_type ?? 0) == 2 ? 'selected' : '' }}>Percentage (%)</option>
                                         </select>
                                     </div>

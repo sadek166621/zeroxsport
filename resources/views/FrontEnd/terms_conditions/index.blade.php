@@ -40,7 +40,7 @@
     <style>
         /* Page Header */
         .page-header {
-            background-color: #006A4E;
+            background-color: #f09220;
             padding: 40px 0;
             margin-bottom: 50px;
         }
@@ -89,7 +89,7 @@
         }
 
         .terms-header {
-            background-color: #006A4E;
+            background-color: #f09220;
             padding: 30px;
             border-bottom: 3px solid #005a41;
         }
@@ -120,7 +120,7 @@
         .terms-content h4,
         .terms-content h5,
         .terms-content h6 {
-            color: #006A4E;
+            color: #f09220;
             margin-top: 1.5rem;
             margin-bottom: 1rem;
             font-weight: 600;
@@ -148,7 +148,7 @@
         }
 
         .terms-content a {
-            color: #006A4E;
+            color: #f09220;
             text-decoration: underline;
         }
 

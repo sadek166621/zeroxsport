@@ -36,7 +36,7 @@
                         @endforeach
                         <tr>
                             <td colspan="2" class="text-center font-weight-bold">Grand Total</td>
-                            <td>৳ {{ $grandTotal }}</td>
+                            <td>€ {{ $grandTotal }}</td>
                         </tr>
                     </tbody>
                 </table>

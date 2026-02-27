@@ -569,15 +569,15 @@
                                     </div>
                                         @if ($product_top_selling->discount_price == 0 || $product_top_selling->discount_price == "NULL")
                                             <div class="product-price">
-                                                <span class="price"> ৳{{ $product_top_selling->regular_price }} </span>
+                                                <span class="price"> €{{ $product_top_selling->regular_price }} </span>
                                             </div>
                                         @else
                                         @php
                                             $amount = $product_top_selling->regular_price - $product_top_selling->discount_price;
                                         @endphp
                                            <div class="product-price">
-                                                <span class="price"> ৳{{ $amount }} </span>
-                                                <span class="old-price">৳ {{ $product_top_selling->regular_price }}</span>
+                                                <span class="price"> €{{ $amount }} </span>
+                                                <span class="old-price">€ {{ $product_top_selling->regular_price }}</span>
                                             </div>
                                         @endif
                                 </div>
@@ -617,15 +617,15 @@
                                 </div>
                                 @if ($product_trending->discount_price == 0 || $product_trending->discount_price == "NULL")
                                     <div class="product-price">
-                                        <span class="price"> ৳{{ $product_trending->regular_price }} </span>
+                                        <span class="price"> €{{ $product_trending->regular_price }} </span>
                                     </div>
                                 @else
                                 @php
                                     $amount = $product_trending->regular_price - $product_trending->discount_price;
                                 @endphp
                                    <div class="product-price">
-                                        <span class="price"> ৳{{ $amount }} </span>
-                                        <span class="old-price">৳ {{ $product_trending->regular_price }}</span>
+                                        <span class="price"> €{{ $amount }} </span>
+                                        <span class="old-price">€ {{ $product_trending->regular_price }}</span>
                                     </div>
                                 @endif
                             </div>
@@ -665,15 +665,15 @@
                                 </div>
                                 @if($product_recently_add->discount_price == 0 || $product_recently_add->discount_price == "NULL")
                                     <div class="product-price">
-                                        <span class="price"> ৳{{ $product_recently_add->regular_price }} </span>
+                                        <span class="price"> €{{ $product_recently_add->regular_price }} </span>
                                     </div>
                                 @else
                                 @php
                                     $amount = $product_recently_add->regular_price - $product_recently_add->discount_price;
                                 @endphp
                                    <div class="product-price">
-                                        <span class="price"> ৳{{ $amount }} </span>
-                                        <span class="old-price">৳ {{ $product_recently_add->regular_price }}</span>
+                                        <span class="price"> €{{ $amount }} </span>
+                                        <span class="old-price">€ {{ $product_recently_add->regular_price }}</span>
                                     </div>
                                 @endif
                             </div>
@@ -713,15 +713,15 @@
                                 </div>
                                 @if ($product_top_rate->discount_price == 0 || $product_top_rate->discount_price == "NULL")
                                     <div class="product-price">
-                                        <span class="price"> ৳{{ $product_top_rate->regular_price }} </span>
+                                        <span class="price"> €{{ $product_top_rate->regular_price }} </span>
                                     </div>
                                 @else
                                 @php
                                     $amount = $product_top_rate->regular_price - $product_top_rate->discount_price;
                                 @endphp
                                    <div class="product-price">
-                                        <span class="price"> ৳{{ $amount }} </span>
-                                        <span class="old-price">৳ {{ $product_top_rate->regular_price }}</span>
+                                        <span class="price"> €{{ $amount }} </span>
+                                        <span class="old-price">€ {{ $product_top_rate->regular_price }}</span>
                                     </div>
                                 @endif
                             </div>

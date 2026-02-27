@@ -3287,24 +3287,24 @@
                                     <p class="tm_m0">Payment Status: Unpaid</p>
                             </td>
                             <td class="tm_width_3 tm_primary_color tm_border_none tm_medium">Subtotal</td>
-                            <td colspan="2" class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_medium"><span style="font-family: 'DejaVu Sans', sans-serif;"></span>{{$order->sub_total}} TK</td>
+                            <td colspan="2" class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_medium"><span style="font-family: 'DejaVu Sans', sans-serif;"></span>{{$order->sub_total}} €</td>
                         </tr>
                         @if ($order->coupon)
                         {{-- <tr>
                             <td class="tm_width_3 tm_primary_color tm_border_none tm_pt0">Coupon</td>
-                            <td class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0">-{{ Session::get('amount') }}TK</td>
+                            <td class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0">-{{ Session::get('amount') }}€</td>
                         </tr> --}}
                         <tr>
                             {{--                            <td colspan="3" class="tm_border_none "><p class="tm_m0">Payment Status: Unpaid</p></td>--}}
                                                         <td class="tm_width_3 tm_primary_color tm_border_none tm_pt0">Coupon Discount</td>
 
-                                                        <td colspan="2" class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0">-{{ $order->coupon }}TK</td>
+                                                        <td colspan="2" class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0">-{{ $order->coupon }}€</td>
                                                     </tr>
                         @endif
                         <tr>
 {{--                            <td colspan="3" class="tm_border_none "><p class="tm_m0">Payment Status: Unpaid</p></td>--}}
                             <td class="tm_width_3 tm_primary_color tm_border_none tm_pt0">Shipping Charge</td>
-                            <td colspan="2" class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0">+ {{ $order->shipping_charge ?? '0' }} TK</td>
+                            <td colspan="2" class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0">+ {{ $order->shipping_charge ?? '0' }} €</td>
                         </tr>
                         <tr class="tm_border_none" style="border:none !important;">
                             <td colspan="3" class="tm_border_none" style="border: none"></td>
@@ -3312,7 +3312,7 @@
                                 Total </td>
                             <td colspan="2"
                                 class="tm_width_3 tm_bold tm_f16 tm_accent_color tm_text_right tm_accent_bg_10">
-                                {{$order->grand_total}} TK</td>
+                                {{$order->grand_total}} €</td>
                         </tr>
                         </tbody>
                     </table>

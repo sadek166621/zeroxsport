@@ -16,7 +16,7 @@
     <div class="sidebar-footer">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; font-weight:600; font-size:15px;">
             <div>{{ session()->get('language') == 'bangla' ? 'সাবটোটাল:' : 'Subtotal:' }}</div>
-            <div id="cartSubtotal" style="color:#026142; font-size:18px;">৳0.00</div>
+            <div id="cartSubtotal" style="color:#f09220; font-size:18px;">€0.00</div>
         </div>
         <a href="{{ Auth::check() ? route('checkout') : route('login') }}"
             id="checkoutButtonSidebar"
@@ -33,15 +33,15 @@
 <style>
     .add_to_cart {
         background-color: #ffffff;
-        border: 2px solid #026142;
+        border: 2px solid #f09220;
         border-radius: 6px;
-        color: #026142 !important;
+        color: #f09220 !important;
         font-weight: 600;
         transition: all 0.3s ease;
     }
 
     .add_to_cart:hover {
-        background-color: #026142 !important;
+        background-color: #f09220 !important;
         color: #ffffff !important;
     }
 
@@ -82,7 +82,7 @@
     }
 
     .sidebar-header {
-        background: linear-gradient(135deg, #026142 0%, #034d34 100%);
+        background: linear-gradient(135deg, #f09220 0%, #034d34 100%);
         color: #fff;
         padding: 20px 20px;
         display: flex;
@@ -140,7 +140,7 @@
     }
 
     .sidebar-body::-webkit-scrollbar-thumb:hover {
-        background: #026142;
+        background: #f09220;
     }
 
     .sidebar-footer {
@@ -164,7 +164,7 @@
     }
 
     .cart-item:hover {
-        border-color: #026142;
+        border-color: #f09220;
         box-shadow: 0 4px 12px rgba(2, 97, 66, 0.1);
     }
 
@@ -187,7 +187,7 @@
 
     .cart-item .price {
         font-weight: 700;
-        color: #026142;
+        color: #f09220;
         font-size: 14px;
     }
 
@@ -200,7 +200,7 @@
     }
 
     .cart-item .remove-btn i {
-        color: #026142;
+        color: #f09220;
         font-size: 14px;
     }
 
@@ -219,7 +219,7 @@
     }
 
     .qty-btn-mini {
-        background: #026142;
+        background: #f09220;
         border: none;
         width: 24px;
         height: 24px;
@@ -255,7 +255,7 @@
 
     .checkout-btn {
         width: 100%;
-        background: linear-gradient(135deg, #026142 0%, #034d34 100%);
+        background: linear-gradient(135deg, #f09220 0%, #034d34 100%);
         color: #fff;
         border: 0;
         padding: 14px;
@@ -283,8 +283,8 @@
     .secondary-btn {
         width: 100%;
         background: #f5f5f5;
-        color: #026142;
-        border: 2px solid #026142;
+        color: #f09220;
+        border: 2px solid #f09220;
         padding: 14px;
         border-radius: 8px;
         font-weight: 600;
@@ -299,7 +299,7 @@
     }
 
     .secondary-btn:hover {
-        background: #026142;
+        background: #f09220;
         color: #fff;
         box-shadow: 0 4px 12px rgba(2, 97, 66, 0.15);
     }
@@ -376,7 +376,7 @@
     }
 
     .product_card:hover {
-        border-color: #026142;
+        border-color: #f09220;
         box-shadow: 0 8px 24px rgba(2, 97, 66, 0.15);
     }
 

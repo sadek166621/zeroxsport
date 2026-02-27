@@ -3,7 +3,7 @@
         <div
             class="user-profile modern-user-profile p-2 shadow-sm rounded-3 position-relative text-center d-flex align-items-center gap-4">
             <div class="profile-bg rounded-3 position-absolute top-0 start-0 w-100 h-100"
-                style="background: linear-gradient(135deg, #01B45E 0%, #efc1ba 100%); opacity: 0.08; z-index: 0;"></div>
+                style="background: linear-gradient(135deg, #f09220 0%, #efc1ba 100%); opacity: 0.08; z-index: 0;"></div>
             <div class="row align-items-center">
                 <div class="col-auto">
                     <div class="profile-image position-relative" style="z-index:1;">
@@ -14,7 +14,7 @@
                         @else
                             <div class="default-avatar rounded-circle border border-3 border-white shadow d-flex align-items-center justify-content-center"
                                 style="width: 100px; height: 100px; background: #f8f9fa;">
-                                <i class="fas fa-user-circle" style="font-size: 60px; color: #01B45E;"></i>
+                                <i class="fas fa-user-circle" style="font-size: 60px; color: #f09220;"></i>
                             </div>
                         @endif
                     </div>
@@ -98,7 +98,7 @@
 
 <style>
     :root {
-        --primary: #026142;
+        --primary: #f09220;
         --primary-light: #e8f5f1;
         --primary-dark: #014d34;
         --text-muted: #6b7280;

@@ -49,7 +49,7 @@
                   <div class="row">
                     <div class="col-6"><h6 class="font-md-bold color-gray-500" id="cartSubTotal">Subtotal</h6></div>
                     <div class="col-6 text-end">
-                      <h4 >৳<span id="cartSubTotal"></span></h4>
+                      <h4 >€<span id="cartSubTotal"></span></h4>
                     </div>
                   </div>
                 </div>
@@ -57,7 +57,7 @@
                   <div class="row">
                     <div class="col-6"><span class="font-md-bold color-gray-500">Total</span></div>
                     <div class="col-6 text-end">
-                      <h4 >৳<span id="cartSubTotal"></span></h4>
+                      <h4 >€<span id="cartSubTotal"></span></h4>
                     </div>
                   </div>
                 </div>
@@ -555,7 +555,7 @@ function cart(){
                       </div>
                     </div>
                     <div class="wishlist-price">
-                      <h4 class="color-brand-3">৳${value.price}</h4>
+                      <h4 class="color-brand-3">€${value.price}</h4>
                     </div>
                     <div class="wishlist-status">
                       <div class="box-quantity">

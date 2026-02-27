@@ -207,7 +207,7 @@
                 let html = '';
                 let subtotal = response.cartTotal || 0;
                 $('.cartQty').text(Object.keys(response.carts).length);
-                $('#cartSubtotal').text('৳' + subtotal);
+                $('#cartSubtotal').text('€' + subtotal);
 
                 if (Object.keys(response.carts).length > 0) {
                     $.each(response.carts, function(key, value) {
@@ -217,7 +217,7 @@
                             <img src="/${value.options.image}" alt="${value.name}">
                             <div class="flex-grow-1">
                                 <div class="title">${value.name}</div>
-                                <div class="price">${value.price} ৳</div>
+                                <div class="price">${value.price} €</div>
                             </div>
                             <button class="remove-btn" onclick="miniCartRemove('${value.rowId}')" title="Remove item">
                                 <i class="fa fa-trash"></i>
@@ -226,7 +226,7 @@
                         <div class="d-flex align-items-center gap-2 mt-2" style="padding: 0 0 0 52px;">
                             <div class="quantity-control" style="display: flex; align-items: center; background: #fff; border-radius: 30px; padding: 2px 8px; width: fit-content; border: 1px solid #e0e0e0;">
                                 ${value.qty > 1
-                                   ? `<button type="button" class="qty-btn-mini qty-btn-minus" onclick="miniCartDecrement('${value.rowId}')" style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #e9ecef; color: #026142; font-weight: bold; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;">
+                                   ? `<button type="button" class="qty-btn-mini qty-btn-minus" onclick="miniCartDecrement('${value.rowId}')" style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #e9ecef; color: #f09220; font-weight: bold; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;">
                                         <i class="fas fa-minus" style="font-size: 9px;"></i>
                                     </button>`
                                    : `<button type="button" class="qty-btn-mini qty-btn-minus" disabled style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #f5f5f5; color: #ccc; cursor: not-allowed; padding: 0; display: flex; align-items: center; justify-content: center;">
@@ -234,7 +234,7 @@
                                     </button>`
                                }
                                 <input type="text" value="${value.qty}" class="qty-input-mini" style="width: 32px; border: none; background: transparent; text-align: center; font-weight: 700; color: #2D3142; font-size: 12px; padding: 0;" disabled>
-                                <button type="button" class="qty-btn-mini qty-btn-plus" onclick="miniCartIncrement('${value.rowId}')" style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #026142; color: #fff; font-weight: bold; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;">
+                                <button type="button" class="qty-btn-mini qty-btn-plus" onclick="miniCartIncrement('${value.rowId}')" style="width: 24px; height: 24px; border-radius: 50%; border: none; background: #f09220; color: #fff; font-weight: bold; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;">
                                     <i class="fas fa-plus" style="font-size: 9px;"></i>
                                 </button>
                             </div>
@@ -447,11 +447,11 @@
                     if (data.product.discount_type == 1) {
                         discount = data.product.discount_price;
                         $('#pprice').text(data.product.regular_price - discount);
-                        $('#oldprice').text('৳' + (data.product.regular_price));
+                        $('#oldprice').text('€' + (data.product.regular_price));
                     } else if (data.product.discount_type == 2) {
                         discount = data.product.discount_price * data.product.regular_price / 100;
                         $('#pprice').text(data.product.regular_price - discount);
-                        $('#oldprice').text('৳' + (data.product.regular_price));
+                        $('#oldprice').text('€' + (data.product.regular_price));
                     }
                 } else {
                     $('#pprice').text(data.product.regular_price);
@@ -735,17 +735,17 @@
             success: function(data) {
                 // console.log(data);
                 if (data && data != 'na') {
-                    //$('.current-price').text('৳'+data);
+                    //$('.current-price').text('€'+data);
                     var discount = $('#discount_amount').val();
                     console.log(discount);
                     if (discount > 0) {
                         console.log(discount, data.price - discount);
-                        $('.product_price').text('৳' + (data.price - discount));
-                        $('.old-price').text('৳' + data.price);
+                        $('.product_price').text('€' + (data.price - discount));
+                        $('.old-price').text('€' + data.price);
                         $('#product_price').val(data.price - discount);
                     } else {
-                        $('.current-price').text('৳' + data.price);
-                        $('.old-price').text('৳' + data.price);
+                        $('.current-price').text('€' + data.price);
+                        $('.old-price').text('€' + data.price);
                         $('#product_price').val(data.price);
                     }
                     // console.log($('#product_price').val());
@@ -805,11 +805,11 @@
             success: function(data) {
                 //console.log(data);
                 if (data && data != 'na') {
-                    //$('.current-price').text('৳'+data);
+                    //$('.current-price').text('€'+data);
                     var discount = $('#discount_amount').val();
                     if (discount > 0) {
                         $('#pprice').text(data.price - discount);
-                        $('#oldprice').text('৳' + (data.price));
+                        $('#oldprice').text('€' + (data.price));
                         $('#product_price').val(data.price - discount);
                     } else {
                         $('#pprice').text(data.price);

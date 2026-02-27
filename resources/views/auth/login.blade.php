@@ -73,7 +73,7 @@
         .login-title {
             margin-bottom: 18px;
             font-weight: 700;
-            color: #026142;
+            color: #f09220;
             font-size: 28px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -89,7 +89,7 @@
         }
 
         .signup-btn {
-            background: #026142;
+            background: #f09220;
             color: white;
             padding: 12px 30px;
             border: none;
@@ -105,7 +105,7 @@
         }
 
         .signup-btn:hover {
-            background: #01452a;
+            background: #f09220;
             transform: translateY(-3px);
             box-shadow: 0 10px 24px rgba(2, 97, 66, 0.22);
             color: white;
@@ -136,13 +136,13 @@
         }
 
         .form-input:focus {
-            border-color: #026142;
+            border-color: #f09220;
             box-shadow: 0 6px 18px rgba(2, 97, 66, 0.08);
             outline: none;
         }
 
         .login-btn {
-            background: linear-gradient(90deg, #026142 0%, #01452a 100%);
+            background: linear-gradient(90deg, #f09220 0%, #f09220 100%);
             border: none;
             color: white;
             border-radius: 12px;
@@ -163,8 +163,8 @@
         }
 
         .form-check-input:checked {
-            background-color: #026142;
-            border-color: #026142;
+            background-color: #f09220;
+            border-color: #f09220;
         }
 
         .form-label {
@@ -175,7 +175,7 @@
         }
 
         .btn-primary {
-            background: #026142;
+            background: #f09220;
             border: none;
             padding: 12px 25px;
             border-radius: 8px;
@@ -187,29 +187,29 @@
         }
 
         .btn-primary:hover {
-            background: #01452a;
+            background: #f09220;
             transform: translateY(-3px);
             box-shadow: 0 12px 28px rgba(2, 97, 66, 0.16);
         }
 
         .text-decoration-none {
-            color: #026142 !important;
+            color: #f09220 !important;
             font-weight: 500;
         }
 
         .text-decoration-none:hover {
-            color: #01452a !important;
+            color: #f09220 !important;
             text-decoration: underline !important;
         }
 
         .ms-2 {
-            color: #026142 !important;
+            color: #f09220 !important;
             font-weight: 600;
             text-decoration: none;
         }
 
         .ms-2:hover {
-            color: #01452a !important;
+            color: #f09220 !important;
             text-decoration: underline;
         }
 

@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                     <div class="bg-light rounded p-3">
                         <p class="mb-2"><strong>Total Earnings:</strong>
-                            <span class="badge bg-success fs-6">৳{{ number_format($total_earning ?? 0, 2) }}</span>
+                            <span class="badge bg-success fs-6">€{{ number_format($total_earning ?? 0, 2) }}</span>
                         </p>
                         <p class="mb-2"><strong>Joined:</strong>
                             <span class="text-muted">{{ $affiliate->created_at->format('d M Y') }}</span>

@@ -35,7 +35,7 @@ $isBangla = $language == 'bangla';
         width: 50px;
         height: 50px;
         border-radius: 50% !important;
-        background: #01B45E !important;
+        background: #f09220 !important;
         color: white;
         display: flex;
         line-height: 12px;
@@ -304,7 +304,7 @@ $isBangla = $language == 'bangla';
     .search-bar {
         width: 100%;
         padding: 2px 65px 2px 12px;
-        border: 2px solid #01B45E;
+        border: 2px solid #f09220;
         border-radius: 30px;
         transition: all 0.3s ease;
         font-size: 14px;
@@ -324,7 +324,7 @@ $isBangla = $language == 'bangla';
         align-items: center;
         justify-content: center;
         border: none;
-        background-color: #01B45E;
+        background-color: #f09220;
         border-radius: 0 20px 20px 0;
         transition: all 0.3s ease;
         cursor: pointer;
@@ -383,7 +383,7 @@ $isBangla = $language == 'bangla';
                     <div class="card bg-success text-white">
                         <div class="card-body">
                             <h5 class="text-white">Total Purchase</h5>
-                            <h5 class="mb-0 text-white">৳{{ $total_purchase }}</h5>
+                            <h5 class="mb-0 text-white">€{{ $total_purchase }}</h5>
                         </div>
                     </div>
                 </div>
@@ -393,7 +393,7 @@ $isBangla = $language == 'bangla';
                         <div class="card-body">
                             <h5 class="text-white">Pending Orders</h5>
                             <h5 class="mb-0 text-white">Quantity:{{ count($pending_orders) }},
-                                ৳{{ $pending_orders->sum('grand_total') }}</h5>
+                                €{{ $pending_orders->sum('grand_total') }}</h5>
 
                         </div>
                     </div>
@@ -426,7 +426,7 @@ $isBangla = $language == 'bangla';
                             <div class="card h-100">
                                 <!-- Discount Badge - Top Right -->
                                 <div class="discount-badge">
-                                    Save ৳{{ $product->regular_price - $product->wholesell_price }}
+                                    Save €{{ $product->regular_price - $product->wholesell_price }}
                                 </div>
                                 <img src="{{ asset($product->product_thumbnail) }}" class="card-img-top"
                                     alt="Product 1">
@@ -435,9 +435,9 @@ $isBangla = $language == 'bangla';
                                         <h6 class="card-title">{{ $product->name_en }} </h6>
                                     </a>
                                     <p class="mb-2" style="font-weight:600;color:green;">
-                                        ৳{{ $product->wholesell_price }}
+                                        €{{ $product->wholesell_price }}
                                         <del style="font-size:14px;" class="text-muted">
-                                            ৳{{ $product->regular_price }}</del>
+                                            €{{ $product->regular_price }}</del>
                                     </p>
                                     {{-- <small class="text-muted">Min order: 5 bags</small> --}}
 

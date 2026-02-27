@@ -97,7 +97,7 @@
                                     Subtotal
                                 @endif
                             </span>
-                            <span style="color: #28a745; font-size: 1.1rem;">৳<span id="cartSubTotal"></span></span>
+                            <span style="color: #28a745; font-size: 1.1rem;">€<span id="cartSubTotal"></span></span>
                         </div>
                         <div class="summary-total pt-3 border-top" style="font-size: 1.25rem; font-weight: 600;">
                             <div class="d-flex justify-content-between align-items-center my-2">
@@ -108,7 +108,7 @@
                                         Total
                                     @endif
                                 </span>
-                                <span style="color: #28a745;">৳<span id="cartTotal"></span></span>
+                                <span style="color: #28a745;">€<span id="cartTotal"></span></span>
                             </div>
                         </div>
                         <div class="checkout-actions text-end mt-3">
@@ -161,9 +161,9 @@
                                                                            <a href="${base_url}/product-details/${slug}" style="text-decoration: none; color: #313131; transition: color 0.2s;">${value.name}</a>
                                                                        </h5>
                                                                        <div class="text-md-center mb-2 mb-md-0 d-flex align-items-center gap-3">
-                                                                            <h5 class="price mb-0" style="color: #28a745;">Price: ${value.price} TK</h5>
+                                                                            <h5 class="price mb-0" style="color: #28a745;">Price: ${value.price} €</h5>
                                                                             ${value.options.regular_price && value.options.regular_price != value.price
-                                                                                ? `<del class="old-price" style="color: grey">${value.options.regular_price} TK</del>`
+                                                                                ? `<del class="old-price" style="color: grey">${value.options.regular_price} €</del>`
                                                                                 : ''}
                                                                         </div>
    
@@ -193,7 +193,7 @@
                                                                        </div>
                                                                    </div>
                                                                    <div class="col-md-1 col-2 text-md-center mb-2 mb-md-0">
-                                                                       <h6 class="subtotal mb-0" style="color: #b82e18;">৳${value.subtotal}</h6>
+                                                                       <h6 class="subtotal mb-0" style="color: #b82e18;">€${value.subtotal}</h6>
                                                                    </div>
                                                                    <div class="col-md-1 col-2 text-center">
                                                                        <button type="button" id="${value.rowId}" onclick="cartRemove(this.id)" class="remove-btn ms-auto" style="width: 36px; height: 36px; border-radius: 50%; background: #e9ecef; border: none; color: #28a745; display: flex; align-items: center; justify-content: center;">

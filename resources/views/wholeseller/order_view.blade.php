@@ -3536,17 +3536,17 @@
                                     <tbody>
                                     <tr>
                                         <td class="tm_width_3 tm_primary_color tm_border_none tm_medium">Subtotal :</td>
-                                        <td class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_medium">৳{{ $order->sub_total ?? ' ' }}</td>
+                                        <td class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_medium">€{{ $order->sub_total ?? ' ' }}</td>
                                     </tr>
                                     @if ($order->coupon)
                                     <tr>
                                         <td class="tm_width_3 tm_primary_color tm_border_none tm_pt0">Coupon</td>
-                                        <td class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0"> ৳-{{ $order->coupon }}</td>
+                                        <td class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0"> €-{{ $order->coupon }}</td>
                                     </tr>
                                     @endif
                                     <tr>
                                         <td class="tm_width_3 tm_primary_color tm_border_none tm_pt0">Shipping Cost:</td>
-                                        <td class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0"> ৳{{ $order->shipping_charge ?? '' }}</td>
+                                        <td class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0"> €{{ $order->shipping_charge ?? '' }}</td>
                                     </tr>
                                     <tr class="tm_accent_border_20 tm_border">
                                         <td class="tm_width_3 tm_bold tm_f16 tm_border_top_0 tm_accent_color tm_accent_bg_10">Grand
@@ -3554,7 +3554,7 @@
                                         </td>
                                         <td
                                             class="tm_width_3 tm_bold tm_f16 tm_border_top_0 tm_accent_color tm_text_right tm_accent_bg_10">
-                                            ৳{{ ($order->grand_total-$order->discount) ?? ' '}}</td>
+                                            €{{ ($order->grand_total-$order->discount) ?? ' '}}</td>
                                     </tr>
                                     </tbody>
                                 </table>

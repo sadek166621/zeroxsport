@@ -770,7 +770,7 @@
         <div class="col-md-6">
           <h3>${product.name_en}</h3>
           <p class="text-muted">${product.category.name_en}</p>
-          <h4 class="text-danger">Tk ${product.regular_price}</h4>
+          <h4 class="text-danger">€ ${product.regular_price}</h4>
           <p>${product.short_des}</p>
     `;
 

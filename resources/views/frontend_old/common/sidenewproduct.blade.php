@@ -15,7 +15,7 @@
                     @endif
                 </a>
             </h5>
-            <p class="price mb-0 mt-5">৳{{ $product->regular_price }}</p>
+            <p class="price mb-0 mt-5">€{{ $product->regular_price }}</p>
             <div class="product-rate">
                 <div class="product-rating" style="width: 90%"></div>
             </div>

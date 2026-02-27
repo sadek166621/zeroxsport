@@ -189,7 +189,7 @@
                 width: 8px;
                 height: 8px;
                 border-radius: 50%;
-                background-color: #01B45E;
+                background-color: #f09220;
                 opacity: 0.5;
             }
 
@@ -437,7 +437,7 @@
             font-family: "Nunito", sans-serif;
             font-weight: 600;
             transition: 0.5s;
-            background-color: #01B45E;
+            background-color: #f09220;
             color: white;
         }
 
@@ -482,7 +482,7 @@
             width: 50px;
             height: 50px;
             border-radius: 50% !important;
-            background: #01B45E !important;
+            background: #f09220 !important;
             color: white;
             display: flex;
             align-items: center;
@@ -562,7 +562,7 @@
         .current-price {
             font-size: 18px;
             font-weight: 600;
-            color: #01B45E;
+            color: #f09220;
             margin: 0;
         }
 
@@ -619,7 +619,7 @@
         }
 
         .btn-buy-now {
-            background: #01B45E;
+            background: #f09220;
             color: white;
             box-shadow: 0 2px 8px rgba(216, 63, 38, 0.3);
         }
@@ -631,12 +631,12 @@
 
         .btn-add-cart {
             background: white;
-            color: #01B45E;
-            border: 1px solid #01B45E;
+            color: #f09220;
+            border: 1px solid #f09220;
         }
 
         .btn-add-cart:hover {
-            background: #01B45E;
+            background: #f09220;
             color: white;
             transform: translateY(-1px);
         }
@@ -958,7 +958,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            background: #01B45E;
+            background: #f09220;
             border-radius: 10px;
             padding: 12px 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -1119,7 +1119,7 @@
         .current-price {
             font-size: 18px;
             font-weight: 600;
-            color: #01B45E;
+            color: #f09220;
             margin: 0;
         }
 
@@ -1157,7 +1157,7 @@
         }
 
         .btn-primary {
-            background: #01B45E;
+            background: #f09220;
             color: white;
             border: none;
             padding: 8px 12px;
@@ -1179,8 +1179,8 @@
 
         .btn-secondary {
             background: white;
-            color: #01B45E;
-            border: 2px solid #01B45E;
+            color: #f09220;
+            border: 2px solid #f09220;
             padding: 6px 8px;
             border-radius: 6px;
             font-weight: 600;
@@ -1192,7 +1192,7 @@
         }
 
         .btn-secondary:hover {
-            background: #01B45E;
+            background: #f09220;
             color: white;
             transform: translateY(-1px);
         }
@@ -1315,7 +1315,7 @@
                 <div class="col-md-3 d-md-block d-none">
                     <div class="sidemenu py-0">
                         <ul>
-                            <li class="dropdown py-3" style="border-bottom:2px solid #00000020; background-color: #01B45E;">
+                            <li class="dropdown py-3" style="border-bottom:2px solid #00000020; background-color: #f09220;">
                                 <a style="color: #fff !important; font-size: 17px !important;"
                                     href="{{ route('category_list.index') }}">
                                     @if (session()->get('language') == 'bangla')
@@ -1470,7 +1470,7 @@
 
                 <div>
                     <a href="{{ route('product.show') }}" class="view_more btn-primary"
-                        style="float: right; padding: 2px 16px; background-color:white; color:#01B45E;">View All</a>
+                        style="float: right; padding: 2px 16px; background-color:white; color:#f09220;">View All</a>
 
                 </div>
             </div>
@@ -1713,7 +1713,7 @@
                             .flash-title {
                                 font-size: 2.6rem;
                                 font-weight: 600;
-                                color: #01B45E;
+                                color: #f09220;
                                 text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
                                 margin: 0;
                                 animation: slideInDown 0.6s ease-out;
@@ -1757,7 +1757,7 @@
 
                             .countdown-display span {
                                 display: inline-block;
-                                background: #01B45E;
+                                background: #f09220;
                                 padding: 8px 12px;
                                 border-radius: 8px;
                                 margin: 0 4px;
@@ -1783,7 +1783,7 @@
                             .shop-more-btn {
                                 display: inline-flex;
                                 align-items: center;
-                                background: #01B45E;
+                                background: #f09220;
                                 color: white;
                                 padding: 12px 30px;
                                 border-radius: 50px;
@@ -2000,7 +2000,7 @@
     <!-- Categories Part Start -->
     <section class="services custom_container owl-carousel owl-theme owl-loaded mt-3 ">
         <div class="d-flex justify-content-between px-3 py-2"
-            style="background: #01B45E; color: #fff;border-top-left-radius: 10px; border-top-right-radius: 10px; ">
+            style="background: #f09220; color: #fff;border-top-left-radius: 10px; border-top-right-radius: 10px; ">
             <h2 style="font-weight: semibold; margin: 0; font-size: 1.8rem; color: #fff; ">
                 @if (session()->get('language') == 'bangla')
                     ক্যাটাগোরি
@@ -2010,7 +2010,7 @@
             </h2>
             <div>
                 <a href="{{ route('category_list.index') }}" class="view_more btn-primary"
-                    style="float: right; padding: 2px 16px; background-color:white; color:#01B45E;">View All</a>
+                    style="float: right; padding: 2px 16px; background-color:white; color:#f09220;">View All</a>
 
             </div>
         </div>
@@ -2020,7 +2020,7 @@
                 @foreach ($featured_category as $fc)
                     <div class=" owl-item pb-2">
                         <a class="d-block " href="{{ route('product.category', $fc->slug) }}">
-                            <span style="border:2px solid #01B45E; margin-left: 4px; border-radius: 10px;"
+                            <span style="border:2px solid #f09220; margin-left: 4px; border-radius: 10px;"
                                 class="  d-inline-block p-2 d-flex align-items-center justify-content-center gap-1"
                                 href="#">
                                 <img src="{{ asset($fc->image) }}" class="" alt="..." style="width: 80px;">
@@ -2078,7 +2078,7 @@
 
             <div>
                 <a href="{{ route('product.show') }}" class="view_more btn-primary"
-                    style="float: right; padding: 2px 16px; background-color:white; color:#01B45E;">View All</a>
+                    style="float: right; padding: 2px 16px; background-color:white; color:#f09220;">View All</a>
 
             </div>
         </div>
@@ -2088,7 +2088,7 @@
                     @if ($brand->name_en != 'Non Brand')
                         <div class=" owl-item ">
                             <a href="" class="d-block ">
-                                <span style="border:2px solid #01B45E; margin-left: 4px; border-radius: 10px;"
+                                <span style="border:2px solid #f09220; margin-left: 4px; border-radius: 10px;"
                                     class=" bg-white d-inline-block p-2" href="#">
                                     <img src="{{ asset($brand->brand_image) }}" class="" alt="...">
                                 </span>
@@ -2365,7 +2365,7 @@
         .brand-badge {
             width: 80px;
             height: 80px;
-            background: #01B45E;
+            background: #f09220;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -2403,7 +2403,7 @@
             top: 20px;
             left: 20px;
             font-size: 60px;
-            color: #01B45E;
+            color: #f09220;
             opacity: 0.2;
             font-family: Georgia, serif;
         }
@@ -2417,7 +2417,7 @@
         }
 
         .category-link {
-            color: #01B45E;
+            color: #f09220;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s;
@@ -2442,7 +2442,7 @@
 
         .feature-icon {
             font-size: 36px;
-            color: #01B45E;
+            color: #f09220;
             margin-bottom: 20px;
         }
 
@@ -2484,7 +2484,7 @@
         }
 
         .policy-item i {
-            color: #01B45E;
+            color: #f09220;
         }
 
         .policy-item span {
@@ -2494,7 +2494,7 @@
         .policy-link {
             display: block;
             text-align: center;
-            color: #01B45E;
+            color: #f09220;
             text-decoration: none;
             font-weight: 600;
             margin-top: 20px;
@@ -2575,7 +2575,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            background: #01B45E;
+            background: #f09220;
             border-radius: 15px;
             padding: 15px 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -2888,7 +2888,7 @@
                 to { transform: rotate(360deg); }
             }
             #load-more-btn {
-                background: #01B45E;
+                background: #f09220;
                 color: white;
                 border: none;
                 border-radius: 10px;

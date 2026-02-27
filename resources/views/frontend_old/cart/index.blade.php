@@ -106,7 +106,7 @@ Cart Nest Online Shop
 
                                         </td>
                                         <td class="cart_total_amount">
-                                            <h4 class="text-brand text-end">৳<span id="cartSubTotal"></span></h4>
+                                            <h4 class="text-brand text-end">€<span id="cartSubTotal"></span></h4>
                                         </td>
                                     </tr>
                                    <!--  <tr>
@@ -134,7 +134,7 @@ Cart Nest Online Shop
                                             <h6 class="text-muted">Total</h6>
                                         </td>
                                         <td class="cart_total_amount">
-                                            <h4 class="text-brand text-end">৳<span id="cartSubTotal"></span></h4>
+                                            <h4 class="text-brand text-end">€<span id="cartSubTotal"></span></h4>
                                         </td>
                                     </tr>
                                 </tbody>
